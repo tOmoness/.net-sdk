@@ -1,0 +1,22 @@
+{
+    "items": [
+        {
+            "territory": "gb",
+            "domains": [
+                "music"
+            ]
+        },
+        {
+            "territory": "fi",
+            "domains": [
+                "music"
+            ]
+        },
+        {
+            "territory": "us",
+            "domains": [
+                "music"
+            ]
+        }
+    ]
+}

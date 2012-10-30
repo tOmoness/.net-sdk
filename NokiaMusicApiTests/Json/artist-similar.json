@@ -1,0 +1,129 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Nirvana",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/348877.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/348877.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/348877.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/348877.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/348877.jpg"
+            },
+            "id": "348877",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Foo Fighters",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/287777.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/287777.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/287777.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/287777.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/287777.jpg"
+            },
+            "id": "287777",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "30 Seconds To Mars",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/290909.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/290909.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/290909.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/290909.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/290909.jpg"
+            },
+            "id": "290909",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "IndieAlternative",
+                    "name": "Indie/Alternative"
+                }
+            ],
+            "name": "Radiohead",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/287640.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/287640.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/287640.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/287640.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/287640.jpg"
+            },
+            "id": "287640",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "genres": [
+                {
+                    "id": "Jazz",
+                    "name": "Jazz"
+                }
+            ],
+            "name": "Moon Pool",
+            "id": "14118320",
+            "type": "musicartist"
+        }
+    ],
+    "paging": {
+        "total": 83,
+        "startindex": 0,
+        "itemsperpage": 10
+    },
+    "type": "creatorlist"
+}

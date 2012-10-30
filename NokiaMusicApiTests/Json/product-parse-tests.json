@@ -1,0 +1,47 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "Track",
+                "name": "Track"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "Born This Way",
+            "takenfrom": {
+                "name": "Born This Way",
+                "id": "15381970"
+            },
+            "prices": {
+                "permanentdownload": {
+                    "value": 0.99,
+                    "currency": "GBP"
+                }
+            },
+            "creators": {
+                "performers": [
+                    {
+                        "name": "Lady Gaga",
+                        "id": "697517"
+                    }
+                ]
+            },
+            "thumbnails": {
+                "50x50": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=50&q=40",
+                "100x100": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=100&q=70",
+                "200x200": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=200&q=90",
+                "320x320": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=320&q=90"
+            },
+            "samples": {
+                "wmamms": "mms://wmstream.music.ovi.com/a1139/l1/1.0/s/clips/mc/musicgb/15381971/14/15381971.wma",
+                "mp3rtmp": "rtmp://stream.music.ovi.com/a1139/l1/mp3:1.0/s/clips/pc/musicgb/15381971/14/15381971.mp3"
+            },
+            "id": "15381971",
+            "type": "musictrack"
+        }
+    ]
+}

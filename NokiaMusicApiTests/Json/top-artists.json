@@ -1,0 +1,241 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "SoulRandBFunk",
+                    "name": "Soul/R 'n' B/Funk"
+                }
+            ],
+            "name": "Ne-Yo",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/320511.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/320511.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/320511.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/320511.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/320511.jpg"
+            },
+            "id": "320511",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "BB",
+                "name": "BB"
+            },
+            "genres": [
+                {
+                    "id": "SoulRandBFunk",
+                    "name": "Soul/R 'n' B/Funk"
+                }
+            ],
+            "name": "Rihanna",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/305681.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/305681.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/305681.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/305681.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/305681.jpg"
+            },
+            "id": "305681",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "The Script feat. will.i.am",
+            "id": "33411194",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "P!nk",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/164063.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/164063.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/164063.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/164063.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/164063.jpg"
+            },
+            "id": "164063",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "Adele",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/372350.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/372350.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/372350.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/372350.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/372350.jpg"
+            },
+            "id": "372350",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "IndieAlternative",
+                    "name": "Indie/Alternative"
+                }
+            ],
+            "name": "Coldplay",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/287645.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/287645.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/287645.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/287645.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/287645.jpg"
+            },
+            "id": "287645",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "Little Mix",
+            "id": "20749324",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "IndieAlternative",
+                    "name": "Indie/Alternative"
+                }
+            ],
+            "name": "Fun.",
+            "id": "27911605",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "FR",
+                "name": "FR"
+            },
+            "genres": [
+                {
+                    "id": "Dance",
+                    "name": "Dance"
+                }
+            ],
+            "name": "David Guetta",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/288940.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/288940.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/288940.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/288940.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/288940.jpg"
+            },
+            "id": "288940",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "IE",
+                "name": "IE"
+            },
+            "genres": [
+                {
+                    "id": "IndieAlternative",
+                    "name": "Indie/Alternative"
+                }
+            ],
+            "name": "The Script",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/671820.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/671820.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/671820.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/671820.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/671820.jpg"
+            },
+            "id": "671820",
+            "type": "musicartist"
+        }
+    ],
+    "paging": {
+        "total": 1419618,
+        "startindex": 0,
+        "itemsperpage": 10
+    },
+    "type": "creatorlist"
+}

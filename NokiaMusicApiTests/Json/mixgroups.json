@@ -1,0 +1,103 @@
+{
+    "items": [
+        {
+            "name": "featured",
+            "id": "27162565",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "new releases",
+            "id": "22745307",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "charts",
+            "id": "27083067",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "bestsellers",
+            "id": "23311969",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "decade mixes",
+            "id": "24015116",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "celebs recommend",
+            "id": "23827069",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "summer sounds",
+            "id": "25850529",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "mood mixes",
+            "id": "24951358",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "pop/urban",
+            "id": "18523927",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "rock/indie/metal",
+            "id": "18523926",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "dance",
+            "id": "18523928",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "rap/hip hop/soul",
+            "id": "27162567",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "reggae/dub/dancehall",
+            "id": "23311973",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "classical",
+            "id": "18523932",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "jazz/blues",
+            "id": "18523934",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "fitness",
+            "id": "28182473",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "best of british",
+            "id": "27206383",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "specialities",
+            "id": "19725645",
+            "type": "radiostationgroup"
+        },
+        {
+            "name": "global charts",
+            "id": "32520868",
+            "type": "radiostationgroup"
+        }
+    ],
+    "paging": {
+        "total": 19,
+        "startindex": 0,
+        "itemsperpage": 30
+    }}

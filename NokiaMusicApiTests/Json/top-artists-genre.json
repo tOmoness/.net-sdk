@@ -1,0 +1,263 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "The Killers",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/3844.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/3844.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/3844.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/3844.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/3844.jpg"
+            },
+            "id": "3844",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Maroon 5",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/293871.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/293871.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/293871.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/293871.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/293871.jpg"
+            },
+            "id": "293871",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Elbow",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/289721.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/289721.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/289721.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/289721.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/289721.jpg"
+            },
+            "id": "289721",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Pink Floyd",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/287641.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/287641.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/287641.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/287641.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/287641.jpg"
+            },
+            "id": "287641",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "The Vaccines",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/55251.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/55251.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/55251.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/55251.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/55251.jpg"
+            },
+            "id": "55251",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "GB",
+                "name": "GB"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Queen",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/289266.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/289266.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/289266.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/289266.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/289266.jpg"
+            },
+            "id": "289266",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Red Hot Chili Peppers",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/372449.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/372449.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/372449.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/372449.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/372449.jpg"
+            },
+            "id": "372449",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "IE",
+                "name": "IE"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Thin Lizzy",
+            "id": "348792",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Kings Of Leon",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/293868.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/293868.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/293868.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/293868.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/293868.jpg"
+            },
+            "id": "293868",
+            "type": "musicartist"
+        },
+        {
+            "category": {
+                "id": "Artist",
+                "name": "Artist"
+            },
+            "country": {
+                "id": "US",
+                "name": "US"
+            },
+            "genres": [
+                {
+                    "id": "Rock",
+                    "name": "Rock"
+                }
+            ],
+            "name": "Bob Dylan",
+            "thumbnails": {
+                "50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/605186.jpg",
+                "320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/605186.jpg",
+                "200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/605186.jpg",
+                "120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/605186.jpg",
+                "100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/605186.jpg"
+            },
+            "id": "605186",
+            "type": "musicartist"
+        }
+    ],
+    "paging": {
+        "total": 141145,
+        "startindex": 0,
+        "itemsperpage": 10
+    },
+    "type": "creatorlist"
+}

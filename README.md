@@ -1,15 +1,18 @@
 # wp-api-client
 
-This codebase contains the **Nokia Music API for Windows Phone**.
+This codebase contains the **Nokia Music Windows Phone API**.
 
 ##Overview
-The **Nokia Music API for  Windows Phone** lets you easily integrate your Windows Phone applicaton with [Nokia Music on Nokia Lumia phones](http://www.nokia.com/global/apps/nokia/music/). The API offers two levels of integration. The simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
+The **Nokia Music Windows Phone API** lets you easily integrate your Windows Phone applicaton with [Nokia Music on Nokia Lumia phones](http://www.nokia.com/global/apps/nokia/music/). The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
 
 ##License
-The **Nokia Music API for  Windows Phone** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://github.com/nokia-entertainment/wp-api-client/blob/master/LICENSE.txt>.
+The **Nokia Music Windows Phone API** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
 
-##Download
-Download the latest binaries from the [Downloads](https://github.com/nokia-entertainment/wp-api-client/downloads) section.
+##Usage
+
+ - Install with [NuGet](http://nuget.org) - search for **nokiamusic** or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
+ ![Package Manager](http://api.ent.nokia.com/assets/nuget.png)
+ - Download the latest binaries from the [Downloads](https://github.com/nokia-entertainment/wp-api-client/downloads) section
 
 ## Launcher Tasks
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
@@ -37,7 +40,7 @@ With the lower-level API access, you get more control and can perform the follow
 - Get a list of available mixes
 
 ## Documentation
-The documentation for this component is at <http://www.developer.nokia.com/Resources/Library/WP/>
+The documentation for this component is at <http://nokia.ly/wpmusicapidocs>
 
 ## Dependencies
 

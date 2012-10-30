@@ -1,0 +1,637 @@
+{
+    "name": "rock/indie/metal",
+    "radiostations": [
+        {
+            "description": "",
+            "name": "Most Played Rock",
+            "numbertracks": 60,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 1,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/1182.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1182.jpg"
+            },
+            "id": "33270538",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Discover Rock",
+            "numbertracks": 51,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 2,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/373093.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/373093.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/373093.jpg"
+            },
+            "id": "32520914",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Discover Indie",
+            "numbertracks": 59,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 3,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/499730.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/499730.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/499730.jpg"
+            },
+            "id": "32520916",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Indie Pop",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 4,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/292199.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/292199.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/292199.jpg"
+            },
+            "id": "25850751",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Indietronica",
+            "numbertracks": 58,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 5,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/582805.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/582805.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/582805.jpg"
+            },
+            "id": "28356335",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Indie Folk",
+            "numbertracks": 55,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 6,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/943884.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/943884.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/943884.jpg"
+            },
+            "id": "25850729",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "UK Indie",
+            "numbertracks": 58,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 7,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/7686.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/7686.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/7686.jpg"
+            },
+            "id": "25850737",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Bands from Brooklyn",
+            "numbertracks": 21,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 8,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/5956.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/5956.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/5956.jpg"
+            },
+            "id": "26807433",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Rock Legends",
+            "numbertracks": 47,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 9,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/1182.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1182.jpg"
+            },
+            "id": "25850725",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Greatest Guitar Riffs",
+            "numbertracks": 55,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 10,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/287765.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/287765.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/287765.jpg"
+            },
+            "id": "25850743",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Psychedelic Rock",
+            "numbertracks": 56,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 11,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/984499.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/984499.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/984499.jpg"
+            },
+            "id": "32520918",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Alternative Rock",
+            "numbertracks": 59,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 13,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/1221.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1221.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1221.jpg"
+            },
+            "id": "25850727",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Soft Rock",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 14,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/1670.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1670.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1670.jpg"
+            },
+            "id": "32520920",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Hard Rock",
+            "numbertracks": 57,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 15,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/302492.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/302492.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/302492.jpg"
+            },
+            "id": "32520922",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Yacht Rock",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 16,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/14711.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/14711.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/14711.jpg"
+            },
+            "id": "32520924",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Punk",
+            "numbertracks": 58,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 17,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/478737.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/478737.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/478737.jpg"
+            },
+            "id": "19779599",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Punk & New Wave 77-82",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 18,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/170415.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/170415.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/170415.jpg"
+            },
+            "id": "25850749",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Punk & 2 Tone Ska",
+            "numbertracks": 45,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 19,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/372591.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/372591.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/372591.jpg"
+            },
+            "id": "33270540",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Goth rock",
+            "numbertracks": 57,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 20,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/433768.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/433768.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/433768.jpg"
+            },
+            "id": "32520926",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "New Wave",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 21,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/170415.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/170415.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/170415.jpg"
+            },
+            "id": "32520928",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Leather Jacket Rock",
+            "numbertracks": 57,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 22,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/289066.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/289066.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/289066.jpg"
+            },
+            "id": "22745403",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Grunge",
+            "numbertracks": 44,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 23,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/288096.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/288096.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/288096.jpg"
+            },
+            "id": "22745407",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Britpop",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 24,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/301100.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/301100.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/301100.jpg"
+            },
+            "id": "25850735",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "UK Underground",
+            "numbertracks": 49,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 25,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/309483.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/309483.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/309483.jpg"
+            },
+            "id": "20833457",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Rockin' Over the Years",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 26,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/320993.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/320993.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/320993.jpg"
+            },
+            "id": "20833456",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Rock Ballads",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 27,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/12757474.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/12757474.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/12757474.jpg"
+            },
+            "id": "19779601",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Acoustic Tunes",
+            "numbertracks": 59,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 28,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/1512.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1512.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1512.jpg"
+            },
+            "id": "27704015",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Industrial",
+            "numbertracks": 48,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 29,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/3788.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/3788.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/3788.jpg"
+            },
+            "id": "25850739",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Hair Metal",
+            "numbertracks": 58,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 30,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/291969.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/291969.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/291969.jpg"
+            },
+            "id": "32520930",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Heavy Metal",
+            "numbertracks": 59,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 31,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/480008.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/480008.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/480008.jpg"
+            },
+            "id": "32520932",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Death Metal",
+            "numbertracks": 58,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 32,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/545524.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/545524.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/545524.jpg"
+            },
+            "id": "25850745",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Thrash Metal",
+            "numbertracks": 37,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 33,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/582774.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/582774.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/582774.jpg"
+            },
+            "id": "25850747",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "British Heavy Metal",
+            "numbertracks": 55,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 34,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/956003.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/956003.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/956003.jpg"
+            },
+            "id": "25850741",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Alternative Metal",
+            "numbertracks": 59,
+            "parentaladvisory": false,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 35,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/697555.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/697555.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/697555.jpg"
+            },
+            "id": "25850731",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Nu Metal",
+            "numbertracks": 52,
+            "parentaladvisory": true,
+            "radiostationgroup": {
+                "name": "rock/indie/metal",
+                "id": "18523926"
+            },
+            "sequence": 36,
+            "thumbnails": {
+                "50x50": "http://download.ch1.vcdn.nokia.com/p/d/music_image/50x50/372866.jpg",
+                "100x100": "http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/372866.jpg",
+                "200x200": "http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/372866.jpg"
+            },
+            "id": "25850733",
+            "type": "radiostation"
+        }
+    ],
+    "id": "18523926",
+    "type": "radiostationgroup"
+}
