@@ -40,7 +40,7 @@ With the lower-level API access, you get more control and can perform the follow
 - Get a list of available mixes
 
 ## Documentation
-The documentation for this component is at <http://nokia.ly/wpmusicapidoc>
+The documentation for this component is at <http://nokia.ly/wpmusicapihelp>
 
 ## Dependencies
 
