@@ -72,7 +72,7 @@ namespace Nokia.Music.Phone.Types
         }
 
         /// <summary>
-        /// Launches Nokia Music to start a mix for the artist using the <c ref="Nokia.Music.Phone.Tasks.PlayMixTask" />
+        /// Launches Nokia Music to start a mix for the artist using the PlayMixTask
         /// </summary>
         public void PlayMix()
         {
@@ -81,7 +81,7 @@ namespace Nokia.Music.Phone.Types
         }
 
         /// <summary>
-        /// Launches Nokia Music to show details for the artist using the <c ref="Nokia.Music.Phone.Tasks.ShowArtistTask" />
+        /// Launches Nokia Music to show details for the artist using the ShowArtistTask
         /// </summary>
         public void Show()
         {

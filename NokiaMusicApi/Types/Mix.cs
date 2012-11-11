@@ -63,7 +63,7 @@ namespace Nokia.Music.Phone.Types
         }
 
         /// <summary>
-        /// Launches Nokia Music to start playback of the mix using the <c ref="Nokia.Music.Phone.Tasks.PlayMixTask" />
+        /// Launches Nokia Music to start playback of the mix using the PlayMixTask
         /// </summary>
         public void Play()
         {

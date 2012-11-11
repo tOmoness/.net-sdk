@@ -105,7 +105,7 @@ namespace Nokia.Music.Phone.Types
         }
 
         /// <summary>
-        /// Launches Nokia Music to show details about the product using the <c ref="Nokia.Music.Phone.Tasks.ShowProductTask" />
+        /// Launches Nokia Music to show details about the product using the ShowProductTask
         /// </summary>
         public void Show()
         {
