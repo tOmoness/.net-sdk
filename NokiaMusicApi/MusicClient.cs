@@ -16,7 +16,7 @@ namespace Nokia.Music.Phone
     /// <summary>
     ///   The Nokia Music API client
     /// </summary>
-    public sealed class MusicClient : IMusicClientSettings, IMusicClient
+    public sealed partial class MusicClient : IMusicClientSettings, IMusicClient
     {
         internal const int DefaultItemsPerPage = 10;
         internal const int DefaultStartIndex = 0;
@@ -152,6 +152,21 @@ namespace Nokia.Music.Phone
             cmd.SearchTerm = searchTerm;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetArtistSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
+        {
+            var cmd = this.Create<SearchSuggestionsCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.SuggestArtists = true;
             cmd.Invoke(callback);
         }
 
@@ -328,6 +343,21 @@ namespace Nokia.Music.Phone
             cmd.Category = category;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
+        {
+            var cmd = this.Create<SearchSuggestionsCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.SuggestArtists = false;
             cmd.Invoke(callback);
         }
 

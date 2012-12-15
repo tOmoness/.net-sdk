@@ -40,21 +40,19 @@ namespace Nokia.Music.Phone.Internal
         /// Makes the API request
         /// </summary>
         /// <param name="method">The method to call.</param>
-        /// <param name="appId">The app id.</param>
-        /// <param name="appCode">The app code.</param>
-        /// <param name="countryCode">The country code.</param>
+        /// <param name="settings">The music client settings.</param>
         /// <param name="pathParams">The path params.</param>
         /// <param name="querystringParams">The querystring params.</param>
         /// <param name="callback">The callback to hit when done.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        public void SendRequestAsync(ApiMethod method, string appId, string appCode, string countryCode, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams, Action<Response<JObject>> callback)
+        public void SendRequestAsync(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams, Action<Response<JObject>> callback)
         {
             if (callback == null)
             {
                 throw new ArgumentNullException("callback");
             }
 
-            Uri uri = this.UriBuilder.BuildUri(method, appId, appCode, countryCode, pathParams, querystringParams);
+            Uri uri = this.UriBuilder.BuildUri(method, settings, pathParams, querystringParams);
 
             Debug.WriteLine("Calling " + uri.ToString());
             

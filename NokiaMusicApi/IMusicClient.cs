@@ -15,7 +15,7 @@ namespace Nokia.Music.Phone
     /// <summary>
     /// Defines the Nokia Music API
     /// </summary>
-    public interface IMusicClient
+    public partial interface IMusicClient
     {
         /// <summary>
         /// Searches for an Artist
@@ -25,6 +25,14 @@ namespace Nokia.Music.Phone
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         void SearchArtists(Action<ListResponse<Artist>> callback, string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetArtistSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3);
 
         /// <summary>
         /// Gets the top artists
@@ -123,6 +131,14 @@ namespace Nokia.Music.Phone
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         void Search(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3);
 
         /// <summary>
         /// Gets the Mix Groups available

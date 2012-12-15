@@ -83,6 +83,9 @@
     <Compile Include="..\NokiaMusicApi\Commands\SearchCommand.cs">
       <Link>Source\Commands\SearchCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\SearchSuggestionsCommand.cs">
+      <Link>Source\Commands\SearchSuggestionsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\SimilarArtistsCommand.cs">
       <Link>Source\Commands\SimilarArtistsCommand.cs</Link>
     </Compile>
@@ -128,6 +131,9 @@
     <Compile Include="..\NokiaMusicApi\IMusicClientAsync.cs">
       <Link>Source\IMusicClientAsync.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\ApiMethod.cs">
+      <Link>Source\Internal\ApiMethod.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\ApiRequestHandler.cs">
       <Link>Source\Internal\ApiRequestHandler.cs</Link>
     </Compile>
@@ -140,8 +146,14 @@
     <Compile Include="..\NokiaMusicApi\Internal\IApiUriBuilder.cs">
       <Link>Source\Internal\IApiUriBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\IJsonProcessor.cs">
+      <Link>Source\Internal\IJsonProcessor.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\IMusicClientSettings.cs">
       <Link>Source\Internal\IMusicClientSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\NamedItemListJsonProcessor.cs">
+      <Link>Source\Internal\NamedItemListJsonProcessor.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\StreamExtensions.cs">
       <Link>Source\Internal\StreamExtensions.cs</Link>
@@ -209,6 +221,9 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="SearchSuggestionsTests.cs" />
+    <Compile Include="Internal\FakeResponse.cs" />
+    <Compile Include="Internal\MockMusicClientSettings.cs" />
     <Compile Include="MusicClientAsyncTests.cs" />
     <Compile Include="ProductNewReleasesTests.cs" />
     <Compile Include="ProductChartTests.cs" />
@@ -226,8 +241,7 @@
     <Compile Include="Internal\ApiRequestHandlerTests.cs" />
     <Compile Include="CountryLookupTests.cs" />
     <Compile Include="Internal\ApiUriBuilderTests.cs" />
-    <Compile Include="Internal\FailedMockApiRequestHandler.cs" />
-    <Compile Include="Internal\SuccessfulMockApiRequestHandler.cs" />
+    <Compile Include="Internal\MockApiRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -254,6 +268,7 @@
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\search-suggestions-noresults.json" />
     <None Include="Json\product-parse-tests.json" />
     <None Include="Json\genres.json" />
     <None Include="Json\mixes.json" />
@@ -266,6 +281,7 @@
     <None Include="Json\search-all.json" />
     <None Include="Json\search-artists.json" />
     <None Include="Json\search-product.json" />
+    <None Include="Json\search-suggestions.json" />
     <None Include="Json\suggestions-artists.json" />
     <None Include="Json\suggestions.json" />
     <None Include="Json\top-artists-genre.json" />
@@ -273,6 +289,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>

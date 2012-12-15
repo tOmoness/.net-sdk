@@ -30,7 +30,7 @@ namespace Nokia.Music.Phone.Types
         /// <value>
         /// The artist's country of origin.
         /// </value>
-        public string Country { get; private set; }
+        public string Country { get; internal set; }
 
         /// <summary>
         /// Gets the artist's genres.
@@ -38,7 +38,7 @@ namespace Nokia.Music.Phone.Types
         /// <value>
         /// The artist's genres.
         /// </value>
-        public Genre[] Genres { get; private set; }
+        public Genre[] Genres { get; internal set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -52,7 +52,7 @@ namespace Nokia.Music.Phone.Types
             Artist target = obj as Artist;
             if (target != null)
             {
-                return string.Compare(target.Id, this.Id, StringComparison.InvariantCultureIgnoreCase) == 0;
+                return string.Compare(target.Id, this.Id, StringComparison.OrdinalIgnoreCase) == 0;
             }
             else
             {
@@ -117,7 +117,7 @@ namespace Nokia.Music.Phone.Types
                 string countryId = countryToken.Value<string>("id");
 
                 // Check country isn't unknown...
-                if (string.Compare(countryId, "XX", StringComparison.InvariantCultureIgnoreCase) != 0)
+                if (string.Compare(countryId, "XX", StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     country = countryId.ToLowerInvariant();
                 }

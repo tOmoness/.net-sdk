@@ -166,6 +166,12 @@
   <data name="search_product" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\search-product.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="search_suggestions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\search-suggestions.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="search_suggestions_noresults" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\search-suggestions-noresults.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="suggestions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\suggestions.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

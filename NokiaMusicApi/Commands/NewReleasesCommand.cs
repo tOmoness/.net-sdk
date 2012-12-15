@@ -24,6 +24,23 @@ namespace Nokia.Music.Phone.Commands
         public Category Category { get; set; }
 
         /// <summary>
+        /// Appends the uri subpath and parameters specific to this API method
+        /// </summary>
+        /// <param name="uri">The base uri</param>
+        /// <param name="pathParams">The API method parameters</param>
+        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        {
+            if (pathParams != null && pathParams.ContainsKey("category"))
+            {
+                uri.AppendFormat("products/new/{0}/", pathParams["category"]);
+            }
+            else
+            {
+                throw new ArgumentNullException("category");
+            }
+        }
+
+        /// <summary>
         /// Executes the command
         /// </summary>
         protected override void Execute()
@@ -39,10 +56,8 @@ namespace Nokia.Music.Phone.Commands
             }
 
             this.RequestHandler.SendRequestAsync(
-                ApiMethod.ProductNewReleases,
-                this.MusicClientSettings.AppId,
-                this.MusicClientSettings.AppCode,
-                this.MusicClientSettings.CountryCode,
+                this,
+                this.MusicClientSettings,
                 new Dictionary<string, string>() { { "category", Category.ToString().ToLowerInvariant() } },
                 null,
                 (Response<JObject> rawResult) =>

@@ -7,7 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
 using NUnit.Framework;
 
 namespace Nokia.Music.Phone.Tests
@@ -25,21 +27,24 @@ namespace Nokia.Music.Phone.Tests
             IApiUriBuilder builder = new ApiUriBuilder();
 
             // Check ApiMethod param...
-            Assert.Throws(typeof(ArgumentOutOfRangeException), new TestDelegate(() => { builder.BuildUri(ApiMethod.Unknown, null, null, null, null, null); }));
+            Assert.Throws(typeof(ArgumentNullException), new TestDelegate(() => { builder.BuildUri(null, null, null, null); }));
+
+            // Check settings param...
+            Assert.Throws(typeof(ArgumentNullException), new TestDelegate(() => { builder.BuildUri(new SearchCommand(), null, null, null); }));
 
             // Check API Key is required...
-            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { builder.BuildUri(ApiMethod.CountryLookup, null, null, null, null, null); }));
-            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { builder.BuildUri(ApiMethod.CountryLookup, AppId, null, null, null, null); }));
-
+            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { builder.BuildUri(new CountryResolver(AppId, AppCode), new MockMusicClientSettings(null, null, null), null, null); }));
+            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { builder.BuildUri(new CountryResolver(AppId, AppCode), new MockMusicClientSettings(AppId, null, null), null, null); }));
+            
             // Check Country Code is required...
-            Assert.Throws(typeof(CountryCodeRequiredException), new TestDelegate(() => { builder.BuildUri(ApiMethod.Search, AppId, AppCode, null, null, null); }));
+            Assert.Throws(typeof(CountryCodeRequiredException), new TestDelegate(() => { builder.BuildUri(new SearchCommand(), new MockMusicClientSettings(AppId, AppCode, null), null, null); }));
         }
 
         [Test]
         public void ValidateDeviceCountryUris()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.CountryLookup, AppId, AppCode, null, null, null);
+            Uri result = new ApiUriBuilder().BuildUri(new CountryResolver(AppId, AppCode), new MockMusicClientSettings(AppId, AppCode, null), null, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -47,7 +52,19 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateSearchUris()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/?app_id=test&app_code=test&domain=music&q=test");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.Search, AppId, AppCode, Country, null, new Dictionary<string, string>() { { "q", "test" } });
+            Uri result = new ApiUriBuilder().BuildUri(new SearchCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, new Dictionary<string, string>() { { "q", "test" } });
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ValidateSearchSuggestionsUris()
+        {
+            Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/suggestions/?app_id=test&app_code=test&domain=music&q=test");
+            Uri result = new ApiUriBuilder().BuildUri(new SearchSuggestionsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, new Dictionary<string, string>() { { "q", "test" } });
+            Assert.AreEqual(expected, result);
+
+            expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/suggestions/creators/?app_id=test&app_code=test&domain=music&q=test");
+            result = new ApiUriBuilder().BuildUri(new SearchSuggestionsCommand() { SuggestArtists = true }, new MockMusicClientSettings(AppId, AppCode, Country), null, new Dictionary<string, string>() { { "q", "test" } });
             Assert.AreEqual(expected, result);
         }
 
@@ -55,7 +72,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateGenreUris()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/genres/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.Genres, AppId, AppCode, Country, null, null);
+            Uri result = new ApiUriBuilder().BuildUri(new GenresCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -66,14 +83,14 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.SimilarArtists, AppId, AppCode, Country, null, null);
+                    new ApiUriBuilder().BuildUri(new SimilarArtistsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
                 }));
 
             Assert.Throws(
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.SimilarArtists, AppId, AppCode, Country, new Dictionary<string, string>(), null);
+                    new ApiUriBuilder().BuildUri(new SimilarArtistsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>(), null);
                 }));
         }
 
@@ -81,7 +98,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateSimilarArtistUri()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/creators/348877/similar/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.SimilarArtists, AppId, AppCode, Country, new Dictionary<string, string>() { { "id", "348877" } }, null);
+            Uri result = new ApiUriBuilder().BuildUri(new SimilarArtistsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "id", "348877" } }, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -92,14 +109,14 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ArtistProducts, AppId, AppCode, Country, null, null);
+                    new ApiUriBuilder().BuildUri(new ArtistProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
                 }));
 
             Assert.Throws(
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ArtistProducts, AppId, AppCode, Country, new Dictionary<string, string>(), null);
+                    new ApiUriBuilder().BuildUri(new ArtistProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>(), null);
                 }));
         }
 
@@ -107,7 +124,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateArtistProductsUri()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/creators/297011/products/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.ArtistProducts, AppId, AppCode, Country, new Dictionary<string, string>() { { "id", "297011" } }, null);
+            Uri result = new ApiUriBuilder().BuildUri(new ArtistProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "id", "297011" } }, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -118,14 +135,14 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ProductChart, AppId, AppCode, Country, null, null);
+                    new ApiUriBuilder().BuildUri(new TopProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
                 }));
 
             Assert.Throws(
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ProductChart, AppId, AppCode, Country, new Dictionary<string, string>(), null);
+                    new ApiUriBuilder().BuildUri(new TopProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>(), null);
                 }));
         }
 
@@ -133,7 +150,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateProductChartUri()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/products/charts/album/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.ProductChart, AppId, AppCode, Country, new Dictionary<string, string>() { { "category", "album" } }, null);
+            Uri result = new ApiUriBuilder().BuildUri(new TopProductsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "category", "album" } }, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -144,14 +161,14 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ProductNewReleases, AppId, AppCode, Country, null, null);
+                    new ApiUriBuilder().BuildUri(new NewReleasesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
                 }));
 
             Assert.Throws(
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.ProductNewReleases, AppId, AppCode, Country, new Dictionary<string, string>(), null);
+                    new ApiUriBuilder().BuildUri(new NewReleasesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>(), null);
                 }));
         }
 
@@ -159,15 +176,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateProductNewReleasesUri()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/products/new/album/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.ProductNewReleases, AppId, AppCode, Country, new Dictionary<string, string>() { { "category", "album" } }, null);
-            Assert.AreEqual(expected, result);
-        }
-
-        [Test]
-        public void ValidateRecommendationsUri()
-        {
-            Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/recommendations/?app_id=test&app_code=test&domain=music&creator=Green%20Day&album=American%20Idiot&name=American%20Idiot&category=track");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.Recommendations, AppId, AppCode, Country, null, new Dictionary<string, string>() { { "creator", "Green Day" }, { "album", "American Idiot" }, { "name", "American Idiot" }, { "category", "track" } });
+            Uri result = new ApiUriBuilder().BuildUri(new NewReleasesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "category", "album" } }, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -175,7 +184,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateMixGroupsUris()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/mixes/groups/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.MixGroups, AppId, AppCode, Country, null, null);
+            Uri result = new ApiUriBuilder().BuildUri(new MixGroupsCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -186,14 +195,14 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.Mixes, AppId, AppCode, Country, null, null);
+                    new ApiUriBuilder().BuildUri(new MixesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), null, null);
                 }));
 
             Assert.Throws(
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiUriBuilder().BuildUri(ApiMethod.Mixes, AppId, AppCode, Country, new Dictionary<string, string>(), null);
+                    new ApiUriBuilder().BuildUri(new MixesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>(), null);
                 }));
         }
 
@@ -201,7 +210,7 @@ namespace Nokia.Music.Phone.Tests
         public void ValidateMixesUris()
         {
             Uri expected = new Uri(@"http://api.ent.nokia.com/1.x/gb/mixes/groups/test/?app_id=test&app_code=test&domain=music");
-            Uri result = new ApiUriBuilder().BuildUri(ApiMethod.Mixes, AppId, AppCode, Country, new Dictionary<string, string>() { { "id", "test" } }, null);
+            Uri result = new ApiUriBuilder().BuildUri(new MixesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "id", "test" } }, null);
             Assert.AreEqual(expected, result);
         }
     }

@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ArtistProductsCommand.cs" />
+    <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SearchCatalogCommand.cs" />
     <Compile Include="Commands\GenresCommand.cs" />
     <Compile Include="Commands\MixesCommand.cs" />
@@ -125,7 +126,10 @@
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />
     <Compile Include="IMusicClient.cs" />
     <Compile Include="IMusicClientAsync.cs" />
+    <Compile Include="Internal\ApiMethod.cs" />
+    <Compile Include="Internal\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
+    <Compile Include="Internal\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="MusicClient.cs" />

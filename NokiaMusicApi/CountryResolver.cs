@@ -16,7 +16,7 @@ namespace Nokia.Music.Phone
     /// <summary>
     /// The CountryResolver validates a country has availability for the Nokia Music API
     /// </summary>
-    public sealed class CountryResolver : ICountryResolver
+    public sealed class CountryResolver : ApiMethod, ICountryResolver
     {
         private string _appId;
         private string _appCode;
@@ -67,6 +67,11 @@ namespace Nokia.Music.Phone
             }
         }
 
+        internal override bool RequiresCountryCode
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// Validates that the Nokia Music API is available for a country
         /// </summary>
@@ -82,10 +87,8 @@ namespace Nokia.Music.Phone
             this.ValidateCallback(callback);
 
             this.RequestHandler.SendRequestAsync(
-                ApiMethod.CountryLookup,
-                this._appId,
-                this._appCode,
-                null,
+                this,
+                new CountryResolverSettings(this._appId, this._appCode),
                 null,
                 new Dictionary<string, string>() { { "countrycode", countryCode } },
                 (Response<JObject> rawResult) =>
@@ -160,5 +163,40 @@ namespace Nokia.Music.Phone
                 return false;
             }
         }
-    }
+
+        /// <summary>
+        /// Implementation of MusicClientSettings for use with country resolver request
+        /// </summary>
+        private class CountryResolverSettings : IMusicClientSettings
+        {
+            private readonly string _appId;
+            private readonly string _appCode;
+
+            public CountryResolverSettings(string appId, string appCode)
+            {
+                this._appId = appId;
+                this._appCode = appCode;
+            }
+
+            public string AppId
+            {
+                get { return this._appId; }
+            }
+
+            public string AppCode
+            {
+                get { return this._appCode; }
+            }
+
+            public string CountryCode
+            {
+                get { return null; }
+            }
+
+            public bool CountryCodeBasedOnRegionInfo
+            {
+                get { return false; }
+            }
+        }
+    }    
 }

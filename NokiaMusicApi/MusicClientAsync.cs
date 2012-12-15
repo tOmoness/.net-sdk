@@ -15,7 +15,7 @@ namespace Nokia.Music.Phone
     /// <summary>
     /// Adaption of the IMusicClient API for WP8 async/await usage
     /// </summary>
-    public sealed class MusicClientAsync : IMusicClientAsync
+    public sealed partial class MusicClientAsync : IMusicClientAsync
     {
         private IMusicClient _musicClient;
 
@@ -69,6 +69,21 @@ namespace Nokia.Music.Phone
         {
             var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
             this._musicClient.SearchArtists(result => wrapper.TrySetResult(result), searchTerm, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing search suggestions
+        /// </returns>
+        public Task<ListResponse<string>> GetArtistSearchSuggestions(string searchTerm, int itemsPerPage = 3)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<string>>();
+            this._musicClient.GetArtistSearchSuggestions(result => wrapper.TrySetResult(result), searchTerm, itemsPerPage);
             return wrapper.Task;
         }
 
@@ -244,6 +259,21 @@ namespace Nokia.Music.Phone
         {
             var wrapper = new TaskCompletionSource<ListResponse<MusicItem>>();
             this._musicClient.Search(result => wrapper.TrySetResult(result), searchTerm, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing search suggestions
+        /// </returns>
+        public Task<ListResponse<string>> GetSearchSuggestions(string searchTerm, int itemsPerPage = 3)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<string>>();
+            this._musicClient.GetSearchSuggestions(result => wrapper.TrySetResult(result), searchTerm, itemsPerPage);
             return wrapper.Task;
         }
 

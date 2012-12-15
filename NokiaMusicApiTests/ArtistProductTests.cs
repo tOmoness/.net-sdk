@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
+using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -22,7 +24,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureGetArtistProductsThrowsExceptionForNullArtistId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistProducts((ListResponse<Product> result) => { }, nullId);
         }
 
@@ -31,7 +33,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureGetArtistProductsThrowsExceptionForNullArtist()
         {
             Artist nullArtist = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistProducts((ListResponse<Product> result) => { }, nullArtist);
         }
 
@@ -39,14 +41,14 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetArtistProductsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistProducts(null, "test");
         }
 
         [Test]
         public void EnsureGetArtistProductsReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistProducts(this.ProductResponse, new Artist() { Id = "test" }, Category.Album);
             client.GetArtistProducts(this.ProductResponse, "test");
         }
@@ -54,7 +56,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureGetArtistProductsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new FailedMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetArtistProducts(
                 (ListResponse<Product> result) =>
                 {
@@ -72,7 +74,7 @@ namespace Nokia.Music.Phone.Tests
         public async void EnsureAsyncGetArtistProductsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.artist_products));
             this.ProductResponse(await client.GetArtistProducts("test"));
             this.ProductResponse(await client.GetArtistProducts(new Artist() { Id = "test" }));
         }
@@ -86,6 +88,13 @@ namespace Nokia.Music.Phone.Tests
             Assert.IsNotNull(result.Result, "Expected a list of results");
             Assert.IsNull(result.Error, "Expected no error");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+            foreach (Product productItem in result.Result)
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(productItem.Id), "Expected Id to be populated");
+                Assert.IsFalse(string.IsNullOrEmpty(productItem.Name), "Expected Name to be populated");
+                Assert.AreNotEqual(Category.Unknown, productItem.Category, "Expected Category to be set");
+            }
         }
     }
 }

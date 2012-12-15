@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
+using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -21,7 +23,7 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void EnsureGetTopProductsThrowsExceptionForUnsupportedCategory()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             client.GetTopProducts((ListResponse<Product> result) => { }, Category.Unknown);
         }
 
@@ -29,14 +31,14 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetTopProductsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             client.GetTopProducts(null, Category.Album);
         }
 
         [Test]
         public void EnsureGetTopProductsReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             client.GetTopProducts(
                 (ListResponse<Product> result) =>
                 {
@@ -47,6 +49,13 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.Result, "Expected a list of results");
                     Assert.IsNull(result.Error, "Expected no error");
                     Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+                    foreach (Product productItem in result.Result)
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(productItem.Id), "Expected Id to be populated");
+                        Assert.IsFalse(string.IsNullOrEmpty(productItem.Name), "Expected Name to be populated");
+                        Assert.AreNotEqual(Category.Unknown, productItem.Category, "Expected Category to be set");
+                    }
                 },
                 Category.Album);
         }
@@ -54,7 +63,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureGetTopProductsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new FailedMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetTopProducts(
                 (ListResponse<Product> result) =>
                 {
@@ -72,7 +81,7 @@ namespace Nokia.Music.Phone.Tests
         public async void EnsureAsyncGetTopProductsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             ListResponse<Product> result = await client.GetTopProducts(Category.Album);
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }

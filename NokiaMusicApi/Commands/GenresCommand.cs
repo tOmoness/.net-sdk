@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Types;
@@ -17,15 +19,23 @@ namespace Nokia.Music.Phone.Commands
     internal sealed class GenresCommand : MusicClientCommand<ListResponse<Genre>>
     {
         /// <summary>
+        /// Appends the uri subpath and parameters specific to this API method
+        /// </summary>
+        /// <param name="uri">The base uri</param>
+        /// <param name="pathParams">The API method parameters</param>
+        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        {
+            uri.AppendFormat("genres/");
+        }
+
+        /// <summary>
         /// Executes the command
         /// </summary>
         protected override void Execute()
         {
             this.RequestHandler.SendRequestAsync(
-                ApiMethod.Genres,
-                this.MusicClientSettings.AppId,
-                this.MusicClientSettings.AppCode,
-                this.MusicClientSettings.CountryCode,
+                this,
+                this.MusicClientSettings,
                 null,
                 null,
                 (Response<JObject> rawResult) =>

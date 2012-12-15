@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Internal;
 
 namespace Nokia.Music.Phone.Commands
 {
@@ -36,6 +37,15 @@ namespace Nokia.Music.Phone.Commands
         /// Gets or sets the zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).
         /// </summary>
         public int StartIndex { get; set; }
+
+        /// <summary>
+        /// Gets a json processor that can parse the response expected by this command.
+        /// By default, a processor for a named item list is returned.
+        /// </summary>
+        protected virtual IJsonProcessor JsonProcessor
+        {
+            get { return new NamedItemListJsonProcessor(); }
+        }
 
         /// <summary>
         /// Gets or sets the callback.
@@ -81,35 +91,22 @@ namespace Nokia.Music.Phone.Commands
                     case HttpStatusCode.OK:
                         if (rawResult.Result != null &&
                             rawResult.ContentType != null &&
-                            rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.InvariantCultureIgnoreCase))
+                            rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
                         {
-                            List<T> results = new List<T>();
-                            JArray items = rawResult.Result.Value<JArray>(itemsName);
-                            if (items != null)
+                            List<T> results = this.JsonProcessor.ParseList(rawResult, itemsName, converter);
+                            int? totalResults = null;
+                            int? startIndex = null;
+                            int? itemsPerPage = null;
+
+                            JToken paging = rawResult.Result["paging"];
+                            if (paging != null)
                             {
-                                foreach (JToken item in rawResult.Result.Value<JArray>(itemsName))
-                                {
-                                    T result = converter(item);
-                                    if (result != null)
-                                    {
-                                        results.Add(result);
-                                    }
-                                }
-
-                                int? totalResults = null;
-                                int? startIndex = null;
-                                int? itemsPerPage = null;
-
-                                JToken paging = rawResult.Result["paging"];
-                                if (paging != null)
-                                {
-                                    totalResults = paging.Value<int>(MusicClientCommand.PagingTotal);
-                                    startIndex = paging.Value<int>(MusicClientCommand.PagingStartIndex);
-                                    itemsPerPage = paging.Value<int>(MusicClientCommand.PagingItemsPerPage);
-                                }
-
-                                response = new ListResponse<T>(rawResult.StatusCode, results, startIndex, itemsPerPage, totalResults);
+                                totalResults = paging.Value<int>(MusicClientCommand.PagingTotal);
+                                startIndex = paging.Value<int>(MusicClientCommand.PagingStartIndex);
+                                itemsPerPage = paging.Value<int>(MusicClientCommand.PagingItemsPerPage);
                             }
+
+                            response = new ListResponse<T>(rawResult.StatusCode, results, startIndex, itemsPerPage, totalResults);
                         }
 
                         break;

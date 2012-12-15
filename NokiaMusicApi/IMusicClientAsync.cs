@@ -16,7 +16,7 @@ namespace Nokia.Music.Phone
     /// <summary>
     /// Adaption of the IMusicClient API for WP8 async/await usage
     /// </summary>
-    public interface IMusicClientAsync
+    public partial interface IMusicClientAsync
     {
         /// <summary>
         /// Searches for an Artist
@@ -26,6 +26,14 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>A ListResponse containing Artists or an Error</returns>
         Task<ListResponse<Artist>> SearchArtists(string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing search suggestions</returns>
+        Task<ListResponse<string>> GetArtistSearchSuggestions(string searchTerm, int itemsPerPage = 3);
 
         /// <summary>
         /// Gets the top artists
@@ -124,6 +132,14 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>A ListResponse containing MusicItems or an Error</returns>
         Task<ListResponse<MusicItem>> Search(string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing search suggestions</returns>
+        Task<ListResponse<string>> GetSearchSuggestions(string searchTerm, int itemsPerPage = 3);
 
         /// <summary>
         /// Gets the Mix Groups available

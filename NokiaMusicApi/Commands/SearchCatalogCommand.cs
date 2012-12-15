@@ -51,10 +51,8 @@ namespace Nokia.Music.Phone.Commands
             }
 
             this.RequestHandler.SendRequestAsync(
-                ApiMethod.Search,
-                this.MusicClientSettings.AppId,
-                this.MusicClientSettings.AppCode,
-                this.MusicClientSettings.CountryCode,
+                this,
+                this.MusicClientSettings,
                 null,
                 parameters,
                 (Response<JObject> rawResult) =>

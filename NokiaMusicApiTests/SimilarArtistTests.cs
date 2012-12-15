@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
+using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -22,7 +24,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureGetSimilarArtistsThrowsExceptionForNullArtistId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.artist_similar));
             client.GetSimilarArtists((ListResponse<Artist> result) => { }, nullId);
         }
 
@@ -31,7 +33,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureGetSimilarArtistsThrowsExceptionForNullArtist()
         {
             Artist nullArtist = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.artist_similar));
             client.GetSimilarArtists((ListResponse<Artist> result) => { }, nullArtist);
         }
 
@@ -39,14 +41,14 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetSimilarArtistsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.artist_similar));
             client.GetSimilarArtists(null, "test");
         }
 
         [Test]
         public void EnsureGetSimilarArtistsReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.artist_similar));
             client.GetSimilarArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -57,6 +59,14 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.Result, "Expected a list of results");
                     Assert.IsNull(result.Error, "Expected no error");
                     Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+                    foreach (Artist artist in result.Result)
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(artist.Id), "Expected Id to be populated");
+                        Assert.IsFalse(string.IsNullOrEmpty(artist.Name), "Expected Name to be populated");
+                        Assert.IsNotNull(artist.Genres, "Expected a genre list");
+                        Assert.Greater(artist.Genres.Length, 0, "Expected more than 0 genres");
+                    }
                 },
                 new Artist() { Id = "test" });
         }
@@ -64,7 +74,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureGetSimilarArtistsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new FailedMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetSimilarArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -82,7 +92,7 @@ namespace Nokia.Music.Phone.Tests
         public async void EnsureAsyncGetSimilarArtistsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.artist_similar));
             ListResponse<Artist> result = await client.GetSimilarArtists("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
 

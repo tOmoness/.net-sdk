@@ -59,6 +59,32 @@ namespace Nokia.Music.TestApp
             this.SearchTerm.Focus();
         }
 
+        private void SearchPopulating(object sender, PopulatingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (this._artistSearch)
+            {
+                App.ApiClient.GetArtistSearchSuggestions(this.HandleSearchSuggestionsResponse, e.Parameter);
+            }
+            else
+            {
+                App.ApiClient.GetSearchSuggestions(this.HandleSearchSuggestionsResponse, e.Parameter);
+            }
+        }
+
+        private void HandleSearchSuggestionsResponse(ListResponse<string> response)
+        {
+            if (response.Result != null)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.SearchTerm.ItemsSource = response.Result;
+                    this.SearchTerm.PopulateComplete();
+                });
+            }
+        }
+
         private void SearchTermKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

@@ -66,7 +66,7 @@ namespace Nokia.Music.Phone
         /// <summary>
         /// Gets or sets the HTTP Status code
         /// </summary>
-        internal HttpStatusCode? StatusCode { get; set; }
+        public HttpStatusCode? StatusCode { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP Content Type

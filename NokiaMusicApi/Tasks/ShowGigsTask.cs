@@ -6,12 +6,6 @@
 // -----------------------------------------------------------------------
 
 using System;
-#if WINDOWS_PHONE
-using System.Net;
-#else
-using System.Web;
-#endif
-using Nokia.Music.Phone.Internal;
 
 namespace Nokia.Music.Phone.Tasks
 {

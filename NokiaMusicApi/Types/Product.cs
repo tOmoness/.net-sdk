@@ -85,7 +85,7 @@ namespace Nokia.Music.Phone.Types
             Product target = obj as Product;
             if (target != null)
             {
-                return string.Compare(target.Id, this.Id, StringComparison.InvariantCultureIgnoreCase) == 0;
+                return string.Compare(target.Id, this.Id, StringComparison.OrdinalIgnoreCase) == 0;
             }
             else
             {

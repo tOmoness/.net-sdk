@@ -14,15 +14,13 @@ namespace Nokia.Music.Phone.Internal
     /// <summary>
     /// Defines the real Uri Builder
     /// </summary>
-    internal sealed class ApiUriBuilder : IApiUriBuilder
+    internal class ApiUriBuilder : IApiUriBuilder
     {
         /// <summary>
         /// Builds an API URI
         /// </summary>
         /// <param name="method">The method to call.</param>
-        /// <param name="appId">The app id.</param>
-        /// <param name="appCode">The app code.</param>
-        /// <param name="countryCode">The country code.</param>
+        /// <param name="settings">The music client settings.</param>
         /// <param name="pathParams">The path parameters.</param>
         /// <param name="querystringParams">The querystring parameters.</param>
         /// <returns>
@@ -32,133 +30,86 @@ namespace Nokia.Music.Phone.Internal
         /// <exception cref="CountryCodeRequiredException">Thrown when a CountryCode is required but not supplied</exception>
         /// <exception cref="ApiCredentialsRequiredException">Thrown when an API Key has not been supplied</exception>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public Uri BuildUri(ApiMethod method, string appId, string appCode, string countryCode, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
+        public Uri BuildUri(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
         {
-            // Validate Method and Country Code if it's required
-            switch (method)
+            if (method == null)
             {
-                case ApiMethod.Unknown:
-                    throw new ArgumentOutOfRangeException("method");
-
-                case ApiMethod.CountryLookup:
-                    // No country code required
-                    break;
-
-                default:
-                    if (string.IsNullOrEmpty(countryCode))
-                    {
-                        throw new CountryCodeRequiredException();
-                    }
-
-                    break;
+                throw new ArgumentNullException("method");
             }
 
-            // Validate API Credentials...
-            if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appCode))
+            if (settings == null)
             {
-                throw new ApiCredentialsRequiredException();
+                throw new ArgumentNullException("settings");
             }
 
             // Build API url
             StringBuilder url = new StringBuilder();
             url.Append(@"http://api.ent.nokia.com/1.x/");
 
-            switch (method)
+            AddCountryCode(url, method, settings.CountryCode);
+            method.AppendUriPath(url, pathParams);
+            this.AppendQueryString(url, settings, querystringParams);
+
+            return new Uri(url.ToString());
+        }
+
+        /// <summary>
+        /// Adds authorisation parameters to the querystring
+        /// </summary>
+        /// <param name="url">The url being built.</param>
+        /// <param name="settings">The music client settings.</param>
+        protected virtual void AddAuthorisationParams(StringBuilder url, IMusicClientSettings settings)
+        {
+            if (string.IsNullOrEmpty(settings.AppId) || string.IsNullOrEmpty(settings.AppCode))
             {
-                case ApiMethod.CountryLookup:
-                    // nothing extra needed
-                    break;
-
-                case ApiMethod.Search:
-                    url.AppendFormat("{0}/", countryCode);
-                    break;
-
-                case ApiMethod.ArtistProducts:
-                    if (pathParams != null && pathParams.ContainsKey("id"))
-                    {
-                        url.AppendFormat("{0}/creators/{1}/products/", countryCode, pathParams["id"]);
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("id");
-                    }
-
-                    break;
-
-                case ApiMethod.SimilarArtists:
-                    if (pathParams != null && pathParams.ContainsKey("id"))
-                    {
-                        url.AppendFormat("{0}/creators/{1}/similar/", countryCode, pathParams["id"]);
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("id");
-                    }
-
-                    break;
-
-                case ApiMethod.Genres:
-                    url.AppendFormat("{0}/genres/", countryCode);
-                    break;
-
-                case ApiMethod.MixGroups:
-                    url.AppendFormat("{0}/mixes/groups/", countryCode);
-                    break;
-
-                case ApiMethod.Mixes:
-                    if (pathParams != null && pathParams.ContainsKey("id"))
-                    {
-                        url.AppendFormat("{0}/mixes/groups/{1}/", countryCode, pathParams["id"]);
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException();
-                    }
-
-                    break;
-
-                case ApiMethod.ProductChart:
-                    if (pathParams != null && pathParams.ContainsKey("category"))
-                    {
-                        url.AppendFormat("{0}/products/charts/{1}/", countryCode, pathParams["category"]);
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("category");
-                    }
-
-                    break;
-
-                case ApiMethod.ProductNewReleases:
-                    if (pathParams != null && pathParams.ContainsKey("category"))
-                    {
-                        url.AppendFormat("{0}/products/new/{1}/", countryCode, pathParams["category"]);
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("category");
-                    }
-
-                    break;
-
-                case ApiMethod.Recommendations:
-                    url.AppendFormat("{0}/recommendations/", countryCode);
-                    break;
+                throw new ApiCredentialsRequiredException();
             }
 
-            // Add required parameters...
-            url.AppendFormat(@"?app_id={0}&app_code={1}&domain=music", appId, appCode);
-            
+            url.AppendFormat(@"?app_id={0}&app_code={1}", settings.AppId, settings.AppCode);
+        }
+
+        /// <summary>
+        /// Validates and adds country code if required
+        /// </summary>
+        /// <param name="url">The url being built</param>
+        /// <param name="method">The method to call.</param>
+        /// <param name="countryCode">The country code.</param>
+        private static void AddCountryCode(StringBuilder url, ApiMethod method, string countryCode)
+        {
+            if (method.RequiresCountryCode)
+            {
+                if (string.IsNullOrEmpty(countryCode))
+                {
+                    throw new CountryCodeRequiredException();
+                }
+
+                url.AppendFormat("{0}/", countryCode);
+            }
+        }
+
+        /// <summary>
+        /// Appends the appropriate query string parameters to the url
+        /// </summary>
+        /// <param name="url">The url being built.</param>
+        /// <param name="settings">The music client settings.</param>
+        /// <param name="querystringParams">The querystring parameters.</param>
+        private void AppendQueryString(StringBuilder url, IMusicClientSettings settings, Dictionary<string, string> querystringParams)
+        {
+            // Add required parameters
+            this.AddAuthorisationParams(url, settings);
+            url.AppendFormat(@"&domain=music");
+
             // Add other parameters...
             if (querystringParams != null)
             {
                 foreach (string key in querystringParams.Keys)
                 {
-                    url.AppendFormat(@"&{0}={1}", key, querystringParams[key]);
+                    if (!string.IsNullOrEmpty(querystringParams[key]))
+                    {
+                        url.AppendFormat(@"&{0}={1}", key, querystringParams[key]);
+                    }
                 }
             }
-
-            return new Uri(url.ToString());
         }
     }
 }

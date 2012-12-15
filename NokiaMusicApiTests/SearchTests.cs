@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
+using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -21,7 +23,7 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureSearchThrowsExceptionForNullSearchTerm()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
             client.Search((ListResponse<MusicItem> resp) => { }, null);
         }
 
@@ -29,14 +31,14 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureSearchThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
             client.Search(null, "lady gaga");
         }
 
         [Test]
         public void EnsureSearchReturnsItemsForValidSearch()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
             client.Search(
                 (ListResponse<MusicItem> result) =>
                 {
@@ -47,6 +49,13 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.Result, "Expected a list of results");
                     Assert.IsNull(result.Error, "Expected no error");
                     Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+                    foreach (MusicItem item in result.Result)
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(item.Id), "Expected Id to be populated");
+                        Assert.IsFalse(string.IsNullOrEmpty(item.Name), "Expected Name to be populated");
+                        Assert.IsNotNull(item.Thumb100Uri, "Expected a thumbnail uri");
+                    }
                 },
                 "lady gaga");
         }
@@ -54,7 +63,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureSearchReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new FailedMockApiRequestHandler());
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.Search(
                 (ListResponse<MusicItem> result) =>
                 {
@@ -72,7 +81,7 @@ namespace Nokia.Music.Phone.Tests
         public async void EnsureAsyncSearchReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new SuccessfulMockApiRequestHandler());
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
             ListResponse<MusicItem> result = await client.Search("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }

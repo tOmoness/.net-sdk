@@ -6,12 +6,6 @@
 // -----------------------------------------------------------------------
 
 using System;
-#if WINDOWS_PHONE
-using System.Net;
-#else
-using System.Web;
-#endif
-using Nokia.Music.Phone.Internal;
 
 namespace Nokia.Music.Phone.Tasks
 {
@@ -48,7 +42,7 @@ namespace Nokia.Music.Phone.Tasks
         {
             if (!string.IsNullOrEmpty(this._searchTerms))
             {
-                string encodedSearch = HttpUtility.UrlEncode(this.SearchTerms);
+                string encodedSearch = Uri.EscapeDataString(this.SearchTerms);
                 this.Launch(
                     new Uri("nokia-music://search/anything/?term=" + encodedSearch),
                     new Uri("http://music.nokia.com/r/search/" + encodedSearch));

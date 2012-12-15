@@ -17,7 +17,7 @@ namespace Nokia.Music.Phone.Commands
     /// <summary>
     /// Defines the Music Client Command base class
     /// </summary>
-    internal abstract class MusicClientCommand
+    internal abstract class MusicClientCommand : ApiMethod
     {
         internal const string ArrayNameItems = "items";
         internal const string ParamId = "id";
@@ -41,7 +41,7 @@ namespace Nokia.Music.Phone.Commands
         /// <typeparam name="T">The type to return</typeparam>
         /// <param name="item">The item.</param>
         /// <returns>A typed object</returns>
-        protected delegate T JTokenConversionDelegate<T>(JToken item);
+        internal delegate T JTokenConversionDelegate<T>(JToken item);
 
         /// <summary>
         /// Gets or sets the settings.

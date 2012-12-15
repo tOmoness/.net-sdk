@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
@@ -35,7 +36,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureInvalidApiCredentialsExceptionThrownWhenServerGives403()
         {
-            CountryResolver client = new CountryResolver("badkey", "test", new FailedMockApiRequestHandler());
+            CountryResolver client = new CountryResolver("badkey", "test", new MockApiRequestHandler(FakeResponse.Forbidden()));
             client.CheckAvailability(
                 (Response<bool> response) =>
                 {

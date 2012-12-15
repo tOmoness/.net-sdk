@@ -26,6 +26,23 @@ namespace Nokia.Music.Phone.Commands
         public string MixGroupId { get; set; }
 
         /// <summary>
+        /// Appends the uri subpath and parameters specific to this API method
+        /// </summary>
+        /// <param name="uri">The base uri</param>
+        /// <param name="pathParams">The API method parameters</param>
+        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        {
+            if (pathParams != null && pathParams.ContainsKey("id"))
+            {
+                uri.AppendFormat("mixes/groups/{0}/", pathParams["id"]);
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
+        }
+
+        /// <summary>
         /// Executes the command
         /// </summary>
         protected override void Execute()
@@ -36,10 +53,8 @@ namespace Nokia.Music.Phone.Commands
             }
 
             RequestHandler.SendRequestAsync(
-                ApiMethod.Mixes,
-                MusicClientSettings.AppId,
-                MusicClientSettings.AppCode,
-                MusicClientSettings.CountryCode,
+                this,
+                this.MusicClientSettings,
                 new Dictionary<string, string>
                     {
                         { ParamId, this.MixGroupId }

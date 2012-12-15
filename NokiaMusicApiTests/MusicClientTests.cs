@@ -9,6 +9,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
@@ -88,8 +89,7 @@ namespace Nokia.Music.Phone.Tests
 
             // Our REST API will give a 404 response when the country code is not valid, so this test
             // ensures that gets translated into an ApiNotAvailableException when the RegionInfo constructor is used.
-            // This test relies on the FailedMockApiRequestHandler.FakeSearchResponse returning NotFound for non-Artist cases.
-            MusicClient client = new MusicClient("test", "test", new FailedMockApiRequestHandler());
+            MusicClient client = new MusicClient("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.Search(
                 (ListResponse<MusicItem> response) =>
                 {
@@ -102,7 +102,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureInvalidApiCredentialsExceptionThrownWhenServerGives403()
         {
-            MusicClient client = new MusicClient("badkey", "test", "us", new FailedMockApiRequestHandler());
+            MusicClient client = new MusicClient("badkey", "test", "us", new MockApiRequestHandler(FakeResponse.Forbidden()));
             client.Search(
                 (ListResponse<MusicItem> response) =>
                 {

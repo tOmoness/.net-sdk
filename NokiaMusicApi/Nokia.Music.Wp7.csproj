@@ -108,6 +108,7 @@
     <Compile Include="Commands\ArtistProductsCommand.cs" />
     <Compile Include="Commands\MixGroupsCommand.cs" />
     <Compile Include="Commands\SearchCatalogCommand.cs" />
+    <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
     <Compile Include="CountryResolver.cs" />
     <Compile Include="Exceptions\ApiCredentialsRequiredException.cs" />
@@ -120,11 +121,14 @@
     <Compile Include="Commands\GenresCommand.cs" />
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />
+    <Compile Include="Internal\ApiMethod.cs" />
+    <Compile Include="Internal\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
     <Compile Include="Internal\ApiRequestHandler.cs" />
     <Compile Include="Internal\IApiRequestHandler.cs" />
     <Compile Include="Internal\ApiUriBuilder.cs" />
     <Compile Include="Internal\IApiUriBuilder.cs" />
+    <Compile Include="Internal\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="Commands\MixesCommand.cs" />

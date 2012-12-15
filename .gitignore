@@ -8,7 +8,7 @@ _ReSharper*/
 *.user
 /TestResult.xml
 /TestCoverage.xml
-/TestCoverageReport
+/TestCoverageReport*
 /Docs
 /Docs/Help
 StyleCop.Cache

@@ -32,15 +32,13 @@ namespace Nokia.Music.Phone.Tests
         /// Builds an API URI
         /// </summary>
         /// <param name="method">The method to call.</param>
-        /// <param name="appId">The app id.</param>
-        /// <param name="appCode">The app code.</param>
-        /// <param name="countryCode">The country code.</param>
+        /// <param name="settings">The music client settings.</param>
         /// <param name="pathParams">The path parameters.</param>
         /// <param name="querystringParams">The querystring parameters.</param>
         /// <returns>
         /// A Uri to call
         /// </returns>
-        public Uri BuildUri(ApiMethod method, string appId, string appCode, string countryCode, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
+        public Uri BuildUri(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
         {
             DirectoryInfo jsonDir = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, @"..\..\json"));
             if (jsonDir.Exists)

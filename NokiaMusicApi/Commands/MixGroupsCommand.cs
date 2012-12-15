@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Nokia.Music.Phone.Internal;
@@ -18,15 +19,23 @@ namespace Nokia.Music.Phone.Commands
     internal sealed class MixGroupsCommand : MusicClientCommand<ListResponse<MixGroup>>
     {
         /// <summary>
+        /// Appends the uri subpath and parameters specific to this API method
+        /// </summary>
+        /// <param name="uri">The base uri</param>
+        /// <param name="pathParams">The API method parameters</param>
+        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        {
+            uri.AppendFormat("mixes/groups/");
+        }
+
+        /// <summary>
         /// Executes the command
         /// </summary>
         protected override void Execute()
         {
             this.RequestHandler.SendRequestAsync(
-                ApiMethod.MixGroups,
-                this.MusicClientSettings.AppId,
-                this.MusicClientSettings.AppCode,
-                this.MusicClientSettings.CountryCode,
+                this,
+                this.MusicClientSettings,
                 null,
                 new Dictionary<string, string>
                     {

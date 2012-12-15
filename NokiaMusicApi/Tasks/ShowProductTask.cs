@@ -76,7 +76,7 @@ namespace Nokia.Music.Phone.Tasks
 
                 this.Launch(
                     new Uri("nokia-music://show/product/?id=" + this._productId + appId),
-                    new Uri("http://music.nokia.com/r/product/-/-/" + this._productId));
+                    new Uri("http://music.nokia.com/r/Product/-/-/" + this._productId));
             }
             else
             {
