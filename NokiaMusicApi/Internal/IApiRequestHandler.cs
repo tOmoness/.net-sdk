@@ -28,10 +28,18 @@ namespace Nokia.Music.Phone.Internal
         /// Makes the API request
         /// </summary>
         /// <param name="method">The method to call.</param>
-        /// <param name="settings">The music settings.</param>
+        /// <param name="settings">The music client settings.</param>
         /// <param name="pathParams">The path params.</param>
         /// <param name="querystringParams">The querystring params.</param>
         /// <param name="callback">The callback to hit when done.</param>
-        void SendRequestAsync(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams, Action<Response<JObject>> callback);
+        /// <param name="requestHeaders">HTTP headers to add to the request</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
+        void SendRequestAsync(
+                              ApiMethod method,
+                              IMusicClientSettings settings,
+                              Dictionary<string, string> pathParams,
+                              Dictionary<string, string> querystringParams,
+                              Action<Response<JObject>> callback,
+                              Dictionary<string, string> requestHeaders = null);
     }
 }

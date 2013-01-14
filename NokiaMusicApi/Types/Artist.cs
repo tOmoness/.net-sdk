@@ -41,6 +41,14 @@ namespace Nokia.Music.Phone.Types
         public Genre[] Genres { get; internal set; }
 
         /// <summary>
+        /// Gets the artist's origin location where available.
+        /// </summary>
+        /// <value>
+        /// The origin.
+        /// </value>
+        public Location Origin { get; internal set; }
+
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -123,12 +131,24 @@ namespace Nokia.Music.Phone.Types
                 }
             }
 
+            Location origin = null;
+            JToken originToken = item["origin"];
+            if (originToken != null)
+            {
+                JToken location = originToken["location"];
+                if (location != null)
+                {
+                    origin = new Location() { Latitude = location.Value<double>("lat"), Longitude = location.Value<double>("lng") };
+                }
+            }
+
             // Extract thumbnails...
+            Uri square50 = null;
             Uri square100 = null;
             Uri square200 = null;
             Uri square320 = null;
 
-            MusicItem.ExtractThumbs(item["thumbnails"], out square100, out square200, out square320);
+            MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
 
             // Create the resulting Artist object...
             return new Artist()
@@ -137,6 +157,8 @@ namespace Nokia.Music.Phone.Types
                     Name = item.Value<string>("name"),
                     Country = country,
                     Genres = genres,
+                    Origin = origin,
+                    Thumb50Uri = square50,
                     Thumb100Uri = square100,
                     Thumb200Uri = square200,
                     Thumb320Uri = square320

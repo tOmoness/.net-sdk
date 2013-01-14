@@ -29,27 +29,27 @@ namespace Nokia.Music.Phone.Tests.Internal
 
         public static FakeResponse InternalServerError()
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.InternalServerError, (JObject)null));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.InternalServerError, (JObject)null, Guid.Empty));
         }
 
         public static FakeResponse Success(byte[] successResponse)
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.OK, TestContentType, JObject.Parse(Encoding.UTF8.GetString(successResponse))));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.OK, TestContentType, JObject.Parse(Encoding.UTF8.GetString(successResponse)), Guid.Empty));
         }
 
         public static FakeResponse GatewayTimeout()
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.GatewayTimeout, (JObject)null));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.GatewayTimeout, (JObject)null, Guid.Empty));
         }
 
         public static FakeResponse NotFound()
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.NotFound, (JObject)null));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.NotFound, (JObject)null, Guid.Empty));
         }
 
         public static FakeResponse Forbidden()
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.Forbidden, (JObject)null));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.Forbidden, (JObject)null, Guid.Empty));
         }
 
         /// <summary>

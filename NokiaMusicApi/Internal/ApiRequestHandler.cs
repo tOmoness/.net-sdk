@@ -44,8 +44,15 @@ namespace Nokia.Music.Phone.Internal
         /// <param name="pathParams">The path params.</param>
         /// <param name="querystringParams">The querystring params.</param>
         /// <param name="callback">The callback to hit when done.</param>
+        /// <param name="requestHeaders">HTTP headers to add to the request</param>
         /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        public void SendRequestAsync(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams, Action<Response<JObject>> callback)
+        public void SendRequestAsync(
+                                     ApiMethod method,
+                                     IMusicClientSettings settings,
+                                     Dictionary<string, string> pathParams,
+                                     Dictionary<string, string> querystringParams,
+                                     Action<Response<JObject>> callback,
+                                     Dictionary<string, string> requestHeaders = null)
         {
             if (callback == null)
             {
@@ -57,6 +64,7 @@ namespace Nokia.Music.Phone.Internal
             Debug.WriteLine("Calling " + uri.ToString());
             
             WebRequest request = WebRequest.Create(uri);
+            this.AddRequestHeaders(request, requestHeaders);
             request.BeginGetResponse(
                 (IAsyncResult ar) =>
                 {
@@ -111,14 +119,25 @@ namespace Nokia.Music.Phone.Internal
 
                     if (json != null)
                     {
-                        callback(new Response<JObject>(statusCode, contentType, json));
+                        callback(new Response<JObject>(statusCode, contentType, json, method.RequestId));
                     }
                     else
                     {
-                        callback(new Response<JObject>(statusCode, error));
+                        callback(new Response<JObject>(statusCode, error, method.RequestId));
                     }
                 },
                 request);
+        }
+
+        private void AddRequestHeaders(WebRequest request, Dictionary<string, string> requestHeaders)
+        {
+            if (requestHeaders != null)
+            {
+                foreach (KeyValuePair<string, string> header in requestHeaders)
+                {
+                    request.Headers[header.Key] = header.Value;
+                }
+            }
         }
     }
 }

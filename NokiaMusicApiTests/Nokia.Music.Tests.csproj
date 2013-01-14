@@ -108,7 +108,7 @@
       <Link>Source\Exceptions\ApiCredentialsRequiredException.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\ApiNotAvailableException.cs">
-      <Link>Internal\ApiNotAvailableException.cs</Link>
+      <Link>Source\Exceptions\ApiNotAvailableException.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\CountryCodeRequiredException.cs">
       <Link>Source\Exceptions\CountryCodeRequiredException.cs</Link>
@@ -206,6 +206,9 @@
     <Compile Include="..\NokiaMusicApi\Types\Genre.cs">
       <Link>Source\Types\Genre.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\Location.cs">
+      <Link>Source\Types\Location.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Mix.cs">
       <Link>Source\Types\Mix.cs</Link>
     </Compile>
@@ -221,6 +224,7 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="SearchArtistByLocationTests.cs" />
     <Compile Include="SearchSuggestionsTests.cs" />
     <Compile Include="Internal\FakeResponse.cs" />
     <Compile Include="Internal\MockMusicClientSettings.cs" />

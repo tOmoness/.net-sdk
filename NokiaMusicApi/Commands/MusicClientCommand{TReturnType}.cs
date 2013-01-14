@@ -106,7 +106,7 @@ namespace Nokia.Music.Phone.Commands
                                 itemsPerPage = paging.Value<int>(MusicClientCommand.PagingItemsPerPage);
                             }
 
-                            response = new ListResponse<T>(rawResult.StatusCode, results, startIndex, itemsPerPage, totalResults);
+                            response = new ListResponse<T>(rawResult.StatusCode, results, startIndex, itemsPerPage, totalResults, RequestId);
                         }
 
                         break;
@@ -114,20 +114,20 @@ namespace Nokia.Music.Phone.Commands
                     case HttpStatusCode.NotFound:
                         if (this.MusicClientSettings.CountryCodeBasedOnRegionInfo)
                         {
-                            response = new ListResponse<T>(rawResult.StatusCode, new ApiNotAvailableException());
+                            response = new ListResponse<T>(rawResult.StatusCode, new ApiNotAvailableException(), RequestId);
                         }
 
                         break;
 
                     case HttpStatusCode.Forbidden:
-                        response = new ListResponse<T>(rawResult.StatusCode, new InvalidApiCredentialsException());
+                        response = new ListResponse<T>(rawResult.StatusCode, new InvalidApiCredentialsException(), RequestId);
                         break;
                 }
             }
 
             if (response == null)
             {
-                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException());
+                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException(), RequestId);
             }
 
             callback(response);

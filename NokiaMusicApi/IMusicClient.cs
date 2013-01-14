@@ -35,6 +35,17 @@ namespace Nokia.Music.Phone
         void GetArtistSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3);
 
         /// <summary>
+        /// Gets artists that originate around a specified location
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="latitude">The latitude to search around</param>
+        /// <param name="longitude">The longitude to search around</param>
+        /// <param name="maxdistance">The max distance (in KM) around the location to search</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetArtistsAroundLocation(Action<ListResponse<Artist>> callback, double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
         /// Gets the top artists
         /// </summary>
         /// <param name="callback">The callback to use when the API call has completed</param>

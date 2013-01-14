@@ -10,12 +10,12 @@ using System.Resources;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Nokia.Music.Phone")]
-[assembly: AssemblyVersion("1.0.3.0")]
-[assembly: AssemblyFileVersion("1.0.3.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Nokia")]
 [assembly: AssemblyProduct("Nokia.Music.Phone")]
-[assembly: AssemblyCopyright("Copyright © Nokia 2012")]
+[assembly: AssemblyCopyright("Copyright © Nokia 2012-2013")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

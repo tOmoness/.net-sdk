@@ -57,6 +57,7 @@ namespace Nokia.Music.Phone.Tests.Types
             Assert.IsNotNull(fullItem.Name, "Expected a name");
             Assert.Greater(fullItem.Performers.Length, 0, "Expected performers");
             Assert.IsNotNull(fullItem.Price, "Expected a price");
+            Assert.IsNotNull(fullItem.Thumb50Uri, "Expected a 50x50 thumb");
             Assert.IsNotNull(fullItem.Thumb100Uri, "Expected a 100x100 thumb");
             Assert.IsNotNull(fullItem.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullItem.Thumb320Uri, "Expected a 320x320 thumb");

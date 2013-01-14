@@ -67,7 +67,7 @@ namespace Nokia.Music.Phone.Commands
                 throw new ArgumentNullException("SearchTerm", "A searchTerm must be supplied");
             }
 
-            this.InternalSearch<MusicItem>(this.SearchTerm, null, this.Category, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
+            this.InternalSearch<MusicItem>(this.SearchTerm, null, this.Category, null, null, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
         }
     }
 }

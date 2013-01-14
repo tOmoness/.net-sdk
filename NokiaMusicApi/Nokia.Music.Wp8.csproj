@@ -156,6 +156,7 @@
     <Compile Include="Tasks\ShowProductTask.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
     <Compile Include="Types\Artist.cs" />
+    <Compile Include="Types\Location.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Category.cs" />
     <Compile Include="Types\CategoryExtensions.cs" />

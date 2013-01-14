@@ -13,3 +13,6 @@ _ReSharper*/
 /Docs/Help
 StyleCop.Cache
 Uploads
+/PackageForGithub/*.manifest
+/TestCoveragePrivate.xml
+/TestResultPrivate.xml

@@ -19,7 +19,7 @@ namespace Nokia.Music.Phone.Commands
         /// </summary>
         protected override void Execute()
         {
-            this.InternalSearch(null, null, Category.Artist, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            this.InternalSearch(null, null, Category.Artist, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
         }
     }
 }

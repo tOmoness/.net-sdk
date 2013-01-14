@@ -189,17 +189,19 @@ namespace Nokia.Music.Phone.Types
             }
 
             // Extract thumbnails...
+            Uri square50 = null;
             Uri square100 = null;
             Uri square200 = null;
             Uri square320 = null;
 
-            MusicItem.ExtractThumbs(item["thumbnails"], out square100, out square200, out square320);
+            MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
 
             // Create the resulting Product object...
             return new Product()
             {
                 Id = item.Value<string>("id"),
                 Name = item.Value<string>("name"),
+                Thumb50Uri = square50,
                 Thumb100Uri = square100,
                 Thumb200Uri = square200,
                 Thumb320Uri = square320,

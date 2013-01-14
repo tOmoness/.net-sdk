@@ -35,7 +35,9 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureCheckAvailabilityWorksForValidCountry()
         {
-            ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            Guid requestId = new Guid();
+            client.RequestId = requestId;
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -44,6 +46,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
                     Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
                     Assert.IsNotNull(result.Result, "Expected a result");
+                    Assert.AreEqual(requestId, result.RequestId, "Expected a matching request Id");
                     Assert.IsTrue(result.Result, "Expected a true result");
                     Assert.IsNull(result.Error, "Expected no error");
                 },
@@ -53,7 +56,9 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureCheckAvailabilityReturnsFailsForInvalidCountry()
         {
-            ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()));
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()));
+            Guid requestId = new Guid();
+            client.RequestId = requestId;
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -63,6 +68,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.AreEqual(HttpStatusCode.NotFound, result.StatusCode.Value, "Expected a 404 response");
                     Assert.IsNotNull(result.Result, "Expected a result");
                     Assert.IsFalse(result.Result, "Expected a false result");
+                    Assert.AreEqual(requestId, result.RequestId, "Expected a matching request Id");
                     Assert.IsNull(result.Error, "Expected no error");
                 },
                 "xx");
@@ -84,7 +90,9 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureCheckAvailabilityReturnsErrorForFailedCall()
         {
-            ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()));
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()));
+            Guid requestId = new Guid();
+            client.RequestId = requestId;
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -93,6 +101,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
                     Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non 200 response");
                     Assert.IsNotNull(result.Error, "Expected an error");
+                    Assert.AreEqual(requestId, result.RequestId, "Expected a matching request Id");
                     Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
                 },
                 "gb");

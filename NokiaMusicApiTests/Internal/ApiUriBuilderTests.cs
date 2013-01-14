@@ -213,5 +213,13 @@ namespace Nokia.Music.Phone.Tests
             Uri result = new ApiUriBuilder().BuildUri(new MixesCommand(), new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "id", "test" } }, null);
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void ValidateOverriddenBaseUri()
+        {
+            Uri expected = new Uri(@"http://api.ent.nokia.com/2.0/gb/mixes/groups/test/?app_id=test&app_code=test&domain=music");
+            Uri result = new ApiUriBuilder().BuildUri(new MixesCommand() { BaseApiUri = @"http://api.ent.nokia.com/2.0/" }, new MockMusicClientSettings(AppId, AppCode, Country), new Dictionary<string, string>() { { "id", "test" } }, null);
+            Assert.AreEqual(expected, result);
+        }
     }
 }

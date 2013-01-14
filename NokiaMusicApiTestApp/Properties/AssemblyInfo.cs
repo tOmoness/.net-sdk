@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NOKIA")]
 [assembly: AssemblyProduct("Nokia.Discover.TestApp")]
-[assembly: AssemblyCopyright("Copyright © NOKIA 2012")]
+[assembly: AssemblyCopyright("Copyright © NOKIA 2012-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -14,6 +14,13 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
  ![Package Manager](http://api.ent.nokia.com/assets/nuget.png)
  - Download the latest binaries from the [Downloads](https://github.com/nokia-entertainment/wp-api-client/downloads) section
 
+##Releases
+
+- 1.0.4 - Added Thumb50 property for Artist, Mix and Product types; Added location-based search
+- 1.0.3 - Added Search Suggestions for artists and products
+- 1.0.2 - Initial Release
+
+
 ## Launcher Tasks
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
 

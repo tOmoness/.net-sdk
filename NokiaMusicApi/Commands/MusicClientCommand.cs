@@ -24,6 +24,8 @@ namespace Nokia.Music.Phone.Commands
         internal const string ParamCategory = "category";
         internal const string ParamSearchTerm = "q";
         internal const string ParamGenre = "genre";
+        internal const string ParamLocation = "location";
+        internal const string ParamMaxDistance = "maxdistance";
         internal const string PagingStartIndex = "startindex";
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";

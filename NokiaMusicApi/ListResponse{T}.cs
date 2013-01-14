@@ -25,8 +25,9 @@ namespace Nokia.Music.Phone
         /// <param name="startIndex">The start index asked for.</param>
         /// <param name="itemsPerPage">The items per page asked for.</param>
         /// <param name="totalResults">The total results available.</param>
-        internal ListResponse(HttpStatusCode? statusCode, List<T> result, int? startIndex, int? itemsPerPage, int? totalResults)
-            : base(statusCode, result)
+        /// <param name="requestId">The request id.</param>
+        internal ListResponse(HttpStatusCode? statusCode, List<T> result, int? startIndex, int? itemsPerPage, int? totalResults, Guid requestId)
+            : base(statusCode, result, requestId)
         {
             this.StartIndex = startIndex;
             this.ItemsPerPage = itemsPerPage;
@@ -38,8 +39,9 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="statusCode">The HTTP Status code</param>
         /// <param name="error">The error.</param>
-        internal ListResponse(HttpStatusCode? statusCode, Exception error)
-            : base(statusCode, error)
+        /// <param name="requestId">The request id.</param>
+        internal ListResponse(HttpStatusCode? statusCode, Exception error, Guid requestId)
+            : base(statusCode, error, requestId)
         {
         }
 

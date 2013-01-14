@@ -1,6 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="LocalizedStrings.cs" company="Nokia">
-// TODO: Update copyright text.
+// Copyright (c) 2012, Nokia
+// All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 

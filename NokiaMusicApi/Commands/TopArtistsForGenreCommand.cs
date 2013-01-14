@@ -31,7 +31,7 @@ namespace Nokia.Music.Phone.Commands
                 throw new ArgumentNullException("GenreId", "A genre ID must be supplied");
             }
 
-            this.InternalSearch(null, this.GenreId, Category.Artist, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            this.InternalSearch(null, this.GenreId, Category.Artist, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
         }
     }
 }

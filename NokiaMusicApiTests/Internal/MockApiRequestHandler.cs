@@ -75,7 +75,14 @@ namespace Nokia.Music.Phone.Tests
         /// <param name="pathParams">The path params.</param>
         /// <param name="querystringParams">The querystring params.</param>
         /// <param name="callback">The callback to hit when done.</param>
-        public void SendRequestAsync(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams, Action<Response<JObject>> callback)
+        /// <param name="requestHeaders">HTTP headers to add to the request</param>
+        public void SendRequestAsync(
+                                     ApiMethod method,
+                                     IMusicClientSettings settings,
+                                     Dictionary<string, string> pathParams,
+                                     Dictionary<string, string> querystringParams,
+                                     Action<Response<JObject>> callback,
+                                     Dictionary<string, string> requestHeaders = null)
         {
             this._lastSettings = settings;
             this.NextFakeResponse.DoCallback(callback);

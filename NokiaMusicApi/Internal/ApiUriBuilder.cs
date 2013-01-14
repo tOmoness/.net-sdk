@@ -44,8 +44,8 @@ namespace Nokia.Music.Phone.Internal
 
             // Build API url
             StringBuilder url = new StringBuilder();
-            url.Append(@"http://api.ent.nokia.com/1.x/");
 
+            url.Append(method.BaseApiUri);
             AddCountryCode(url, method, settings.CountryCode);
             method.AppendUriPath(url, pathParams);
             this.AppendQueryString(url, settings, querystringParams);

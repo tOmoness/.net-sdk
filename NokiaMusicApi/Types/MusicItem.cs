@@ -32,6 +32,14 @@ namespace Nokia.Music.Phone.Types
         public string Name { get; internal set; }
 
         /// <summary>
+        /// Gets the 50x50 thumbnail URI.
+        /// </summary>
+        /// <value>
+        /// The 50x50 thumbnail URI.
+        /// </value>
+        public Uri Thumb50Uri { get; internal set; }
+
+        /// <summary>
         /// Gets the 100x100 thumbnail URI.
         /// </summary>
         /// <value>
@@ -59,17 +67,24 @@ namespace Nokia.Music.Phone.Types
         /// Extracts the thumbnails from JSON.
         /// </summary>
         /// <param name="thumbnailsToken">The thumbnails token.</param>
-        /// <param name="square100">The square100.</param>
-        /// <param name="square200">The square200.</param>
-        /// <param name="square320">The square320.</param>
-        protected static void ExtractThumbs(JToken thumbnailsToken, out Uri square100, out Uri square200, out Uri square320)
+        /// <param name="square50">The square50 uri.</param>
+        /// <param name="square100">The square100 uri.</param>
+        /// <param name="square200">The square200 uri.</param>
+        /// <param name="square320">The square320 uri.</param>
+        protected static void ExtractThumbs(JToken thumbnailsToken, out Uri square50, out Uri square100, out Uri square200, out Uri square320)
         {
+            square50 = null;
             square100 = null;
             square200 = null;
             square320 = null;
 
             if (thumbnailsToken != null)
             {
+                if (thumbnailsToken["50x50"] != null)
+                {
+                    square50 = new Uri(thumbnailsToken.Value<string>("50x50"));
+                }
+
                 if (thumbnailsToken["100x100"] != null)
                 {
                     square100 = new Uri(thumbnailsToken.Value<string>("100x100"));

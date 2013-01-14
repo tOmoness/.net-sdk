@@ -26,19 +26,16 @@ namespace Nokia.Music.Phone.Commands
         /// <param name="searchTerm">The search term.</param>
         /// <param name="genreId">The genre to filter the results by.</param>
         /// <param name="category">The category to filter the results by.</param>
+        /// <param name="location">The location to filter the results by.</param>
+        /// <param name="maxdistance">The max distance from the location to to filter the results by.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="converter">The object creation method to use</param>
         /// <param name="callback">The callback to use when the API call has completed</param>
-        protected void InternalSearch<T>(string searchTerm, string genreId, Category? category, int startIndex, int itemsPerPage, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
+        protected void InternalSearch<T>(string searchTerm, string genreId, Category? category, string location, string maxdistance, int startIndex, int itemsPerPage, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
         {
             // Build querystring parameters...
             Dictionary<string, string> parameters = new Dictionary<string, string>() { { PagingStartIndex, startIndex.ToString() }, { PagingItemsPerPage, itemsPerPage.ToString() } };
-
-            if (category != null && category.HasValue && category.Value != Category.Unknown)
-            {
-                parameters.Add(MusicClientCommand.ParamCategory, category.ToString().ToLowerInvariant());
-            }
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -48,6 +45,21 @@ namespace Nokia.Music.Phone.Commands
             if (!string.IsNullOrEmpty(genreId))
             {
                 parameters.Add(MusicClientCommand.ParamGenre, genreId);
+            }
+
+            if (category != null && category.HasValue && category.Value != Category.Unknown)
+            {
+                parameters.Add(MusicClientCommand.ParamCategory, category.ToString().ToLowerInvariant());
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                parameters.Add(MusicClientCommand.ParamLocation, location);
+            }
+
+            if (!string.IsNullOrEmpty(maxdistance))
+            {
+                parameters.Add(MusicClientCommand.ParamMaxDistance, maxdistance);
             }
 
             this.RequestHandler.SendRequestAsync(

@@ -21,8 +21,9 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="result">The result.</param>
-        internal Response(HttpStatusCode? statusCode, T result)
-            : this(statusCode, null, result)
+        /// /// <param name="requestId">The request id</param>
+        internal Response(HttpStatusCode? statusCode, T result, Guid requestId)
+            : this(statusCode, null, result, requestId)
         {
         }
 
@@ -32,11 +33,13 @@ namespace Nokia.Music.Phone
         /// <param name="statusCode">The status code.</param>
         /// <param name="contentType">The response Content Type.</param>
         /// <param name="result">The result.</param>
-        internal Response(HttpStatusCode? statusCode, string contentType, T result)
+        /// <param name="requestId">The request id</param>
+        internal Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId)
         {
             this.ContentType = contentType;
             this.StatusCode = statusCode;
             this.Result = result;
+            this.RequestId = requestId;
         }
 
         /// <summary>
@@ -44,10 +47,12 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="statusCode">The HTTP Status code</param>
         /// <param name="error">The error.</param>
-        internal Response(HttpStatusCode? statusCode, Exception error)
+        /// <param name="requestId">The request id.</param>
+        internal Response(HttpStatusCode? statusCode, Exception error, Guid requestId)
         {
             this.StatusCode = statusCode;
             this.Error = error;
+            this.RequestId = requestId;
         }
 
         /// <summary>
@@ -67,6 +72,11 @@ namespace Nokia.Music.Phone
         /// Gets or sets the HTTP Status code
         /// </summary>
         public HttpStatusCode? StatusCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of this request
+        /// </summary>
+        public Guid RequestId { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP Content Type

@@ -138,6 +138,11 @@ namespace Nokia.Music.Phone
         /// </value>
         internal IApiRequestHandler RequestHandler { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the base API uri
+        /// </summary>
+        internal string BaseApiUri { get; set; }
+
         #region IMusicClient Members
         /// <summary>
         /// Searches for an Artist
@@ -167,6 +172,26 @@ namespace Nokia.Music.Phone
             cmd.SearchTerm = searchTerm;
             cmd.ItemsPerPage = itemsPerPage;
             cmd.SuggestArtists = true;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets artists that originate around a specified location
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="latitude">The latitude to search around</param>
+        /// <param name="longitude">The longitude to search around</param>
+        /// <param name="maxdistance">The max distance (in KM) around the location to search</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetArtistsAroundLocation(Action<ListResponse<Artist>> callback, double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SearchArtistsCommand>();
+            cmd.Latitude = latitude;
+            cmd.Longitude = longitude;
+            cmd.MaxDistance = maxdistance;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
             cmd.Invoke(callback);
         }
 
@@ -419,7 +444,8 @@ namespace Nokia.Music.Phone
             return new TCommand
             {
                 MusicClientSettings = this,
-                RequestHandler = this.RequestHandler
+                RequestHandler = this.RequestHandler,
+                BaseApiUri = this.BaseApiUri
             };
         }
 

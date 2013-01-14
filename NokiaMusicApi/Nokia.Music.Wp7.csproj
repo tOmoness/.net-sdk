@@ -154,6 +154,7 @@
     <Compile Include="Types\Artist.cs" />
     <Compile Include="Types\Category.cs" />
     <Compile Include="Types\CategoryExtensions.cs" />
+    <Compile Include="Types\Location.cs" />
     <Compile Include="Types\MixGroup.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Price.cs" />

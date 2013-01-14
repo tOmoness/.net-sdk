@@ -52,9 +52,11 @@ namespace Nokia.Music.Phone.Tests.Types
             Assert.IsNotNull(fullArtist, "Expected an artist object");
             Assert.IsNotNull(fullArtist.Country, "Expected a country");
             Assert.IsNotNull(fullArtist.Genres, "Expected genres");
+            Assert.IsNotNull(fullArtist.Origin, "Expected an origin location");
             Assert.Greater(fullArtist.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(fullArtist.Id, "Expected an id");
             Assert.IsNotNull(fullArtist.Name, "Expected a name");
+            Assert.IsNotNull(fullArtist.Thumb50Uri, "Expected a 50x50 thumb");
             Assert.IsNotNull(fullArtist.Thumb100Uri, "Expected a 100x100 thumb");
             Assert.IsNotNull(fullArtist.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullArtist.Thumb320Uri, "Expected a 320x320 thumb");

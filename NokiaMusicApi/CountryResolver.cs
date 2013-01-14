@@ -106,18 +106,18 @@ namespace Nokia.Music.Phone
                                     JArray items = rawResult.Result.Value<JArray>("items");
                                     if (items != null && items.Count == 1)
                                     {
-                                        response = new Response<bool>(rawResult.StatusCode, true);
+                                        response = new Response<bool>(rawResult.StatusCode, true, RequestId);
                                     }
                                 }
 
                                 break;
 
                             case HttpStatusCode.NotFound:
-                                response = new Response<bool>(rawResult.StatusCode, false);
+                                response = new Response<bool>(rawResult.StatusCode, false, RequestId);
                                 break;
 
                             case HttpStatusCode.Forbidden:
-                                response = new Response<bool>(rawResult.StatusCode, new InvalidApiCredentialsException());
+                                response = new Response<bool>(rawResult.StatusCode, new InvalidApiCredentialsException(), RequestId);
                                 break;
                         }
                     }
@@ -125,7 +125,7 @@ namespace Nokia.Music.Phone
                     // If the API return an expected result, set an error...
                     if (response == null)
                     {
-                        response = new Response<bool>(rawResult.StatusCode, new ApiCallFailedException());
+                        response = new Response<bool>(rawResult.StatusCode, new ApiCallFailedException(), RequestId);
                     }
 
                     if (callback != null)
