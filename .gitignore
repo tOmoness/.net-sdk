@@ -16,3 +16,4 @@ Uploads
 /PackageForGithub/*.manifest
 /TestCoveragePrivate.xml
 /TestResultPrivate.xml
+/BandsAround/packages/*
