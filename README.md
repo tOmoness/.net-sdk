@@ -16,6 +16,7 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
 
 ##Releases
 
+- 1.0.5 - Added RequestTimeout property to client, fix for location search querystring formatting
 - 1.0.4 - Added Thumb50 property for Artist, Mix and Product types; Added location-based search
 - 1.0.3 - Added Search Suggestions for artists and products
 - 1.0.2 - Initial Release
