@@ -9,7 +9,7 @@ _ReSharper*/
 /TestResult.xml
 /TestCoverage.xml
 /TestCoverageReport*
-/Docs
+/Docs/*.shfbproj
 /Docs/Help
 StyleCop.Cache
 Uploads

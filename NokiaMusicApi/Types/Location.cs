@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace Nokia.Music.Phone.Types
 {
     /// <summary>
@@ -12,6 +14,8 @@ namespace Nokia.Music.Phone.Types
     /// </summary>
     public class Location
     {
+        internal const string LocationFormat = "{0:#0.00000},{1:#0.00000}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Location" /> class.
         /// </summary>
@@ -34,5 +38,14 @@ namespace Nokia.Music.Phone.Types
         /// The longitude.
         /// </value>
         public double Longitude { get; internal set; }
+
+        /// <summary>
+        /// Returns a string representation of the location object
+        /// </summary>
+        /// <returns>A string representation of the location object</returns>
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, LocationFormat, this.Latitude, this.Longitude);
+        }
     }
 }

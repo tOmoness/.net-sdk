@@ -94,6 +94,18 @@ namespace Nokia.Music.Phone
             }
         }
 
+        /// <summary>
+        /// Gets or sets the timeout duration for web requests.
+        /// </summary>
+        /// <value>
+        /// The timeout duration in milliseconds.
+        /// </value>
+        public static int RequestTimeout
+        {
+            get { return TimedRequest.RequestTimeout; }
+            set { TimedRequest.RequestTimeout = value; }
+        }
+
         #region IMusicClientSettings Members
 
         /// <summary>
@@ -187,8 +199,7 @@ namespace Nokia.Music.Phone
         public void GetArtistsAroundLocation(Action<ListResponse<Artist>> callback, double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
             var cmd = this.Create<SearchArtistsCommand>();
-            cmd.Latitude = latitude;
-            cmd.Longitude = longitude;
+            cmd.Location = new Location() { Latitude = latitude, Longitude = longitude };
             cmd.MaxDistance = maxdistance;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;

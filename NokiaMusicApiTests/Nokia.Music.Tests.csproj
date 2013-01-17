@@ -158,6 +158,9 @@
     <Compile Include="..\NokiaMusicApi\Internal\StreamExtensions.cs">
       <Link>Source\Internal\StreamExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\TimedRequest.cs">
+      <Link>Source\Internal\TimedRequest.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\ListResponse{T}.cs">
       <Link>Source\ListResponse{T}.cs</Link>
     </Compile>
@@ -261,6 +264,7 @@
     <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
     <Compile Include="Types\CategoryExtensionsTests.cs" />
+    <Compile Include="Types\LocationTests.cs" />
     <Compile Include="Types\MixGroupTests.cs" />
     <Compile Include="Types\ProductTests.cs" />
     <Compile Include="Types\MixTests.cs" />

@@ -130,6 +130,7 @@
     <Compile Include="Internal\IApiUriBuilder.cs" />
     <Compile Include="Internal\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
+    <Compile Include="Internal\TimedRequest.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="Commands\MixesCommand.cs" />
     <Compile Include="MusicClient.cs" />

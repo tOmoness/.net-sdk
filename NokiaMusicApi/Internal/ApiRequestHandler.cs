@@ -62,12 +62,18 @@ namespace Nokia.Music.Phone.Internal
             Uri uri = this.UriBuilder.BuildUri(method, settings, pathParams, querystringParams);
 
             Debug.WriteLine("Calling " + uri.ToString());
-            
-            WebRequest request = WebRequest.Create(uri);
-            this.AddRequestHeaders(request, requestHeaders);
+
+            TimedRequest request = new TimedRequest(uri);
+            this.AddRequestHeaders(request.WebRequest, requestHeaders);
             request.BeginGetResponse(
                 (IAsyncResult ar) =>
-                {
+                    {
+                    if (request.HasTimedOut)
+                    {
+                        return;
+                    }
+
+                    request.Dispose();
                     WebResponse response = null;
                     HttpWebResponse webResponse = null;
                     JObject json = null;
@@ -76,7 +82,7 @@ namespace Nokia.Music.Phone.Internal
 
                     try
                     {
-                        response = request.EndGetResponse(ar);
+                        response = request.WebRequest.EndGetResponse(ar);
                         webResponse = response as HttpWebResponse;
                         if (webResponse != null)
                         {
@@ -126,6 +132,7 @@ namespace Nokia.Music.Phone.Internal
                         callback(new Response<JObject>(statusCode, error, method.RequestId));
                     }
                 },
+                () => callback(new Response<JObject>(null, new ApiCallFailedException(), method.RequestId)),
                 request);
         }
 

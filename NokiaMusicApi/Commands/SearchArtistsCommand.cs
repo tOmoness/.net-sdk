@@ -22,20 +22,12 @@ namespace Nokia.Music.Phone.Commands
         public string SearchTerm { get; set; }
 
         /// <summary>
-        /// Gets or sets the latitude to search around.
+        /// Gets or sets the latitude and longitude to search around.
         /// </summary>
         /// <value>
         /// The location.
         /// </value>
-        public double Latitude { get; set; }
-
-        /// <summary>
-        /// Gets or sets the longitude to search around.
-        /// </summary>
-        /// <value>
-        /// The location.
-        /// </value>
-        public double Longitude { get; set; }
+        public Location Location { get; set; }
 
         /// <summary>
         /// Gets or sets the max distance to search around the location.
@@ -51,7 +43,7 @@ namespace Nokia.Music.Phone.Commands
         /// <exception cref="System.ArgumentNullException">SearchTerm;A searchTerm must be supplied</exception>
         protected override void Execute()
         {
-            if (string.IsNullOrEmpty(this.SearchTerm) && (this.Latitude == 0 || this.Longitude == 0))
+            if (string.IsNullOrEmpty(this.SearchTerm) && (this.Location == null || (this.Location.Latitude == 0 || this.Location.Longitude == 0)))
             {
                 throw new ArgumentNullException("SearchTerm", "A searchTerm or location must be supplied");
             }
@@ -59,9 +51,9 @@ namespace Nokia.Music.Phone.Commands
             string location = null;
             string maxdistance = null;
 
-            if (this.Latitude != 0 && this.Longitude != 0)
+            if (this.Location != null)
             {
-                location = string.Format("{0},{1}", this.Latitude, this.Longitude);
+                location = this.Location.ToString();
             }
 
             if (this.MaxDistance > 0)

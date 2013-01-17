@@ -22,6 +22,12 @@ namespace Nokia.Music.Phone.Tests
     [TestFixture]
     public class ApiRequestHandlerTests
     {
+        [SetUp]
+        public void ResetTimeout()
+        {
+            MusicClient.RequestTimeout = 60000;
+        }
+
         [Test]
         public void EnsureCallbackParameterChecked()
         {
@@ -221,6 +227,35 @@ namespace Nokia.Music.Phone.Tests
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
+            Assert.IsTrue(gotResult, "Expected a result flag");
+        }
+
+        [Test]
+        public void TimeoutResponseGivesNoStatusCode()
+        {
+            bool gotResult = false;
+            ManualResetEvent waiter = new ManualResetEvent(false);
+
+            MusicClient.RequestTimeout = 0;
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            handler.SendRequestAsync(
+                new CountryResolver("test", "test"),
+                new MockMusicClientSettings("test", "test", null),
+                null,
+                null,
+                (Response<JObject> result) =>
+                {
+                    Assert.IsNotNull(result, "Expected a result");
+                    Assert.IsNotNull(result.Error, "Expected an error, status code:" + result.StatusCode);
+                    Assert.IsNull(result.Result, "Expected no result object");
+                    Assert.IsNull(result.StatusCode, "Expected no status code");
+                    gotResult = true;
+                    waiter.Set();
+                });
+
+            // Wait for the response and parsing...
+            waiter.WaitOne(5000);
+            Assert.AreEqual(0, MusicClient.RequestTimeout, "Expected timeout to return same value that was set");
             Assert.IsTrue(gotResult, "Expected a result flag");
         }
 

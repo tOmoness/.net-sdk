@@ -67,7 +67,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>Bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
@@ -131,6 +131,7 @@
     <Compile Include="Internal\IMusicClientSettings.cs" />
     <Compile Include="Internal\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
+    <Compile Include="Internal\TimedRequest.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="MusicClient.cs" />
     <Compile Include="CountryResolver.cs" />
