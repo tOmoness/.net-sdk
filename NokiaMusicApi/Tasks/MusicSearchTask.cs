@@ -44,7 +44,7 @@ namespace Nokia.Music.Phone.Tasks
             {
                 string encodedSearch = Uri.EscapeDataString(this.SearchTerms);
                 this.Launch(
-                    new Uri("nokia-music://search/anything/?term=" + encodedSearch),
+                    new Uri("nokia-music://search/anything/?term=" + this._searchTerms),
                     new Uri("http://music.nokia.com/r/search/" + encodedSearch));
             }
             else

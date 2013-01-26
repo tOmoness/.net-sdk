@@ -19,6 +19,11 @@ namespace Nokia.Music.Phone.Commands
     internal sealed class MixGroupsCommand : MusicClientCommand<ListResponse<MixGroup>>
     {
         /// <summary>
+        ///   Gets or sets the mix group exclusive tag.
+        /// </summary>
+        public string ExclusiveTag { get; set; }
+
+        /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
@@ -33,15 +38,22 @@ namespace Nokia.Music.Phone.Commands
         /// </summary>
         protected override void Execute()
         {
+            Dictionary<string, string> qs = new Dictionary<string, string>
+            {
+                { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
+                { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
+            };
+
+            if (!string.IsNullOrEmpty(this.ExclusiveTag))
+            {
+                qs.Add(MusicClientCommand.ParamExclusive, this.ExclusiveTag);
+            }
+
             this.RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
                 null,
-                new Dictionary<string, string>
-                    {
-                        { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
-                        { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
-                    },
+                qs,
                 rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, MixGroup.FromJToken, this.Callback));
         }
     }

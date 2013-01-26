@@ -7,9 +7,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
+using Ionic.Zlib;
 using Newtonsoft.Json.Linq;
 
 namespace Nokia.Music.Phone.Internal
@@ -61,7 +61,7 @@ namespace Nokia.Music.Phone.Internal
 
             Uri uri = this.UriBuilder.BuildUri(method, settings, pathParams, querystringParams);
 
-            Debug.WriteLine("Calling " + uri.ToString());
+            DebugLogger.Instance.WriteLog("Calling {0}", uri.ToString());
 
             TimedRequest request = new TimedRequest(uri);
             this.AddRequestHeaders(request.WebRequest, requestHeaders);
@@ -105,35 +105,73 @@ namespace Nokia.Music.Phone.Internal
                     if (response != null)
                     {
                         contentType = response.ContentType;
-                        using (Stream responseStream = response.GetResponseStream())
+                        try
                         {
-                            result = responseStream.AsString();
-                            if (!string.IsNullOrEmpty(result))
+                            using (Stream responseStream = GetResponseStream(response))
                             {
-                                try
+                                result = responseStream.AsString();
+                                if (!string.IsNullOrEmpty(result))
                                 {
-                                    json = JObject.Parse(result);
-                                }
-                                catch (Exception ex)
-                                {
-                                    error = ex;
-                                    json = null;
+                                    json = JObject.Parse(result);            
                                 }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            error = ex;
+                            json = null;
+                        }
                     }
 
-                    if (json != null)
-                    {
-                        callback(new Response<JObject>(statusCode, contentType, json, method.RequestId));
-                    }
-                    else
-                    {
-                        callback(new Response<JObject>(statusCode, error, method.RequestId));
-                    }
+                    DoCallback(callback, json, statusCode, contentType, error, method.RequestId, uri);
                 },
-                () => callback(new Response<JObject>(null, new ApiCallFailedException(), method.RequestId)),
+                () => DoCallback(callback, null, null, null, new ApiCallFailedException(), method.RequestId, uri),
                 request);
+        }
+
+        /// <summary>
+        /// Logs the response and makes the callback
+        /// </summary>
+        /// <param name="callback">The callback method</param>
+        /// <param name="json">The json response</param>
+        /// <param name="statusCode">The response status code</param>
+        /// <param name="contentType">The response content type</param>
+        /// <param name="error">An error or null if successful</param>
+        /// <param name="requestId">The unique id of this request</param>
+        /// <param name="uri">The uri requested</param>
+        private static void DoCallback(
+                                       Action<Response<JObject>> callback,
+                                       JObject json,
+                                       HttpStatusCode? statusCode,
+                                       string contentType,
+                                       Exception error,
+                                       Guid requestId,
+                                       Uri uri)
+        {            
+            DebugLogger.Instance.WriteLog("{0} response from {1}", statusCode.HasValue ? statusCode.ToString() : "Timeout", uri.ToString());
+            if (json != null)
+            {
+                callback(new Response<JObject>(statusCode, contentType, json, requestId));
+            }
+            else
+            {
+                DebugLogger.Instance.WriteLog("Error:{0}", error);
+                callback(new Response<JObject>(statusCode, error, requestId));
+            }
+        }
+
+        private Stream GetResponseStream(WebResponse response)
+        {
+            bool gzipped = false;
+            if (response.ContentLength > 0 && response.Headers != null && response.Headers.Count > 0)
+            {
+                var headerEncoding = response.Headers["Content-Encoding"];
+                gzipped = headerEncoding != null && headerEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) > -1;
+            }
+
+            return gzipped
+                    ? new GZipStream(response.GetResponseStream(), CompressionMode.Decompress)
+                    : response.GetResponseStream();            
         }
 
         private void AddRequestHeaders(WebRequest request, Dictionary<string, string> requestHeaders)
@@ -144,6 +182,15 @@ namespace Nokia.Music.Phone.Internal
                 {
                     request.Headers[header.Key] = header.Value;
                 }
+            }
+
+            try
+            {
+                request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance.WriteLog("Failed to add gzip header {0}", ex);
             }
         }
     }

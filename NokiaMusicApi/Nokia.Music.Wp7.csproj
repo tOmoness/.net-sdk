@@ -101,6 +101,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows" />
   </ItemGroup>
@@ -110,6 +111,7 @@
     <Compile Include="Commands\SearchCatalogCommand.cs" />
     <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
+    <Compile Include="Converters\LocationConverter.cs" />
     <Compile Include="CountryResolver.cs" />
     <Compile Include="Exceptions\ApiCredentialsRequiredException.cs" />
     <Compile Include="Exceptions\ApiCallFailedException.cs" />
@@ -122,6 +124,20 @@
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />
     <Compile Include="Internal\ApiMethod.cs" />
+    <Compile Include="Internal\Compression\Crc32.cs" />
+    <Compile Include="Internal\Compression\Deflate.cs" />
+    <Compile Include="Internal\Compression\DeflateStream.cs" />
+    <Compile Include="Internal\Compression\FlushType.cs" />
+    <Compile Include="Internal\Compression\GZipStream.cs" />
+    <Compile Include="Internal\Compression\Inflate.cs" />
+    <Compile Include="Internal\Compression\InfTree.cs" />
+    <Compile Include="Internal\Compression\Tree.cs" />
+    <Compile Include="Internal\Compression\ZLib.cs" />
+    <Compile Include="Internal\Compression\ZlibBaseStream.cs" />
+    <Compile Include="Internal\Compression\ZLibCodec.cs" />
+    <Compile Include="Internal\Compression\ZLibConstants.cs" />
+    <Compile Include="Internal\Compression\ZLibStream.cs" />
+    <Compile Include="Internal\DebugLogger.cs" />
     <Compile Include="Internal\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
     <Compile Include="Internal\ApiRequestHandler.cs" />
@@ -156,6 +172,7 @@
     <Compile Include="Types\Category.cs" />
     <Compile Include="Types\CategoryExtensions.cs" />
     <Compile Include="Types\Location.cs" />
+    <Compile Include="Types\LocationExtensions.cs" />
     <Compile Include="Types\MixGroup.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Price.cs" />
@@ -166,6 +183,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />

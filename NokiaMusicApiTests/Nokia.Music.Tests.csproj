@@ -47,8 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -98,6 +100,9 @@
     <Compile Include="..\NokiaMusicApi\Commands\TopProductsCommand.cs">
       <Link>Source\Commands\TopProductsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Converters\LocationConverter.cs">
+      <Link>Source\Converters\LocationConverter.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\CountryResolver.cs">
       <Link>Source\CountryResolver.cs</Link>
     </Compile>
@@ -139,6 +144,48 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\ApiUriBuilder.cs">
       <Link>Source\Internal\ApiUriBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\Crc32.cs">
+      <Link>Source\Internal\Compression\Crc32.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\Deflate.cs">
+      <Link>Source\Internal\Compression\Deflate.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\DeflateStream.cs">
+      <Link>Source\Internal\Compression\DeflateStream.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\FlushType.cs">
+      <Link>Source\Internal\Compression\FlushType.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\GZipStream.cs">
+      <Link>Source\Internal\Compression\GZipStream.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\Inflate.cs">
+      <Link>Source\Internal\Compression\Inflate.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\InfTree.cs">
+      <Link>Source\Internal\Compression\InfTree.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\Tree.cs">
+      <Link>Source\Internal\Compression\Tree.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLib.cs">
+      <Link>Source\Internal\Compression\ZLib.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZlibBaseStream.cs">
+      <Link>Source\Internal\Compression\ZlibBaseStream.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibCodec.cs">
+      <Link>Source\Internal\Compression\ZLibCodec.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibConstants.cs">
+      <Link>Source\Internal\Compression\ZLibConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibStream.cs">
+      <Link>Source\Internal\Compression\ZLibStream.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\DebugLogger.cs">
+      <Link>Source\Internal\DebugLogger.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\IApiRequestHandler.cs">
       <Link>Source\Internal\IApiRequestHandler.cs</Link>
@@ -212,6 +259,9 @@
     <Compile Include="..\NokiaMusicApi\Types\Location.cs">
       <Link>Source\Types\Location.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\LocationExtensions.cs">
+      <Link>Source\Types\LocationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Mix.cs">
       <Link>Source\Types\Mix.cs</Link>
     </Compile>
@@ -227,6 +277,7 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="SearchArtistByLocationTests.cs" />
     <Compile Include="SearchSuggestionsTests.cs" />
     <Compile Include="Internal\FakeResponse.cs" />
@@ -301,6 +352,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(SolutionDir)

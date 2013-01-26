@@ -19,7 +19,12 @@ namespace Nokia.Music.Phone.Commands
     internal sealed class MixesCommand : MusicClientCommand<ListResponse<Mix>>
     {
         private const string ArrayNameRadioStations = "radiostations";
-        
+
+        /// <summary>
+        ///   Gets or sets the mix group exclusive tag.
+        /// </summary>
+        public string ExclusiveTag { get; set; }
+
         /// <summary>
         ///   Gets or sets the mix group id.
         /// </summary>
@@ -52,6 +57,17 @@ namespace Nokia.Music.Phone.Commands
                 throw new ArgumentNullException("MixGroupId", "A group id must be supplied");
             }
 
+            Dictionary<string, string> qs = new Dictionary<string, string>
+            {
+                { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
+                { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
+            };
+
+            if (!string.IsNullOrEmpty(this.ExclusiveTag))
+            {
+                qs.Add(MusicClientCommand.ParamExclusive, this.ExclusiveTag);
+            }
+
             RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
@@ -59,11 +75,7 @@ namespace Nokia.Music.Phone.Commands
                     {
                         { ParamId, this.MixGroupId }
                     },
-                new Dictionary<string, string>
-                    {
-                        { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
-                        { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
-                    },
+                qs,
                 rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback));
         }
     }

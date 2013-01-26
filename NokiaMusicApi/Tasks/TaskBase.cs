@@ -32,7 +32,7 @@ namespace Nokia.Music.Phone.Tasks
 #if WP8
             if (string.Equals(DeviceStatus.DeviceManufacturer, "NOKIA", StringComparison.OrdinalIgnoreCase))
             {
-                Debug.WriteLine("Launching Nokia Music App with " + appToAppUri.ToString());
+                DebugLogger.Instance.WriteLog("Launching Nokia Music App with " + appToAppUri.ToString());
 #pragma warning disable 4014  // Disable as we're launching the app - we don't want to wait
                 Windows.System.Launcher.LaunchUriAsync(appToAppUri);
 #pragma warning restore 4014  // CS4014
@@ -41,7 +41,7 @@ namespace Nokia.Music.Phone.Tasks
 #endif
 #if WINDOWS_PHONE
             WebBrowserTask web = new WebBrowserTask();
-            Debug.WriteLine("Launching Nokia Music Web with " + webFallbackUri.ToString());
+            DebugLogger.Instance.WriteLog("Launching Nokia Music Web with " + webFallbackUri.ToString());
             web.Uri = webFallbackUri;
             web.Show();
 #endif

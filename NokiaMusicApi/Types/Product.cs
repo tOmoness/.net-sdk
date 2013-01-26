@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tasks;
 
 namespace Nokia.Music.Phone.Types

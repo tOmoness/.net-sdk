@@ -93,7 +93,7 @@ namespace Nokia.Music.Phone.Commands
                             rawResult.ContentType != null &&
                             rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
                         {
-                            List<T> results = this.JsonProcessor.ParseList(rawResult, itemsName, converter);
+                            List<T> results = this.JsonProcessor.ParseList(rawResult.Result, itemsName, converter);
                             int? totalResults = null;
                             int? startIndex = null;
                             int? itemsPerPage = null;

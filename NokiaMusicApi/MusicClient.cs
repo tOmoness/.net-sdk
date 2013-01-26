@@ -405,7 +405,20 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetMixGroups(Action<ListResponse<MixGroup>> callback, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
+            this.GetMixGroups(callback, null, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets the Mix Groups available
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="exclusiveTag">The exclusive tag</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetMixGroups(Action<ListResponse<MixGroup>> callback, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
             var cmd = this.Create<MixGroupsCommand>();
+            cmd.ExclusiveTag = exclusiveTag;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
             cmd.Invoke(callback);
@@ -420,8 +433,22 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetMixes(Action<ListResponse<Mix>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
+            this.GetMixes(callback, id, null, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="id">The mix group id.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetMixes(Action<ListResponse<Mix>> callback, string id, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
             var cmd = this.Create<MixesCommand>();
             cmd.MixGroupId = id;
+            cmd.ExclusiveTag = exclusiveTag;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
             cmd.Invoke(callback);
@@ -436,12 +463,26 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetMixes(Action<ListResponse<Mix>> callback, MixGroup group, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
+            this.GetMixes(callback, group, null, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="group">The mix group.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <exception cref="System.ArgumentNullException">group;group cannot be null</exception>
+        public void GetMixes(Action<ListResponse<Mix>> callback, MixGroup group, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
             if (group == null)
             {
                 throw new ArgumentNullException("group", "group cannot be null");
             }
 
-            this.GetMixes(callback, group.Id, startIndex, itemsPerPage);
+            this.GetMixes(callback, group.Id, exclusiveTag, startIndex, itemsPerPage);
         }
         #endregion
 

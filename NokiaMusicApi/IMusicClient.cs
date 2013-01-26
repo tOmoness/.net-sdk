@@ -160,6 +160,15 @@ namespace Nokia.Music.Phone
         void GetMixGroups(Action<ListResponse<MixGroup>> callback, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
 
         /// <summary>
+        /// Gets the Mix Groups available
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="exclusiveTag">The exclusive tag</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetMixGroups(Action<ListResponse<MixGroup>> callback, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="callback">The callback to use when the API call has completed</param>
@@ -167,6 +176,26 @@ namespace Nokia.Music.Phone
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         void GetMixes(Action<ListResponse<Mix>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="id">The mix group id.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetMixes(Action<ListResponse<Mix>> callback, string id, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="group">The mix group.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetMixes(Action<ListResponse<Mix>> callback, MixGroup group, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
 
         /// <summary>
         /// Gets the Mixes available in a group

@@ -24,6 +24,6 @@ namespace Nokia.Music.Phone.Internal
         /// <param name="listName">The name of the list if appropriate eg. "items"</param>
         /// <param name="converter">A delegate that can parse each object of type T</param>
         /// <returns>A list of type T</returns>
-        List<T> ParseList<T>(Response<JObject> rawJson, string listName, MusicClientCommand.JTokenConversionDelegate<T> converter);
+        List<T> ParseList<T>(JToken rawJson, string listName, MusicClientCommand.JTokenConversionDelegate<T> converter);
     }
 }

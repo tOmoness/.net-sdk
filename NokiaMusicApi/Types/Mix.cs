@@ -32,6 +32,14 @@ namespace Nokia.Music.Phone.Types
         public bool ParentalAdvisory { get; internal set; }
 
         /// <summary>
+        /// Gets the track count.
+        /// </summary>
+        /// <value>
+        /// The track count.
+        /// </value>
+        public int TrackCount { get; internal set; }
+
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -96,6 +104,7 @@ namespace Nokia.Music.Phone.Types
             {
                 Id = item.Value<string>("id"),
                 Name = item.Value<string>("name"),
+                TrackCount = item.Value<int>("numbertracks"),
                 ParentalAdvisory = parentalAdvisory,
                 Thumb50Uri = square50,
                 Thumb100Uri = square100,

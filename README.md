@@ -12,10 +12,10 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
 
  - Install with [NuGet](http://nuget.org) - search for **nokiamusic** or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
  ![Package Manager](http://api.ent.nokia.com/assets/nuget.png)
- - Download the latest binaries from the [Downloads](https://github.com/nokia-entertainment/wp-api-client/downloads) section
-
+ 
 ##Releases
 
+- 1.0.6 - Fixed MusicSearchTask bug where searching artists with spaces did not work, added LocationConverter for working with Maps control, added exclusiveTag for exclusive mixes
 - 1.0.5 - Added RequestTimeout property to client, fix for location search querystring formatting
 - 1.0.4 - Added Thumb50 property for Artist, Mix and Product types; Added location-based search
 - 1.0.3 - Added Search Suggestions for artists and products

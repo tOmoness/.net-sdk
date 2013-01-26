@@ -4,6 +4,7 @@
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Device.Location;
 using System.Globalization;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
@@ -32,6 +33,15 @@ namespace Nokia.Music.Phone.Tests.Types
         {
             Location location = new Location() { Latitude = TestLatitude, Longitude = TestLongitude };
             Assert.AreEqual(string.Format(CultureInfo.InvariantCulture, Location.LocationFormat, location.Latitude, location.Longitude), location.ToString(), "Expected format to be the same");
+        }
+
+        [Test]
+        public void TestConversion()
+        {
+            Location location = new Location() { Latitude = TestLatitude, Longitude = TestLongitude };
+            GeoCoordinate coord = location.ToGeoCoordinate();
+            Assert.AreEqual(location.Latitude, coord.Latitude, "Expected same Latitude");
+            Assert.AreEqual(location.Longitude, coord.Longitude, "Expected same Longitude");
         }
     }
 }
