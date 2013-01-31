@@ -7,6 +7,7 @@
 
 using System;
 using System.Net;
+using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using NUnit.Framework;
@@ -30,6 +31,20 @@ namespace Nokia.Music.Phone.Tests
         {
             ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
             client.CheckAvailability(null, "gb");
+        }
+
+        [Test]
+        public void ApiMethodsDefaultToGetHttpMethod()
+        {
+            var resolver = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            Assert.AreEqual(HttpMethod.Get, resolver.HttpMethod);
+        }
+
+        [Test]
+        public void ApiMethodsDefaultToNullContentType()
+        {
+            var resolver = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            Assert.IsNull(resolver.ContentType);
         }
 
         [Test]

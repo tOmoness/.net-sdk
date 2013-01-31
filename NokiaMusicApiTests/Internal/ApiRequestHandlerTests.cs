@@ -23,9 +23,10 @@ namespace Nokia.Music.Phone.Tests
     public class ApiRequestHandlerTests
     {
         [SetUp]
-        public void ResetTimeout()
+        public void ResetDefaults()
         {
             MusicClient.RequestTimeout = 60000;
+            MusicClient.GzipEnabled = true;
         }
 
         [Test]
@@ -231,6 +232,33 @@ namespace Nokia.Music.Phone.Tests
         }
 
         [Test]
+        public void AttemptToGetStatusCodeFromRealPost()
+        {
+            bool gotResult = false;
+            ManualResetEvent waiter = new ManualResetEvent(false);
+
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            handler.SendRequestAsync(
+                new MockApiMethod(),
+                new MockMusicClientSettings("test", "test", null),
+                null,
+                null,
+                (Response<JObject> result) =>
+                {
+                    Assert.IsNotNull(result, "Expected a result");
+                    Assert.IsNotNull(result.Error, "Expected an error");
+                    Assert.IsNull(result.Result, "Expected no result object");
+                    Assert.IsNotNull(result.StatusCode, "Expected a status code - this test can fail when you run tests with no internet connection!");
+                    gotResult = true;
+                    waiter.Set();
+                });
+
+            // Wait for the response and parsing...
+            waiter.WaitOne(5000);
+            Assert.IsTrue(gotResult, "Expected a result flag");
+        }
+
+        [Test]
         public void TimeoutResponseGivesNoStatusCode()
         {
             bool gotResult = false;
@@ -256,6 +284,32 @@ namespace Nokia.Music.Phone.Tests
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
             Assert.AreEqual(0, MusicClient.RequestTimeout, "Expected timeout to return same value that was set");
+            Assert.IsTrue(gotResult, "Expected a result flag");
+        }
+
+        [Test]
+        public void UseGzipOnClientSetsGzipHeadersCorrectly()
+        {
+            bool gotResult = false;
+            ManualResetEvent waiter = new ManualResetEvent(false);
+            Response<JObject> responseResult;
+            MusicClient.GzipEnabled = true;
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            handler.SendRequestAsync(
+                new CountryResolver("test", "test"),
+                new MockMusicClientSettings("test", "test", null),
+                null,
+                null,
+                (Response<JObject> result) =>
+                {
+                    responseResult = result;
+                    gotResult = true;
+                    waiter.Set();
+                });
+
+            // Wait for the response and parsing...
+            waiter.WaitOne(5000);
+            Assert.AreEqual(true, MusicClient.GzipEnabled, "Expected GzipEnabled to return same value that was set");
             Assert.IsTrue(gotResult, "Expected a result flag");
         }
 

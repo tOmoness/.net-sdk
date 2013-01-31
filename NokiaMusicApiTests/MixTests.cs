@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
@@ -148,6 +149,35 @@ namespace Nokia.Music.Phone.Tests
 
             result = await client.GetMixes(new MixGroup() { Id = "test" });
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
+
+        [Test]
+        public void EnsureExclusiveMixesRequestsSendExclusiveTag()
+        {
+            var exclusiveTag1 = "thisIsTheFirstExclusiveTag";
+            var exclusiveTag2 = "thisIsTheSecondExclusiveTag";
+            var handler = new MockApiRequestHandler(Resources.mixes);
+
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
+            var task = client.GetMixes("test", exclusiveTag1);
+            Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
+            Assert.AreEqual(exclusiveTag1, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
+
+            task = client.GetMixes(new MixGroup() { Id = "testId" }, exclusiveTag2);
+            Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
+            Assert.AreEqual(exclusiveTag2, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
+        }
+
+        [Test]
+        public void EnsureExclusiveMixGroupRequestsSendExclusiveTag()
+        {
+            var exclusiveTag = "thisIsTheExclusiveTag";
+            var handler = new MockApiRequestHandler(Resources.mixgroups);
+
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
+            var groupsTask = client.GetMixGroups(exclusiveTag);
+            Assert.Greater(groupsTask.Result.Result.Count, 0, "Expected more than 0 results");
+            Assert.AreEqual(exclusiveTag, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
         }
     }
 }

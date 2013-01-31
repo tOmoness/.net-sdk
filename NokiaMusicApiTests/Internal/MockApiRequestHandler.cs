@@ -22,6 +22,8 @@ namespace Nokia.Music.Phone.Tests
 
         private IMusicClientSettings _lastSettings;
 
+        private Dictionary<string, string> _queryStringParams;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MockApiRequestHandler" /> class.
         /// </summary>
@@ -60,6 +62,14 @@ namespace Nokia.Music.Phone.Tests
         }
 
         /// <summary>
+        /// Gets the Query string params that were passed with the last request
+        /// </summary>
+        public Dictionary<string, string> LastQueryStringParams
+        {
+            get { return this._queryStringParams; }
+        }
+
+        /// <summary>
         /// Gets the music client settings that were passed with the last request
         /// </summary>
         public IMusicClientSettings LastUsedSettings
@@ -85,6 +95,7 @@ namespace Nokia.Music.Phone.Tests
                                      Dictionary<string, string> requestHeaders = null)
         {
             this._lastSettings = settings;
+            this._queryStringParams = querystringParams;
             this.NextFakeResponse.DoCallback(callback);
         }
     }

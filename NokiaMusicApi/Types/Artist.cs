@@ -15,7 +15,7 @@ namespace Nokia.Music.Phone.Types
     /// <summary>
     /// Represents a Nokia Music Artist
     /// </summary>
-    public class Artist : MusicItem
+    public partial class Artist : MusicItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
@@ -104,22 +104,74 @@ namespace Nokia.Music.Phone.Types
         /// <returns>An Artist object</returns>
         internal static Artist FromJToken(JToken item)
         {
+            // Extract thumbnails...
+            Uri square50 = null;
+            Uri square100 = null;
+            Uri square200 = null;
+            Uri square320 = null;
+
+            MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
+
+            return new Artist()
+                {
+                    Id = item.Value<string>("id"),
+                    Name = item.Value<string>("name"),
+                    Country = GetCountry(item),
+                    Genres = GetGenres(item),
+                    Origin = GetOrigin(item),
+                    Thumb50Uri = square50,
+                    Thumb100Uri = square100,
+                    Thumb200Uri = square200,
+                    Thumb320Uri = square320
+                };
+        }
+
+        private static Location GetOrigin(JToken item)
+        {
+            Location origin = null;
+            JToken originToken = item["origin"];
+
+            if (originToken != null)
+            {
+                JToken location = originToken["location"];
+                if (location != null)
+                {
+                    origin = new Location()
+                    {
+                        Latitude = location.Value<double>("lat"),
+                        Longitude = location.Value<double>("lng")
+                    };
+                }
+            }
+
+            return origin;
+        }
+
+        private static Genre[] GetGenres(JToken item)
+        {
             // Extract genres...
             Genre[] genres = null;
             JArray jsonGenres = item.Value<JArray>("genres");
+
             if (jsonGenres != null)
             {
-                List<Genre> list = new List<Genre>();
+                var list = new List<Genre>();
                 foreach (JToken jsonGenre in jsonGenres)
                 {
-                    list.Add((Genre)Genre.FromJToken(jsonGenre));
+                    list.Add(Genre.FromJToken(jsonGenre));
                 }
 
                 genres = list.ToArray();
             }
 
+            return genres;
+        }
+
+        private static string GetCountry(JToken item)
+        {
             string country = null;
             JToken countryToken = item["country"];
+
             if (countryToken != null)
             {
                 string countryId = countryToken.Value<string>("id");
@@ -131,38 +183,7 @@ namespace Nokia.Music.Phone.Types
                 }
             }
 
-            Location origin = null;
-            JToken originToken = item["origin"];
-            if (originToken != null)
-            {
-                JToken location = originToken["location"];
-                if (location != null)
-                {
-                    origin = new Location() { Latitude = location.Value<double>("lat"), Longitude = location.Value<double>("lng") };
-                }
-            }
-
-            // Extract thumbnails...
-            Uri square50 = null;
-            Uri square100 = null;
-            Uri square200 = null;
-            Uri square320 = null;
-
-            MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
-
-            // Create the resulting Artist object...
-            return new Artist()
-                {
-                    Id = item.Value<string>("id"),
-                    Name = item.Value<string>("name"),
-                    Country = country,
-                    Genres = genres,
-                    Origin = origin,
-                    Thumb50Uri = square50,
-                    Thumb100Uri = square100,
-                    Thumb200Uri = square200,
-                    Thumb320Uri = square320
-                };
+            return country;
         }
     }
 }

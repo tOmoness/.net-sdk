@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using Ionic.Zlib;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +20,8 @@ namespace Nokia.Music.Phone.Internal
     /// </summary>
     internal class ApiRequestHandler : IApiRequestHandler
     {
+        private static bool _gzipEnabled = true;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestHandler" /> class.
         /// </summary>
@@ -26,6 +29,18 @@ namespace Nokia.Music.Phone.Internal
         public ApiRequestHandler(IApiUriBuilder uriBuilder)
         {
             this.UriBuilder = uriBuilder;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the request should use gzip or not.
+        /// </summary>
+        /// <value>
+        ///   <c>True</c> if the request should use gzip; otherwise, <c>false</c>.
+        /// </value>
+        public static bool GzipEnabled
+        {
+            get { return _gzipEnabled; }
+            set { _gzipEnabled = value; }
         }
 
         /// <summary>
@@ -60,14 +75,13 @@ namespace Nokia.Music.Phone.Internal
             }
 
             Uri uri = this.UriBuilder.BuildUri(method, settings, pathParams, querystringParams);
-
             DebugLogger.Instance.WriteLog("Calling {0}", uri.ToString());
 
             TimedRequest request = new TimedRequest(uri);
             this.AddRequestHeaders(request.WebRequest, requestHeaders);
-            request.BeginGetResponse(
+            this.TryBuildRequestBody(
                 (IAsyncResult ar) =>
-                    {
+                {
                     if (request.HasTimedOut)
                     {
                         return;
@@ -112,7 +126,7 @@ namespace Nokia.Music.Phone.Internal
                                 result = responseStream.AsString();
                                 if (!string.IsNullOrEmpty(result))
                                 {
-                                    json = JObject.Parse(result);            
+                                    json = JObject.Parse(result);
                                 }
                             }
                         }
@@ -126,7 +140,8 @@ namespace Nokia.Music.Phone.Internal
                     DoCallback(callback, json, statusCode, contentType, error, method.RequestId, uri);
                 },
                 () => DoCallback(callback, null, null, null, new ApiCallFailedException(), method.RequestId, uri),
-                request);
+                request,
+                method);
         }
 
         /// <summary>
@@ -160,6 +175,44 @@ namespace Nokia.Music.Phone.Internal
             }
         }
 
+        private void TryBuildRequestBody(AsyncCallback requestSuccessCallback, Action requestTimeoutCallback, TimedRequest request, ApiMethod apiMethod)
+        {
+            var requestBody = apiMethod.BuildRequestBody();
+            if (requestBody != null)
+            {
+                var requestState = new RequestState(request, requestBody, requestSuccessCallback, requestTimeoutCallback);
+                request.WebRequest.ContentType = apiMethod.ContentType;
+                request.WebRequest.Method = apiMethod.HttpMethod.ToString().ToUpperInvariant();
+                request.WebRequest.BeginGetRequestStream(this.RequestStreamCallback, requestState);
+            }
+            else
+            {
+                // No request body, just make the request immediately
+                request.BeginGetResponse(requestSuccessCallback, requestTimeoutCallback, request);
+            }
+        }
+
+        /// <summary>
+        /// Writes request data to the request stream
+        /// </summary>
+        /// <param name="ar">The async response</param>
+        private void RequestStreamCallback(IAsyncResult ar)
+        {
+            var requestState = (RequestState)ar.AsyncState;
+            Stream streamResponse = requestState.TimedRequest.WebRequest.EndGetRequestStream(ar);
+            byte[] byteArray = Encoding.UTF8.GetBytes(requestState.RequestBody);
+            streamResponse.Write(byteArray, 0, requestState.RequestBody.Length);
+            streamResponse.Dispose();
+
+            TimedRequest request = requestState.TimedRequest;
+            request.BeginGetResponse(requestState.SuccessCallback, requestState.TimeoutCallback, request);
+        }
+
+        /// <summary>
+        /// Determines whether response is gzipped and decodes if necessary
+        /// </summary>
+        /// <param name="response">The web response</param>
+        /// <returns>The response stream</returns>
         private Stream GetResponseStream(WebResponse response)
         {
             bool gzipped = false;
@@ -186,12 +239,34 @@ namespace Nokia.Music.Phone.Internal
 
             try
             {
-                request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
+                if (GzipEnabled)
+                {
+                    request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";   
+                }
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance.WriteLog("Failed to add gzip header {0}", ex);
             }
+        }
+
+        private class RequestState
+        {
+            internal RequestState(TimedRequest request, string requestBody, AsyncCallback successCallback, Action timeoutCallback)
+            {
+                this.TimedRequest = request;
+                this.RequestBody = requestBody;
+                this.SuccessCallback = successCallback;
+                this.TimeoutCallback = timeoutCallback;
+            }
+
+            internal TimedRequest TimedRequest { get; private set; }
+
+            internal string RequestBody { get; private set; }
+
+            internal AsyncCallback SuccessCallback { get; private set; }
+
+            internal Action TimeoutCallback { get; private set; }
         }
     }
 }

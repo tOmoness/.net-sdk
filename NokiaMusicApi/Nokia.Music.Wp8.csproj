@@ -142,6 +142,7 @@
     <Compile Include="Internal\Compression\ZLibConstants.cs" />
     <Compile Include="Internal\Compression\ZLibStream.cs" />
     <Compile Include="Internal\DebugLogger.cs" />
+    <Compile Include="Internal\HttpMethod.cs" />
     <Compile Include="Internal\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
     <Compile Include="Internal\NamedItemListJsonProcessor.cs" />

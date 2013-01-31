@@ -57,6 +57,31 @@ namespace Nokia.Music.Phone.Internal
         }
 
         /// <summary>
+        /// Gets the HTTP method used for this request. GET by default
+        /// </summary>
+        internal virtual HttpMethod HttpMethod
+        {
+            get { return HttpMethod.Get; }
+        }
+
+        /// <summary>
+        /// Gets the content type for this request
+        /// </summary>
+        internal virtual string ContentType
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Allows an API method to supply data to be sent in the body of a request
+        /// </summary>
+        /// <returns>The request data - Null by default, override to supply data for an API method</returns>
+        internal virtual string BuildRequestBody()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
         /// By default, no path is added, override this to add a uri subpath for a method
         /// </summary>

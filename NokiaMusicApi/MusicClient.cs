@@ -106,6 +106,19 @@ namespace Nokia.Music.Phone
             set { TimedRequest.RequestTimeout = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the client should use gzip to make a request.
+        /// By default, gzip is enabled
+        /// </summary>
+        /// <value>
+        ///   <c>True</c> if the client should use gzip; otherwise, <c>false</c>.
+        /// </value>
+        public static bool GzipEnabled
+        {
+            get { return ApiRequestHandler.GzipEnabled; }
+            set { ApiRequestHandler.GzipEnabled = value; }
+        }
+
         #region IMusicClientSettings Members
 
         /// <summary>
@@ -484,6 +497,7 @@ namespace Nokia.Music.Phone
 
             this.GetMixes(callback, group.Id, exclusiveTag, startIndex, itemsPerPage);
         }
+
         #endregion
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Nokia.Music.Phone.Types
     /// <summary>
     /// Represents a Nokia Music Product, i.e. Album, Single or Track
     /// </summary>
-    public sealed class Product : MusicItem
+    public sealed partial class Product : MusicItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Product" /> class.
