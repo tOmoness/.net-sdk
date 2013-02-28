@@ -13,6 +13,45 @@
             ],
             "name": "Introduce Yourself",
             "trackcount": 10,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 7.99,
@@ -48,6 +87,45 @@
             ],
             "name": "The Very Best Definitive Ultimate Greatest Hits Collection (Digital)",
             "trackcount": 28,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 4.99,
@@ -83,6 +161,45 @@
             ],
             "name": "Angel Dust",
             "trackcount": 14,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 7.99,
@@ -121,6 +238,45 @@
                 "name": "Rock Anthems",
                 "id": "13686584"
             },
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 0.99,
@@ -160,6 +316,45 @@
             ],
             "name": "The Real Thing",
             "trackcount": 11,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 7.99,
@@ -198,6 +393,45 @@
                 "name": "The Very Best Definitive Ultimate Greatest Hits Collection (Digital)",
                 "id": "5081453"
             },
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 0.99,
@@ -237,6 +471,45 @@
             ],
             "name": "Live At The Brixton Academy",
             "trackcount": 10,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 7.99,
@@ -272,6 +545,45 @@
             ],
             "name": "This Is It: The Best of Faith No More",
             "trackcount": 19,
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 7.99,
@@ -310,6 +622,45 @@
                 "name": "The Very Best Definitive Ultimate Greatest Hits Collection (Digital)",
                 "id": "5081453"
             },
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 0.99,
@@ -352,6 +703,45 @@
                 "name": "The Very Best Definitive Ultimate Greatest Hits Collection (Digital)",
                 "id": "5081453"
             },
+			"tracks": [
+    {
+      "category": {
+        "id": "Track",
+        "name": "Track"
+      },
+      "duration": 244,
+      "genres": [
+        {
+          "id": "Pop",
+          "name": "Pop"
+        }
+      ],
+      "name": "All Around The World",
+      "sequence": 1,
+      "takenfrom": {
+        "name": "Believe (Deluxe Edition)",
+        "id": "30006519"
+      },
+      "prices": {
+        "permanentdownload": {
+          "value": 1.29,
+          "currency": "USD"
+        }
+      },
+      "thumbnails": {
+        "50x50": "http://4.musicimg.ovi.com/u/1.0/image/249954787/?w=50&q=40",
+      },
+      "creators": {
+        "performers": [
+          {
+            "name": "Justin Bieber",
+            "id": "1213944"
+          }
+        ]
+      },
+      "id": "30006521",
+      "type": "musictrack"
+    }],
             "prices": {
                 "permanentdownload": {
                     "value": 0.79,

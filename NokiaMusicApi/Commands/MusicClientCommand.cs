@@ -7,17 +7,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Text;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 
 namespace Nokia.Music.Phone.Commands
 {
     /// <summary>
     /// Defines the Music Client Command base class
     /// </summary>
-    internal abstract class MusicClientCommand : ApiMethod
+    internal abstract class MusicClientCommand
     {
         internal const string ArrayNameItems = "items";
         internal const string ParamId = "id";
@@ -30,6 +31,9 @@ namespace Nokia.Music.Phone.Commands
         internal const string PagingStartIndex = "startindex";
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";
+
+        private string _baseApiUri = "http://api.ent.nokia.com/1.x/";
+        private Guid _requestId = Guid.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MusicClientCommand" /> class.
@@ -61,6 +65,87 @@ namespace Nokia.Music.Phone.Commands
         /// The request handler.
         /// </value>
         internal IApiRequestHandler RequestHandler { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the API method requires a country code to be specified.
+        /// API methods require a country code by default. Override this method for calls that do not.
+        /// </summary>
+        internal virtual bool RequiresCountryCode
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets or sets the base uri for Api requests
+        /// </summary>
+        internal virtual string BaseApiUri
+        {
+            get
+            {
+                return this._baseApiUri;
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this._baseApiUri = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets an id representing this request.
+        /// </summary>
+        internal Guid RequestId
+        {
+            get { return this._requestId; }
+            set { this._requestId = value; }
+        }
+
+        /// <summary>
+        /// Gets the HTTP method used for this request. GET by default
+        /// </summary>
+        internal virtual HttpMethod HttpMethod
+        {
+            get { return HttpMethod.Get; }
+        }
+
+        /// <summary>
+        /// Gets the content type for this request
+        /// </summary>
+        internal virtual string ContentType
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Allows an API method to supply data to be sent in the body of a request
+        /// </summary>
+        /// <returns>The request data - Null by default, override to supply data for an API method</returns>
+        internal virtual string BuildRequestBody()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Appends the uri subpath and parameters specific to this API method
+        /// By default, no path is added, override this to add a uri subpath for a method
+        /// </summary>
+        /// <param name="uri">The base uri</param>
+        internal virtual void AppendUriPath(StringBuilder uri)
+        {
+            // Nothing to do by default
+        }
+
+        /// <summary>
+        /// In special cases, allows a command to use any additional information about the response
+        /// </summary>
+        /// <param name="responseInfo">The web response info</param>
+        internal virtual void SetAdditionalResponseInfo(ResponseInfo responseInfo)
+        {
+            // Does nothing by default
+        }
 
         /// <summary>
         /// Executes the command

@@ -8,7 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
 
 namespace Nokia.Music.Phone.Tests
 {
@@ -31,14 +33,13 @@ namespace Nokia.Music.Phone.Tests
         /// <summary>
         /// Builds an API URI
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <param name="command">The method to call.</param>
         /// <param name="settings">The music client settings.</param>
-        /// <param name="pathParams">The path parameters.</param>
         /// <param name="querystringParams">The querystring parameters.</param>
         /// <returns>
         /// A Uri to call
         /// </returns>
-        public Uri BuildUri(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
+        public Uri BuildUri(MusicClientCommand command, IMusicClientSettings settings, List<KeyValuePair<string, string>> querystringParams)
         {
             return this._uri;
         }

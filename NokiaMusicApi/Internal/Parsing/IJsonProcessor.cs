@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Commands;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Parsing
 {
     /// <summary>
     /// Provides a common interface for parsing different kinds of lists

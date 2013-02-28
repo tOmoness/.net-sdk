@@ -7,8 +7,10 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using System.Globalization;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -35,42 +37,42 @@ namespace Nokia.Music.Phone.Commands
         protected void InternalSearch<T>(string searchTerm, string genreId, Category? category, string location, string maxdistance, int startIndex, int itemsPerPage, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
         {
             // Build querystring parameters...
-            Dictionary<string, string> parameters = new Dictionary<string, string>() { { PagingStartIndex, startIndex.ToString() }, { PagingItemsPerPage, itemsPerPage.ToString() } };
+            var parameters = new List<KeyValuePair<string, string>>
+                        {
+                            new KeyValuePair<string, string>(PagingStartIndex, startIndex.ToString(CultureInfo.InvariantCulture)),
+                            new KeyValuePair<string, string>(PagingItemsPerPage, itemsPerPage.ToString(CultureInfo.InvariantCulture))
+                        };
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                parameters.Add(MusicClientCommand.ParamSearchTerm, searchTerm);
+                parameters.Add(new KeyValuePair<string, string>(ParamSearchTerm, searchTerm));
             }
 
             if (!string.IsNullOrEmpty(genreId))
             {
-                parameters.Add(MusicClientCommand.ParamGenre, genreId);
+                parameters.Add(new KeyValuePair<string, string>(ParamGenre, genreId));
             }
 
-            if (category != null && category.HasValue && category.Value != Category.Unknown)
+            if (category != null && category.Value != Category.Unknown)
             {
-                parameters.Add(MusicClientCommand.ParamCategory, category.ToString().ToLowerInvariant());
+                parameters.Add(new KeyValuePair<string, string>(ParamCategory, category.ToString().ToLowerInvariant()));
             }
 
             if (!string.IsNullOrEmpty(location))
             {
-                parameters.Add(MusicClientCommand.ParamLocation, location);
+                parameters.Add(new KeyValuePair<string, string>(ParamLocation, location));
             }
 
             if (!string.IsNullOrEmpty(maxdistance))
             {
-                parameters.Add(MusicClientCommand.ParamMaxDistance, maxdistance);
+                parameters.Add(new KeyValuePair<string, string>(ParamMaxDistance, maxdistance));
             }
 
             this.RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                null,
                 parameters,
-                (Response<JObject> rawResult) =>
-                {
-                    this.CatalogItemResponseHandler<T>(rawResult, ArrayNameItems, converter, callback);
-                });
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler<T>(rawResult, ArrayNameItems, converter, callback)));
         }
     }
 }

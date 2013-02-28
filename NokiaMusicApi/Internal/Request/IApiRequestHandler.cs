@@ -5,11 +5,12 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using System.Linq;
+using Nokia.Music.Phone.Commands;
+using Nokia.Music.Phone.Internal.Response;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Request
 {
     /// <summary>
     /// Defines the raw API interface for making requests
@@ -27,19 +28,18 @@ namespace Nokia.Music.Phone.Internal
         /// <summary>
         /// Makes the API request
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <typeparam name="T">The type of response</typeparam>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The music client settings.</param>
-        /// <param name="pathParams">The path params.</param>
-        /// <param name="querystringParams">The querystring params.</param>
+        /// <param name="queryParams">The queryString parameters.</param>
         /// <param name="callback">The callback to hit when done.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
         /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        void SendRequestAsync(
-                              ApiMethod method,
+        void SendRequestAsync<T>(
+                              MusicClientCommand command,
                               IMusicClientSettings settings,
-                              Dictionary<string, string> pathParams,
-                              Dictionary<string, string> querystringParams,
-                              Action<Response<JObject>> callback,
+                              List<KeyValuePair<string, string>> queryParams,
+                              IResponseCallback<T> callback,
                               Dictionary<string, string> requestHeaders = null);
     }
 }

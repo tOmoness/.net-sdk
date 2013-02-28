@@ -7,7 +7,9 @@
 
 using System;
 using System.Net;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using NUnit.Framework;
@@ -36,23 +38,22 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void ApiMethodsDefaultToGetHttpMethod()
         {
-            var resolver = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            var resolver = new CountryResolverCommand("test", "test", new MockApiRequestHandler(Resources.country));
             Assert.AreEqual(HttpMethod.Get, resolver.HttpMethod);
         }
 
         [Test]
         public void ApiMethodsDefaultToNullContentType()
         {
-            var resolver = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            var resolver = new CountryResolverCommand("test", "test", new MockApiRequestHandler(Resources.country));
             Assert.IsNull(resolver.ContentType);
         }
 
         [Test]
         public void EnsureCheckAvailabilityWorksForValidCountry()
         {
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
             Guid requestId = new Guid();
-            client.RequestId = requestId;
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -71,9 +72,8 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureCheckAvailabilityReturnsFailsForInvalidCountry()
         {
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()));
             Guid requestId = new Guid();
-            client.RequestId = requestId;
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -105,9 +105,8 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureCheckAvailabilityReturnsErrorForFailedCall()
         {
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()));
             Guid requestId = new Guid();
-            client.RequestId = requestId;
+            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {

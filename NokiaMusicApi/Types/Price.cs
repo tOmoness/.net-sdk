@@ -18,7 +18,7 @@ namespace Nokia.Music.Phone.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="Price" /> class.
         /// </summary>
-        internal Price()
+        public Price()
         {
         }
 

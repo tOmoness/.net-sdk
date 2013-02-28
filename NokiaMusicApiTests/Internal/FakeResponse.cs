@@ -9,6 +9,8 @@ using System;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Tests.Properties;
 
 namespace Nokia.Music.Phone.Tests.Internal
@@ -16,13 +18,13 @@ namespace Nokia.Music.Phone.Tests.Internal
     internal class FakeResponse
     {
         private const string TestContentType = "application/vnd.nokia.ent.test.json";
-        private readonly Response<JObject> _response;
+        private readonly object _response;
 
         /// <summary>
         /// Private constructor, use a helper method to create
         /// </summary>
         /// <param name="response">The response to callback with</param>
-        private FakeResponse(Response<JObject> response)
+        private FakeResponse(object response)
         {
             this._response = response;
         }
@@ -55,10 +57,12 @@ namespace Nokia.Music.Phone.Tests.Internal
         /// <summary>
         /// Performs the callback specified with the previously queued up response
         /// </summary>
+        /// <typeparam name="T">The type of response</typeparam>
         /// <param name="callback">The callback action</param>
-        public void DoCallback(Action<Response<JObject>> callback)
+        public void DoCallback<T>(IResponseCallback<T> callback)
         {
-            callback(this._response);
+            var resp = this._response as Response<T>;
+            callback.Callback(resp);
         }
     }
 }

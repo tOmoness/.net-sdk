@@ -47,12 +47,14 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="statusCode">The HTTP Status code</param>
         /// <param name="error">The error.</param>
+        /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
-        internal Response(HttpStatusCode? statusCode, Exception error, Guid requestId)
+        internal Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
         {
             this.StatusCode = statusCode;
             this.Error = error;
             this.RequestId = requestId;
+            this.ErrorResponseBody = responseBody;
         }
 
         /// <summary>
@@ -85,5 +87,13 @@ namespace Nokia.Music.Phone
         /// The content type.
         /// </value>
         internal string ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the response body supplied for an error response
+        /// </summary>
+        /// <value>
+        /// The raw response body.
+        /// </value>
+        internal string ErrorResponseBody { get; set; }
     }
 }

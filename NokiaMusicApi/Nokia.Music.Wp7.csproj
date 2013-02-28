@@ -107,10 +107,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ArtistProductsCommand.cs" />
+    <Compile Include="Commands\CountryResolverCommand.cs" />
     <Compile Include="Commands\MixGroupsCommand.cs" />
+    <Compile Include="Commands\ProductCommand.cs" />
     <Compile Include="Commands\SearchCatalogCommand.cs" />
     <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
+    <Compile Include="Commands\SimilarProductsCommand.cs" />
     <Compile Include="Converters\LocationConverter.cs" />
     <Compile Include="CountryResolver.cs" />
     <Compile Include="Exceptions\ApiCredentialsRequiredException.cs" />
@@ -123,7 +126,6 @@
     <Compile Include="Commands\GenresCommand.cs" />
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />
-    <Compile Include="Internal\ApiMethod.cs" />
     <Compile Include="Internal\Compression\Crc32.cs" />
     <Compile Include="Internal\Compression\Deflate.cs" />
     <Compile Include="Internal\Compression\DeflateStream.cs" />
@@ -138,16 +140,22 @@
     <Compile Include="Internal\Compression\ZLibConstants.cs" />
     <Compile Include="Internal\Compression\ZLibStream.cs" />
     <Compile Include="Internal\DebugLogger.cs" />
-    <Compile Include="Internal\HttpMethod.cs" />
-    <Compile Include="Internal\IJsonProcessor.cs" />
+    <Compile Include="Internal\Parsing\ArrayJsonProcessor.cs" />
+    <Compile Include="Internal\Parsing\ParseHelper.cs" />
+    <Compile Include="Internal\Request\HttpMethod.cs" />
+    <Compile Include="Internal\Parsing\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
-    <Compile Include="Internal\ApiRequestHandler.cs" />
-    <Compile Include="Internal\IApiRequestHandler.cs" />
-    <Compile Include="Internal\ApiUriBuilder.cs" />
-    <Compile Include="Internal\IApiUriBuilder.cs" />
-    <Compile Include="Internal\NamedItemListJsonProcessor.cs" />
+    <Compile Include="Internal\Request\ApiRequestHandler.cs" />
+    <Compile Include="Internal\Request\IApiRequestHandler.cs" />
+    <Compile Include="Internal\Request\ApiUriBuilder.cs" />
+    <Compile Include="Internal\Request\IApiUriBuilder.cs" />
+    <Compile Include="Internal\Response\IResponseCallback.cs" />
+    <Compile Include="Internal\Response\JsonResponseCallback.cs" />
+    <Compile Include="Internal\Parsing\NamedItemListJsonProcessor.cs" />
+    <Compile Include="Internal\Parsing\SingleRawItemJsonProcessor.cs" />
+    <Compile Include="Internal\Response\ResponseInfo.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
-    <Compile Include="Internal\TimedRequest.cs" />
+    <Compile Include="Internal\Request\TimedRequest.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="Commands\MixesCommand.cs" />
     <Compile Include="MusicClient.cs" />

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -18,6 +19,8 @@ namespace Nokia.Music.Phone.Commands
     /// </summary>
     internal sealed class NewReleasesCommand : MusicClientCommand<ListResponse<Product>>
     {
+        private string _category;
+
         /// <summary>
         /// Gets or sets the category - only Album and Track lists are available.
         /// </summary>
@@ -27,17 +30,9 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            if (pathParams != null && pathParams.ContainsKey("category"))
-            {
-                uri.AppendFormat("products/new/{0}/", pathParams["category"]);
-            }
-            else
-            {
-                throw new ArgumentNullException("category");
-            }
+            uri.AppendFormat("products/new/{0}/", this._category);
         }
 
         /// <summary>
@@ -45,25 +40,30 @@ namespace Nokia.Music.Phone.Commands
         /// </summary>
         protected override void Execute()
         {
-            switch (Category)
+            this.ValidateCategory();
+
+            this.RequestHandler.SendRequestAsync(
+                this,
+                this.MusicClientSettings,
+                null,
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
+        }
+
+        /// <summary>
+        /// Ensures that only a supported category type is used
+        /// </summary>
+        private void ValidateCategory()
+        {
+            switch (this.Category)
             {
                 case Category.Album:
                 case Category.Track:
+                    this._category = this.Category.ToString().ToLowerInvariant();
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException("Category", "Only Album and Track lists are available");
             }
-
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.MusicClientSettings,
-                new Dictionary<string, string>() { { "category", Category.ToString().ToLowerInvariant() } },
-                null,
-                (Response<JObject> rawResult) =>
-                    {
-                        this.CatalogItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback);
-                    });
         }
     }
 }

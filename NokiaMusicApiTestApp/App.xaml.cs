@@ -119,9 +119,23 @@ namespace Nokia.Music.TestApp
             Product product = item as Product;
             if (product != null)
             {
-                ShowProductTask task = new ShowProductTask() { ProductId = product.Id };
-                task.Show();
-                return true;
+                if (product.Category == Category.Track)
+                {
+                    ShowProductTask task = new ShowProductTask() { ProductId = product.Id };
+                    task.Show(); 
+                }
+                else
+                {
+                    string thumb = string.Empty;
+                    if (product.Thumb100Uri != null)
+                    {
+                        thumb = HttpUtility.UrlEncode(product.Thumb100Uri.ToString());
+                    }
+
+                    this.RootFrame.Navigate(new Uri("/AlbumPage.xaml?" + App.IdParam + "=" + product.Id + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(product.Name) + "&" + App.ThumbParam + "=" + thumb, UriKind.Relative));
+                }
+
+                return true;  
             }
 
             Genre genre = item as Genre;

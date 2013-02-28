@@ -7,8 +7,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -35,17 +35,9 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            if (pathParams != null && pathParams.ContainsKey("id"))
-            {
-                uri.AppendFormat("creators/{0}/products/", pathParams["id"]);
-            }
-            else
-            {
-                throw new ArgumentNullException("id");
-            }
+            uri.AppendFormat("creators/{0}/products/", this.ArtistId);
         }
 
         /// <summary>
@@ -59,26 +51,17 @@ namespace Nokia.Music.Phone.Commands
             }
 
             // Build querystring parameters...
-            var querystring = new Dictionary<string, string>
-                                  {
-                                      { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
-                                      { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
-                                  };
-
+            var querystring = this.GetPagingParams();
             if (this.Category != null)
             {
-                querystring.Add(MusicClientCommand.ParamCategory, this.Category.ToString().ToLowerInvariant());
+                querystring.Add(new KeyValuePair<string, string>(ParamCategory, this.Category.ToString().ToLowerInvariant()));
             }
 
             RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                new Dictionary<string, string>
-                    {
-                        { MusicClientCommand.ParamId, this.ArtistId }
-                    },
                 querystring,
-                rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Product.FromJToken, this.Callback));
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Product.FromJToken, this.Callback)));
         }
     }
 }

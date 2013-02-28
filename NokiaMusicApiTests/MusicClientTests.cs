@@ -9,6 +9,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;

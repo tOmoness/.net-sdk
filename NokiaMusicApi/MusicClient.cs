@@ -9,6 +9,7 @@ using System;
 using System.Globalization;
 using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone
@@ -333,6 +334,38 @@ namespace Nokia.Music.Phone
             }
 
             this.GetArtistProducts(callback, artist.Id, category, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets a product by product id.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetProduct(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<ProductCommand>();
+            cmd.ProductId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets similar products to the product id provided.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetSimilarProducts(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SimilarProductsCommand>();
+            cmd.ProductId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
         }
 
         /// <summary>

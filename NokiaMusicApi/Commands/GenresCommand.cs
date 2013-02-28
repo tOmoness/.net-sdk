@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -22,8 +23,7 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
             uri.AppendFormat("genres/");
         }
@@ -37,11 +37,7 @@ namespace Nokia.Music.Phone.Commands
                 this,
                 this.MusicClientSettings,
                 null,
-                null,
-                (Response<JObject> rawResult) =>
-                    {
-                        this.CatalogItemResponseHandler(rawResult, ArrayNameItems, new JTokenConversionDelegate<Genre>(Genre.FromJToken), Callback);
-                    });
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameItems, Genre.FromJToken, Callback)));
         }
     }
 }

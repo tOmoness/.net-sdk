@@ -20,33 +20,33 @@ namespace Nokia.Music.Phone.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
         /// </summary>
-        internal Artist()
+        public Artist()
         {
         }
 
         /// <summary>
-        /// Gets the artist's country of origin.
+        /// Gets or sets the artist's country of origin.
         /// </summary>
         /// <value>
         /// The artist's country of origin.
         /// </value>
-        public string Country { get; internal set; }
+        public string Country { get; set; }
 
         /// <summary>
-        /// Gets the artist's genres.
+        /// Gets or sets the artist's genres.
         /// </summary>
         /// <value>
         /// The artist's genres.
         /// </value>
-        public Genre[] Genres { get; internal set; }
+        public Genre[] Genres { get; set; }
 
         /// <summary>
-        /// Gets the artist's origin location where available.
+        /// Gets or sets the artist's origin location where available.
         /// </summary>
         /// <value>
         /// The origin.
         /// </value>
-        public Location Origin { get; internal set; }
+        public Location Origin { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -76,6 +76,11 @@ namespace Nokia.Music.Phone.Types
         /// </returns>
         public override int GetHashCode()
         {
+            if (this.Id == null)
+            {
+                return base.GetHashCode();
+            }
+
             return this.Id.GetHashCode();
         }
 

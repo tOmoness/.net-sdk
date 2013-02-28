@@ -37,6 +37,13 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void HashCodeCanBeRetrievedWhenIdIsNull()
+        {
+            Genre genre = new Genre();
+            Assert.IsNotNull(genre.GetHashCode(), "Expected a hash code");
+        }
+
+        [Test]
         public void TestJsonParsing()
         {
             Genre genre = new Genre() { Id = "Metal", Name = "Metal" };

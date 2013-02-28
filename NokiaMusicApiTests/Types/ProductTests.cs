@@ -41,6 +41,13 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void HashCodeCanBeRetrievedWhenIdIsNull()
+        {
+            Product product = new Product();
+            Assert.IsNotNull(product.GetHashCode(), "Expected a hash code");
+        }
+
+        [Test]
         public void TestJsonParsing()
         {
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_parse_tests));
@@ -62,6 +69,7 @@ namespace Nokia.Music.Phone.Tests.Types
             Assert.IsNotNull(fullItem.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullItem.Thumb320Uri, "Expected a 320x320 thumb");
             Assert.AreEqual(fullItem.Category, Category.Track, "Expected a track");
+            Assert.IsNull(fullItem.Sequence, "Expected sequence to be null");
         }
 
         [Test]

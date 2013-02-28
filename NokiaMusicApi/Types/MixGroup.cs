@@ -18,7 +18,7 @@ namespace Nokia.Music.Phone.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="MixGroup" /> class.
         /// </summary>
-        internal MixGroup()
+        public MixGroup()
         {
         }
 
@@ -66,6 +66,11 @@ namespace Nokia.Music.Phone.Types
         /// </returns>
         public override int GetHashCode()
         {
+            if (this.Id == null)
+            {
+                return base.GetHashCode();
+            }
+
             return this.Id.GetHashCode();
         }
 

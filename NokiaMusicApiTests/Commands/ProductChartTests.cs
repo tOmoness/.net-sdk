@@ -1,45 +1,45 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ProductNewReleasesTests.cs" company="Nokia">
+// <copyright file="ProductChartTests.cs" company="Nokia">
 // Copyright (c) 2012, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
+using System.Text;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
-    public class ProductNewReleasesTests
+    public class ProductChartTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void EnsureGetNewReleasesThrowsExceptionForUnsupportedCategory()
+        public void EnsureGetTopProductsThrowsExceptionForUnsupportedCategory()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleases((ListResponse<Product> result) => { }, Category.Unknown);
+            client.GetTopProducts((ListResponse<Product> result) => { }, Category.Unknown);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetNewReleasesThrowsExceptionForNullCallback()
+        public void EnsureGetTopProductsThrowsExceptionForNullCallback()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleases(null, Category.Album);
+            client.GetTopProducts(null, Category.Album);
         }
 
         [Test]
-        public void EnsureGetNewReleasesReturnsItems()
+        public void EnsureGetTopProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleases(
+            client.GetTopProducts(
                 (ListResponse<Product> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
@@ -61,10 +61,10 @@ namespace Nokia.Music.Phone.Tests
         }
 
         [Test]
-        public void EnsureGetNewReleasesReturnsErrorForFailedCall()
+        public void EnsureGetTopProductsReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetNewReleases(
+            client.GetTopProducts(
                 (ListResponse<Product> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
@@ -78,16 +78,42 @@ namespace Nokia.Music.Phone.Tests
         }
 
         [Test]
-        public async void EnsureAsyncGetNewReleasesReturnsItems()
+        public async void EnsureAsyncGetTopProductsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-
-            ListResponse<Product> result = await client.GetNewReleases(Category.Album);
+            ListResponse<Product> result = await client.GetTopProducts(Category.Album);
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
 
-            result = await client.GetNewReleases(Category.Album, 0, 10);
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        [Test]
+        public void EnsureUriIsBuiltCorrectlyForAlbum()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            var cmd = new TopProductsCommand
+            {
+                RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
+                Category = Category.Album,
+                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
+            };
+            cmd.Invoke(response => { });
+            cmd.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/charts/album/", uri.ToString());
+        }
+
+        [Test]
+        public void EnsureUriIsBuiltCorrectlyForTrack()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            var cmd = new TopProductsCommand
+            {
+                RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
+                Category = Category.Track,
+                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
+            };
+            cmd.Invoke(response => { });
+            cmd.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/charts/track/", uri.ToString());
         }
     }
 }

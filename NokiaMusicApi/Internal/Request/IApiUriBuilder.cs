@@ -7,8 +7,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Nokia.Music.Phone.Commands;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Request
 {
     /// <summary>
     /// Defines the API URI Builder interface
@@ -18,13 +20,12 @@ namespace Nokia.Music.Phone.Internal
         /// <summary>
         /// Builds an API URI
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The client settings.</param>
-        /// <param name="pathParams">The path parameters.</param>
-        /// <param name="querystringParams">The querystring parameters.</param>
+        /// <param name="queryParams">The querystring.</param>
         /// <returns>
         /// A Uri to call
         /// </returns>
-        Uri BuildUri(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams);
+        Uri BuildUri(MusicClientCommand command, IMusicClientSettings settings, List<KeyValuePair<string, string>> queryParams);
     }
 }

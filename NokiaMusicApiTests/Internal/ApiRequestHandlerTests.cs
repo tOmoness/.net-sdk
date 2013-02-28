@@ -10,7 +10,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Tests.Internal;
 using NUnit.Framework;
 
@@ -37,7 +40,7 @@ namespace Nokia.Music.Phone.Tests
                 typeof(ArgumentNullException),
                 new TestDelegate(() =>
                 {
-                    new ApiRequestHandler(new ApiUriBuilder()).SendRequestAsync(null, null, null, null, null);
+                    new ApiRequestHandler(new ApiUriBuilder()).SendRequestAsync<JObject>(null, null, null, null, null);
                 }));
         }
 
@@ -49,18 +52,17 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("country.json"));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"), 
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNull(result.Error, "Expected no error");
                     Assert.IsNotNull(result.Result, "Expected a result object");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(1000);
@@ -75,18 +77,17 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("bad-result.json"));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
                     Assert.IsNull(result.Result, "Expected no result object");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(1000);
@@ -101,18 +102,17 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://baduritesting.co")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
                     Assert.IsNull(result.Result, "Expected no result object");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
@@ -127,11 +127,10 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder());
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new CountryResolverCommand("test", "test", null),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
@@ -140,7 +139,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.AreEqual(HttpStatusCode.Forbidden, result.StatusCode.Value, "Expected a 401");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
@@ -155,11 +154,10 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(), 
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
@@ -167,7 +165,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.StatusCode, "Expected a status code - this test can fail when you run tests with no internet connection!");
                     gotResult = true;
                     waiter.Set();
-                },
+                }),
                 new Dictionary<string, string> { { "Custom", @"test" } });
 
             // Wait for the response and parsing...
@@ -184,11 +182,10 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
@@ -196,7 +193,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.StatusCode, "Expected a status code - this test can fail when you run tests with no internet connection!");
                     gotResult = true;
                     waiter.Set();
-                },
+                }),
                 new Dictionary<string, string> { { "Referer", @"test" } }); // this should cause the request to be rejected
 
             // Wait for the response and parsing...
@@ -212,11 +209,10 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
@@ -224,7 +220,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.StatusCode, "Expected a status code - this test can fail when you run tests with no internet connection!");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
@@ -239,11 +235,10 @@ namespace Nokia.Music.Phone.Tests
 
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new MockApiMethod(),
+                new MockApiCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error");
@@ -251,7 +246,7 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNotNull(result.StatusCode, "Expected a status code - this test can fail when you run tests with no internet connection!");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
@@ -267,11 +262,10 @@ namespace Nokia.Music.Phone.Tests
             MusicClient.RequestTimeout = 0;
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.Error, "Expected an error, status code:" + result.StatusCode);
@@ -279,11 +273,37 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNull(result.StatusCode, "Expected no status code");
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
             Assert.AreEqual(0, MusicClient.RequestTimeout, "Expected timeout to return same value that was set");
+            Assert.IsTrue(gotResult, "Expected a result flag");
+        }
+
+        [Test]
+        public void TimeoutDuringEndRequestStreamGivesNoStatusCode()
+        {
+            bool gotResult = false;
+            ManualResetEvent waiter = new ManualResetEvent(false);
+
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://localhost:8123/")));
+            handler.SendRequestAsync(
+                new MockApiCommand(), 
+                new MockMusicClientSettings("test", "test", null),
+                null,
+                new JsonResponseCallback((Response<JObject> result) =>
+                {
+                    Assert.IsNotNull(result, "Expected a result");
+                    Assert.IsNotNull(result.Error, "Expected an error, status code:" + result.StatusCode);
+                    Assert.IsNull(result.Result, "Expected no result object");
+                    Assert.IsNull(result.StatusCode, "Expected no status code");
+                    gotResult = true;
+                    waiter.Set();
+                }));
+
+            // Wait for the response and parsing...
+            waiter.WaitOne(5000);
             Assert.IsTrue(gotResult, "Expected a result flag");
         }
 
@@ -296,16 +316,15 @@ namespace Nokia.Music.Phone.Tests
             MusicClient.GzipEnabled = true;
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
             handler.SendRequestAsync(
-                new CountryResolver("test", "test"),
+                new ProductCommand(),
                 new MockMusicClientSettings("test", "test", null),
                 null,
-                null,
-                (Response<JObject> result) =>
+                new JsonResponseCallback((Response<JObject> result) =>
                 {
                     responseResult = result;
                     gotResult = true;
                     waiter.Set();
-                });
+                }));
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);

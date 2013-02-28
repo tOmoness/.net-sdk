@@ -8,14 +8,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
     public class MixTests
@@ -161,11 +161,11 @@ namespace Nokia.Music.Phone.Tests
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
             var task = client.GetMixes("test", exclusiveTag1);
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
-            Assert.AreEqual(exclusiveTag1, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
+            Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag1)));
 
             task = client.GetMixes(new MixGroup() { Id = "testId" }, exclusiveTag2);
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
-            Assert.AreEqual(exclusiveTag2, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
+            Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag2)));
         }
 
         [Test]
@@ -177,7 +177,15 @@ namespace Nokia.Music.Phone.Tests
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
             var groupsTask = client.GetMixGroups(exclusiveTag);
             Assert.Greater(groupsTask.Result.Result.Count, 0, "Expected more than 0 results");
-            Assert.AreEqual(exclusiveTag, handler.LastQueryStringParams[MusicClientCommand.ParamExclusive]);
+            Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag)));
+        }
+
+        [Test]
+        public void EnsureUriIsBuiltCorrectly()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            new MixesCommand { MixGroupId = "test123" }.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/mixes/groups/test123/", uri.ToString());
         }
     }
 }

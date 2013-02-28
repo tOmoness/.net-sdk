@@ -1,38 +1,44 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GenreTests.cs" company="Nokia">
+// <copyright file="SearchTests.cs" company="Nokia">
 // Copyright (c) 2012, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
-    public class GenreTests
+    public class SearchTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetGenresThrowsExceptionForNullCallback()
+        public void EnsureSearchThrowsExceptionForNullSearchTerm()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
-            client.GetGenres(null);
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
+            client.Search((ListResponse<MusicItem> resp) => { }, null);
         }
 
         [Test]
-        public void EnsureGetGenresReturnsItems()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureSearchThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
-            client.GetGenres(
-                (ListResponse<Genre> result) =>
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
+            client.Search(null, "lady gaga");
+        }
+
+        [Test]
+        public void EnsureSearchReturnsItemsForValidSearch()
+        {
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
+            client.Search(
+                (ListResponse<MusicItem> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.StatusCode, "Expected a status code");
@@ -42,20 +48,22 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNull(result.Error, "Expected no error");
                     Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
 
-                    foreach (Genre genre in result.Result)
+                    foreach (MusicItem item in result.Result)
                     {
-                        Assert.IsFalse(string.IsNullOrEmpty(genre.Id), "Expected Id to be populated");
-                        Assert.IsFalse(string.IsNullOrEmpty(genre.Name), "Expected Name to be populated");
+                        Assert.IsFalse(string.IsNullOrEmpty(item.Id), "Expected Id to be populated");
+                        Assert.IsFalse(string.IsNullOrEmpty(item.Name), "Expected Name to be populated");
+                        Assert.IsNotNull(item.Thumb100Uri, "Expected a thumbnail uri");
                     }
-                });
+                },
+                "lady gaga");
         }
 
         [Test]
-        public void EnsureGetGenresReturnsErrorForFailedCall()
+        public void EnsureSearchReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
-            client.GetGenres(
-                (ListResponse<Genre> result) =>
+            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            client.Search(
+                (ListResponse<MusicItem> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.StatusCode, "Expected a status code");
@@ -63,16 +71,16 @@ namespace Nokia.Music.Phone.Tests
                     Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
                     Assert.IsNotNull(result.Error, "Expected an error");
                     Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                });
+                },
+                "green day");
         }
 
         [Test]
-        public async void EnsureAsyncGetGenresReturnsItems()
+        public async void EnsureAsyncSearchReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
-
-            ListResponse<Genre> result = await client.GetGenres();
+            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_all));
+            ListResponse<MusicItem> result = await client.Search("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
     }

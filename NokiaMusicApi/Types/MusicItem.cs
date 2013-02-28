@@ -6,7 +6,10 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
+using Nokia.Music.Phone.Internal.Parsing;
 
 namespace Nokia.Music.Phone.Types
 {
@@ -16,52 +19,52 @@ namespace Nokia.Music.Phone.Types
     public abstract class MusicItem
     {
         /// <summary>
-        /// Gets the item id.
+        /// Gets or sets the item id.
         /// </summary>
         /// <value>
         /// The item id.
         /// </value>
-        public string Id { get; internal set; }
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets the item name.
+        /// Gets or sets the item name.
         /// </summary>
         /// <value>
         /// The item name.
         /// </value>
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets the 50x50 thumbnail URI.
+        /// Gets or sets the 50x50 thumbnail URI.
         /// </summary>
         /// <value>
         /// The 50x50 thumbnail URI.
         /// </value>
-        public Uri Thumb50Uri { get; internal set; }
+        public Uri Thumb50Uri { get; set; }
 
         /// <summary>
-        /// Gets the 100x100 thumbnail URI.
+        /// Gets or sets the 100x100 thumbnail URI.
         /// </summary>
         /// <value>
         /// The 100x100 thumbnail URI.
         /// </value>
-        public Uri Thumb100Uri { get; internal set; }
+        public Uri Thumb100Uri { get; set; }
 
         /// <summary>
-        /// Gets the 200x200 thumbnail URI.
+        /// Gets or sets the 200x200 thumbnail URI.
         /// </summary>
         /// <value>
         /// The 200x200 thumbnail URI.
         /// </value>
-        public Uri Thumb200Uri { get; internal set; }
+        public Uri Thumb200Uri { get; set; }
 
         /// <summary>
-        /// Gets the 320x320 thumbnail URI.
+        /// Gets or sets the 320x320 thumbnail URI.
         /// </summary>
         /// <value>
         /// The 320x320 thumbnail URI.
         /// </value>
-        public Uri Thumb320Uri { get; internal set; }
+        public Uri Thumb320Uri { get; set; }
 
         /// <summary>
         /// Extracts the thumbnails from JSON.

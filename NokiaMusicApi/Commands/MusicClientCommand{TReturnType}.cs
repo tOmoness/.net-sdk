@@ -7,9 +7,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
+using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Parsing;
 
 namespace Nokia.Music.Phone.Commands
 {
@@ -84,11 +86,13 @@ namespace Nokia.Music.Phone.Commands
             ListResponse<T> response = null;
 
             // Parse the result if we got one...
-            if (rawResult.StatusCode != null && rawResult.StatusCode.HasValue)
+            if (rawResult.StatusCode.HasValue)
             {
                 switch (rawResult.StatusCode.Value)
                 {
                     case HttpStatusCode.OK:
+                    case HttpStatusCode.Accepted:
+                    case HttpStatusCode.Created:
                         if (rawResult.Result != null &&
                             rawResult.ContentType != null &&
                             rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
@@ -114,23 +118,36 @@ namespace Nokia.Music.Phone.Commands
                     case HttpStatusCode.NotFound:
                         if (this.MusicClientSettings.CountryCodeBasedOnRegionInfo)
                         {
-                            response = new ListResponse<T>(rawResult.StatusCode, new ApiNotAvailableException(), RequestId);
+                            response = new ListResponse<T>(rawResult.StatusCode, new ApiNotAvailableException(), rawResult.ErrorResponseBody, RequestId);
                         }
 
                         break;
 
                     case HttpStatusCode.Forbidden:
-                        response = new ListResponse<T>(rawResult.StatusCode, new InvalidApiCredentialsException(), RequestId);
+                        response = new ListResponse<T>(rawResult.StatusCode, new InvalidApiCredentialsException(), rawResult.ErrorResponseBody, RequestId);
                         break;
                 }
             }
 
             if (response == null)
             {
-                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException(), RequestId);
+                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException(), rawResult.ErrorResponseBody, RequestId);
             }
 
             callback(response);
+        }
+
+        /// <summary>
+        /// Creates an initial querystring dictionary containing paging parameters
+        /// </summary>
+        /// <returns>A dictionary containing standard querystring paging parameters</returns>
+        protected List<KeyValuePair<string, string>> GetPagingParams()
+        {
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>(PagingStartIndex, this.StartIndex.ToString(CultureInfo.InvariantCulture)),
+                new KeyValuePair<string, string>(PagingItemsPerPage, this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
+            };
         }
     }
 }

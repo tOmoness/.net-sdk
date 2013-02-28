@@ -6,15 +6,15 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
+using System.Text;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
     public class SimilarArtistTests
@@ -98,6 +98,14 @@ namespace Nokia.Music.Phone.Tests
 
             result = await client.GetSimilarArtists(new Artist() { Id = "test" });
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
+        
+        [Test]
+        public void EnsureUriIsBuiltCorrectly()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            new SimilarArtistsCommand { ArtistId = "348877" }.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/creators/348877/similar/", uri.ToString());
         }
     }
 }

@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Internal.Parsing;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -40,7 +41,7 @@ namespace Nokia.Music.Phone.Commands
                 JToken resultCategory = item[ParamCategory];
                 if (resultCategory != null)
                 {
-                    Category itemCategory = CategoryExtensions.ParseCategory(resultCategory.Value<string>(ParamId));
+                    Category itemCategory = ParseHelper.ParseEnumOrDefault<Category>(resultCategory.Value<string>(ParamId));
                     switch (itemCategory)
                     {
                         case Types.Category.Artist:

@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 
@@ -39,9 +40,10 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="statusCode">The HTTP Status code</param>
         /// <param name="error">The error.</param>
+        /// <param name="errorResponseBody">The response body</param>
         /// <param name="requestId">The request id.</param>
-        internal ListResponse(HttpStatusCode? statusCode, Exception error, Guid requestId)
-            : base(statusCode, error, requestId)
+        internal ListResponse(HttpStatusCode? statusCode, Exception error, string errorResponseBody, Guid requestId)
+            : base(statusCode, error, errorResponseBody, requestId)
         {
         }
 
@@ -93,7 +95,7 @@ namespace Nokia.Music.Phone
         /// <returns>
         /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             if (this.Result != null)
             {

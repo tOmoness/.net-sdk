@@ -7,7 +7,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
+using Nokia.Music.Phone.Internal.Parsing;
 using Nokia.Music.Phone.Tasks;
 
 namespace Nokia.Music.Phone.Types
@@ -20,57 +23,82 @@ namespace Nokia.Music.Phone.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="Product" /> class.
         /// </summary>
-        internal Product()
+        public Product()
         {
+            this.Tracks = new List<Product>();
         }
 
         /// <summary>
-        /// Gets the product's category.
+        /// Gets or sets the product's category.
         /// </summary>
         /// <value>
         /// The product's category.
         /// </value>
-        public Category Category { get; private set; }
+        public Category Category { get; set; }
 
         /// <summary>
-        /// Gets the product's genres.
+        /// Gets or sets the product's genres.
         /// </summary>
         /// <value>
         /// The product's genres.
         /// </value>
-        public Genre[] Genres { get; private set; }
+        public Genre[] Genres { get; set; }
 
         /// <summary>
-        /// Gets the product's performers.
+        /// Gets or sets the product's performers.
         /// </summary>
         /// <value>
         /// The product's performers.
         /// </value>
-        public Artist[] Performers { get; private set; }
+        public Artist[] Performers { get; set; }
 
         /// <summary>
-        /// Gets the product's price when available to purchase.
+        /// Gets or sets the product's price when available to purchase.
         /// </summary>
         /// <value>
         /// The price when available to purchase.
         /// </value>
-        public Price Price { get; private set; }
+        public Price Price { get; set; }
 
         /// <summary>
-        /// Gets the track count for Album or Single products.
+        /// Gets or sets the track count for Album or Single products.
         /// </summary>
         /// <value>
         /// The track count.
         /// </value>
-        public int? TrackCount { get; private set; }
+        public int? TrackCount { get; set; }
 
         /// <summary>
-        /// Gets the Album or Single a Track is from.
+        /// Gets or sets the Album or Single a Track is from.
         /// </summary>
         /// <value>
         /// The owning Album or Single if appropriate.
         /// </value>
-        public Product TakenFrom { get; private set; }
+        public Product TakenFrom { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tracks on the album.
+        /// </summary>
+        /// <value>
+        /// The tracks.
+        /// </value>
+        public List<Product> Tracks { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product's duration.
+        /// </summary>
+        /// <value>
+        /// The duration.
+        /// </value>
+        public double? Duration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tracknumber of a local track if available.
+        /// </summary>
+        /// <value>
+        /// The tracknumber.
+        /// </value>
+        public int? Sequence { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -100,6 +128,11 @@ namespace Nokia.Music.Phone.Types
         /// </returns>
         public override int GetHashCode()
         {
+            if (this.Id == null)
+            {
+                return base.GetHashCode();
+            }
+
             return this.Id.GetHashCode();
         }
 
@@ -124,7 +157,7 @@ namespace Nokia.Music.Phone.Types
             JToken jsonCategory = item["category"];
             if (jsonCategory != null)
             {
-                category = CategoryExtensions.ParseCategory(jsonCategory.Value<string>("id"));
+                category = ParseHelper.ParseEnumOrDefault<Category>(jsonCategory.Value<string>("id"));
             }
 
             // Extract genres...
@@ -146,7 +179,7 @@ namespace Nokia.Music.Phone.Types
             JToken jsonTakenFrom = item["takenfrom"];
             if (jsonTakenFrom != null)
             {
-                takenFrom = (Product)Product.FromJToken(jsonTakenFrom);
+                takenFrom = (Product)FromJToken(jsonTakenFrom);
             }
 
             // Extract price...
@@ -209,8 +242,27 @@ namespace Nokia.Music.Phone.Types
                 TakenFrom = takenFrom,
                 Price = price,
                 TrackCount = trackCount,
-                Performers = performers
+                Tracks = ExtractTracks(item["tracks"]),
+                Performers = performers,
+                Duration = item.Value<double>("duration")
             };
+        }
+
+        /// <summary>
+        /// Extracts the tracks from the json.
+        /// </summary>
+        /// <param name="tracksToken">The tracks token.</param>
+        /// <returns>A list of tracks</returns>
+        private static List<Product> ExtractTracks(JToken tracksToken)
+        {
+            List<Product> tracks = null;
+
+            if (tracksToken != null)
+            {
+                tracks = new ArrayJsonProcessor().ParseList(tracksToken, MusicClientCommand.ArrayNameItems, FromJToken);
+            }
+
+            return tracks;
         }
     }
 }

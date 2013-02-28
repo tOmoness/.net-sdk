@@ -4,7 +4,10 @@
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+
+using System.Text;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -37,6 +40,13 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void HashCodeCanBeRetrievedWhenIdIsNull()
+        {
+            MixGroup mixGroup = new MixGroup();
+            Assert.IsNotNull(mixGroup.GetHashCode(), "Expected a hash code");
+        }
+
+        [Test]
         public void TestJsonParsing()
         {
             MixGroup group = new MixGroup() { Id = "1234", Name = "Metal" };
@@ -46,6 +56,14 @@ namespace Nokia.Music.Phone.Tests.Types
             Assert.IsNotNull(fromJson, "Expected a MixGroup object");
 
             Assert.IsTrue(group.Equals(fromJson), "Expected the same MixGroup");
+        }
+
+        [Test]
+        public void EnsureUriIsBuiltCorrectly()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            new MixGroupsCommand().AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/mixes/groups/", uri.ToString());
         }
     }
 }

@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Phone.Tasks;
 
@@ -14,30 +15,30 @@ namespace Nokia.Music.Phone.Types
     /// <summary>
     /// Represents a Mix
     /// </summary>
-    public sealed class Mix : MusicItem
+    public sealed partial class Mix : MusicItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Mix" /> class.
         /// </summary>
-        internal Mix()
+        public Mix()
         {
         }
 
         /// <summary>
-        /// Gets a value indicating whether the mix has a parental advisory warning.
+        /// Gets or sets a value indicating whether the mix has a parental advisory warning.
         /// </summary>
         /// <value>
         ///   <c>true</c> if parental advisory; otherwise, <c>false</c>.
         /// </value>
-        public bool ParentalAdvisory { get; internal set; }
+        public bool ParentalAdvisory { get; set; }
 
         /// <summary>
-        /// Gets the track count.
+        /// Gets or sets the track count.
         /// </summary>
         /// <value>
         /// The track count.
         /// </value>
-        public int TrackCount { get; internal set; }
+        public int TrackCount { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -67,6 +68,11 @@ namespace Nokia.Music.Phone.Types
         /// </returns>
         public override int GetHashCode()
         {
+            if (this.Id == null)
+            {
+                return base.GetHashCode();
+            }
+
             return this.Id.GetHashCode();
         }
 

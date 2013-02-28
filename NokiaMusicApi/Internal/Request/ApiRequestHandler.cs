@@ -8,12 +8,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Ionic.Zlib;
-using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
+using Nokia.Music.Phone.Internal.Response;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Request
 {
     /// <summary>
     /// Implementation of the raw API interface for making requests
@@ -54,19 +56,18 @@ namespace Nokia.Music.Phone.Internal
         /// <summary>
         /// Makes the API request
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <typeparam name="T">The type of response item</typeparam>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The music client settings.</param>
-        /// <param name="pathParams">The path params.</param>
-        /// <param name="querystringParams">The querystring params.</param>
+        /// <param name="queryParams">The querystring.</param>
         /// <param name="callback">The callback to hit when done.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
         /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        public void SendRequestAsync(
-                                     ApiMethod method,
+        public void SendRequestAsync<T>(
+                                     MusicClientCommand command,
                                      IMusicClientSettings settings,
-                                     Dictionary<string, string> pathParams,
-                                     Dictionary<string, string> querystringParams,
-                                     Action<Response<JObject>> callback,
+                                     List<KeyValuePair<string, string>> queryParams,
+                                     IResponseCallback<T> callback,
                                      Dictionary<string, string> requestHeaders = null)
         {
             if (callback == null)
@@ -74,7 +75,7 @@ namespace Nokia.Music.Phone.Internal
                 throw new ArgumentNullException("callback");
             }
 
-            Uri uri = this.UriBuilder.BuildUri(method, settings, pathParams, querystringParams);
+            Uri uri = this.UriBuilder.BuildUri(command, settings, queryParams);
             DebugLogger.Instance.WriteLog("Calling {0}", uri.ToString());
 
             TimedRequest request = new TimedRequest(uri);
@@ -90,9 +91,10 @@ namespace Nokia.Music.Phone.Internal
                     request.Dispose();
                     WebResponse response = null;
                     HttpWebResponse webResponse = null;
-                    JObject json = null;
+                    T responseItem = default(T);
                     HttpStatusCode? statusCode = null;
                     Exception error = null;
+                    string responseBody = null;
 
                     try
                     {
@@ -100,6 +102,7 @@ namespace Nokia.Music.Phone.Internal
                         webResponse = response as HttpWebResponse;
                         if (webResponse != null)
                         {
+                            command.SetAdditionalResponseInfo(new ResponseInfo(webResponse.ResponseUri, webResponse.Headers));
                             statusCode = webResponse.StatusCode;
                         }
                     }
@@ -108,13 +111,13 @@ namespace Nokia.Music.Phone.Internal
                         error = ex;
                         if (ex.Response != null)
                         {
+                            response = ex.Response;
                             webResponse = (HttpWebResponse)ex.Response;
                             statusCode = webResponse.StatusCode;
                         }
                     }
 
                     string contentType = null;
-                    string result = null;
 
                     if (response != null)
                     {
@@ -123,66 +126,69 @@ namespace Nokia.Music.Phone.Internal
                         {
                             using (Stream responseStream = GetResponseStream(response))
                             {
-                                result = responseStream.AsString();
-                                if (!string.IsNullOrEmpty(result))
+                                responseBody = responseStream.AsString();
+                                if (error == null)
                                 {
-                                    json = JObject.Parse(result);
+                                    responseItem = callback.ConvertFromRawResponse(responseBody);
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
                             error = ex;
-                            json = null;
+                            responseItem = default(T);
                         }
                     }
 
-                    DoCallback(callback, json, statusCode, contentType, error, method.RequestId, uri);
+                    DoCallback(callback.Callback, responseItem, statusCode, contentType, error, responseBody, command.RequestId, uri);
                 },
-                () => DoCallback(callback, null, null, null, new ApiCallFailedException(), method.RequestId, uri),
+                () => DoCallback(callback.Callback, default(T), null, null, new ApiCallFailedException(), null, command.RequestId, uri),
                 request,
-                method);
+                command);
         }
 
         /// <summary>
         /// Logs the response and makes the callback
         /// </summary>
-        /// <param name="callback">The callback method</param>
-        /// <param name="json">The json response</param>
+        /// <typeparam name="T">The type of response item</typeparam>
+        /// <param name="callback">The callback command</param>
+        /// <param name="response">The response item</param>
         /// <param name="statusCode">The response status code</param>
         /// <param name="contentType">The response content type</param>
         /// <param name="error">An error or null if successful</param>
+        /// <param name="responseBody">The response body</param>
         /// <param name="requestId">The unique id of this request</param>
         /// <param name="uri">The uri requested</param>
-        private static void DoCallback(
-                                       Action<Response<JObject>> callback,
-                                       JObject json,
+        private static void DoCallback<T>(
+                                       Action<Response<T>> callback,
+                                       T response,
                                        HttpStatusCode? statusCode,
                                        string contentType,
                                        Exception error,
+                                       string responseBody,
                                        Guid requestId,
                                        Uri uri)
-        {            
+        {
             DebugLogger.Instance.WriteLog("{0} response from {1}", statusCode.HasValue ? statusCode.ToString() : "Timeout", uri.ToString());
-            if (json != null)
+            if (response != null)
             {
-                callback(new Response<JObject>(statusCode, contentType, json, requestId));
+                callback(new Response<T>(statusCode, contentType, response, requestId));
             }
             else
             {
                 DebugLogger.Instance.WriteLog("Error:{0}", error);
-                callback(new Response<JObject>(statusCode, error, requestId));
+                callback(new Response<T>(statusCode, error, responseBody, requestId));
             }
         }
 
-        private void TryBuildRequestBody(AsyncCallback requestSuccessCallback, Action requestTimeoutCallback, TimedRequest request, ApiMethod apiMethod)
+        private void TryBuildRequestBody(AsyncCallback requestSuccessCallback, Action requestTimeoutCallback, TimedRequest request, MusicClientCommand apiMethod)
         {
             var requestBody = apiMethod.BuildRequestBody();
+            request.WebRequest.Method = apiMethod.HttpMethod.ToString().ToUpperInvariant();
             if (requestBody != null)
             {
                 var requestState = new RequestState(request, requestBody, requestSuccessCallback, requestTimeoutCallback);
                 request.WebRequest.ContentType = apiMethod.ContentType;
-                request.WebRequest.Method = apiMethod.HttpMethod.ToString().ToUpperInvariant();
                 request.WebRequest.BeginGetRequestStream(this.RequestStreamCallback, requestState);
             }
             else
@@ -199,13 +205,21 @@ namespace Nokia.Music.Phone.Internal
         private void RequestStreamCallback(IAsyncResult ar)
         {
             var requestState = (RequestState)ar.AsyncState;
-            Stream streamResponse = requestState.TimedRequest.WebRequest.EndGetRequestStream(ar);
-            byte[] byteArray = Encoding.UTF8.GetBytes(requestState.RequestBody);
-            streamResponse.Write(byteArray, 0, requestState.RequestBody.Length);
-            streamResponse.Dispose();
+            try
+            {
+                Stream streamResponse = requestState.TimedRequest.WebRequest.EndGetRequestStream(ar);
+                byte[] byteArray = Encoding.UTF8.GetBytes(requestState.RequestBody);
+                streamResponse.Write(byteArray, 0, requestState.RequestBody.Length);
+                streamResponse.Dispose();
 
-            TimedRequest request = requestState.TimedRequest;
-            request.BeginGetResponse(requestState.SuccessCallback, requestState.TimeoutCallback, request);
+                TimedRequest request = requestState.TimedRequest;
+                request.BeginGetResponse(requestState.SuccessCallback, requestState.TimeoutCallback, request);
+            }
+            catch (WebException ex)
+            {
+                DebugLogger.Instance.WriteLog("WebException in RequestStreamCallback: {0}", ex);
+                requestState.TimeoutCallback();
+            }
         }
 
         /// <summary>
@@ -224,7 +238,7 @@ namespace Nokia.Music.Phone.Internal
 
             return gzipped
                     ? new GZipStream(response.GetResponseStream(), CompressionMode.Decompress)
-                    : response.GetResponseStream();            
+                    : response.GetResponseStream();
         }
 
         private void AddRequestHeaders(WebRequest request, Dictionary<string, string> requestHeaders)
@@ -241,7 +255,7 @@ namespace Nokia.Music.Phone.Internal
             {
                 if (GzipEnabled)
                 {
-                    request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";   
+                    request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
                 }
             }
             catch (Exception ex)

@@ -7,8 +7,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Nokia.Music.Phone.Internal;
+using System.Linq;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -34,17 +35,9 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            if (pathParams != null && pathParams.ContainsKey("id"))
-            {
-                uri.AppendFormat("mixes/groups/{0}/", pathParams["id"]);
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
+            uri.AppendFormat("mixes/groups/{0}/", this.MixGroupId);
         }
 
         /// <summary>
@@ -57,26 +50,26 @@ namespace Nokia.Music.Phone.Commands
                 throw new ArgumentNullException("MixGroupId", "A group id must be supplied");
             }
 
-            Dictionary<string, string> qs = new Dictionary<string, string>
-            {
-                { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
-                { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
-            };
-
-            if (!string.IsNullOrEmpty(this.ExclusiveTag))
-            {
-                qs.Add(MusicClientCommand.ParamExclusive, this.ExclusiveTag);
-            }
-
             RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                new Dictionary<string, string>
-                    {
-                        { ParamId, this.MixGroupId }
-                    },
-                qs,
-                rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback));
+                this.BuildQueryString(),
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback)));
+        }
+
+        /// <summary>
+        /// Builds the querystring parameters
+        /// </summary>
+        /// <returns>The querystring parameters</returns>
+        private List<KeyValuePair<string, string>> BuildQueryString()
+        {
+            var qs = this.GetPagingParams();
+            if (!string.IsNullOrEmpty(this.ExclusiveTag))
+            {
+                qs.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
+            }
+
+            return qs;
         }
     }
 }

@@ -13,30 +13,30 @@ namespace Nokia.Music.Phone.Types
     /// <summary>
     /// Represents a Nokia Music Genre
     /// </summary>
-    public sealed class Genre
+    public partial class Genre
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Genre" /> class.
         /// </summary>
-        internal Genre()
+        public Genre()
         {
         }
 
         /// <summary>
-        /// Gets the genre id.
+        /// Gets or sets the genre id.
         /// </summary>
         /// <value>
         /// The genre id.
         /// </value>
-        public string Id { get; internal set; }
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets the genre name.
+        /// Gets or sets the genre name.
         /// </summary>
         /// <value>
         /// The genre name.
         /// </value>
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -66,6 +66,11 @@ namespace Nokia.Music.Phone.Types
         /// </returns>
         public override int GetHashCode()
         {
+            if (this.Id == null)
+            {
+                return base.GetHashCode();
+            }
+
             return this.Id.GetHashCode();
         }
 

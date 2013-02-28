@@ -39,6 +39,13 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void HashCodeCanBeRetrievedWhenIdIsNull()
+        {
+            Mix mix = new Mix();
+            Assert.IsNotNull(mix.GetHashCode(), "Expected a hash code");
+        }
+
+        [Test]
         public void TestJsonParsing()
         {
             Mix mix = new Mix() { Id = "1234", Name = "Metal", ParentalAdvisory = true };

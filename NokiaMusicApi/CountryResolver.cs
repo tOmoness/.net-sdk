@@ -6,29 +6,27 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Net;
-using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Commands;
+using Nokia.Music.Phone.Internal.Request;
 
 namespace Nokia.Music.Phone
 {
     /// <summary>
     /// The CountryResolver validates a country has availability for the Nokia Music API
     /// </summary>
-    public sealed class CountryResolver : ApiMethod, ICountryResolver
+    public sealed class CountryResolver : ICountryResolver
     {
-        private string _appId;
-        private string _appCode;
-        private IApiRequestHandler _requestHandler;
+        private readonly IApiRequestHandler _requestHandler;
+        private readonly CountryResolverCommand _command;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CountryResolver" /> class.
         /// </summary>
         /// <param name="appId">The AppID obtained from api.developer.nokia.com</param>
         /// <param name="appCode">The AppCode obtained from api.developer.nokia.com</param>
-        public CountryResolver(string appId, string appCode)
-            : this(appId, appCode, new ApiRequestHandler(new ApiUriBuilder()))
+        /// <param name="requestId">A unique id to associate with this request</param>
+        public CountryResolver(string appId, string appCode, Guid? requestId = null)
+            : this(appId, appCode, new ApiRequestHandler(new ApiUriBuilder()), requestId)
         {
         }
 
@@ -38,19 +36,23 @@ namespace Nokia.Music.Phone
         /// <param name="appId">The App ID obtained from api.developer.nokia.com</param>
         /// <param name="appCode">The App Code obtained from api.developer.nokia.com</param>
         /// <param name="requestHandler">The request handler.</param>
+        /// <param name="requestId">A unique id to associate with this request.</param>
         /// <remarks>
         /// Allows custom requestHandler for testing purposes
         /// </remarks>
-        internal CountryResolver(string appId, string appCode, IApiRequestHandler requestHandler)
+        internal CountryResolver(string appId, string appCode, IApiRequestHandler requestHandler, Guid? requestId = null)
         {
             if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appCode))
             {
                 throw new ApiCredentialsRequiredException();
             }
 
-            this._appId = appId;
-            this._appCode = appCode;
             this._requestHandler = requestHandler;
+            this._command = new CountryResolverCommand(appId, appCode, requestHandler);
+            if (requestId.HasValue)
+            {
+                this._command.RequestId = requestId.Value;
+            }
         }
 
         /// <summary>
@@ -67,11 +69,6 @@ namespace Nokia.Music.Phone
             }
         }
 
-        internal override bool RequiresCountryCode
-        {
-            get { return false; }
-        }
-
         /// <summary>
         /// Validates that the Nokia Music API is available for a country
         /// </summary>
@@ -84,67 +81,8 @@ namespace Nokia.Music.Phone
                 throw new InvalidCountryCodeException();
             }
 
-            this.ValidateCallback(callback);
-
-            this.RequestHandler.SendRequestAsync(
-                this,
-                new CountryResolverSettings(this._appId, this._appCode),
-                null,
-                new Dictionary<string, string>() { { "countrycode", countryCode } },
-                (Response<JObject> rawResult) =>
-                {
-                    Response<bool> response = null;
-
-                    // Parse the result if we got one...
-                    if (rawResult.StatusCode != null && rawResult.StatusCode.HasValue)
-                    {
-                        switch (rawResult.StatusCode.Value)
-                        {
-                            case HttpStatusCode.OK:
-                                if (rawResult.Result != null)
-                                {
-                                    JArray items = rawResult.Result.Value<JArray>("items");
-                                    if (items != null && items.Count == 1)
-                                    {
-                                        response = new Response<bool>(rawResult.StatusCode, true, RequestId);
-                                    }
-                                }
-
-                                break;
-
-                            case HttpStatusCode.NotFound:
-                                response = new Response<bool>(rawResult.StatusCode, false, RequestId);
-                                break;
-
-                            case HttpStatusCode.Forbidden:
-                                response = new Response<bool>(rawResult.StatusCode, new InvalidApiCredentialsException(), RequestId);
-                                break;
-                        }
-                    }
-
-                    // If the API return an expected result, set an error...
-                    if (response == null)
-                    {
-                        response = new Response<bool>(rawResult.StatusCode, new ApiCallFailedException(), RequestId);
-                    }
-
-                    if (callback != null)
-                    {
-                        callback(response);
-                    }
-                });
-        }
-
-        /// <summary>
-        /// Checks that a callback has been set
-        /// </summary>
-        /// <param name="callback">The callback</param>
-        internal void ValidateCallback(object callback)
-        {
-            if (callback == null)
-            {
-                throw new ArgumentNullException("A callback must be supplied", "callback");
-            }
+            this._command.CountryCode = countryCode;
+            this._command.Invoke(callback);
         }
 
         /// <summary>
@@ -161,41 +99,6 @@ namespace Nokia.Music.Phone
             else
             {
                 return false;
-            }
-        }
-
-        /// <summary>
-        /// Implementation of MusicClientSettings for use with country resolver request
-        /// </summary>
-        private class CountryResolverSettings : IMusicClientSettings
-        {
-            private readonly string _appId;
-            private readonly string _appCode;
-
-            public CountryResolverSettings(string appId, string appCode)
-            {
-                this._appId = appId;
-                this._appCode = appCode;
-            }
-
-            public string AppId
-            {
-                get { return this._appId; }
-            }
-
-            public string AppCode
-            {
-                get { return this._appCode; }
-            }
-
-            public string CountryCode
-            {
-                get { return null; }
-            }
-
-            public bool CountryCodeBasedOnRegionInfo
-            {
-                get { return false; }
             }
         }
     }    

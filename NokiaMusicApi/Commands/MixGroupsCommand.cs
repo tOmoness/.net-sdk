@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Commands
@@ -27,8 +29,7 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
             uri.AppendFormat("mixes/groups/");
         }
@@ -38,23 +39,17 @@ namespace Nokia.Music.Phone.Commands
         /// </summary>
         protected override void Execute()
         {
-            Dictionary<string, string> qs = new Dictionary<string, string>
-            {
-                { PagingStartIndex, StartIndex.ToString(CultureInfo.InvariantCulture) },
-                { PagingItemsPerPage, ItemsPerPage.ToString(CultureInfo.InvariantCulture) }
-            };
-
+            var queryParams = this.GetPagingParams();
             if (!string.IsNullOrEmpty(this.ExclusiveTag))
             {
-                qs.Add(MusicClientCommand.ParamExclusive, this.ExclusiveTag);
+                queryParams.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
             }
 
             this.RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                null,
-                qs,
-                rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, MixGroup.FromJToken, this.Callback));
+                queryParams,
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, MixGroup.FromJToken, this.Callback)));
         }
     }
 }

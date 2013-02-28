@@ -9,7 +9,7 @@ using System;
 using System.Net;
 using System.Threading;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Request
 {
     /// <summary>
     /// Time-out implementation for web requests

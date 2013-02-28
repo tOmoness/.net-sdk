@@ -6,15 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
     public class SearchArtistsTests

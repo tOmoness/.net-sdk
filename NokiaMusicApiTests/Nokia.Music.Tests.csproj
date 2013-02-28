@@ -58,6 +58,9 @@
     <Compile Include="..\NokiaMusicApi\Commands\ArtistProductsCommand.cs">
       <Link>Source\Commands\ArtistProductsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\CountryResolverCommand.cs">
+      <Link>Source\Commands\CountryResolverCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\GenresCommand.cs">
       <Link>Source\Commands\GenresCommand.cs</Link>
     </Compile>
@@ -76,6 +79,9 @@
     <Compile Include="..\NokiaMusicApi\Commands\NewReleasesCommand.cs">
       <Link>Source\Commands\NewReleasesCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\ProductCommand.cs">
+      <Link>Source\Commands\ProductCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\SearchArtistsCommand.cs">
       <Link>Source\Commands\SearchArtistsCommand.cs</Link>
     </Compile>
@@ -90,6 +96,9 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\SimilarArtistsCommand.cs">
       <Link>Source\Commands\SimilarArtistsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\SimilarProductsCommand.cs">
+      <Link>Source\Commands\SimilarProductsCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\TopArtistsCommand.cs">
       <Link>Source\Commands\TopArtistsCommand.cs</Link>
@@ -136,15 +145,6 @@
     <Compile Include="..\NokiaMusicApi\IMusicClientAsync.cs">
       <Link>Source\IMusicClientAsync.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\ApiMethod.cs">
-      <Link>Source\Internal\ApiMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\ApiRequestHandler.cs">
-      <Link>Source\Internal\ApiRequestHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\ApiUriBuilder.cs">
-      <Link>Source\Internal\ApiUriBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\Crc32.cs">
       <Link>Source\Internal\Compression\Crc32.cs</Link>
     </Compile>
@@ -187,29 +187,53 @@
     <Compile Include="..\NokiaMusicApi\Internal\DebugLogger.cs">
       <Link>Source\Internal\DebugLogger.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\HttpMethod.cs">
-      <Link>Source\Internal\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\IApiRequestHandler.cs">
-      <Link>Source\Internal\IApiRequestHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\IApiUriBuilder.cs">
-      <Link>Source\Internal\IApiUriBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\IJsonProcessor.cs">
-      <Link>Source\Internal\IJsonProcessor.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\IMusicClientSettings.cs">
       <Link>Source\Internal\IMusicClientSettings.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\NamedItemListJsonProcessor.cs">
-      <Link>Source\Internal\NamedItemListJsonProcessor.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Parsing\ArrayJsonProcessor.cs">
+      <Link>Source\Internal\Parsing\ArrayJsonProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Parsing\IJsonProcessor.cs">
+      <Link>Source\Internal\Parsing\IJsonProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Parsing\NamedItemListJsonProcessor.cs">
+      <Link>Source\Internal\Parsing\NamedItemListJsonProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Parsing\ParseHelper.cs">
+      <Link>Source\Internal\Parsing\ParseHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Parsing\SingleRawItemJsonProcessor.cs">
+      <Link>Source\Internal\Parsing\SingleRawItemJsonProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandler.cs">
+      <Link>Source\Internal\Request\ApiRequestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiUriBuilder.cs">
+      <Link>Source\Internal\Request\ApiUriBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\HttpMethod.cs">
+      <Link>Source\Internal\Request\HttpMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\IApiRequestHandler.cs">
+      <Link>Source\Internal\Request\IApiRequestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\IApiUriBuilder.cs">
+      <Link>Source\Internal\Request\IApiUriBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\TimedRequest.cs">
+      <Link>Source\Internal\Request\TimedRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Response\IResponseCallback.cs">
+      <Link>Source\Internal\Response\IResponseCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Response\JsonResponseCallback.cs">
+      <Link>Source\Internal\Response\JsonResponseCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Response\ResponseInfo.cs">
+      <Link>Source\Internal\Response\ResponseInfo.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\StreamExtensions.cs">
       <Link>Source\Internal\StreamExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\TimedRequest.cs">
-      <Link>Source\Internal\TimedRequest.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\ListResponse{T}.cs">
       <Link>Source\ListResponse{T}.cs</Link>
@@ -280,26 +304,29 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="Commands\ProductTestBase.cs" />
+    <Compile Include="Commands\SimilarProductsTests.cs" />
     <Compile Include="Converters\LocationConverterTests.cs" />
-    <Compile Include="Internal\MockApiMethod.cs" />
-    <Compile Include="SearchArtistByLocationTests.cs" />
-    <Compile Include="SearchSuggestionsTests.cs" />
+    <Compile Include="Commands\GetProductTests.cs" />
+    <Compile Include="Internal\MockApiCommand.cs" />
+    <Compile Include="Commands\SearchArtistByLocationTests.cs" />
+    <Compile Include="Commands\SearchSuggestionsTests.cs" />
     <Compile Include="Internal\FakeResponse.cs" />
     <Compile Include="Internal\MockMusicClientSettings.cs" />
     <Compile Include="MusicClientAsyncTests.cs" />
-    <Compile Include="ProductNewReleasesTests.cs" />
-    <Compile Include="ProductChartTests.cs" />
+    <Compile Include="Commands\ProductNewReleasesTests.cs" />
+    <Compile Include="Commands\ProductChartTests.cs" />
     <Compile Include="MusicClientTests.cs" />
-    <Compile Include="ArtistProductTests.cs" />
+    <Compile Include="Commands\ArtistProductTests.cs" />
     <Compile Include="CountryResolverTests.cs" />
     <Compile Include="ResponseTests.cs" />
-    <Compile Include="SimilarArtistTests.cs" />
-    <Compile Include="MixTests.cs" />
-    <Compile Include="GenreTests.cs" />
+    <Compile Include="Commands\SimilarArtistTests.cs" />
+    <Compile Include="Commands\MixTests.cs" />
+    <Compile Include="Commands\GenreTests.cs" />
     <Compile Include="Internal\TestHttpUriBuilder.cs" />
     <Compile Include="Internal\LocalFileUriBuilder.cs" />
-    <Compile Include="SearchTests.cs" />
-    <Compile Include="SearchArtistsTests.cs" />
+    <Compile Include="Commands\SearchTests.cs" />
+    <Compile Include="Commands\SearchArtistsTests.cs" />
     <Compile Include="Internal\ApiRequestHandlerTests.cs" />
     <Compile Include="CountryLookupTests.cs" />
     <Compile Include="Internal\ApiUriBuilderTests.cs" />
@@ -345,6 +372,7 @@
     <None Include="Json\search-artists.json" />
     <None Include="Json\search-product.json" />
     <None Include="Json\search-suggestions.json" />
+    <None Include="Json\single-product.json" />
     <None Include="Json\suggestions-artists.json" />
     <None Include="Json\suggestions.json" />
     <None Include="Json\top-artists-genre.json" />

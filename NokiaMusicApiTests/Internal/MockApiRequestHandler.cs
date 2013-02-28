@@ -5,10 +5,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Phone.Internal.Response;
 using Nokia.Music.Phone.Tests.Internal;
 
 namespace Nokia.Music.Phone.Tests
@@ -22,7 +23,7 @@ namespace Nokia.Music.Phone.Tests
 
         private IMusicClientSettings _lastSettings;
 
-        private Dictionary<string, string> _queryStringParams;
+        private List<KeyValuePair<string, string>> _queryString;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MockApiRequestHandler" /> class.
@@ -64,9 +65,9 @@ namespace Nokia.Music.Phone.Tests
         /// <summary>
         /// Gets the Query string params that were passed with the last request
         /// </summary>
-        public Dictionary<string, string> LastQueryStringParams
+        public List<KeyValuePair<string, string>> LastQueryString
         {
-            get { return this._queryStringParams; }
+            get { return this._queryString; }
         }
 
         /// <summary>
@@ -80,23 +81,22 @@ namespace Nokia.Music.Phone.Tests
         /// <summary>
         /// Makes the API request
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <typeparam name="T">The type of response</typeparam>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The app id.</param>
-        /// <param name="pathParams">The path params.</param>
-        /// <param name="querystringParams">The querystring params.</param>
+        /// <param name="querystring">The querystring params.</param>
         /// <param name="callback">The callback to hit when done.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
-        public void SendRequestAsync(
-                                     ApiMethod method,
+        public void SendRequestAsync<T>(
+                                     MusicClientCommand command,
                                      IMusicClientSettings settings,
-                                     Dictionary<string, string> pathParams,
-                                     Dictionary<string, string> querystringParams,
-                                     Action<Response<JObject>> callback,
+                                     List<KeyValuePair<string, string>> querystring,
+                                     IResponseCallback<T> callback,
                                      Dictionary<string, string> requestHeaders = null)
         {
             this._lastSettings = settings;
-            this._queryStringParams = querystringParams;
-            this.NextFakeResponse.DoCallback(callback);
+            this._queryString = querystring;
+            this.NextFakeResponse.DoCallback<T>(callback);
         }
     }
 }

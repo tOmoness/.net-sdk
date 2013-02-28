@@ -9,8 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Phone.Internal.Response;
 
 namespace Nokia.Music.Phone.Commands
 {
@@ -35,8 +34,7 @@ namespace Nokia.Music.Phone.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        /// <param name="pathParams">The API method parameters</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri, Dictionary<string, string> pathParams)
+        internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
             if (this.SuggestArtists)
             {
@@ -58,16 +56,17 @@ namespace Nokia.Music.Phone.Commands
                 throw new ArgumentNullException("SearchTerm", "A search term must be supplied");
             }
 
+            var queryStringParams = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>(ParamSearchTerm, this.SearchTerm),
+                    new KeyValuePair<string, string>("maxitems", this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
+                };
+
             RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                null,
-                new Dictionary<string, string>
-                    {
-                        { ParamSearchTerm, this.SearchTerm },
-                        { "maxitems", this.ItemsPerPage.ToString() }
-                    },
-                rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameResults, ExtractStringFromJToken, this.Callback));
+                queryStringParams,
+                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameResults, ExtractStringFromJToken, this.Callback)));
         }
 
         /// <summary>

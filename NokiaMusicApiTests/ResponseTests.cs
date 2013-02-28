@@ -7,7 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
@@ -46,9 +45,10 @@ namespace Nokia.Music.Phone.Tests
         {
             Exception e = new ApiCredentialsRequiredException();
             Guid requestId = Guid.NewGuid();
-            Response<string> response = new Response<string>(null, e, requestId);
+            Response<string> response = new Response<string>(null, e, "ThisIsTheResponseBody", requestId);
             Assert.IsNotNull(response, "Expected a new Response");
             Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
             Assert.AreEqual(e, response.Error, "Expected the same error");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Result, "Expected no result");
@@ -78,9 +78,10 @@ namespace Nokia.Music.Phone.Tests
         {
             Exception e = new ApiCredentialsRequiredException();
             Guid requestId = Guid.NewGuid();
-            ListResponse<MusicItem> response = new ListResponse<MusicItem>(HttpStatusCode.OK, e, requestId);
+            ListResponse<MusicItem> response = new ListResponse<MusicItem>(HttpStatusCode.OK, e, "ErrorResponseBody", requestId);
             Assert.IsNotNull(response, "Expected a new Response");
             Assert.AreEqual(e, response.Error, "Expected the same error");
+            Assert.AreEqual("ErrorResponseBody", response.ErrorResponseBody, "Expected the same error");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Result, "Expected no result");
         }
@@ -88,7 +89,7 @@ namespace Nokia.Music.Phone.Tests
         [Test]
         public void EnsureNullResultGivesNoEnumerator()
         {
-            ListResponse<MusicItem> response = new ListResponse<MusicItem>(HttpStatusCode.OK, new ApiCredentialsRequiredException(), Guid.Empty);
+            ListResponse<MusicItem> response = new ListResponse<MusicItem>(HttpStatusCode.OK, new ApiCredentialsRequiredException(), null, Guid.Empty);
             Assert.IsNull((response as System.Collections.IEnumerable).GetEnumerator(), "Expected a null enumerator");
             Assert.IsNull((response as System.Collections.Generic.IEnumerable<MusicItem>).GetEnumerator(), "Expected a null enumerator");
         }

@@ -111,6 +111,24 @@ namespace Nokia.Music.Phone
         Task<ListResponse<Product>> GetArtistProducts(Artist artist, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
 
         /// <summary>
+        /// Gets a product by id
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing Products or an Error</returns>
+        Task<ListResponse<Product>> GetProduct(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets similar products for the supplied product id.
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing Products or an Error</returns>
+        Task<ListResponse<Product>> GetSimilarProducts(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        
+        /// <summary>
         /// Gets a chart
         /// </summary>
         /// <param name="category">The category - only Album and Track charts are available.</param>

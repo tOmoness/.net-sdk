@@ -41,6 +41,13 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void HashCodeCanBeRetrievedWhenIdIsNull()
+        {
+            Artist artist = new Artist();
+            Assert.IsNotNull(artist.GetHashCode(), "Expected a hash code");
+        }
+
+        [Test]
         public void TestJsonParsing()
         {
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.artist_parse_tests));

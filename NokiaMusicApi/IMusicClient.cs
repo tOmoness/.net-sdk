@@ -110,6 +110,24 @@ namespace Nokia.Music.Phone
         void GetArtistProducts(Action<ListResponse<Product>> callback, Artist artist, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
 
         /// <summary>
+        /// Gets a product by product id.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetProduct(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
+        /// Gets similar products for the supplied product id.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void GetSimilarProducts(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+        /// <summary>
         /// Gets a chart
         /// </summary>
         /// <param name="callback">The callback.</param>

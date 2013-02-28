@@ -8,6 +8,7 @@
 using System;
 using System.Threading.Tasks;
 using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Internal.Request;
 using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone
@@ -215,6 +216,36 @@ namespace Nokia.Music.Phone
         {
             var wrapper = new TaskCompletionSource<ListResponse<Product>>();
             this._musicClient.GetArtistProducts(result => wrapper.TrySetResult(result), artist, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets products by id.
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing a Product or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetProduct(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this._musicClient.GetProduct(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets a similar product for the supplied product id.
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing Products or an Error</returns>
+        public Task<ListResponse<Product>> GetSimilarProducts(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this._musicClient.GetSimilarProducts(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
             return wrapper.Task;
         }
 

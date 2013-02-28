@@ -60,7 +60,6 @@ namespace Nokia.Music.TestApp
             this.LoadingArtists.Visibility = Visibility.Visible;
 
             App.ApiClient.GetSimilarArtists(this.ArtistsResponseHandler, this._artistId, 0, 10);
-
             this.LoadingSongs.Visibility = Visibility.Visible;
             App.ApiClient.GetArtistProducts(this.SongsResponseHandler, this._artistId, Category.Track, 0, 10);
         }

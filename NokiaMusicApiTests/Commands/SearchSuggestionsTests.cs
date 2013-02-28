@@ -6,15 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Tests.Internal;
+using System.Text;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
     public class SearchSuggestionsTests
@@ -90,6 +88,23 @@ namespace Nokia.Music.Phone.Tests
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
             ListResponse<string> result = await client.GetSearchSuggestions("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
+
+        [Test]
+        public void EnsureUriIsBuiltCorrectlyForSearch()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            new SearchSuggestionsCommand().AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/suggestions/", uri.ToString());
+        }
+
+        [Test]
+        public void EnsureUriIsBuiltCorrectlyForArtistSearch()
+        {
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            var cmd = new SearchSuggestionsCommand { SuggestArtists = true };
+            cmd.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/suggestions/creators/", uri.ToString());
         }
     }
 }

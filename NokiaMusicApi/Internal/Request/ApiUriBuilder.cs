@@ -7,9 +7,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Nokia.Music.Phone.Commands;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Phone.Internal.Request
 {
     /// <summary>
     /// Defines the real Uri Builder
@@ -19,22 +21,21 @@ namespace Nokia.Music.Phone.Internal
         /// <summary>
         /// Builds an API URI
         /// </summary>
-        /// <param name="method">The method to call.</param>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The music client settings.</param>
-        /// <param name="pathParams">The path parameters.</param>
-        /// <param name="querystringParams">The querystring parameters.</param>
+        /// <param name="queryParams">The querystring parameters</param>
         /// <returns>
         /// A Uri to call
         /// </returns>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an unknown method is used</exception>
         /// <exception cref="CountryCodeRequiredException">Thrown when a CountryCode is required but not supplied</exception>
         /// <exception cref="ApiCredentialsRequiredException">Thrown when an API Key has not been supplied</exception>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public Uri BuildUri(ApiMethod method, IMusicClientSettings settings, Dictionary<string, string> pathParams, Dictionary<string, string> querystringParams)
+        /// <exception cref="System.ArgumentNullException"></exception>        
+        public Uri BuildUri(MusicClientCommand command, IMusicClientSettings settings, List<KeyValuePair<string, string>> queryParams)
         {
-            if (method == null)
+            if (command == null)
             {
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException("command");
             }
 
             if (settings == null)
@@ -45,10 +46,10 @@ namespace Nokia.Music.Phone.Internal
             // Build API url
             StringBuilder url = new StringBuilder();
 
-            url.Append(method.BaseApiUri);
-            AddCountryCode(url, method, settings.CountryCode);
-            method.AppendUriPath(url, pathParams);
-            this.AppendQueryString(url, settings, querystringParams);
+            url.Append(command.BaseApiUri);
+            AddCountryCode(url, command, settings.CountryCode);
+            command.AppendUriPath(url);
+            this.AppendQueryString(url, settings, queryParams);
 
             return new Uri(url.ToString());
         }
@@ -72,11 +73,11 @@ namespace Nokia.Music.Phone.Internal
         /// Validates and adds country code if required
         /// </summary>
         /// <param name="url">The url being built</param>
-        /// <param name="method">The method to call.</param>
+        /// <param name="command">The command to call.</param>
         /// <param name="countryCode">The country code.</param>
-        private static void AddCountryCode(StringBuilder url, ApiMethod method, string countryCode)
+        private static void AddCountryCode(StringBuilder url, MusicClientCommand command, string countryCode)
         {
-            if (method.RequiresCountryCode)
+            if (command.RequiresCountryCode)
             {
                 if (string.IsNullOrEmpty(countryCode))
                 {
@@ -92,22 +93,19 @@ namespace Nokia.Music.Phone.Internal
         /// </summary>
         /// <param name="url">The url being built.</param>
         /// <param name="settings">The music client settings.</param>
-        /// <param name="querystringParams">The querystring parameters.</param>
-        private void AppendQueryString(StringBuilder url, IMusicClientSettings settings, Dictionary<string, string> querystringParams)
+        /// <param name="queryParams">The query string.</param>
+        private void AppendQueryString(StringBuilder url, IMusicClientSettings settings, List<KeyValuePair<string, string>> queryParams)
         {
             // Add required parameters
             this.AddAuthorisationParams(url, settings);
-            url.AppendFormat(@"&domain=music");
+            url.AppendFormat("&domain=music");
 
             // Add other parameters...
-            if (querystringParams != null)
+            if (queryParams != null)
             {
-                foreach (string key in querystringParams.Keys)
+                foreach (KeyValuePair<string, string> pair in queryParams)
                 {
-                    if (!string.IsNullOrEmpty(querystringParams[key]))
-                    {
-                        url.AppendFormat(@"&{0}={1}", key, querystringParams[key]);
-                    }
+                    url.AppendFormat("&{0}={1}", pair.Key, pair.Value);
                 }
             }
         }

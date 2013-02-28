@@ -6,18 +6,18 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Internal;
+using System.Text;
+using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Tests.Internal;
 using Nokia.Music.Phone.Tests.Properties;
 using Nokia.Music.Phone.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Phone.Tests.Commands
 {
     [TestFixture]
-    public class ArtistProductTests
+    public class ArtistProductTests : ProductTestBase
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -49,8 +49,8 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureGetArtistProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistProducts(this.ProductResponse, new Artist() { Id = "test" }, Category.Album);
-            client.GetArtistProducts(this.ProductResponse, "test");
+            client.GetArtistProducts(this.ValidateProductResponse, new Artist() { Id = "test" }, Category.Album);
+            client.GetArtistProducts(this.ValidateProductResponse, "test");
         }
 
         [Test]
@@ -71,30 +71,24 @@ namespace Nokia.Music.Phone.Tests
         }
 
         [Test]
-        public async void EnsureAsyncGetArtistProductsReturnsItems()
+        public void EnsureAsyncGetArtistProductsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.artist_products));
-            this.ProductResponse(await client.GetArtistProducts("test"));
-            this.ProductResponse(await client.GetArtistProducts(new Artist() { Id = "test" }));
+            var artistProductByIdTask = client.GetArtistProducts("test");
+            var artistProductByArtistTask = client.GetArtistProducts(new Artist() { Id = "test" });
+            artistProductByIdTask.Wait();
+            artistProductByArtistTask.Wait();
+            this.ValidateProductResponse(artistProductByIdTask.Result);
+            this.ValidateProductResponse(artistProductByArtistTask.Result);
         }
 
-        private void ProductResponse(ListResponse<Product> result)
+        [Test]
+        public void EnsureUriIsBuiltCorrectly()
         {
-            Assert.IsNotNull(result, "Expected a result");
-            Assert.IsNotNull(result.StatusCode, "Expected a status code");
-            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-            Assert.IsNotNull(result.Result, "Expected a list of results");
-            Assert.IsNull(result.Error, "Expected no error");
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-            foreach (Product productItem in result.Result)
-            {
-                Assert.IsFalse(string.IsNullOrEmpty(productItem.Id), "Expected Id to be populated");
-                Assert.IsFalse(string.IsNullOrEmpty(productItem.Name), "Expected Name to be populated");
-                Assert.AreNotEqual(Category.Unknown, productItem.Category, "Expected Category to be set");
-            }
-        }
+            StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
+            new ArtistProductsCommand() { ArtistId = "123456" }.AppendUriPath(uri);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/creators/123456/products/", uri.ToString());
+        }        
     }
 }
