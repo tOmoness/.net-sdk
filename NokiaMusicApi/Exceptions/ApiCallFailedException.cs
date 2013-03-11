@@ -5,7 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
+using System.Globalization;
+using System.Net;
 
 namespace Nokia.Music.Phone
 {
@@ -19,6 +20,15 @@ namespace Nokia.Music.Phone
         /// </summary>
         public ApiCallFailedException()
             : base("Unexpected failure, check connectivity")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiCallFailedException"/> class.
+        /// </summary>
+        /// <param name="statusCode">Details to append to the exception message</param>
+        internal ApiCallFailedException(HttpStatusCode? statusCode)
+            : base(string.Format(CultureInfo.InvariantCulture, "Unexpected failure, check connectivity. Result: {0}", statusCode.HasValue ? statusCode.ToString() : "timeout"))
         {
         }
     }

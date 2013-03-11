@@ -20,12 +20,32 @@ namespace Nokia.Music.Phone.Types
     /// </summary>
     public sealed partial class Product : MusicItem
     {
+        internal const string AppToAppShow = "nokia-music://show/product/?id={0}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Product" /> class.
         /// </summary>
         public Product()
         {
             this.Tracks = new List<Product>();
+        }
+
+        /// <summary>
+        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// </summary>
+        public override Uri AppToAppUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(AppToAppShow, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         /// <summary>
@@ -90,7 +110,7 @@ namespace Nokia.Music.Phone.Types
         /// <value>
         /// The duration.
         /// </value>
-        public double? Duration { get; set; }
+        public int? Duration { get; set; }
 
         /// <summary>
         /// Gets or sets the tracknumber of a local track if available.
@@ -244,7 +264,7 @@ namespace Nokia.Music.Phone.Types
                 TrackCount = trackCount,
                 Tracks = ExtractTracks(item["tracks"]),
                 Performers = performers,
-                Duration = item.Value<double>("duration")
+                Duration = item.Value<int>("duration")
             };
         }
 

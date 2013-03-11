@@ -20,7 +20,8 @@
 				"location": {
 					"lat": 50.54829997010529,
 					"lng": -3.5000998713076115
-				}
+				},
+				name: "Teignmouth, Devon, England"
 			},
 			"thumbnails": {
 				"320x320":"http://assets.ent.nokia.com/p/d/music_image/320x320/559688.jpg",

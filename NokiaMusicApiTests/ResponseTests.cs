@@ -26,6 +26,7 @@ namespace Nokia.Music.Phone.Tests
             Assert.AreEqual(SuccessfulResponse, response.Result, "Expected the same result");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request Id");
             Assert.IsNull(response.Error, "Expected no error");
+            Assert.IsTrue(response.Succeeded, "Expected success");
         }
 
         [Test]
@@ -38,6 +39,7 @@ namespace Nokia.Music.Phone.Tests
             Assert.AreEqual(SuccessfulResponse, response.Result, "Expected the same result");
             Assert.AreEqual(Guid.Empty, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Error, "Expected no error");
+            Assert.IsTrue(response.Succeeded, "Expected success");
         }
 
         [Test]
@@ -50,6 +52,7 @@ namespace Nokia.Music.Phone.Tests
             Assert.IsNull(response.StatusCode, "Expected no status code");
             Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
             Assert.AreEqual(e, response.Error, "Expected the same error");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Result, "Expected no result");
         }
@@ -71,6 +74,7 @@ namespace Nokia.Music.Phone.Tests
             Assert.AreEqual(StartIndex, response.StartIndex, "Expected the same StartIndex");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Error, "Expected no error");
+            Assert.IsTrue(response.Succeeded, "Expected success");
         }
 
         [Test]
@@ -84,6 +88,7 @@ namespace Nokia.Music.Phone.Tests
             Assert.AreEqual("ErrorResponseBody", response.ErrorResponseBody, "Expected the same error");
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request id");
             Assert.IsNull(response.Result, "Expected no result");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
         }
 
         [Test]

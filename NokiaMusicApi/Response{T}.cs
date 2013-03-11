@@ -63,17 +63,20 @@ namespace Nokia.Music.Phone
         public Exception Error { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the call succeeded
+        /// </summary>
+        public bool Succeeded
+        {
+            get { return this.Error == null; }
+        }
+
+        /// <summary>
         /// Gets the result if the call was successful
         /// </summary>
         /// <value>
         /// The result.
         /// </value>
         public T Result { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the HTTP Status code
-        /// </summary>
-        public HttpStatusCode? StatusCode { get; set; }
 
         /// <summary>
         /// Gets or sets the id of this request
@@ -95,5 +98,10 @@ namespace Nokia.Music.Phone
         /// The raw response body.
         /// </value>
         internal string ErrorResponseBody { get; set; }
+
+        /// <summary>
+        /// Gets or sets the HTTP Status code
+        /// </summary>
+        internal HttpStatusCode? StatusCode { get; set; }
     }
 }

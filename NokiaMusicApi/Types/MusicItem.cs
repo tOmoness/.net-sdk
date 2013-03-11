@@ -27,6 +27,11 @@ namespace Nokia.Music.Phone.Types
         public string Id { get; set; }
 
         /// <summary>
+        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// </summary>
+        public abstract Uri AppToAppUri { get; }
+
+        /// <summary>
         /// Gets or sets the item name.
         /// </summary>
         /// <value>
@@ -74,7 +79,7 @@ namespace Nokia.Music.Phone.Types
         /// <param name="square100">The square100 uri.</param>
         /// <param name="square200">The square200 uri.</param>
         /// <param name="square320">The square320 uri.</param>
-        protected static void ExtractThumbs(JToken thumbnailsToken, out Uri square50, out Uri square100, out Uri square200, out Uri square320)
+        internal static void ExtractThumbs(JToken thumbnailsToken, out Uri square50, out Uri square100, out Uri square200, out Uri square320)
         {
             square50 = null;
             square100 = null;

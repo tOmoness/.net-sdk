@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Nokia.Music.Phone.Commands;
 
@@ -44,7 +43,7 @@ namespace Nokia.Music.Phone.Internal.Request
             }
 
             // Build API url
-            StringBuilder url = new StringBuilder();
+            var url = new StringBuilder();
 
             url.Append(command.BaseApiUri);
             AddCountryCode(url, command, settings.CountryCode);

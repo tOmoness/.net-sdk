@@ -17,11 +17,13 @@
                     <Image Source="{Binding Thumb100Uri}" Width="100" Height="100" Stretch="Uniform" VerticalAlignment="Top" />
                 </Grid>
 
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical">
                     <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextLargeStyle}" Margin="0" />
                     <TextBlock Text="{Binding Performers[0].Name}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
-                    <TextBlock Text="{Binding TakenFrom.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
-                    <!--<TextBlock Text="{Binding TrackCount}" Style="{StaticResource PhoneTextSmallStyle}" />-->
+                    <Grid>
+                        <TextBlock Text="{Binding TakenFrom.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
+                        <TextBlock Text="{Binding Origin.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </DataTemplate>

@@ -32,6 +32,16 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void TestLinkingProperties()
+        {
+            var item = new Artist() { Id = TestId };
+            var itemWithNullId = new Artist();
+
+            Assert.IsNotNull(item.AppToAppUri, "Expected App to App URI to be calculated");
+            Assert.IsNull(itemWithNullId.AppToAppUri, "Expected App to App URI not to be calculated");
+        }
+
+        [Test]
         public void TestOverrides()
         {
             Artist artist = new Artist() { Id = TestId, Name = TestName };
@@ -60,6 +70,7 @@ namespace Nokia.Music.Phone.Tests.Types
             Assert.IsNotNull(fullArtist.Country, "Expected a country");
             Assert.IsNotNull(fullArtist.Genres, "Expected genres");
             Assert.IsNotNull(fullArtist.Origin, "Expected an origin location");
+            Assert.IsNotNull(fullArtist.Origin.Name, "Expected an origin name");
             Assert.Greater(fullArtist.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(fullArtist.Id, "Expected an id");
             Assert.IsNotNull(fullArtist.Name, "Expected a name");

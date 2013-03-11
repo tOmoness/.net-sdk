@@ -17,11 +17,31 @@ namespace Nokia.Music.Phone.Types
     /// </summary>
     public partial class Artist : MusicItem
     {
+        internal const string AppToAppShow = "nokia-music://show/artist/?id={0}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
         /// </summary>
         public Artist()
         {
+        }
+
+        /// <summary>
+        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// </summary>
+        public override Uri AppToAppUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(AppToAppShow, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         /// <summary>
@@ -138,13 +158,16 @@ namespace Nokia.Music.Phone.Types
 
             if (originToken != null)
             {
+                string name = originToken.Value<string>("name");
+
                 JToken location = originToken["location"];
                 if (location != null)
                 {
                     origin = new Location()
                     {
                         Latitude = location.Value<double>("lat"),
-                        Longitude = location.Value<double>("lng")
+                        Longitude = location.Value<double>("lng"),
+                        Name = name
                     };
                 }
             }

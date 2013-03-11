@@ -17,11 +17,31 @@ namespace Nokia.Music.Phone.Types
     /// </summary>
     public sealed partial class Mix : MusicItem
     {
+        internal const string AppToAppShow = "nokia-music://play/mix/?id={0}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Mix" /> class.
         /// </summary>
         public Mix()
         {
+        }
+
+        /// <summary>
+        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// </summary>
+        public override Uri AppToAppUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(AppToAppShow, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         /// <summary>

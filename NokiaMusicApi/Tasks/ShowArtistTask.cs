@@ -6,7 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Phone.Types;
 
 namespace Nokia.Music.Phone.Tasks
 {
@@ -66,7 +66,7 @@ namespace Nokia.Music.Phone.Tasks
             if (!string.IsNullOrEmpty(this._artistId))
             {
                 this.Launch(
-                    new Uri("nokia-music://show/artist/?id=" + this._artistId),
+                    new Uri(string.Format(Artist.AppToAppShow, this._artistId)),
                     new Uri("http://music.nokia.com/r/artist/-/" + this._artistId));
             }
             else if (!string.IsNullOrEmpty(this._artistName))

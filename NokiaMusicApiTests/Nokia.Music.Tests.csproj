@@ -308,6 +308,7 @@
     <Compile Include="Commands\SimilarProductsTests.cs" />
     <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="Commands\GetProductTests.cs" />
+    <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
     <Compile Include="Commands\SearchSuggestionsTests.cs" />

@@ -15,6 +15,7 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
  
 ##Releases
 
+- 1.0.9 - Added Name to Artist Origin object, added AppToAppUri properties to Artist, Mix and Product
 - 1.0.8 - Added GetProduct and GetSimilarProducts
 - 1.0.7 - Added Gzip support
 - 1.0.6 - Fixed MusicSearchTask bug where searching artists with spaces did not work, added LocationConverter for working with Maps control, added exclusiveTag for exclusive mixes

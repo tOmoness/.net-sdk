@@ -32,6 +32,16 @@ namespace Nokia.Music.Phone.Tests.Types
         }
 
         [Test]
+        public void TestLinkingProperties()
+        {
+            var item = new Product() { Id = TestId };
+            var itemWithNullId = new Product();
+
+            Assert.IsNotNull(item.AppToAppUri, "Expected App to App URI to be calculated");
+            Assert.IsNull(itemWithNullId.AppToAppUri, "Expected App to App URI not to be calculated");
+        }
+
+        [Test]
         public void TestOverrides()
         {
             Product product = new Product() { Id = TestId, Name = TestName };
