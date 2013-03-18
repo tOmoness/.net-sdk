@@ -146,7 +146,7 @@ namespace Nokia.Music.TestApp
 
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
-            (App.Current as App).RootItemClick(this.Results.SelectedItem);
+            (App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
         }
     }

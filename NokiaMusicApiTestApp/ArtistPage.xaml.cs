@@ -94,7 +94,7 @@ namespace Nokia.Music.TestApp
             ListBox list = sender as ListBox;
             if (list != null)
             {
-                (App.Current as App).RootItemClick(list.SelectedItem);
+                (App.Current as App).RouteItemClick(list.SelectedItem);
             }
         }
     }

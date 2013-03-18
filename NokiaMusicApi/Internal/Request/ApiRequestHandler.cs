@@ -230,7 +230,7 @@ namespace Nokia.Music.Phone.Internal.Request
         private Stream GetResponseStream(WebResponse response)
         {
             bool gzipped = false;
-            if (response.ContentLength > 0 && response.Headers != null && response.Headers.Count > 0)
+            if (response.Headers != null && response.Headers.Count > 0)
             {
                 var headerEncoding = response.Headers["Content-Encoding"];
                 gzipped = headerEncoding != null && headerEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) > -1;

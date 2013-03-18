@@ -10,11 +10,12 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
 
 ##Usage
 
- - Install with [NuGet](http://nuget.org) - search for **nokiamusic** or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
+ - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) - or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
  ![Package Manager](http://api.ent.nokia.com/assets/nuget.png)
  
 ##Releases
 
+- 1.1.0 - A tidy-up release. We have removed optional paging parameters that had incorrectly been included on the GetMixes and GetProduct methods and removed some unneeded properties from the Location type.
 - 1.0.9 - Added Name to Artist Origin object, added AppToAppUri properties to Artist, Mix and Product
 - 1.0.8 - Added GetProduct and GetSimilarProducts
 - 1.0.7 - Added Gzip support

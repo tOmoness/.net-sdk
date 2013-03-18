@@ -27,11 +27,11 @@ namespace Nokia.Music.Phone.Types
             return new GeoCoordinate(
                 location.Latitude,
                 location.Longitude,
-                location.Altitude.GetValueOrDefault(),
+                0,
                 location.HorizontalAccuracy.GetValueOrDefault(),
-                location.VerticalAccuracy.GetValueOrDefault(),
-                location.Speed.GetValueOrDefault(),
-                location.Course.GetValueOrDefault());
+                0,
+                0,
+                0);
         }
     }
 }

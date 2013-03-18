@@ -223,15 +223,13 @@ namespace Nokia.Music.Phone
         /// Gets products by id.
         /// </summary>
         /// <param name="id">The product id.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
-        /// A ListResponse containing a Product or an Error
+        /// A Response containing a Product or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetProduct(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public Task<Response<Product>> GetProduct(string id)
         {
-            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
-            this._musicClient.GetProduct(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            var wrapper = new TaskCompletionSource<Response<Product>>();
+            this._musicClient.GetProduct(result => wrapper.TrySetResult(result), id);
             return wrapper.Task;
         }
 
@@ -359,15 +357,13 @@ namespace Nokia.Music.Phone
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixes(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public Task<ListResponse<Mix>> GetMixes(string id)
         {
             var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
-            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), id);
             return wrapper.Task;
         }
 
@@ -376,15 +372,13 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="id">The mix group id.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixes(string id, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public Task<ListResponse<Mix>> GetMixes(string id, string exclusiveTag)
         {
             var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
-            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), id, exclusiveTag, startIndex, itemsPerPage);
+            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), id, exclusiveTag);
             return wrapper.Task;
         }
 
@@ -392,15 +386,13 @@ namespace Nokia.Music.Phone
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="group">The mix group.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixes(MixGroup group, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public Task<ListResponse<Mix>> GetMixes(MixGroup group)
         {
             var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
-            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), group, startIndex, itemsPerPage);
+            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), group);
             return wrapper.Task;
         }
 
@@ -409,15 +401,13 @@ namespace Nokia.Music.Phone
         /// </summary>
         /// <param name="group">The mix group.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixes(MixGroup group, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public Task<ListResponse<Mix>> GetMixes(MixGroup group, string exclusiveTag)
         {
             var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
-            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), group, exclusiveTag, startIndex, itemsPerPage);
+            this._musicClient.GetMixes(result => wrapper.TrySetResult(result), group, exclusiveTag);
             return wrapper.Task;
         }
     }

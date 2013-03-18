@@ -49,8 +49,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetArtistProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistProducts(this.ValidateProductResponse, new Artist() { Id = "test" }, Category.Album);
-            client.GetArtistProducts(this.ValidateProductResponse, "test");
+            client.GetArtistProducts(this.ValidateProductListResponse, new Artist() { Id = "test" }, Category.Album);
+            client.GetArtistProducts(this.ValidateProductListResponse, "test");
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace Nokia.Music.Phone.Tests.Commands
             var artistProductByArtistTask = client.GetArtistProducts(new Artist() { Id = "test" });
             artistProductByIdTask.Wait();
             artistProductByArtistTask.Wait();
-            this.ValidateProductResponse(artistProductByIdTask.Result);
-            this.ValidateProductResponse(artistProductByArtistTask.Result);
+            this.ValidateProductListResponse(artistProductByIdTask.Result);
+            this.ValidateProductListResponse(artistProductByArtistTask.Result);
         }
 
         [Test]

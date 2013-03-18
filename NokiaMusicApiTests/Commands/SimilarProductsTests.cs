@@ -19,7 +19,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetSimilarProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetSimilarProducts(this.ValidateProductResponse, "test");
+            client.GetSimilarProducts(this.ValidateProductListResponse, "test");
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         {
             IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             var task = client.GetSimilarProducts("test");
-            this.ValidateProductResponse(task.Result);
+            this.ValidateProductListResponse(task.Result);
         }
 
         [Test]

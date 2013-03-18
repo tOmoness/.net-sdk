@@ -20,13 +20,6 @@ namespace Nokia.Music.Phone.Types
         internal const string AppToAppShow = "nokia-music://play/mix/?id={0}";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mix" /> class.
-        /// </summary>
-        public Mix()
-        {
-        }
-
-        /// <summary>
         /// Gets the app-to-app uri to use to show this item in Nokia Music
         /// </summary>
         public override Uri AppToAppUri

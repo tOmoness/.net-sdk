@@ -97,11 +97,11 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Roots clicks on an MusicItem to the right place...
+        /// Routes clicks on an MusicItem to the right place...
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>A boolean indicating if we rooted the object successfully</returns>
-        public bool RootItemClick(object item)
+        public bool RouteItemClick(object item)
         {
             Artist artist = item as Artist;
             if (artist != null)

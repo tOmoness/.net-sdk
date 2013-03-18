@@ -138,6 +138,57 @@ namespace Nokia.Music.Phone.Commands
         }
 
         /// <summary>
+        /// Generic response handler for single item content
+        /// </summary>
+        /// <typeparam name="T">The type to return</typeparam>
+        /// <param name="rawResult">The response</param>
+        /// <param name="converter">The object creation method to use</param>
+        /// <param name="callback">The client callback</param>
+        protected void ItemResponseHandler<T>(Response<JObject> rawResult, JTokenConversionDelegate<T> converter, Action<Response<T>> callback)
+        {
+            Response<T> response = null;
+
+            // Parse the result if we got one...
+            if (rawResult.StatusCode.HasValue)
+            {
+                switch (rawResult.StatusCode.Value)
+                {
+                    case HttpStatusCode.OK:
+                    case HttpStatusCode.Accepted:
+                    case HttpStatusCode.Created:
+                        if (rawResult.Result != null &&
+                            rawResult.ContentType != null &&
+                            rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
+                        {
+                            T result = converter(rawResult.Result);
+                            response = new Response<T>(rawResult.StatusCode, result, RequestId);
+                        }
+
+                        break;
+
+                    case HttpStatusCode.NotFound:
+                        if (this.MusicClientSettings.CountryCodeBasedOnRegionInfo)
+                        {
+                            response = new Response<T>(rawResult.StatusCode, new ApiNotAvailableException(), rawResult.ErrorResponseBody, RequestId);
+                        }
+
+                        break;
+
+                    case HttpStatusCode.Forbidden:
+                        response = new Response<T>(rawResult.StatusCode, new InvalidApiCredentialsException(), rawResult.ErrorResponseBody, RequestId);
+                        break;
+                }
+            }
+
+            if (response == null)
+            {
+                response = new Response<T>(rawResult.StatusCode, new ApiCallFailedException(), rawResult.ErrorResponseBody, RequestId);
+            }
+
+            callback(response);
+        }
+
+        /// <summary>
         /// Creates an initial querystring dictionary containing paging parameters
         /// </summary>
         /// <returns>A dictionary containing standard querystring paging parameters</returns>

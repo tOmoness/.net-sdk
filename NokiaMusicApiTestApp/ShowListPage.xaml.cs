@@ -132,7 +132,7 @@ namespace Nokia.Music.TestApp
 
                         string mixId = NavigationContext.QueryString[App.IdParam];
                         this.PageTitle.Text = HttpUtility.UrlDecode(NavigationContext.QueryString[App.NameParam]);
-                        App.ApiClient.GetMixes(this.ResponseHandler, mixId, 0, 100);
+                        App.ApiClient.GetMixes(this.ResponseHandler, mixId);
                         break;
 
                     case MethodCall.GetTopAlbums:
@@ -188,7 +188,7 @@ namespace Nokia.Music.TestApp
 
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
-            (App.Current as App).RootItemClick(this.Results.SelectedItem);
+            (App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
         }
     }

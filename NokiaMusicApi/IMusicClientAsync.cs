@@ -114,10 +114,8 @@ namespace Nokia.Music.Phone
         /// Gets a product by id
         /// </summary>
         /// <param name="id">The product id.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <returns>A ListResponse containing Products or an Error</returns>
-        Task<ListResponse<Product>> GetProduct(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        /// <returns>A Response containing a Product or an Error</returns>
+        Task<Response<Product>> GetProduct(string id);
 
         /// <summary>
         /// Gets similar products for the supplied product id.
@@ -193,42 +191,34 @@ namespace Nokia.Music.Phone
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>A ListResponse containing Mixes or an Error</returns>
-        Task<ListResponse<Mix>> GetMixes(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        Task<ListResponse<Mix>> GetMixes(string id);
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        Task<ListResponse<Mix>> GetMixes(string id, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        Task<ListResponse<Mix>> GetMixes(string id, string exclusiveTag);
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="group">The mix group.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>A ListResponse containing Mixes or an Error</returns>
-        Task<ListResponse<Mix>> GetMixes(MixGroup group, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        Task<ListResponse<Mix>> GetMixes(MixGroup group);
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="group">The mix group.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        Task<ListResponse<Mix>> GetMixes(MixGroup group, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+        Task<ListResponse<Mix>> GetMixes(MixGroup group, string exclusiveTag);
     }
 }

@@ -25,7 +25,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.single_product));
-            client.GetProduct((ListResponse<Product> result) => { }, nullId);
+            client.GetProduct((Response<Product> result) => { }, nullId);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetProduct(
-                (ListResponse<Product> result) =>
+                (Response<Product> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
                     Assert.IsNotNull(result.StatusCode, "Expected a status code");

@@ -6,10 +6,8 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal.Parsing;
+using Nokia.Music.Phone.Internal;
 
 namespace Nokia.Music.Phone.Types
 {
@@ -88,26 +86,30 @@ namespace Nokia.Music.Phone.Types
 
             if (thumbnailsToken != null)
             {
-                if (thumbnailsToken["50x50"] != null)
-                {
-                    square50 = new Uri(thumbnailsToken.Value<string>("50x50"));
-                }
+                square50 = ExtractThumb(thumbnailsToken, "50x50");
+                square100 = ExtractThumb(thumbnailsToken, "100x100");
+                square200 = ExtractThumb(thumbnailsToken, "200x200");
+                square320 = ExtractThumb(thumbnailsToken, "320x320");
+            }
+        }
 
-                if (thumbnailsToken["100x100"] != null)
+        private static Uri ExtractThumb(JToken thumbnailsToken, string size)
+        {
+            Uri thumb = null;
+            if (thumbnailsToken[size] != null)
+            {
+                var thumbAsString = thumbnailsToken.Value<string>(size);
+                try
                 {
-                    square100 = new Uri(thumbnailsToken.Value<string>("100x100"));
+                    thumb = new Uri(thumbAsString);
                 }
-
-                if (thumbnailsToken["200x200"] != null)
+                catch (FormatException ex)
                 {
-                    square200 = new Uri(thumbnailsToken.Value<string>("200x200"));
-                }
-
-                if (thumbnailsToken["320x320"] != null)
-                {
-                    square320 = new Uri(thumbnailsToken.Value<string>("320x320"));
+                    DebugLogger.Instance.WriteLog("Thumbnail {0}: {1} could not be used as Uri. {2}", size, thumbAsString, ex);
                 }
             }
+
+            return thumb;
         }
     }
 }

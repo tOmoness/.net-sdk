@@ -16,7 +16,7 @@ namespace Nokia.Music.Phone.Commands
     /// <summary>
     ///   Gets a specific product.
     /// </summary>
-    internal class ProductCommand : SearchCatalogCommand<Product>
+    internal class ProductCommand : MusicClientCommand<Response<Product>>
     {
         /// <summary>
         /// Gets or sets the product id.
@@ -25,17 +25,6 @@ namespace Nokia.Music.Phone.Commands
         /// The product id.
         /// </value>
         public string ProductId { get; set; }
-
-        /// <summary>
-        /// Response will be either a single track or album
-        /// </summary>
-        protected override IJsonProcessor JsonProcessor
-        {
-            get
-            {
-                return new SingleRawItemJsonProcessor();
-            }
-        }
 
         /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
@@ -59,8 +48,8 @@ namespace Nokia.Music.Phone.Commands
             RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                this.GetPagingParams(),
-                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Product.FromJToken, this.Callback)));
+                null,
+                new JsonResponseCallback(rawResult => this.ItemResponseHandler<Product>(rawResult, Product.FromJToken, this.Callback)));
         }
     }
 }

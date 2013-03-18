@@ -59,7 +59,7 @@ namespace Nokia.Music.TestApp
 
             App.ApiClient.GetSimilarProducts(this.SimilarProductsResponseHandler, this._albumId, 0, 10);
             this.LoadingTracks.Visibility = Visibility.Visible;
-            App.ApiClient.GetProduct(this.TracksResponseHandler, this._albumId, 0, 10);
+            App.ApiClient.GetProduct(this.TracksResponseHandler, this._albumId);
         }
 
         private void ShowProduct(object sender, RoutedEventArgs e)
@@ -78,12 +78,12 @@ namespace Nokia.Music.TestApp
             });
         }
 
-        private void TracksResponseHandler(ListResponse<Product> response)
+        private void TracksResponseHandler(Response<Product> response)
         {
             Dispatcher.BeginInvoke(() =>
             {
                 this.LoadingTracks.Visibility = Visibility.Collapsed;
-                this.Tracks.ItemsSource = response.Result[0].Tracks;
+                this.Tracks.ItemsSource = response.Result.Tracks;
             });
         }
 
@@ -92,7 +92,7 @@ namespace Nokia.Music.TestApp
             ListBox list = sender as ListBox;
             if (list != null)
             {
-                (App.Current as App).RootItemClick(list.SelectedItem);
+                (App.Current as App).RouteItemClick(list.SelectedItem);
             }
         }
     }
