@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Copyright © 2013 Nokia Corporation. All rights reserved.
+ * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+ * Other product and company names mentioned herein may be trademarks
+ * or trade names of their respective owners. 
+ * See LICENSE.TXT for license information.
+ */
+
+using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Windows;
@@ -114,7 +122,8 @@ namespace BandsAround
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
+
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

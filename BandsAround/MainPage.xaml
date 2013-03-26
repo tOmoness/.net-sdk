@@ -1,4 +1,12 @@
-﻿<phone:PhoneApplicationPage
+﻿<!--
+ Copyright © 2013 Nokia Corporation. All rights reserved.
+ Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+ Other product and company names mentioned herein may be trademarks
+ or trade names of their respective owners. 
+ See LICENSE.TXT for license information.
+-->
+
+<phone:PhoneApplicationPage
     x:Class="BandsAround.MainPage"
     x:Name="Page"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,7 +15,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:map="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:maptoolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:app="clr-namespace:ArtistsAround" 
+    xmlns:app="clr-namespace:BandsAround" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -18,9 +26,8 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
@@ -28,15 +35,13 @@
             <app:PushPinConverter x:Key="PushPinConverter" />
         </Grid.Resources>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/MusicPageBg.jpg" Stretch="Fill"/>
+        </Grid.Background>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <map:Map x:Name="Map" Visibility="Visible">
+        <!--ContentPanel -->
+        <Grid x:Name="ContentPanel" Grid.Row="0">
+            <map:Map x:Name="Map" Visibility="Visible" ResolveCompleted="OnResolveCompleted">
                 <maptoolkit:MapExtensions.Children>
                     <maptoolkit:MapItemsControl Name="MapItems">
                         <maptoolkit:MapItemsControl.ItemTemplate>
@@ -48,15 +53,24 @@
                                             Background="Black"
                                             Foreground="White"
                                             Opacity="0.8" Content="{Binding Name}">
-                                    <!--<TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap" Margin="5" />-->
                                 </maptoolkit:Pushpin>
                             </DataTemplate>
                         </maptoolkit:MapItemsControl.ItemTemplate>
                     </maptoolkit:MapItemsControl>
                 </maptoolkit:MapExtensions.Children>
             </map:Map>
+
+            <!-- Transparent title pane on top of map -->
+            <Rectangle Fill="Black" VerticalAlignment="Top" Height="72" Opacity="0.6"/>
+            <TextBlock Text="BANDS AROUND" VerticalAlignment="Top" Style="{StaticResource PhoneTextNormalStyle}" Height="Auto" Margin="12,17,0,0" Opacity="1.0"/>
         </Grid>
 
     </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.6">
+            <shell:ApplicationBarIconButton IconUri="/Assets/Questionmark.png" Text="about" Click="AboutClicked" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
