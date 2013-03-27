@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="App.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -22,8 +25,19 @@ namespace Nokia.Music.TestApp
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Constant for id parameter.
+        /// </summary>
         public const string IdParam = "id";
+
+        /// <summary>
+        /// Constant for name parameter.
+        /// </summary>
         public const string NameParam = "name";
+
+        /// <summary>
+        /// Constant for thumb parameter.
+        /// </summary>
         public const string ThumbParam = "thumb";
 
         private const string SettingCountryCode = "countrycode";
@@ -56,8 +70,9 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Gets the Music Client
+        /// Gets the Music Client.
         /// </summary>
+        /// <returns>The Music Client.</returns>
         public static MusicClient ApiClient { get; private set; }
 
         /// <summary>

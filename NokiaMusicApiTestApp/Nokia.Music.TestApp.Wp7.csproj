@@ -132,9 +132,11 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\appbar.questionmark.rest.png" />
     <Content Include="Resources\Icons\Light\appbar.feature.search.rest.png" />
     <Content Include="Resources\Icons\Dark\appbar.feature.search.rest.png" />
     <Content Include="Resources\music120.png" />
+    <Content Include="Resources\MusicPageBg.jpg" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

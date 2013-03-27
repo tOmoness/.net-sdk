@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AlbumPage.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -32,10 +35,17 @@ namespace Nokia.Music.TestApp
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes details view and makes requests for tracks on the 
+        /// album and similar albums upon successful navigation.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!NavigationContext.QueryString.ContainsKey(App.IdParam) || !NavigationContext.QueryString.ContainsKey(App.NameParam) || !NavigationContext.QueryString.ContainsKey(App.ThumbParam))
+            if (!NavigationContext.QueryString.ContainsKey(App.IdParam) 
+                || !NavigationContext.QueryString.ContainsKey(App.NameParam) 
+                || !NavigationContext.QueryString.ContainsKey(App.ThumbParam))
             {
                 MessageBox.Show("The querystring is incomplete");
                 return;
@@ -62,6 +72,11 @@ namespace Nokia.Music.TestApp
             App.ApiClient.GetProduct(this.TracksResponseHandler, this._albumId);
         }
 
+        /// <summary>
+        /// Launches Nokia Music app to an album view.
+        /// </summary>
+        /// <param name="sender">"Show in Nokia Music" button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowProduct(object sender, RoutedEventArgs e)
         {
             ShowProductTask task = new ShowProductTask();
@@ -69,6 +84,10 @@ namespace Nokia.Music.TestApp
             task.Show();
         }
 
+        /// <summary>
+        /// Populates the similar albums list with results from API.
+        /// </summary>
+        /// <param name="response">List of similar products</param>
         private void SimilarProductsResponseHandler(ListResponse<Product> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -78,6 +97,10 @@ namespace Nokia.Music.TestApp
             });
         }
 
+        /// <summary>
+        /// Populates the album tracks list with results from API.
+        /// </summary>
+        /// <param name="response">List of similar products</param>
         private void TracksResponseHandler(Response<Product> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -87,6 +110,11 @@ namespace Nokia.Music.TestApp
             });
         }
 
+        /// <summary>
+        /// Shows details of an album track (in Nokia Music) or similar album.
+        /// </summary>
+        /// <param name="sender">tracks or similar albums listbox</param>
+        /// <param name="e">Event arguments</param>
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;

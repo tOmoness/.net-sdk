@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MainPage.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -19,7 +22,9 @@ namespace Nokia.Music.TestApp
     /// </summary>
     public partial class MainPage : PhoneApplicationPage
     {
-        // Constructor
+        /// <summary>
+        /// Constructor for MainPage.
+        /// </summary>
         public MainPage()
         {
             this.InitializeComponent();
@@ -34,6 +39,11 @@ namespace Nokia.Music.TestApp
             }
         }
 
+        /// <summary>
+        /// Launches search task.
+        /// </summary>
+        /// <param name="sender">Search Task button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowSearchTask(object sender, RoutedEventArgs e)
         {
             MusicSearchTask task = new MusicSearchTask();
@@ -41,6 +51,11 @@ namespace Nokia.Music.TestApp
             task.Show();
         }
 
+        /// <summary>
+        /// Launches show artist task.
+        /// </summary>
+        /// <param name="sender">Show Artist Task button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowArtistTask(object sender, RoutedEventArgs e)
         {
             ShowArtistTask task = new ShowArtistTask();
@@ -48,19 +63,34 @@ namespace Nokia.Music.TestApp
             task.Show();
         }
 
-        private void PlayArtistTask(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Launches play mix task.
+        /// </summary>
+        /// <param name="sender">Play Mix Task button</param>
+        /// <param name="e">Event arguments</param>
+        private void PlayMixTask(object sender, RoutedEventArgs e)
         {
             PlayMixTask task = new PlayMixTask();
             task.ArtistName = "Coldplay";
             task.Show();
         }
 
+        /// <summary>
+        /// Launches show gigs task.
+        /// </summary>
+        /// <param name="sender">Show Gigs Task button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowGigsTask(object sender, RoutedEventArgs e)
         {
             ShowGigsTask task = new ShowGigsTask();
             task.Show();
         }
 
+        /// <summary>
+        /// Launches show gigs task with a search term.
+        /// </summary>
+        /// <param name="sender">Search Gigs Task button</param>
+        /// <param name="e">Event arguments</param>
         private void SearchGigsTask(object sender, RoutedEventArgs e)
         {
             ShowGigsTask task = new ShowGigsTask();
@@ -68,6 +98,11 @@ namespace Nokia.Music.TestApp
             task.Show();
         }
 
+        /// <summary>
+        /// Validates the country code got from phone region settings.
+        /// </summary>
+        /// <param name="sender">Validate Device Country button</param>
+        /// <param name="e">Event arguments</param>
         private void ValidateDeviceCountry(object sender, RoutedEventArgs e)
         {
             this.ValidateDeviceCountryButton.IsEnabled = false;
@@ -105,6 +140,11 @@ namespace Nokia.Music.TestApp
                 countryCode);
         }
 
+        /// <summary>
+        /// Clears the country code validated earlier.
+        /// </summary>
+        /// <param name="sender">Reset Country button</param>
+        /// <param name="e">Event arguments</param>
         private void ClearDeviceCountry(object sender, RoutedEventArgs e)
         {
             this.EnableCountrySpecificApiButtons(null);
@@ -142,46 +182,91 @@ namespace Nokia.Music.TestApp
             this.LibraryRecommendationsButton.IsEnabled = countryCode != null;
         }
 
+        /// <summary>
+        /// Navigates to SearchPage in artist search scope.
+        /// </summary>
+        /// <param name="sender">Search Artists button</param>
+        /// <param name="e">Event arguments</param>
         private void SearchArtists(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/SearchPage.xaml?" + SearchPage.SearchScopeParam + "=" + SearchPage.SearchScopeArtists, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to SearchPage.
+        /// </summary>
+        /// <param name="sender">Search button</param>
+        /// <param name="e">Event arguments</param>
         private void Search(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to ShowListPage in top artist mode.
+        /// </summary>
+        /// <param name="sender">Top Artists button</param>
+        /// <param name="e">Event arguments</param>
         private void GetTopArtists(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetTopArtists, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to ShowListPage in genres mode.
+        /// </summary>
+        /// <param name="sender">Genres button</param>
+        /// <param name="e">Event arguments</param>
         private void GetGenres(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetGenres, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to ShowListPage in top albums mode.
+        /// </summary>
+        /// <param name="sender">Top Albums button</param>
+        /// <param name="e">Event arguments</param>
         private void GetTopAlbums(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetTopAlbums, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to ShowListPage in new albums mode.
+        /// </summary>
+        /// <param name="sender">New Albums button</param>
+        /// <param name="e">Event arguments</param>
         private void GetNewAlbums(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetNewAlbums, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to ShowListPage in mix group mode.
+        /// </summary>
+        /// <param name="sender">Get Mix Groups button</param>
+        /// <param name="e">Event arguments</param>
         private void GetMixGroups(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetMixGroups, UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to LibraryRecommendations page.
+        /// </summary>
+        /// <param name="sender">Get Recommendations button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowLibraryRecommendations(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/LibraryRecommendations.xaml", UriKind.Relative));
         }
 
+        /// <summary>
+        /// Navigates to AboutPage.
+        /// </summary>
+        /// <param name="sender">Get Recommendations button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowAbout(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));

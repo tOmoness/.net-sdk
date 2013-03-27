@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ShowListPage.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -12,7 +15,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using Nokia.Music.Phone;
-using Nokia.Music.Phone.Commands;
 using Nokia.Music.Phone.Tasks;
 using Nokia.Music.Phone.Types;
 
@@ -23,17 +25,23 @@ namespace Nokia.Music.TestApp
     /// </summary>
     public partial class ShowListPage : PhoneApplicationPage
     {
+        /// <summary>
+        /// Constant for method parameter.
+        /// </summary>
         public const string MethodParam = "method";
 
         private MethodCall _method = MethodCall.Unknown;
 
+        /// <summary>
+        /// Constructor for ShowListPage.
+        /// </summary>
         public ShowListPage()
         {
             this.InitializeComponent();
         }
 
         /// <summary>
-        /// Defines method calls this page can get data with
+        /// Defines method calls this page can get data with.
         /// </summary>
         public enum MethodCall
         {
@@ -78,6 +86,11 @@ namespace Nokia.Music.TestApp
             GetNewAlbums = 7,
         }
 
+        /// <summary>
+        /// Initialized the page and makes a request to Nokia Music API 
+        /// based on provided method call parameter.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -152,6 +165,11 @@ namespace Nokia.Music.TestApp
             }
         }
 
+        /// <summary>
+        /// Populates list box with search results.
+        /// </summary>
+        /// <param name="response">Search results from Nokia Music API</param>
+        /// <typeparam name="T">Any MusicItem from Nokia Music API</typeparam>
         private void ResponseHandler<T>(ListResponse<T> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -186,6 +204,12 @@ namespace Nokia.Music.TestApp
             });
         }
 
+        /// <summary>
+        /// Shows details of a product/artist/genre/mix group.
+        /// Tracks and mixes will be shown in Nokia Music app.
+        /// </summary>
+        /// <param name="sender">Results listbox</param>
+        /// <param name="e">Event arguments</param>
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             (App.Current as App).RouteItemClick(this.Results.SelectedItem);

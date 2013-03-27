@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="LocalizedStrings.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -16,6 +19,9 @@ namespace Nokia.Music.TestApp
     {
         private static AppResources _localizedResources = new AppResources();
 
+        /// <summary>
+        /// Gets the localized string resources.
+        /// </summary>
         public AppResources LocalizedResources
         {
             get

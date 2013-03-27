@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="LibraryRecommendations.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -34,11 +37,18 @@ namespace Nokia.Music.TestApp
         private int _alreadyHad = 0;
         private bool _abort = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LibraryRecommendations" /> class.
+        /// </summary>
         public LibraryRecommendations()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Starts searching for recommendations.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -52,6 +62,10 @@ namespace Nokia.Music.TestApp
             }
         }
 
+        /// <summary>
+        /// Aborts recommendation process when navigating away from the page.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -59,6 +73,11 @@ namespace Nokia.Music.TestApp
             this._abort = true;
         }
 
+        /// <summary>
+        /// Reads local media for artists, which are then ordered based on
+        /// the number of tracks and play count of their tracks. Begins
+        /// further processing to find recommendations using Nokia Music API.
+        /// </summary>
         private void FindTopArtists()
         {
             Xna.MediaLibrary lib = new Xna.MediaLibrary();
@@ -232,6 +251,11 @@ namespace Nokia.Music.TestApp
             }
         }
 
+        /// <summary>
+        /// Shows details of recommended artist.
+        /// </summary>
+        /// <param name="sender">recommended artists listbox</param>
+        /// <param name="e">Event arguments</param>
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             (App.Current as App).RouteItemClick(this.Results.SelectedItem);
@@ -239,7 +263,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Represents an local artist score
+        /// Represents local artist with a score.
         /// </summary>
         private struct TopArtist
         {
