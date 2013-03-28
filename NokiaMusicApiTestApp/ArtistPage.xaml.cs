@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ArtistPage.xaml.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -34,10 +37,17 @@ namespace Nokia.Music.TestApp
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes details view and makes requests for top tracks of the
+        /// artists and similar artists upon successful navigation.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!NavigationContext.QueryString.ContainsKey(App.IdParam) || !NavigationContext.QueryString.ContainsKey(App.NameParam) || !NavigationContext.QueryString.ContainsKey(App.ThumbParam))
+            if (!NavigationContext.QueryString.ContainsKey(App.IdParam) 
+                || !NavigationContext.QueryString.ContainsKey(App.NameParam) 
+                || !NavigationContext.QueryString.ContainsKey(App.ThumbParam))
             {
                 MessageBox.Show("The querystring is incomplete");
                 return;
@@ -58,12 +68,17 @@ namespace Nokia.Music.TestApp
             }
 
             this.LoadingArtists.Visibility = Visibility.Visible;
-
             App.ApiClient.GetSimilarArtists(this.ArtistsResponseHandler, this._artistId, 0, 10);
+
             this.LoadingSongs.Visibility = Visibility.Visible;
             App.ApiClient.GetArtistProducts(this.SongsResponseHandler, this._artistId, Category.Track, 0, 10);
         }
 
+        /// <summary>
+        /// Launches Nokia Music app to an artist view.
+        /// </summary>
+        /// <param name="sender">"Show in Nokia Music" button</param>
+        /// <param name="e">Event arguments</param>
         private void ShowArtist(object sender, RoutedEventArgs e)
         {
             ShowArtistTask task = new ShowArtistTask();
@@ -71,6 +86,10 @@ namespace Nokia.Music.TestApp
             task.Show();
         }
 
+        /// <summary>
+        /// Populates the similar artists list with results from API.
+        /// </summary>
+        /// <param name="response">List of similar products</param>
         private void ArtistsResponseHandler(ListResponse<Artist> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -80,6 +99,10 @@ namespace Nokia.Music.TestApp
             });
         }
 
+        /// <summary>
+        /// Populates the top tracks list with results from API.
+        /// </summary>
+        /// <param name="response">List of similar products</param>
         private void SongsResponseHandler(ListResponse<Product> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -89,6 +112,11 @@ namespace Nokia.Music.TestApp
             });
         }
 
+        /// <summary>
+        /// Shows details of a top track (in Nokia Music) or similar artist.
+        /// </summary>
+        /// <param name="sender">top tracks or similar artists listbox</param>
+        /// <param name="e">Event arguments</param>
         private void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;

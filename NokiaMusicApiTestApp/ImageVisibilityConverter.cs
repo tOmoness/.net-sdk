@@ -1,7 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ImageVisibilityConverter.cs" company="NOKIA">
-// Copyright (c) 2012, Nokia
-// All rights reserved.
+// <copyright file="ImageVisibilityConverter.cs" company="Nokia">
+// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Other product and company names mentioned herein may be trademarks
+// or trade names of their respective owners. 
+// See LICENSE.TXT for license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -40,7 +43,8 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Modifies the target data before passing it to the source object.  This method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay" /> bindings.
+        /// Modifies the target data before passing it to the source object.  
+        /// This method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay" /> bindings.
         /// </summary>
         /// <param name="value">The target data being passed to the source.</param>
         /// <param name="targetType">The <see cref="T:System.Type" /> of data expected by the source object.</param>
