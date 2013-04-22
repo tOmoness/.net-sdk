@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="Artist.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,16 +8,16 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Tasks;
+using Nokia.Music.Tasks;
 
-namespace Nokia.Music.Phone.Types
+namespace Nokia.Music.Types
 {
     /// <summary>
     /// Represents a Nokia Music Artist
     /// </summary>
     public partial class Artist : MusicItem
     {
-        internal const string AppToAppShow = "nokia-music://show/artist/?id={0}";
+        internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
@@ -35,7 +35,7 @@ namespace Nokia.Music.Phone.Types
             {
                 if (!string.IsNullOrEmpty(this.Id))
                 {
-                    return new Uri(string.Format(AppToAppShow, this.Id));
+                    return new Uri(string.Format(AppToAppShowUri, this.Id));
                 }
                 else
                 {

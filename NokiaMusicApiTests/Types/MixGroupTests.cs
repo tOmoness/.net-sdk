@@ -7,11 +7,11 @@
 
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Commands;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// MixGroup tests

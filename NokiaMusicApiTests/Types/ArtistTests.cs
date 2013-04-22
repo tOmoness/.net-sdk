@@ -7,11 +7,11 @@
 using System;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// Artist tests

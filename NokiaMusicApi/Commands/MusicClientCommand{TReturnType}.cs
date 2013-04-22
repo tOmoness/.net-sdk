@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 // <copyright file="MusicClientCommand{TReturnType}.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,9 +11,9 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal.Parsing;
+using Nokia.Music.Internal.Parsing;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Defines the Music Client Command base class
@@ -81,7 +81,7 @@ namespace Nokia.Music.Phone.Commands
         /// <param name="itemsName">The json list name</param>
         /// <param name="converter">The object creation method to use</param>
         /// <param name="callback">The client callback</param>
-        protected void CatalogItemResponseHandler<T>(Response<JObject> rawResult, string itemsName, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
+        protected void ListItemResponseHandler<T>(Response<JObject> rawResult, string itemsName, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
         {
             ListResponse<T> response = null;
 

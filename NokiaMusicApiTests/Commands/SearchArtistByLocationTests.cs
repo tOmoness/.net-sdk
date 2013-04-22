@@ -7,11 +7,11 @@
 
 using System;
 using System.Net;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class SearchArtistByLocationTests
@@ -20,13 +20,13 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetArtistsAroundLocationThrowsExceptionForZeroLatitude()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistsAroundLocation((ListResponse<Artist> result) => { }, 0, -2.59239);
         }
 
         public void EnsureGetArtistsAroundLocationThrowsExceptionForZeroLongitude()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistsAroundLocation((ListResponse<Artist> result) => { }, 51.45534, 0);
         }
 
@@ -34,14 +34,14 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetArtistsAroundLocationThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistsAroundLocation(null, 51.45534, -2.59239);
         }
 
         [Test]
         public void EnsureGetArtistsAroundLocationReturnsArtistsForValidSearch()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.GetArtistsAroundLocation(
                 (ListResponse<Artist> result) =>
                 {
@@ -71,7 +71,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetArtistsAroundLocationReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_noresults));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
             client.GetArtistsAroundLocation(
                 (ListResponse<Artist> result) =>
                 {
@@ -91,8 +91,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetArtistsAroundLocationReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            ListResponse<Artist> result = await client.GetArtistsAroundLocation(51.45534, -2.59239);
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            ListResponse<Artist> result = await client.GetArtistsAroundLocationAsync(51.45534, -2.59239);
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
     }

@@ -9,13 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class MixTests
@@ -24,14 +24,14 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetMixGroupsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixgroups));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
             client.GetMixGroups(null);
         }
 
         [Test]
         public void EnsureGetMixGroupsReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixgroups));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
             client.GetMixGroups(
                 (ListResponse<MixGroup> result) =>
                 {
@@ -54,7 +54,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetMixGroupsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetMixGroups(
                 (ListResponse<MixGroup> result) =>
                 {
@@ -72,7 +72,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetMixesThrowsExceptionForNullGroupId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixes));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
             client.GetMixes((ListResponse<Mix> result) => { }, nullId);
         }
 
@@ -81,22 +81,31 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetMixesThrowsExceptionForNullGroup()
         {
             MixGroup nullGroup = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixes));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
             client.GetMixes((ListResponse<Mix> result) => { }, nullGroup);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureGetMixesAsyncThrowsExceptionForNullGroup()
+        {
+            MixGroup nullGroup = null;
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
+            client.GetMixesAsync(nullGroup);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetMixesThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixes));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
             client.GetMixes(null, "test");
         }
 
         [Test]
         public void EnsureGetMixesReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.mixes));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
             client.GetMixes(
                 (ListResponse<Mix> result) =>
                 {
@@ -114,7 +123,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetMixesReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetMixes(
                 (ListResponse<Mix> result) =>
                 {
@@ -132,9 +141,9 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetMixGroupsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.mixgroups));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
 
-            ListResponse<MixGroup> result = await client.GetMixGroups();
+            ListResponse<MixGroup> result = await client.GetMixGroupsAsync();
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
@@ -142,12 +151,12 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetMixesReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.mixes));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
 
-            ListResponse<Mix> result = await client.GetMixes("test");
+            ListResponse<Mix> result = await client.GetMixesAsync("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
 
-            result = await client.GetMixes(new MixGroup() { Id = "test" });
+            result = await client.GetMixesAsync(new MixGroup() { Id = "test" });
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
@@ -158,12 +167,12 @@ namespace Nokia.Music.Phone.Tests.Commands
             var exclusiveTag2 = "thisIsTheSecondExclusiveTag";
             var handler = new MockApiRequestHandler(Resources.mixes);
 
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
-            var task = client.GetMixes("test", exclusiveTag1);
+            IMusicClient client = new MusicClient("test", "gb", handler);
+            var task = client.GetMixesAsync("test", exclusiveTag1);
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
             Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag1)));
 
-            task = client.GetMixes(new MixGroup() { Id = "testId" }, exclusiveTag2);
+            task = client.GetMixesAsync(new MixGroup() { Id = "testId" }, exclusiveTag2);
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
             Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag2)));
         }
@@ -174,8 +183,8 @@ namespace Nokia.Music.Phone.Tests.Commands
             var exclusiveTag = "thisIsTheExclusiveTag";
             var handler = new MockApiRequestHandler(Resources.mixgroups);
 
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", handler);
-            var groupsTask = client.GetMixGroups(exclusiveTag);
+            IMusicClient client = new MusicClient("test", "gb", handler);
+            var groupsTask = client.GetMixGroupsAsync(exclusiveTag);
             Assert.Greater(groupsTask.Result.Result.Count, 0, "Expected more than 0 results");
             Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag)));
         }

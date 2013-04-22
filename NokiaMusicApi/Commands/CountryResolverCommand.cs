@@ -1,26 +1,26 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="CountryResolverCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Internal.Response;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Defines the country resolver request
     /// </summary>
     internal class CountryResolverCommand : MusicClientCommand<Response<bool>>
     {
-        public CountryResolverCommand(string appId, string appCode, IApiRequestHandler handler)
+        public CountryResolverCommand(string appId, IApiRequestHandler handler)
         {
-            this.MusicClientSettings = new CountryResolverSettings(appId, appCode);
+            this.MusicClientSettings = new CountryResolverSettings(appId);
             this.RequestHandler = handler;
         }
 
@@ -91,22 +91,15 @@ namespace Nokia.Music.Phone.Commands
         private class CountryResolverSettings : IMusicClientSettings
         {
             private readonly string _appId;
-            private readonly string _appCode;
-
-            public CountryResolverSettings(string appId, string appCode)
+            
+            public CountryResolverSettings(string appId)
             {
                 this._appId = appId;
-                this._appCode = appCode;
             }
 
             public string AppId
             {
                 get { return this._appId; }
-            }
-
-            public string AppCode
-            {
-                get { return this._appCode; }
             }
 
             public string CountryCode

@@ -9,11 +9,11 @@ using System;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Response;
-using Nokia.Music.Phone.Tests.Properties;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Response;
+using Nokia.Music.Tests.Properties;
 
-namespace Nokia.Music.Phone.Tests.Internal
+namespace Nokia.Music.Tests.Internal
 {
     internal class FakeResponse
     {
@@ -37,6 +37,11 @@ namespace Nokia.Music.Phone.Tests.Internal
         public static FakeResponse Success(byte[] successResponse)
         {
             return new FakeResponse(new Response<JObject>(HttpStatusCode.OK, TestContentType, JObject.Parse(Encoding.UTF8.GetString(successResponse)), Guid.Empty));
+        }
+
+        public static FakeResponse RawSuccess(string successResponse)
+        {
+            return new FakeResponse(new Response<string>(HttpStatusCode.OK, TestContentType, successResponse, Guid.Empty));
         }
 
         public static FakeResponse GatewayTimeout()

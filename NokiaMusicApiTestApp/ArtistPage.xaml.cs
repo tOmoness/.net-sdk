@@ -15,10 +15,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tasks;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Commands;
+using Nokia.Music.Tasks;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.TestApp
 {
@@ -38,6 +38,20 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
+        /// Plays a sample clip for the track id specified.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        internal void PlayClip(string id)
+        {
+            this.Player.Stop();
+            if (this.Player.CurrentState != System.Windows.Media.MediaElementState.Playing)
+            {
+                this.Player.Source = App.ApiClient.GetTrackSampleUri(id);
+                this.Player.Play();
+            }
+        }
+
+        /// <summary>
         /// Initializes details view and makes requests for top tracks of the
         /// artists and similar artists upon successful navigation.
         /// </summary>
@@ -45,8 +59,8 @@ namespace Nokia.Music.TestApp
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!NavigationContext.QueryString.ContainsKey(App.IdParam) 
-                || !NavigationContext.QueryString.ContainsKey(App.NameParam) 
+            if (!NavigationContext.QueryString.ContainsKey(App.IdParam)
+                || !NavigationContext.QueryString.ContainsKey(App.NameParam)
                 || !NavigationContext.QueryString.ContainsKey(App.ThumbParam))
             {
                 MessageBox.Show("The querystring is incomplete");

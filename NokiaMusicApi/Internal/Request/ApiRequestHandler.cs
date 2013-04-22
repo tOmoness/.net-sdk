@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ApiRequestHandler.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -12,10 +12,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Ionic.Zlib;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal.Response;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Phone.Internal.Request
+namespace Nokia.Music.Internal.Request
 {
     /// <summary>
     /// Implementation of the raw API interface for making requests
@@ -209,7 +209,7 @@ namespace Nokia.Music.Phone.Internal.Request
             {
                 Stream streamResponse = requestState.TimedRequest.WebRequest.EndGetRequestStream(ar);
                 byte[] byteArray = Encoding.UTF8.GetBytes(requestState.RequestBody);
-                streamResponse.Write(byteArray, 0, requestState.RequestBody.Length);
+                streamResponse.Write(byteArray, 0, byteArray.Length);
                 streamResponse.Dispose();
 
                 TimedRequest request = requestState.TimedRequest;

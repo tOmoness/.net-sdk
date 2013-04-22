@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="DebugLogger.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Diagnostics;
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Internal
 {
     internal class DebugLogger
     {

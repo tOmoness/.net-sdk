@@ -5,10 +5,10 @@
 // -----------------------------------------------------------------------
 
 using System.Net;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     public abstract class ProductTestBase
     {

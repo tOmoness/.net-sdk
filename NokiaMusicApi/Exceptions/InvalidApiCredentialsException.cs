@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="InvalidApiCredentialsException.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music.Phone
+namespace Nokia.Music
 {
     /// <summary>
     /// Exception when invalid API credentials have been supplied
@@ -18,7 +18,7 @@ namespace Nokia.Music.Phone
         /// Initializes a new instance of the <see cref="InvalidApiCredentialsException" /> class.
         /// </summary>
         public InvalidApiCredentialsException()
-            : base("The API Credentials (AppId and AppCode) appear to be invalid")
+            : base("The API Credentials (AppId) appear to be invalid")
         {
         }
     }

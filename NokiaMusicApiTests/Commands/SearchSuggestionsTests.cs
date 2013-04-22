@@ -8,11 +8,11 @@
 using System;
 using System.Net;
 using System.Text;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tests.Properties;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Properties;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class SearchSuggestionsTests
@@ -21,7 +21,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetSearchSuggestionsThrowsExceptionForNullSearchTerm()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
             client.GetSearchSuggestions((ListResponse<string> result) => { }, null);
         }
 
@@ -29,15 +29,33 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetSearchSuggestionsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
             client.GetArtistSearchSuggestions(null, @"lady gaga");
         }
 
         [Test]
         public void EnsureGetSearchSuggestionsReturnsValuesForValidSearch()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
             client.GetSearchSuggestions(
+                (ListResponse<string> result) =>
+                {
+                    Assert.IsNotNull(result, "Expected a result");
+                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
+                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+                    Assert.IsNotNull(result.Result, "Expected a list of results");
+                    Assert.IsNull(result.Error, "Expected no error");
+                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+                },
+                "green");
+        }
+
+        [Test]
+        public void EnsureGetArtistSearchSuggestionsReturnsValuesForValidSearch()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            client.GetArtistSearchSuggestions(
                 (ListResponse<string> result) =>
                 {
                     Assert.IsNotNull(result, "Expected a result");
@@ -57,7 +75,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetSearchSuggestionsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions_noresults));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions_noresults));
             client.GetSearchSuggestions(
                 (ListResponse<string> result) =>
                 {
@@ -76,8 +94,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetArtistSearchSuggestionsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
-            ListResponse<string> result = await client.GetArtistSearchSuggestions("test");
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            ListResponse<string> result = await client.GetArtistSearchSuggestionsAsync("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
@@ -85,8 +103,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetSearchSuggestionsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
-            ListResponse<string> result = await client.GetSearchSuggestions("test");
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            ListResponse<string> result = await client.GetSearchSuggestionsAsync("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 

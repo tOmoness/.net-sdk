@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
 // <copyright file="IMusicClientSettings.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.Phone.Internal
+namespace Nokia.Music.Internal
 {
     /// <summary>
     /// Defines the MusicClient Settings
@@ -19,14 +19,6 @@ namespace Nokia.Music.Phone.Internal
         /// The app id.
         /// </value>
         string AppId { get; }
-
-        /// <summary>
-        /// Gets the app code.
-        /// </summary>
-        /// <value>
-        /// The app code.
-        /// </value>
-        string AppCode { get; }
 
         /// <summary>
         /// Gets the country code.

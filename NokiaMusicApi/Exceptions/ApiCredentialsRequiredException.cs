@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ApiCredentialsRequiredException.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music.Phone
+namespace Nokia.Music
 {
     /// <summary>
     /// Exception when no API key has been supplied
@@ -17,7 +17,7 @@ namespace Nokia.Music.Phone
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiCredentialsRequiredException" /> class.
         /// </summary>
-        public ApiCredentialsRequiredException() : base("API Credentials (AppId and AppCode) are required for all method calls")
+        public ApiCredentialsRequiredException() : base("API Credentials (AppId) are required for all method calls")
         {
         }
     }

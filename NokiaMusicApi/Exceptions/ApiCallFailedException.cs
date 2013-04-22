@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ApiCallFailedException.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System.Globalization;
 using System.Net;
 
-namespace Nokia.Music.Phone
+namespace Nokia.Music
 {
     /// <summary>
     /// Exception when an API call fails unexpectedly
@@ -30,6 +30,12 @@ namespace Nokia.Music.Phone
         internal ApiCallFailedException(HttpStatusCode? statusCode)
             : base(string.Format(CultureInfo.InvariantCulture, "Unexpected failure, check connectivity. Result: {0}", statusCode.HasValue ? statusCode.ToString() : "timeout"))
         {
+            this.StatusCode = statusCode;
         }
+
+        /// <summary>
+        /// Gets the HTTP status code that caused the exception to be constructed
+        /// </summary>
+        public HttpStatusCode? StatusCode { get; private set; }
     }
 }

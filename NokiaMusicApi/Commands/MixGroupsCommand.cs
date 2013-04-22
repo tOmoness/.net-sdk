@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 // <copyright file="MixGroupsCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,12 +8,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Internal.Response;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Internal.Response;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Gets the Mix Groups available
@@ -49,7 +49,7 @@ namespace Nokia.Music.Phone.Commands
                 this,
                 this.MusicClientSettings,
                 queryParams,
-                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, MixGroup.FromJToken, this.Callback)));
+                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, MixGroup.FromJToken, this.Callback)));
         }
     }
 }

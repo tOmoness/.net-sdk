@@ -15,6 +15,7 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
  
 ##Releases
 
+- 2.0.0 - Added support for Nokia Music on Windows 8. The *Nokia.Music.Phone* namespace has changed to *Nokia.Music*, the async *MusicClientAsync* methods have merged into *MusicClient* correcting the naming convention used, we've added sample clip and genre chart functionality.
 - 1.1.0 - A tidy-up release. We have removed optional paging parameters that had incorrectly been included on the GetMixes and GetProduct methods and removed some unneeded properties from the Location type.
 - 1.0.9 - Added Name to Artist Origin object, added AppToAppUri properties to Artist, Mix and Product
 - 1.0.8 - Added GetProduct and GetSimilarProducts

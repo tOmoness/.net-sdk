@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="Product.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,18 +9,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal.Parsing;
-using Nokia.Music.Phone.Tasks;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal.Parsing;
+using Nokia.Music.Tasks;
 
-namespace Nokia.Music.Phone.Types
+namespace Nokia.Music.Types
 {
     /// <summary>
     /// Represents a Nokia Music Product, i.e. Album, Single or Track
     /// </summary>
     public sealed partial class Product : MusicItem
     {
-        internal const string AppToAppShow = "nokia-music://show/product/?id={0}";
+        internal const string AppToAppShowUri = "nokia-music://show/product/?id={0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Product" /> class.
@@ -39,7 +39,7 @@ namespace Nokia.Music.Phone.Types
             {
                 if (!string.IsNullOrEmpty(this.Id))
                 {
-                    return new Uri(string.Format(AppToAppShow, this.Id));
+                    return new Uri(string.Format(AppToAppShowUri, this.Id));
                 }
                 else
                 {
@@ -156,6 +156,7 @@ namespace Nokia.Music.Phone.Types
             return this.Id.GetHashCode();
         }
 
+#if !NETFX_CORE
         /// <summary>
         /// Launches Nokia Music to show details about the product using the ShowProductTask
         /// </summary>
@@ -165,6 +166,7 @@ namespace Nokia.Music.Phone.Types
             task.Show();
         }
 
+#endif
         /// <summary>
         /// Creates a Product from a JSON Object
         /// </summary>

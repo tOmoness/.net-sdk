@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="PlayMixTask.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Tasks
+namespace Nokia.Music.Tasks
 {
     /// <summary>
     /// Provides a simple way to play a Nokia Music Mix
@@ -66,7 +66,7 @@ namespace Nokia.Music.Phone.Tasks
             if (!string.IsNullOrEmpty(this._mixId))
             {
                 this.Launch(
-                    new Uri(string.Format(Mix.AppToAppShow, this._mixId)),
+                    new Uri(string.Format(Mix.AppToAppPlayUri, this._mixId)),
                     new Uri("http://music.nokia.com/"));
             }
             else if (!string.IsNullOrEmpty(this._artistName))

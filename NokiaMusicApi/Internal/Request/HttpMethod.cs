@@ -1,11 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="HttpMethod.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.Phone.Internal.Request
+namespace Nokia.Music.Internal.Request
 {
     /// <summary>
     /// Currently supported HTTP method types

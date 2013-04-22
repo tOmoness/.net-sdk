@@ -15,9 +15,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Tasks;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Tasks;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.TestApp
 {

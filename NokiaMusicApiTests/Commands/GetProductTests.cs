@@ -8,13 +8,13 @@
 using System;
 using System.Net;
 using System.Text;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class GetProductTests : ProductTestBase
@@ -24,7 +24,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetProductThrowsExceptionForNullProductId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.single_product));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
             client.GetProduct((Response<Product> result) => { }, nullId);
         }
 
@@ -32,21 +32,21 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetProductThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.single_product));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
             client.GetProduct(null, "test");
         }
 
         [Test]
         public void EnsureGetProductReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.single_product));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
             client.GetProduct(this.ValidateProductResponse, "test");
         }
 
         [Test]
         public void EnsureGetProductReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetProduct(
                 (Response<Product> result) =>
                 {
@@ -64,8 +64,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureAsyncGetProductsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.single_product));
-            var task = client.GetProduct("test");
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
+            var task = client.GetProductAsync("test");
             task.Wait();
             this.ValidateProductResponse(task.Result);
         }
@@ -76,6 +76,22 @@ namespace Nokia.Music.Phone.Tests.Commands
             StringBuilder uri = new StringBuilder("http://api.ent.nokia.com/1.x/gb/");
             new ProductCommand { ProductId = "1234" }.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/1234/", uri.ToString());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureGetTrackSampleUriThrowsExceptionForNullId()
+        {
+            string nullId = null;
+            IMusicClient client = new MusicClient("test", "gb", null);
+            client.GetTrackSampleUri(nullId);
+        }
+
+        [Test]
+        public void EnsureGetTrackSampleUriIsBuiltCorrectly()
+        {
+            IMusicClient client = new MusicClient("test", "gb", null);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/1234/sample/?domain=music&app_id=test", client.GetTrackSampleUri("1234").ToString());
         }
     }
 }

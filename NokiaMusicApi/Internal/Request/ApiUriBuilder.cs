@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ApiUriBuilder.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,9 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Nokia.Music.Phone.Commands;
+using Nokia.Music.Commands;
 
-namespace Nokia.Music.Phone.Internal.Request
+namespace Nokia.Music.Internal.Request
 {
     /// <summary>
     /// Defines the real Uri Builder
@@ -46,9 +46,9 @@ namespace Nokia.Music.Phone.Internal.Request
             var url = new StringBuilder();
 
             url.Append(command.BaseApiUri);
-            AddCountryCode(url, command, settings.CountryCode);
+            this.AddCountryCode(url, command, settings.CountryCode);
             command.AppendUriPath(url);
-            this.AppendQueryString(url, settings, queryParams);
+            this.AppendQueryString(url, command, settings, queryParams);
 
             return new Uri(url.ToString());
         }
@@ -60,12 +60,12 @@ namespace Nokia.Music.Phone.Internal.Request
         /// <param name="settings">The music client settings.</param>
         protected virtual void AddAuthorisationParams(StringBuilder url, IMusicClientSettings settings)
         {
-            if (string.IsNullOrEmpty(settings.AppId) || string.IsNullOrEmpty(settings.AppCode))
+            if (string.IsNullOrEmpty(settings.AppId))
             {
                 throw new ApiCredentialsRequiredException();
             }
 
-            url.AppendFormat(@"?app_id={0}&app_code={1}", settings.AppId, settings.AppCode);
+            url.AppendFormat(@"?app_id={0}", settings.AppId);
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Nokia.Music.Phone.Internal.Request
         /// <param name="url">The url being built</param>
         /// <param name="command">The command to call.</param>
         /// <param name="countryCode">The country code.</param>
-        private static void AddCountryCode(StringBuilder url, MusicClientCommand command, string countryCode)
+        protected virtual void AddCountryCode(StringBuilder url, MusicClientCommand command, string countryCode)
         {
-            if (command.RequiresCountryCode)
+            if (command.RequiresCountryCode && !command.UseBlankTerritory)
             {
                 if (string.IsNullOrEmpty(countryCode))
                 {
@@ -85,18 +85,24 @@ namespace Nokia.Music.Phone.Internal.Request
 
                 url.AppendFormat("{0}/", countryCode);
             }
+            else if (command.UseBlankTerritory)
+            {
+                url.AppendFormat("-/");
+            }
         }
 
         /// <summary>
         /// Appends the appropriate query string parameters to the url
         /// </summary>
         /// <param name="url">The url being built.</param>
+        /// <param name="command">The command for the url being built</param>
         /// <param name="settings">The music client settings.</param>
         /// <param name="queryParams">The query string.</param>
-        private void AppendQueryString(StringBuilder url, IMusicClientSettings settings, List<KeyValuePair<string, string>> queryParams)
+        private void AppendQueryString(StringBuilder url, MusicClientCommand command, IMusicClientSettings settings, List<KeyValuePair<string, string>> queryParams)
         {
             // Add required parameters
             this.AddAuthorisationParams(url, settings);
+
             url.AppendFormat("&domain=music");
 
             // Add other parameters...

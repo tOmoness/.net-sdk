@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ShowProductTask.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Tasks
+namespace Nokia.Music.Tasks
 {
     /// <summary>
     /// Provides a simple way to show Nokia Music Products
@@ -75,7 +75,7 @@ namespace Nokia.Music.Phone.Tasks
                 }
 
                 this.Launch(
-                    new Uri(string.Format(Product.AppToAppShow, this._productId) + appId),
+                    new Uri(string.Format(Product.AppToAppShowUri, this._productId) + appId),
                     new Uri("http://music.nokia.com/r/Product/-/-/" + this._productId));
             }
             else

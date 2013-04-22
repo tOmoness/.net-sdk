@@ -6,13 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Internal.Response;
-using Nokia.Music.Phone.Tests.Internal;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Internal.Response;
+using Nokia.Music.Tests.Internal;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     /// <summary>
     /// Returns mocked failure-path responses
@@ -24,6 +24,8 @@ namespace Nokia.Music.Phone.Tests
         private IMusicClientSettings _lastSettings;
 
         private List<KeyValuePair<string, string>> _queryString;
+
+        private ResponseInfo _responseInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MockApiRequestHandler" /> class.
@@ -78,6 +80,11 @@ namespace Nokia.Music.Phone.Tests
             get { return this._lastSettings; }
         }
 
+        public void SetupResponseInfo(ResponseInfo responseInfo)
+        {
+            this._responseInfo = responseInfo;
+        }
+
         /// <summary>
         /// Makes the API request
         /// </summary>
@@ -96,6 +103,12 @@ namespace Nokia.Music.Phone.Tests
         {
             this._lastSettings = settings;
             this._queryString = querystring;
+
+            if (this._responseInfo != null)
+            {
+                command.SetAdditionalResponseInfo(this._responseInfo);
+            }
+            
             this.NextFakeResponse.DoCallback<T>(callback);
         }
     }

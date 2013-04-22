@@ -8,7 +8,7 @@
 using System.Net;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Exceptions
+namespace Nokia.Music.Tests.Exceptions
 {
     [TestFixture]
     public class ApiCallFailedExceptionTests

@@ -1,15 +1,14 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="Location.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Phone.Types
+namespace Nokia.Music.Types
 {
     /// <summary>
     /// Represents a Location
@@ -64,6 +63,14 @@ namespace Nokia.Music.Phone.Types
         /// The timestamp.
         /// </value>
         public DateTime? Timestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source.
+        /// </summary>
+        /// <value>
+        /// The source.
+        /// </value>
+        public LocationSource? Source { get; set; }
 
         /// <summary>
         /// Returns a string representation of the location object

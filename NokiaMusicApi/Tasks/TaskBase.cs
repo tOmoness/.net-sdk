@@ -12,9 +12,9 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Tasks;
 #endif
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Internal;
 
-namespace Nokia.Music.Phone.Tasks
+namespace Nokia.Music.Tasks
 {
     /// <summary>
     /// Base class for Nokia Music Tasks
@@ -29,8 +29,13 @@ namespace Nokia.Music.Phone.Tasks
         [SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule", Justification = "Adding the SecurityCritical attribute was over the top")]
         protected void Launch(Uri appToAppUri, Uri webFallbackUri)
         {
+#if WP8 || NETFX_CORE
 #if WP8
-            if (string.Equals(DeviceStatus.DeviceManufacturer, "NOKIA", StringComparison.OrdinalIgnoreCase))
+            bool canLaunch = string.Equals(DeviceStatus.DeviceManufacturer, "NOKIA", StringComparison.OrdinalIgnoreCase);
+#else
+            bool canLaunch = true;
+#endif
+            if (canLaunch)
             {
                 DebugLogger.Instance.WriteLog("Launching Nokia Music App with " + appToAppUri.ToString());
 #pragma warning disable 4014  // Disable as we're launching the app - we don't want to wait

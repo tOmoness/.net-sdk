@@ -7,14 +7,14 @@
 
 using System;
 using System.Net;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     [TestFixture]
     public class CountryLookupTests
@@ -23,7 +23,7 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(InvalidCountryCodeException))]
         public void EnsureCheckAvailabilityThrowsExceptionForNullCountryCode()
         {
-            ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            ICountryResolver client = new CountryResolver("test", new MockApiRequestHandler(Resources.country));
             client.CheckAvailability(null, null);
         }
 
@@ -31,21 +31,21 @@ namespace Nokia.Music.Phone.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureCheckAvailabilityThrowsExceptionForNullCallback()
         {
-            ICountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country));
+            ICountryResolver client = new CountryResolver("test", new MockApiRequestHandler(Resources.country));
             client.CheckAvailability(null, "gb");
         }
 
         [Test]
         public void ApiMethodsDefaultToGetHttpMethod()
         {
-            var resolver = new CountryResolverCommand("test", "test", new MockApiRequestHandler(Resources.country));
+            var resolver = new CountryResolverCommand("test", new MockApiRequestHandler(Resources.country));
             Assert.AreEqual(HttpMethod.Get, resolver.HttpMethod);
         }
 
         [Test]
         public void ApiMethodsDefaultToNullContentType()
         {
-            var resolver = new CountryResolverCommand("test", "test", new MockApiRequestHandler(Resources.country));
+            var resolver = new CountryResolverCommand("test", new MockApiRequestHandler(Resources.country));
             Assert.IsNull(resolver.ContentType);
         }
 
@@ -53,7 +53,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureCheckAvailabilityWorksForValidCountry()
         {
             Guid requestId = new Guid();
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(Resources.country), requestId);
+            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(Resources.country), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -67,13 +67,15 @@ namespace Nokia.Music.Phone.Tests
                     Assert.IsNull(result.Error, "Expected no error");
                 },
                 "gb");
+
+            var task = client.CheckAvailabilityAsync("gb");
         }
 
         [Test]
         public void EnsureCheckAvailabilityReturnsFailsForInvalidCountry()
         {
             Guid requestId = new Guid();
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.NotFound()), requestId);
+            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(FakeResponse.NotFound()), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -93,11 +95,10 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureCountryResolverPassesDefaultSettings()
         {
             MockApiRequestHandler mockHandler = new MockApiRequestHandler(FakeResponse.NotFound());
-            ICountryResolver client = new CountryResolver("test1", "test2", mockHandler);
+            ICountryResolver client = new CountryResolver("test1", mockHandler);
             client.CheckAvailability(result => Assert.IsNotNull(result, "Expected a result"), "xx");
             
             Assert.AreEqual("test1", mockHandler.LastUsedSettings.AppId);
-            Assert.AreEqual("test2", mockHandler.LastUsedSettings.AppCode);
             Assert.AreEqual(null, mockHandler.LastUsedSettings.CountryCode);
             Assert.AreEqual(false, mockHandler.LastUsedSettings.CountryCodeBasedOnRegionInfo);
         }
@@ -106,7 +107,7 @@ namespace Nokia.Music.Phone.Tests
         public void EnsureCheckAvailabilityReturnsErrorForFailedCall()
         {
             Guid requestId = new Guid();
-            CountryResolver client = new CountryResolver("test", "test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()), requestId);
+            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(FakeResponse.GatewayTimeout()), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {

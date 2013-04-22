@@ -11,7 +11,7 @@
 using System;
 using System.Windows;
 using System.Windows.Data;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.TestApp
 {

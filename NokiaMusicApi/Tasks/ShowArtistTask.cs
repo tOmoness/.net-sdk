@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ShowArtistTask.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Tasks
+namespace Nokia.Music.Tasks
 {
     /// <summary>
     /// Provides a simple way to show Nokia Music Artists
@@ -66,7 +66,7 @@ namespace Nokia.Music.Phone.Tasks
             if (!string.IsNullOrEmpty(this._artistId))
             {
                 this.Launch(
-                    new Uri(string.Format(Artist.AppToAppShow, this._artistId)),
+                    new Uri(string.Format(Artist.AppToAppShowUri, this._artistId)),
                     new Uri("http://music.nokia.com/r/artist/-/" + this._artistId));
             }
             else if (!string.IsNullOrEmpty(this._artistName))

@@ -76,7 +76,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\ARM\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -86,7 +86,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>Bin\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -122,8 +122,14 @@
     <Compile Include="..\NokiaMusicApiTestApp\ArtistPage.xaml.cs">
       <Link>ArtistPage.xaml.cs</Link>
     </Compile>
-    <Compile Include="AlbumPage.xaml.cs">
-      <DependentUpon>AlbumPage.xaml</DependentUpon>
+    <Compile Include="..\NokiaMusicApiTestApp\GenrePage.xaml.cs">
+      <Link>GenrePage.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApiTestApp\AlbumPage.xaml.cs">
+      <Link>AlbumPage.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApiTestApp\ShowListParams.cs">
+      <Link>ShowListParams.cs</Link>
     </Compile>
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="..\NokiaMusicApiTestApp\MainPage.xaml.cs">
@@ -167,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ArtistPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GenrePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -226,7 +236,7 @@
     <SourceAnalysisOverrideSettingsFile>..\Settings.StyleCop</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.41.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>

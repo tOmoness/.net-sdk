@@ -4,10 +4,10 @@
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// CategoryExtensions tests

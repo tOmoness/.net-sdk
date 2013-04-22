@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="IApiRequestHandler.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Linq;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal.Response;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Phone.Internal.Request
+namespace Nokia.Music.Internal.Request
 {
     /// <summary>
     /// Defines the raw API interface for making requests

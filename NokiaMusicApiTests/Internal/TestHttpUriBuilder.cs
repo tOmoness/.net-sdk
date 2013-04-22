@@ -8,11 +8,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     /// <summary>
     /// Bad HTTP URI builder for testing ApiRequestHandler

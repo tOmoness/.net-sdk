@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ListResponse{T}.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 
-namespace Nokia.Music.Phone
+namespace Nokia.Music
 {
     /// <summary>
     /// Contains the result or the error if an error occurred.

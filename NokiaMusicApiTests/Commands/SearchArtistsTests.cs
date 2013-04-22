@@ -7,12 +7,12 @@
 
 using System;
 using System.Net;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class SearchArtistsTests
@@ -21,7 +21,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureSearchArtistsThrowsExceptionForNullSearchTerm()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.SearchArtists((ListResponse<Artist> result) => { }, null);
         }
 
@@ -29,14 +29,14 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureSearchArtistsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.SearchArtists(null, @"lady gaga");
         }
 
         [Test]
         public void EnsureSearchArtistsReturnsArtistsForValidSearch()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             client.SearchArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -65,7 +65,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureSearchArtistsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_noresults));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
             client.SearchArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -84,14 +84,14 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetTopArtistsThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
             client.GetTopArtists(null);
         }
 
         [Test]
         public void EnsureGetTopArtistsReturnsArtists()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
             client.GetTopArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -111,7 +111,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetTopArtistsReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.search_noresults));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
             client.GetTopArtists(
                 (ListResponse<Artist> result) =>
                 {
@@ -130,7 +130,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetTopArtistsForGenreThrowsExceptionForNullGenreId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
             client.GetTopArtistsForGenre((ListResponse<Artist> result) => { }, nullId);
         }
 
@@ -139,22 +139,31 @@ namespace Nokia.Music.Phone.Tests.Commands
         public void EnsureGetTopArtistsForGenreThrowsExceptionForNullGenre()
         {
             Genre nullGenre = null;
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
             client.GetTopArtistsForGenre((ListResponse<Artist> result) => { }, nullGenre);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureGetTopArtistsForGenreAsyncThrowsExceptionForNullGenre()
+        {
+            Genre nullGenre = null;
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            client.GetTopArtistsForGenreAsync(nullGenre);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetTopArtistsForGenreThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
             client.GetTopArtistsForGenre(null, "rock");
         }
 
         [Test]
         public void EnsureGetTopArtistsForGenreReturnsArtists()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
             client.GetTopArtistsForGenre(
                 (ListResponse<Artist> result) =>
                 {
@@ -175,7 +184,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetTopArtistsForGenreReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
             client.GetTopArtistsForGenre(
                 (ListResponse<Artist> result) =>
                 {
@@ -194,8 +203,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncSearchArtistsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            ListResponse<Artist> result = await client.SearchArtists("test");
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            ListResponse<Artist> result = await client.SearchArtistsAsync("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
@@ -203,8 +212,8 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetTopArtistsReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists));
-            ListResponse<Artist> result = await client.GetTopArtists();
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
+            ListResponse<Artist> result = await client.GetTopArtistsAsync();
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
@@ -212,11 +221,11 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetTopArtistsForGenreReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            ListResponse<Artist> result = await client.GetTopArtistsForGenre("test");
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync("test");
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
 
-            result = await client.GetTopArtistsForGenre(new Genre() { Id = "test" });
+            result = await client.GetTopArtistsForGenreAsync(new Genre() { Id = "test" });
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
     }

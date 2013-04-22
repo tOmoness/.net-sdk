@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     /// <summary>
     /// Local file URI builder for testing <c ref="ApiRequestHandler" />

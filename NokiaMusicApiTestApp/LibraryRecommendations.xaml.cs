@@ -18,9 +18,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Commands;
+using Nokia.Music.Types;
 using Xna = Microsoft.Xna.Framework.Media;
 
 namespace Nokia.Music.TestApp

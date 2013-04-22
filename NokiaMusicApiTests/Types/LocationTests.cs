@@ -8,10 +8,10 @@
 using System;
 using System.Device.Location;
 using System.Globalization;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// Location tests
@@ -23,6 +23,7 @@ namespace Nokia.Music.Phone.Tests.Types
         private const double TestLongitude = 2.3456;
         private const int TestHorizontalAccuracy = 6;
         private const long TestTimestampTicks = 123456;
+        private const LocationSource TestSource = LocationSource.Satellite;
 
         [Test]
         public void TestProperties()
@@ -40,12 +41,14 @@ namespace Nokia.Music.Phone.Tests.Types
                                     Latitude = TestLatitude,
                                     Longitude = TestLongitude,
                                     HorizontalAccuracy = TestHorizontalAccuracy,
-                                    Timestamp = new DateTime(TestTimestampTicks)
+                                    Timestamp = new DateTime(TestTimestampTicks),
+                                    Source = TestSource
                                 };
             Assert.AreEqual(TestLatitude, location.Latitude, "Expected the property to persist");
             Assert.AreEqual(TestLongitude, location.Longitude, "Expected the property to persist");
             Assert.AreEqual(TestHorizontalAccuracy, location.HorizontalAccuracy, "Expected the property to persist");
             Assert.AreEqual(TestTimestampTicks, location.Timestamp.GetValueOrDefault().Ticks, "Expected the property to persist");
+            Assert.AreEqual(TestSource, location.Source, "Expected the property to persist");
         }
 
         [Test]

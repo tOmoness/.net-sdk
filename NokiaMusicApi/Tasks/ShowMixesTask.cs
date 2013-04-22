@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ShowMixesTask.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Internal;
 
-namespace Nokia.Music.Phone.Tasks
+namespace Nokia.Music.Tasks
 {
     /// <summary>
     /// Provides a simple way to show Nokia Music Mixes

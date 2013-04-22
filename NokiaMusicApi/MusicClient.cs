@@ -1,18 +1,21 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MusicClient.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Globalization;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Types;
+#if SUPPORTS_ASYNC
+using System.Threading.Tasks;
+#endif
+using Nokia.Music.Commands;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone
+namespace Nokia.Music
 {
     /// <summary>
     ///   The Nokia Music API client
@@ -27,11 +30,9 @@ namespace Nokia.Music.Phone
         ///   using the RegionInfo settings to locate the user.
         /// </summary>
         /// <param name="appId"> The App ID obtained from api.developer.nokia.com </param>
-        /// <param name="appCode"> The App Code obtained from api.developer.nokia.com </param>
-        public MusicClient(string appId, string appCode)
+        public MusicClient(string appId)
             : this(
                 appId,
-                appCode,
                 RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower(),
                 new ApiRequestHandler(new ApiUriBuilder()))
         {
@@ -42,10 +43,9 @@ namespace Nokia.Music.Phone
         ///   Initializes a new instance of the <see cref="MusicClient" /> class.
         /// </summary>
         /// <param name="appId"> The App ID obtained from api.developer.nokia.com </param>
-        /// <param name="appCode"> The App Code obtained from api.developer.nokia.com </param>
         /// <param name="countryCode"> The country code. </param>
-        public MusicClient(string appId, string appCode, string countryCode)
-            : this(appId, appCode, countryCode, new ApiRequestHandler(new ApiUriBuilder()))
+        public MusicClient(string appId, string countryCode)
+            : this(appId, countryCode, new ApiRequestHandler(new ApiUriBuilder()))
         {
         }
 
@@ -53,13 +53,12 @@ namespace Nokia.Music.Phone
         ///   Initializes a new instance of the <see cref="MusicClient" /> class.
         /// </summary>
         /// <param name="appId"> The App ID obtained from api.developer.nokia.com </param>
-        /// <param name="appCode"> The App Code obtained from api.developer.nokia.com </param>
         /// <param name="requestHandler"> The request handler. </param>
         /// <remarks>
         ///   Allows custom requestHandler for testing purposes
         /// </remarks>
-        internal MusicClient(string appId, string appCode, IApiRequestHandler requestHandler)
-            : this(appId, appCode, RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower(), requestHandler)
+        internal MusicClient(string appId, IApiRequestHandler requestHandler)
+            : this(appId, RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower(), requestHandler)
         {
             this.CountryCodeBasedOnRegionInfo = true;
         }
@@ -68,21 +67,19 @@ namespace Nokia.Music.Phone
         ///   Initializes a new instance of the <see cref="MusicClient" /> class.
         /// </summary>
         /// <param name="appId"> The App ID obtained from api.developer.nokia.com </param>
-        /// <param name="appCode"> The App Code obtained from api.developer.nokia.com </param>
         /// <param name="countryCode"> The country code. </param>
         /// <param name="requestHandler"> The request handler. </param>
         /// <remarks>
         ///   Allows custom requestHandler for testing purposes
         /// </remarks>
-        internal MusicClient(string appId, string appCode, string countryCode, IApiRequestHandler requestHandler)
+        internal MusicClient(string appId, string countryCode, IApiRequestHandler requestHandler)
         {
-            if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appCode))
+            if (string.IsNullOrEmpty(appId))
             {
                 throw new ApiCredentialsRequiredException();
             }
 
             this.AppId = appId;
-            this.AppCode = appCode;
             this.RequestHandler = requestHandler;
 
             if (this.ValidateCountryCode(countryCode))
@@ -139,14 +136,6 @@ namespace Nokia.Music.Phone
         public string AppId { get; private set; }
 
         /// <summary>
-        /// Gets the app code.
-        /// </summary>
-        /// <value>
-        /// The app code.
-        /// </value>
-        public string AppCode { get; private set; }
-
-        /// <summary>
         /// Gets the country code.
         /// </summary>
         /// <value>
@@ -170,6 +159,7 @@ namespace Nokia.Music.Phone
         internal string BaseApiUri { get; set; }
 
         #region IMusicClient Members
+#if !NETFX_CORE
         /// <summary>
         /// Searches for an Artist
         /// </summary>
@@ -179,13 +169,29 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void SearchArtists(Action<ListResponse<Artist>> callback, string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<SearchArtistsCommand>();
-            cmd.SearchTerm = searchTerm;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.SearchArtistsInternal(callback, searchTerm, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Searches for an Artist
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> SearchArtistsAsync(string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.SearchArtistsInternal(result => wrapper.TrySetResult(result), searchTerm, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets artist search suggestions.
         /// </summary>
@@ -194,13 +200,28 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetArtistSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
         {
-            var cmd = this.Create<SearchSuggestionsCommand>();
-            cmd.SearchTerm = searchTerm;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.SuggestArtists = true;
-            cmd.Invoke(callback);
+            this.GetArtistSearchSuggestionsInternal(callback, searchTerm, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing search suggestions
+        /// </returns>
+        public Task<ListResponse<string>> GetArtistSearchSuggestionsAsync(string searchTerm, int itemsPerPage = 3)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<string>>();
+            this.GetArtistSearchSuggestionsInternal(result => wrapper.TrySetResult(result), searchTerm, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets artists that originate around a specified location
         /// </summary>
@@ -212,14 +233,31 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetArtistsAroundLocation(Action<ListResponse<Artist>> callback, double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<SearchArtistsCommand>();
-            cmd.Location = new Location() { Latitude = latitude, Longitude = longitude };
-            cmd.MaxDistance = maxdistance;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetArtistsAroundLocationInternal(callback, latitude, longitude, maxdistance, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets artists that originate around a specified location
+        /// </summary>
+        /// <param name="latitude">The latitude to search around</param>
+        /// <param name="longitude">The longitude to search around</param>
+        /// <param name="maxdistance">The max distance (in KM) around the location to search</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetArtistsAroundLocationAsync(double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetArtistsAroundLocationInternal(result => wrapper.TrySetResult(result), latitude, longitude, maxdistance, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets the top artists
         /// </summary>
@@ -228,12 +266,28 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetTopArtists(Action<ListResponse<Artist>> callback, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<TopArtistsCommand>();
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetTopArtistsInternal(callback, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets the top artists
+        /// </summary>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetTopArtistsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetTopArtistsInternal(result => wrapper.TrySetResult(result), startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets the top artists for a genre
         /// </summary>
@@ -243,11 +297,7 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetTopArtistsForGenre(Action<ListResponse<Artist>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<TopArtistsForGenreCommand>();
-            cmd.GenreId = id;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetTopArtistsForGenreInternal(callback, id, startIndex, itemsPerPage);
         }
 
         /// <summary>
@@ -264,9 +314,50 @@ namespace Nokia.Music.Phone
                 throw new ArgumentNullException("genre", "genre cannot be null");
             }
 
-            this.GetTopArtistsForGenre(callback, genre.Id, startIndex, itemsPerPage);
+            this.GetTopArtistsForGenreInternal(callback, genre.Id, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets the top artists for a genre
+        /// </summary>
+        /// <param name="id">The genre to get results for.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetTopArtistsForGenreInternal(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets the top artists for a genre
+        /// </summary>
+        /// <param name="genre">The genre to get results for.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (genre == null)
+            {
+                throw new ArgumentNullException("genre", "genre cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetTopArtistsForGenreInternal(result => wrapper.TrySetResult(result), genre.Id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets similar artists for an artist.
         /// </summary>
@@ -276,11 +367,7 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetSimilarArtists(Action<ListResponse<Artist>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<SimilarArtistsCommand>();
-            cmd.ArtistId = id;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetSimilarArtistsInternal(callback, id, startIndex, itemsPerPage);
         }
 
         /// <summary>
@@ -297,9 +384,50 @@ namespace Nokia.Music.Phone
                 throw new ArgumentNullException("artist", "Artist cannot be null");
             }
 
-            this.GetSimilarArtists(callback, artist.Id, startIndex, itemsPerPage);
+            this.GetSimilarArtistsInternal(callback, artist.Id, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets similar artists for an artist.
+        /// </summary>
+        /// <param name="id">The artist id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetSimilarArtistsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetSimilarArtistsInternal(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets similar artists for an artist.
+        /// </summary>
+        /// <param name="artist">The artist.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Artists or an Error
+        /// </returns>
+        public Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (artist == null)
+            {
+                throw new ArgumentNullException("artist", "Artist cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Artist>>();
+            this.GetSimilarArtistsInternal(result => wrapper.TrySetResult(result), artist.Id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets products by an artist.
         /// </summary>
@@ -310,12 +438,7 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetArtistProducts(Action<ListResponse<Product>> callback, string id, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<ArtistProductsCommand>();
-            cmd.ArtistId = id;
-            cmd.Category = category;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetArtistProductsInternal(callback, id, category, startIndex, itemsPerPage);
         }
 
         /// <summary>
@@ -333,9 +456,52 @@ namespace Nokia.Music.Phone
                 throw new ArgumentNullException("artist", "Artist cannot be null");
             }
 
-            this.GetArtistProducts(callback, artist.Id, category, startIndex, itemsPerPage);
+            this.GetArtistProductsInternal(callback, artist.Id, category, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets products by an artist.
+        /// </summary>
+        /// <param name="id">The artist id.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetArtistProductsAsync(string id, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetArtistProductsInternal(result => wrapper.TrySetResult(result), id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets products by an artist.
+        /// </summary>
+        /// <param name="artist">The artist.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (artist == null)
+            {
+                throw new ArgumentNullException("artist", "Artist cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetArtistProductsInternal(result => wrapper.TrySetResult(result), artist.Id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets a product by product id.
         /// </summary>
@@ -343,13 +509,47 @@ namespace Nokia.Music.Phone
         /// <param name="id">The product id.</param>
         public void GetProduct(Action<Response<Product>> callback, string id)
         {
-            var cmd = this.Create<ProductCommand>();
-            cmd.ProductId = id;
-            cmd.Invoke(callback);
+            this.GetProductInternal(callback, id);
         }
 
+#endif
+#if SUPPORTS_ASYNC
         /// <summary>
-        /// Gets similar products to the product id provided.
+        /// Gets products by id.
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <returns>
+        /// A Response containing a Product or an Error
+        /// </returns>
+        public Task<Response<Product>> GetProductAsync(string id)
+        {
+            var wrapper = new TaskCompletionSource<Response<Product>>();
+            this.GetProductInternal(result => wrapper.TrySetResult(result), id);
+            return wrapper.Task;
+        }
+
+#endif
+        /// <summary>
+        /// Gets a track sample uri.
+        /// </summary>
+        /// <param name="id">The track id.</param>
+        /// <returns>
+        /// A uri to a sample clip of the track
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">id;id cannot be null</exception>
+        public Uri GetTrackSampleUri(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException("id", "id cannot be null");
+            }
+
+            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&app_id={3}", MusicClientCommand.DefaultBaseApiUri, this.CountryCode, id, this.AppId), UriKind.Absolute);
+        }
+
+#if !NETFX_CORE
+        /// <summary>
+        /// Gets similar products to the product provided.
         /// </summary>
         /// <param name="callback">The callback.</param>
         /// <param name="id">The product id.</param>
@@ -357,13 +557,63 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetSimilarProducts(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<SimilarProductsCommand>();
-            cmd.ProductId = id;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetSimilarProductsInternal(callback, id, startIndex, itemsPerPage);
         }
 
+        /// <summary>
+        /// Gets similar products to the product provided.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="product">The product.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetSimilarProducts(Action<ListResponse<Product>> callback, Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (product == null)
+            {
+                throw new ArgumentNullException("product", "Product cannot be null");
+            }
+
+            this.GetSimilarProductsInternal(callback, product.Id, startIndex, itemsPerPage);
+        }
+
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets a similar product for the supplied product.
+        /// </summary>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing Products or an Error</returns>
+        public Task<ListResponse<Product>> GetSimilarProductsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetSimilarProductsInternal(result => wrapper.TrySetResult(result), id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets a similar product for the supplied product.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>A ListResponse containing Products or an Error</returns>
+        public Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (product == null)
+            {
+                throw new ArgumentNullException("product", "Product cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetSimilarProductsInternal(result => wrapper.TrySetResult(result), product.Id, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets a chart
         /// </summary>
@@ -373,13 +623,105 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetTopProducts(Action<ListResponse<Product>> callback, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<TopProductsCommand>();
-            cmd.Category = category;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetTopProductsInternal(callback, category, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetTopProductsAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetTopProductsInternal(result => wrapper.TrySetResult(result), category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
+        public void GetTopProductsForGenre(Action<ListResponse<Product>> callback, string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            this.GetTopProductsForGenreInternal(callback, id, category, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="genre">The genre.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetTopProductsForGenre(Action<ListResponse<Product>> callback, Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (genre == null)
+            {
+                throw new ArgumentNullException("genre", "genre cannot be null");
+            }
+
+            this.GetTopProductsForGenreInternal(callback, genre.Id, category, startIndex, itemsPerPage);
+        }
+
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
+        public Task<ListResponse<Product>> GetTopProductsForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetTopProductsForGenreInternal(result => wrapper.TrySetResult(result), id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="genre">The genre.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (genre == null)
+            {
+                throw new ArgumentNullException("genre", "genre cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetTopProductsForGenreInternal(result => wrapper.TrySetResult(result), genre.Id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets a list of new releases
         /// </summary>
@@ -389,23 +731,131 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetNewReleases(Action<ListResponse<Product>> callback, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<NewReleasesCommand>();
-            cmd.Category = category;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetNewReleasesInternal(callback, category, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetNewReleasesAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetNewReleasesInternal(result => wrapper.TrySetResult(result), category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void GetNewReleasesForGenre(Action<ListResponse<Product>> callback, string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            this.GetNewReleasesForGenreInternal(callback, id, category, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="genre">The genre.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
+        public void GetNewReleasesForGenre(Action<ListResponse<Product>> callback, Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (genre == null)
+            {
+                throw new ArgumentNullException("genre", "genre cannot be null");
+            }
+
+            this.GetNewReleasesForGenreInternal(callback, genre.Id, category, startIndex, itemsPerPage);
+        }
+
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="genre">The genre.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        public Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (genre == null)
+            {
+                throw new ArgumentNullException("genre", "genre cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetNewReleasesForGenreInternal(result => wrapper.TrySetResult(result), genre.Id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing Products or an Error
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
+        public Task<ListResponse<Product>> GetNewReleasesForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Product>>();
+            this.GetNewReleasesForGenreInternal(result => wrapper.TrySetResult(result), id, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets the available genres
         /// </summary>
         /// <param name="callback">The callback to use when the API call has completed</param>
         public void GetGenres(Action<ListResponse<Genre>> callback)
         {
-            var cmd = this.Create<GenresCommand>();
-            cmd.Invoke(callback);
+            this.GetGenresInternal(callback);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets the available genres
+        /// </summary>
+        /// <returns>
+        /// A ListResponse containing Genres or an Error
+        /// </returns>
+        public Task<ListResponse<Genre>> GetGenresAsync()
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Genre>>();
+            this.GetGenresInternal(result => wrapper.TrySetResult(result));
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Searches Nokia Music
         /// </summary>
@@ -416,14 +866,30 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void Search(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<SearchCommand>();
-            cmd.SearchTerm = searchTerm;
-            cmd.Category = category;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.SearchInternal(callback, searchTerm, category, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Searches Nokia Music
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing MusicItems or an Error
+        /// </returns>
+        public Task<ListResponse<MusicItem>> SearchAsync(string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<MusicItem>>();
+            this.SearchInternal(result => wrapper.TrySetResult(result), searchTerm, category, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets search suggestions.
         /// </summary>
@@ -432,13 +898,28 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetSearchSuggestions(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
         {
-            var cmd = this.Create<SearchSuggestionsCommand>();
-            cmd.SearchTerm = searchTerm;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.SuggestArtists = false;
-            cmd.Invoke(callback);
+            this.GetSearchSuggestionsInternal(callback, searchTerm, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing search suggestions
+        /// </returns>
+        public Task<ListResponse<string>> GetSearchSuggestionsAsync(string searchTerm, int itemsPerPage = 3)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<string>>();
+            this.GetSearchSuggestionsInternal(result => wrapper.TrySetResult(result), searchTerm, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets the Mix Groups available
         /// </summary>
@@ -459,13 +940,42 @@ namespace Nokia.Music.Phone
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void GetMixGroups(Action<ListResponse<MixGroup>> callback, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            var cmd = this.Create<MixGroupsCommand>();
-            cmd.ExclusiveTag = exclusiveTag;
-            cmd.StartIndex = startIndex;
-            cmd.ItemsPerPage = itemsPerPage;
-            cmd.Invoke(callback);
+            this.GetMixGroupsInternal(callback, exclusiveTag, startIndex, itemsPerPage);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets the Mix Groups available
+        /// </summary>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing MixGroups or an Error
+        /// </returns>
+        public Task<ListResponse<MixGroup>> GetMixGroupsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            return this.GetMixGroupsAsync(string.Empty, startIndex, itemsPerPage);
+        }
+
+        /// <summary>
+        /// Gets the Mix Groups available
+        /// </summary>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing MixGroups or an Error
+        /// </returns>
+        public Task<ListResponse<MixGroup>> GetMixGroupsAsync(string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<MixGroup>>();
+            this.GetMixGroupsInternal(result => wrapper.TrySetResult(result), exclusiveTag, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
@@ -484,10 +994,7 @@ namespace Nokia.Music.Phone
         /// <param name="exclusiveTag">The exclusive tag.</param>
         public void GetMixes(Action<ListResponse<Mix>> callback, string id, string exclusiveTag)
         {
-            var cmd = this.Create<MixesCommand>();
-            cmd.MixGroupId = id;
-            cmd.ExclusiveTag = exclusiveTag;
-            cmd.Invoke(callback);
+            this.GetMixesInternal(callback, id, exclusiveTag);
         }
 
         /// <summary>
@@ -517,8 +1024,370 @@ namespace Nokia.Music.Phone
             this.GetMixes(callback, group.Id, exclusiveTag);
         }
 
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="id">The mix group id.</param>
+        /// <returns>
+        /// A ListResponse containing Mixes or an Error
+        /// </returns>
+        public Task<ListResponse<Mix>> GetMixesAsync(string id)
+        {
+            return this.GetMixesAsync(id, null);
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="id">The mix group id.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <returns>
+        /// A ListResponse containing Mixes or an Error
+        /// </returns>
+        public Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
+            this.GetMixesInternal(result => wrapper.TrySetResult(result), id, exclusiveTag);
+            return wrapper.Task;
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="group">The mix group.</param>
+        /// <returns>
+        /// A ListResponse containing Mixes or an Error
+        /// </returns>
+        public Task<ListResponse<Mix>> GetMixesAsync(MixGroup group)
+        {
+            return this.GetMixesAsync(group, null);
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="group">The mix group.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <returns>
+        /// A ListResponse containing Mixes or an Error
+        /// </returns>
+        public Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag)
+        {
+            if (group == null)
+            {
+                throw new ArgumentNullException("group", "group cannot be null");
+            }
+
+            var wrapper = new TaskCompletionSource<ListResponse<Mix>>();
+            this.GetMixesInternal(result => wrapper.TrySetResult(result), group.Id, exclusiveTag);
+            return wrapper.Task;
+        }
+
+#endif
         #endregion
 
+        #region Internal Implementations
+        /// <summary>
+        /// Searches for an Artist
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void SearchArtistsInternal(Action<ListResponse<Artist>> callback, string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SearchArtistsCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets artist search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetArtistSearchSuggestionsInternal(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
+        {
+            var cmd = this.Create<SearchSuggestionsCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.SuggestArtists = true;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets artists that originate around a specified location
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="latitude">The latitude to search around</param>
+        /// <param name="longitude">The longitude to search around</param>
+        /// <param name="maxdistance">The max distance (in KM) around the location to search</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetArtistsAroundLocationInternal(Action<ListResponse<Artist>> callback, double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SearchArtistsCommand>();
+            cmd.Location = new Location() { Latitude = latitude, Longitude = longitude };
+            cmd.MaxDistance = maxdistance;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets the top artists
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetTopArtistsInternal(Action<ListResponse<Artist>> callback, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<TopArtistsCommand>();
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets the top artists for a genre
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="id">The genre to get results for.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetTopArtistsForGenreInternal(Action<ListResponse<Artist>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException("id", "genre id cannot be null");
+            }
+
+            var cmd = this.Create<TopArtistsCommand>();
+            cmd.GenreId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets similar artists for an artist.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The artist id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetSimilarArtistsInternal(Action<ListResponse<Artist>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SimilarArtistsCommand>();
+            cmd.ArtistId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets products by an artist.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The artist id.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetArtistProductsInternal(Action<ListResponse<Product>> callback, string id, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<ArtistProductsCommand>();
+            cmd.ArtistId = id;
+            cmd.Category = category;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets a product by product id.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        private void GetProductInternal(Action<Response<Product>> callback, string id)
+        {
+            var cmd = this.Create<ProductCommand>();
+            cmd.ProductId = id;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets similar products to the product provided.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The product id.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetSimilarProductsInternal(Action<ListResponse<Product>> callback, string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SimilarProductsCommand>();
+            cmd.ProductId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetTopProductsInternal(Action<ListResponse<Product>> callback, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<TopProductsCommand>();
+            cmd.Category = category;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets a chart
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track charts are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetTopProductsForGenreInternal(Action<ListResponse<Product>> callback, string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException("id", "genre id cannot be null");
+            }
+
+            var cmd = this.Create<TopProductsCommand>();
+            cmd.Category = category;
+            cmd.GenreId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetNewReleasesInternal(Action<ListResponse<Product>> callback, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<NewReleasesCommand>();
+            cmd.Category = category;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets a list of new releases
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="id">The genre id.</param>
+        /// <param name="category">The category - only Album and Track lists are available.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <exception cref="System.ArgumentNullException">id;genre id cannot be null</exception>
+        private void GetNewReleasesForGenreInternal(Action<ListResponse<Product>> callback, string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException("id", "genre id cannot be null");
+            }
+
+            var cmd = this.Create<NewReleasesCommand>();
+            cmd.Category = category;
+            cmd.GenreId = id;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets the available genres
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        private void GetGenresInternal(Action<ListResponse<Genre>> callback)
+        {
+            var cmd = this.Create<GenresCommand>();
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Searches Nokia Music
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void SearchInternal(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<SearchCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.Category = category;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets search suggestions.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetSearchSuggestionsInternal(Action<ListResponse<string>> callback, string searchTerm, int itemsPerPage = 3)
+        {
+            var cmd = this.Create<SearchSuggestionsCommand>();
+            cmd.SearchTerm = searchTerm;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.SuggestArtists = false;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets the Mix Groups available
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="exclusiveTag">The exclusive tag</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        private void GetMixGroupsInternal(Action<ListResponse<MixGroup>> callback, string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var cmd = this.Create<MixGroupsCommand>();
+            cmd.ExclusiveTag = exclusiveTag;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            cmd.Invoke(callback);
+        }
+
+        /// <summary>
+        /// Gets the Mixes available in a group
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="id">The mix group id.</param>
+        /// <param name="exclusiveTag">The exclusive tag.</param>
+        private void GetMixesInternal(Action<ListResponse<Mix>> callback, string id, string exclusiveTag)
+        {
+            var cmd = this.Create<MixesCommand>();
+            cmd.MixGroupId = id;
+            cmd.ExclusiveTag = exclusiveTag;
+            cmd.Invoke(callback);
+        }
+        #endregion
         /// <summary>
         /// Creates a command to execute
         /// </summary>

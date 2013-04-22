@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MusicItem.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Internal;
 
-namespace Nokia.Music.Phone.Types
+namespace Nokia.Music.Types
 {
     /// <summary>
     /// Represents a Nokia Music Catalog Item

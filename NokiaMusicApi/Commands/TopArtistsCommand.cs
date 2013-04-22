@@ -1,25 +1,30 @@
 // -----------------------------------------------------------------------
 // <copyright file="TopArtistsCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
-    ///   Gets the top artists for a genre
+    ///   Gets top artists
     /// </summary>
     internal sealed class TopArtistsCommand : SearchCatalogCommand<Artist>
     {
+        /// <summary>
+        /// Gets or sets the genre ID to get results for.
+        /// </summary>
+        public string GenreId { get; set; }
+
         /// <summary>
         /// Executes the command
         /// </summary>
         protected override void Execute()
         {
-            this.InternalSearch(null, null, Category.Artist, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            this.InternalSearch(null, this.GenreId, Category.Artist, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
         }
     }
 }

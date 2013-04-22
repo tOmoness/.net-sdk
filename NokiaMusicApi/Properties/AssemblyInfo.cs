@@ -7,15 +7,15 @@
 
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Nokia.Music.Phone")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyTitle("Nokia.Music")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Nokia")]
-[assembly: AssemblyProduct("Nokia.Music.Phone")]
+[assembly: AssemblyProduct("Nokia.Music")]
 [assembly: AssemblyCopyright("Copyright © Nokia 2012-2013")]
 [assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

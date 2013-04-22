@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 // <copyright file="SearchSuggestionsCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal.Response;
+using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     ///   Gets suggestions for a search term
@@ -66,7 +66,7 @@ namespace Nokia.Music.Phone.Commands
                 this,
                 this.MusicClientSettings,
                 queryStringParams,
-                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameResults, ExtractStringFromJToken, this.Callback)));
+                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameResults, ExtractStringFromJToken, this.Callback)));
         }
 
         /// <summary>

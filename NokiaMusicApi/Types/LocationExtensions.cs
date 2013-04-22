@@ -8,7 +8,7 @@
 using System;
 using System.Device.Location;
 
-namespace Nokia.Music.Phone.Types
+namespace Nokia.Music.Types
 {
     internal static class LocationExtensions
     {

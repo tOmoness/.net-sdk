@@ -5,12 +5,14 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Text;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tests.Properties;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class SimilarProductsTests : ProductTestBase
@@ -18,16 +20,51 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetSimilarProductsReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             client.GetSimilarProducts(this.ValidateProductListResponse, "test");
+            client.GetSimilarProducts(this.ValidateProductListResponse, new Product() { Id = "test" });
+
+            var task = client.GetSimilarProductsAsync("test");
+            this.ValidateProductListResponse(task.Result);
+
+            var productTask = client.GetSimilarProductsAsync(new Product() { Id = "test" });
+            this.ValidateProductListResponse(productTask.Result);
         }
 
         [Test]
-        public void EnsureAsyncGetSimilarProductsReturnsItems()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureExceptionIsThrownIfNullProductId()
         {
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            var task = client.GetSimilarProducts("test");
-            this.ValidateProductListResponse(task.Result);
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            client.GetSimilarProducts(null, string.Empty);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureExceptionIsThrownIfNullProduct()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            Product nullProduct = null;
+            client.GetSimilarProducts(null, nullProduct);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureExceptionIsThrownIfNullProductAsync()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            Product nullProduct = null;
+            var t = client.GetSimilarProductsAsync(nullProduct);
+            t.Wait();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnsureExceptionIsThrownIfNullProductIdAsync()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            var t = client.GetSimilarProductsAsync(string.Empty);
+            t.Wait();
         }
 
         [Test]

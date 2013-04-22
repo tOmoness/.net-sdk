@@ -6,11 +6,11 @@
 // -----------------------------------------------------------------------
 
 using System.Device.Location;
-using Nokia.Music.Phone.Converters;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Converters;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     [TestFixture]
     public class LocationConverterTests

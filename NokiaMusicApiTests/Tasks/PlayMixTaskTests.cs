@@ -5,11 +5,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Tasks;
+using Nokia.Music.Internal;
+using Nokia.Music.Tasks;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// PlayMixTask Tests

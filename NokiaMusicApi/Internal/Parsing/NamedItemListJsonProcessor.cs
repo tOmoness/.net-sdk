@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="NamedItemListJsonProcessor.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Commands;
+using Nokia.Music.Commands;
 
-namespace Nokia.Music.Phone.Internal.Parsing
+namespace Nokia.Music.Internal.Parsing
 {
     /// <summary>
     /// The typical parsing mechanism for json list responses

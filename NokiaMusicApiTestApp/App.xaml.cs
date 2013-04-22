@@ -12,11 +12,13 @@ using System;
 using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Tasks;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Tasks;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.TestApp
 {
@@ -59,7 +61,7 @@ namespace Nokia.Music.TestApp
             // Phone-specific initialization
             this.InitializePhoneApplication();
 
-            if (string.IsNullOrEmpty(ApiKeys.AppId) || string.IsNullOrEmpty(ApiKeys.AppCode))
+            if (string.IsNullOrEmpty(ApiKeys.AppId))
             {
                 throw new ApiCredentialsRequiredException();
             }
@@ -122,9 +124,9 @@ namespace Nokia.Music.TestApp
             if (artist != null)
             {
                 string thumb = string.Empty;
-                if (artist.Thumb100Uri != null)
+                if (artist.Thumb200Uri != null)
                 {
-                    thumb = HttpUtility.UrlEncode(artist.Thumb100Uri.ToString());
+                    thumb = HttpUtility.UrlEncode(artist.Thumb200Uri.ToString());
                 }
 
                 this.RootFrame.Navigate(new Uri("/ArtistPage.xaml?" + App.IdParam + "=" + artist.Id + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(artist.Name) + "&" + App.ThumbParam + "=" + thumb, UriKind.Relative));
@@ -137,33 +139,33 @@ namespace Nokia.Music.TestApp
                 if (product.Category == Category.Track)
                 {
                     ShowProductTask task = new ShowProductTask() { ProductId = product.Id };
-                    task.Show(); 
+                    task.Show();
                 }
                 else
                 {
                     string thumb = string.Empty;
-                    if (product.Thumb100Uri != null)
+                    if (product.Thumb200Uri != null)
                     {
-                        thumb = HttpUtility.UrlEncode(product.Thumb100Uri.ToString());
+                        thumb = HttpUtility.UrlEncode(product.Thumb200Uri.ToString());
                     }
 
                     this.RootFrame.Navigate(new Uri("/AlbumPage.xaml?" + App.IdParam + "=" + product.Id + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(product.Name) + "&" + App.ThumbParam + "=" + thumb, UriKind.Relative));
                 }
 
-                return true;  
+                return true;
             }
 
             Genre genre = item as Genre;
             if (genre != null)
             {
-                this.RootFrame.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetTopArtistsForGenre + "&" + IdParam + "=" + genre.Id, UriKind.Relative));
+                this.RootFrame.Navigate(new Uri("/GenrePage.xaml?" + IdParam + "=" + genre.Id + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(genre.Name), UriKind.Relative));
                 return true;
             }
 
             MixGroup group = item as MixGroup;
             if (group != null)
             {
-                this.RootFrame.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetMixes + "&" + IdParam + "=" + group.Id + "&" + NameParam + "=" + HttpUtility.UrlEncode(group.Name), UriKind.Relative));
+                this.RootFrame.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetMixes + "&" + IdParam + "=" + group.Id + "&" + NameParam + "=" + HttpUtility.UrlEncode(group.Name), UriKind.Relative));
                 return true;
             }
 
@@ -186,11 +188,53 @@ namespace Nokia.Music.TestApp
         {
             if (!string.IsNullOrEmpty(countryCode))
             {
-                ApiClient = new MusicClient(ApiKeys.AppId, ApiKeys.AppCode, countryCode);
+                ApiClient = new MusicClient(ApiKeys.AppId, countryCode);
             }
             else
             {
                 ApiClient = null;
+            }
+        }
+
+        /// <summary>
+        /// Handles when the album art is clicked and plays a clip if it's a track.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void AlbumArtClicked(object sender, MouseButtonEventArgs e)
+        {
+            Image image = sender as Image;
+
+            if (image != null)
+            {
+                Product product = image.Tag as Product;
+
+                if (product != null)
+                {
+                    if (product.Category == Category.Track)
+                    {
+                        ShowListPage listPage = this.RootFrame.Content as ShowListPage;
+                        if (listPage != null)
+                        {
+                            listPage.PlayClip(product.Id);
+                            e.Handled = true;
+                        }
+
+                        ArtistPage artistPage = this.RootFrame.Content as ArtistPage;
+                        if (artistPage != null)
+                        {
+                            artistPage.PlayClip(product.Id);
+                            e.Handled = true;
+                        }
+
+                        AlbumPage albumPage = this.RootFrame.Content as AlbumPage;
+                        if (albumPage != null)
+                        {
+                            albumPage.PlayClip(product.Id);
+                            e.Handled = true;
+                        }
+                    }
+                }
             }
         }
 

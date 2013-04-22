@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 // <copyright file="TopProductsCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,11 +8,11 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Response;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Response;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Gets a chart
@@ -27,12 +27,24 @@ namespace Nokia.Music.Phone.Commands
         public Category Category { get; set; }
 
         /// <summary>
+        /// Gets or sets the genre ID to get results for.
+        /// </summary>
+        public string GenreId { get; set; }
+
+        /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            uri.AppendFormat("products/charts/{0}/", this._category);
+            if (string.IsNullOrEmpty(this.GenreId))
+            {
+                uri.AppendFormat("products/charts/{0}/", this._category);
+            }
+            else
+            {
+                uri.AppendFormat("genres/{0}/charts/{1}/", this.GenreId, this._category);
+            }
         }
 
         /// <summary>
@@ -45,8 +57,8 @@ namespace Nokia.Music.Phone.Commands
             this.RequestHandler.SendRequestAsync(
                 this,
                 this.MusicClientSettings,
-                null,
-                new JsonResponseCallback(rawResult => this.CatalogItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
+                this.GetPagingParams(),
+                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
         }
 
         /// <summary>

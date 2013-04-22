@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="IJsonProcessor.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Commands;
+using Nokia.Music.Commands;
 
-namespace Nokia.Music.Phone.Internal.Parsing
+namespace Nokia.Music.Internal.Parsing
 {
     /// <summary>
     /// Provides a common interface for parsing different kinds of lists

@@ -1,14 +1,15 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="JsonResponseCallback.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal.Parsing;
 
-namespace Nokia.Music.Phone.Internal.Response
+namespace Nokia.Music.Internal.Response
 {
     /// <summary>
     /// Defines a callback to parse a json response
@@ -32,7 +33,7 @@ namespace Nokia.Music.Phone.Internal.Response
             JObject json = null;
             if (!string.IsNullOrEmpty(response))
             {
-                json = JObject.Parse(response);
+                json = ParseHelper.ParseWithDate(response);
             }
 
             return json;

@@ -5,22 +5,19 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Phone.Internal;
+using Nokia.Music.Internal;
 
-namespace Nokia.Music.Phone.Tests.Internal
+namespace Nokia.Music.Tests.Internal
 {
     internal class MockMusicClientSettings : IMusicClientSettings
     {
-        internal MockMusicClientSettings(string appId, string appCode, string countryCode)
+        internal MockMusicClientSettings(string appId, string countryCode)
         {
             this.AppId = appId;
-            this.AppCode = appCode;
             this.CountryCode = countryCode;
         }
 
         public string AppId { get; set; }
-
-        public string AppCode { get; set; }
 
         public string CountryCode { get; set; }
 

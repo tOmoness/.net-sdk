@@ -9,9 +9,9 @@ using System;
 using System.Device.Location;
 using System.Globalization;
 using System.Windows.Data;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 
-namespace Nokia.Music.Phone.Converters
+namespace Nokia.Music.Converters
 {
     /// <summary>
     /// Converter for using the Location type with Map control

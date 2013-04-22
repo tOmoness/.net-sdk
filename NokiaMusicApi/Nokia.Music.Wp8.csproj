@@ -29,7 +29,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;SILVERLIGHT;WINDOWS_PHONE;WP8;SUPPORTS_ASYNC;</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>Bin\ARM\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP8;SUPPORTS_ASYNC;</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>
@@ -90,7 +90,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>Bin\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WP8;SUPPORTS_ASYNC;</DefineConstants>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
@@ -100,12 +100,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>Bin\ARM\Release\Nokia.Music.Wp8.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ArtistProductsCommand.cs" />
     <Compile Include="Commands\CountryResolverCommand.cs" />
@@ -123,21 +117,16 @@
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
     <Compile Include="Commands\SimilarProductsCommand.cs" />
     <Compile Include="Commands\TopArtistsCommand.cs" />
-    <Compile Include="Commands\TopArtistsForGenreCommand.cs" />
     <Compile Include="Commands\TopProductsCommand.cs" />
     <Compile Include="Converters\LocationConverter.cs" />
     <Compile Include="Exceptions\ApiNotAvailableException.cs" />
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />
     <Compile Include="IMusicClient.cs" />
-    <Compile Include="IMusicClientAsync.cs" />
     <Compile Include="Internal\Compression\Crc32.cs" />
-    <Compile Include="Internal\Compression\Deflate.cs" />
-    <Compile Include="Internal\Compression\DeflateStream.cs" />
     <Compile Include="Internal\Compression\FlushType.cs" />
     <Compile Include="Internal\Compression\GZipStream.cs" />
     <Compile Include="Internal\Compression\Inflate.cs" />
     <Compile Include="Internal\Compression\InfTree.cs" />
-    <Compile Include="Internal\Compression\Tree.cs" />
     <Compile Include="Internal\Compression\ZLib.cs" />
     <Compile Include="Internal\Compression\ZlibBaseStream.cs" />
     <Compile Include="Internal\Compression\ZLibCodec.cs" />
@@ -149,7 +138,6 @@
     <Compile Include="Internal\Parsing\IJsonProcessor.cs" />
     <Compile Include="Internal\Parsing\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\Parsing\ParseHelper.cs" />
-    <Compile Include="Internal\Parsing\SingleRawItemJsonProcessor.cs" />
     <Compile Include="Internal\Request\ApiRequestHandler.cs" />
     <Compile Include="Internal\Request\ApiUriBuilder.cs" />
     <Compile Include="Internal\Request\HttpMethod.cs" />
@@ -158,6 +146,7 @@
     <Compile Include="Internal\Request\TimedRequest.cs" />
     <Compile Include="Internal\Response\IResponseCallback.cs" />
     <Compile Include="Internal\Response\JsonResponseCallback.cs" />
+    <Compile Include="Internal\Response\RawResponseCallback.cs" />
     <Compile Include="Internal\Response\ResponseInfo.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
     <Compile Include="ListResponse{T}.cs" />
@@ -169,7 +158,6 @@
     <Compile Include="Exceptions\InvalidCountryCodeException.cs" />
     <Compile Include="Exceptions\NokiaMusicException.cs" />
     <Compile Include="ICountryResolver.cs" />
-    <Compile Include="MusicClientAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response{T}.cs" />
     <Compile Include="Tasks\LaunchTask.cs" />
@@ -183,6 +171,7 @@
     <Compile Include="Types\Artist.cs" />
     <Compile Include="Types\Location.cs" />
     <Compile Include="Types\LocationExtensions.cs" />
+    <Compile Include="Types\LocationSource.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Category.cs" />
     <Compile Include="Types\CategoryExtensions.cs" />
@@ -193,7 +182,14 @@
     <Compile Include="Types\Genre.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

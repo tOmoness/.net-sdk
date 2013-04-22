@@ -96,9 +96,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Device" />
@@ -127,13 +127,10 @@
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />
     <Compile Include="Internal\Compression\Crc32.cs" />
-    <Compile Include="Internal\Compression\Deflate.cs" />
-    <Compile Include="Internal\Compression\DeflateStream.cs" />
     <Compile Include="Internal\Compression\FlushType.cs" />
     <Compile Include="Internal\Compression\GZipStream.cs" />
     <Compile Include="Internal\Compression\Inflate.cs" />
     <Compile Include="Internal\Compression\InfTree.cs" />
-    <Compile Include="Internal\Compression\Tree.cs" />
     <Compile Include="Internal\Compression\ZLib.cs" />
     <Compile Include="Internal\Compression\ZlibBaseStream.cs" />
     <Compile Include="Internal\Compression\ZLibCodec.cs" />
@@ -152,7 +149,7 @@
     <Compile Include="Internal\Response\IResponseCallback.cs" />
     <Compile Include="Internal\Response\JsonResponseCallback.cs" />
     <Compile Include="Internal\Parsing\NamedItemListJsonProcessor.cs" />
-    <Compile Include="Internal\Parsing\SingleRawItemJsonProcessor.cs" />
+    <Compile Include="Internal\Response\RawResponseCallback.cs" />
     <Compile Include="Internal\Response\ResponseInfo.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
     <Compile Include="Internal\Request\TimedRequest.cs" />
@@ -175,13 +172,13 @@
     <Compile Include="Tasks\ShowProductTask.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
     <Compile Include="Commands\TopArtistsCommand.cs" />
-    <Compile Include="Commands\TopArtistsForGenreCommand.cs" />
     <Compile Include="Commands\TopProductsCommand.cs" />
     <Compile Include="Types\Artist.cs" />
     <Compile Include="Types\Category.cs" />
     <Compile Include="Types\CategoryExtensions.cs" />
     <Compile Include="Types\Location.cs" />
     <Compile Include="Types\LocationExtensions.cs" />
+    <Compile Include="Types\LocationSource.cs" />
     <Compile Include="Types\MixGroup.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Price.cs" />
@@ -205,7 +202,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.41.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>

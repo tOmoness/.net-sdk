@@ -8,13 +8,13 @@
 using System;
 using System.Net;
 using System.Text;
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests.Commands
+namespace Nokia.Music.Tests.Commands
 {
     [TestFixture]
     public class GenreTests
@@ -23,14 +23,14 @@ namespace Nokia.Music.Phone.Tests.Commands
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnsureGetGenresThrowsExceptionForNullCallback()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.genres));
             client.GetGenres(null);
         }
 
         [Test]
         public void EnsureGetGenresReturnsItems()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.genres));
             client.GetGenres(
                 (ListResponse<Genre> result) =>
                 {
@@ -53,7 +53,7 @@ namespace Nokia.Music.Phone.Tests.Commands
         [Test]
         public void EnsureGetGenresReturnsErrorForFailedCall()
         {
-            IMusicClient client = new MusicClient("test", "test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
             client.GetGenres(
                 (ListResponse<Genre> result) =>
                 {
@@ -70,9 +70,9 @@ namespace Nokia.Music.Phone.Tests.Commands
         public async void EnsureAsyncGetGenresReturnsItems()
         {
             // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClientAsync client = new MusicClientAsync("test", "test", "gb", new MockApiRequestHandler(Resources.genres));
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.genres));
 
-            ListResponse<Genre> result = await client.GetGenres();
+            ListResponse<Genre> result = await client.GetGenresAsync();
             Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 

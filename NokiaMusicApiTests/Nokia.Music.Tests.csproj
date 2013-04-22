@@ -8,7 +8,7 @@
     <ProjectGuid>{E5470471-A7EB-410A-8676-4B1F70BA1411}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.Phone.Tests</RootNamespace>
+    <RootNamespace>Nokia.Music.Tests</RootNamespace>
     <AssemblyName>Nokia.Music.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TESTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TESTS;SUPPORTS_ASYNC;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -32,7 +32,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;TESTS</DefineConstants>
+    <DefineConstants>TRACE;TESTS;SUPPORTS_ASYNC;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -40,12 +40,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -103,9 +104,6 @@
     <Compile Include="..\NokiaMusicApi\Commands\TopArtistsCommand.cs">
       <Link>Source\Commands\TopArtistsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\TopArtistsForGenreCommand.cs">
-      <Link>Source\Commands\TopArtistsForGenreCommand.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\TopProductsCommand.cs">
       <Link>Source\Commands\TopProductsCommand.cs</Link>
     </Compile>
@@ -142,17 +140,8 @@
     <Compile Include="..\NokiaMusicApi\IMusicClient.cs">
       <Link>Source\IMusicClient.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\IMusicClientAsync.cs">
-      <Link>Source\IMusicClientAsync.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\Crc32.cs">
       <Link>Source\Internal\Compression\Crc32.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\Deflate.cs">
-      <Link>Source\Internal\Compression\Deflate.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\DeflateStream.cs">
-      <Link>Source\Internal\Compression\DeflateStream.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\FlushType.cs">
       <Link>Source\Internal\Compression\FlushType.cs</Link>
@@ -165,9 +154,6 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\InfTree.cs">
       <Link>Source\Internal\Compression\InfTree.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\Tree.cs">
-      <Link>Source\Internal\Compression\Tree.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLib.cs">
       <Link>Source\Internal\Compression\ZLib.cs</Link>
@@ -201,9 +187,6 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Parsing\ParseHelper.cs">
       <Link>Source\Internal\Parsing\ParseHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Parsing\SingleRawItemJsonProcessor.cs">
-      <Link>Source\Internal\Parsing\SingleRawItemJsonProcessor.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandler.cs">
       <Link>Source\Internal\Request\ApiRequestHandler.cs</Link>
@@ -240,9 +223,6 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\MusicClient.cs">
       <Link>Source\MusicClient.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\MusicClientAsync.cs">
-      <Link>Source\MusicClientAsync.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Response{T}.cs">
       <Link>Source\Response{T}.cs</Link>
@@ -289,6 +269,9 @@
     <Compile Include="..\NokiaMusicApi\Types\LocationExtensions.cs">
       <Link>Source\Types\LocationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\LocationSource.cs">
+      <Link>Source\Types\LocationSource.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Mix.cs">
       <Link>Source\Types\Mix.cs</Link>
     </Compile>
@@ -309,12 +292,13 @@
     <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="Commands\GetProductTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
+    <Compile Include="Internal\JsonResponseCallbackTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
     <Compile Include="Commands\SearchSuggestionsTests.cs" />
     <Compile Include="Internal\FakeResponse.cs" />
+    <Compile Include="Internal\MockBlankTerritoryCommand.cs" />
     <Compile Include="Internal\MockMusicClientSettings.cs" />
-    <Compile Include="MusicClientAsyncTests.cs" />
     <Compile Include="Commands\ProductNewReleasesTests.cs" />
     <Compile Include="Commands\ProductChartTests.cs" />
     <Compile Include="MusicClientTests.cs" />
@@ -385,7 +369,6 @@
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(SolutionDir)
@@ -400,7 +383,7 @@ rem RunTests.bat</PostBuildEvent>
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.41.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>

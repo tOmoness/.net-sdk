@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ResponseInfo.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Net;
 
-namespace Nokia.Music.Phone.Internal.Response
+namespace Nokia.Music.Internal.Response
 {
     internal class ResponseInfo
     {

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="IApiUriBuilder.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,9 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nokia.Music.Phone.Commands;
+using Nokia.Music.Commands;
 
-namespace Nokia.Music.Phone.Internal.Request
+namespace Nokia.Music.Internal.Request
 {
     /// <summary>
     /// Defines the API URI Builder interface

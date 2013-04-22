@@ -14,9 +14,9 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Tasks;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Tasks;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.TestApp
 {
@@ -41,49 +41,17 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Defines method calls this page can get data with.
+        /// Plays a sample clip for the track id specified.
         /// </summary>
-        public enum MethodCall
+        /// <param name="id">The id.</param>
+        internal void PlayClip(string id)
         {
-            /// <summary>
-            /// An unknown method
-            /// </summary>
-            Unknown = 0,
-
-            /// <summary>
-            /// Get Top Artists
-            /// </summary>
-            GetTopArtists = 1,
-
-            /// <summary>
-            /// Get Top Artists for a genre
-            /// </summary>
-            GetTopArtistsForGenre = 2,
-
-            /// <summary>
-            /// Get the available genres
-            /// </summary>
-            GetGenres = 3,
-
-            /// <summary>
-            /// Get the available mix groups
-            /// </summary>
-            GetMixGroups = 4,
-
-            /// <summary>
-            /// Get the available mixes in a group
-            /// </summary>
-            GetMixes = 5,
-
-            /// <summary>
-            /// Get Top Albums
-            /// </summary>
-            GetTopAlbums = 6,
-
-            /// <summary>
-            /// Get New Albums
-            /// </summary>
-            GetNewAlbums = 7,
+            this.Player.Stop();
+            if (this.Player.CurrentState != System.Windows.Media.MediaElementState.Playing)
+            {
+                this.Player.Source = App.ApiClient.GetTrackSampleUri(id);
+                this.Player.Play();
+            }
         }
 
         /// <summary>
@@ -214,6 +182,21 @@ namespace Nokia.Music.TestApp
         {
             (App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
+        }
+
+        private void Player_CurrentStateChanged(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("CurrentStateChanged: " + this.Player.CurrentState.ToString());
+        }
+
+        private void Player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("MediaFailed: " + e.ErrorException.ToString());
+        }
+
+        private void Player_BufferingProgressChanged(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("BufferingProgressChanged: " + this.Player.BufferingProgress.ToString());
         }
     }
 }

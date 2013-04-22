@@ -7,10 +7,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     [TestFixture]
     public class ResponseTests

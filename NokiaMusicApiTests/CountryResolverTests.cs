@@ -7,14 +7,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Tests.Internal;
-using Nokia.Music.Phone.Tests.Properties;
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Tests.Internal;
+using Nokia.Music.Tests.Properties;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Phone.Tests
+namespace Nokia.Music.Tests
 {
     [TestFixture]
     public class CountryResolverTests
@@ -23,21 +23,20 @@ namespace Nokia.Music.Phone.Tests
         public void CheckApiCredentialsValidated()
         {
             string nullKey = null;
-            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { new CountryResolver(nullKey, nullKey); }));
-            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { new CountryResolver("test-app-id", nullKey); }));
+            Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { new CountryResolver(nullKey); }));
         }
 
         [Test]
         public void EnsureDefaultRequestHandlerIsCreated()
         {
-            CountryResolver client = new CountryResolver("test", "test");
+            CountryResolver client = new CountryResolver("test");
             Assert.AreEqual(client.RequestHandler.GetType(), typeof(ApiRequestHandler), "Expected the default handler");
         }
 
         [Test]
         public void EnsureInvalidApiCredentialsExceptionThrownWhenServerGives403()
         {
-            CountryResolver client = new CountryResolver("badkey", "test", new MockApiRequestHandler(FakeResponse.Forbidden()));
+            CountryResolver client = new CountryResolver("badkey", new MockApiRequestHandler(FakeResponse.Forbidden()));
             client.CheckAvailability(
                 (Response<bool> response) =>
                 {

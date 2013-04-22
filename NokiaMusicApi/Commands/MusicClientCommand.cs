@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
 // <copyright file="MusicClientCommand.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Phone.Internal;
-using Nokia.Music.Phone.Internal.Request;
-using Nokia.Music.Phone.Internal.Response;
+using Nokia.Music.Internal;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Phone.Commands
+namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Defines the Music Client Command base class
@@ -31,8 +31,9 @@ namespace Nokia.Music.Phone.Commands
         internal const string PagingStartIndex = "startindex";
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";
+        internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
 
-        private string _baseApiUri = "http://api.ent.nokia.com/1.x/";
+        private string _baseApiUri = DefaultBaseApiUri;
         private Guid _requestId = Guid.Empty;
 
         /// <summary>
@@ -73,6 +74,11 @@ namespace Nokia.Music.Phone.Commands
         internal virtual bool RequiresCountryCode
         {
             get { return true; }
+        }
+
+        internal virtual bool UseBlankTerritory
+        {
+            get { return false; }
         }
 
         /// <summary>

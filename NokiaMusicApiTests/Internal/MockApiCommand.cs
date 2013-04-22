@@ -5,10 +5,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Phone.Commands;
-using Nokia.Music.Phone.Internal.Request;
+using Nokia.Music.Commands;
+using Nokia.Music.Internal.Request;
 
-namespace Nokia.Music.Phone.Tests.Internal
+namespace Nokia.Music.Tests.Internal
 {
     internal class MockApiCommand : MusicClientCommand
     {

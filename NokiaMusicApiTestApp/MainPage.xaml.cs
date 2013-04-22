@@ -12,8 +12,8 @@ using System;
 using System.Globalization;
 using System.Windows;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Tasks;
+using Nokia.Music;
+using Nokia.Music.Tasks;
 
 namespace Nokia.Music.TestApp
 {
@@ -108,7 +108,7 @@ namespace Nokia.Music.TestApp
             this.ValidateDeviceCountryButton.IsEnabled = false;
 
             string countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower();
-            CountryResolver resolver = new CountryResolver(ApiKeys.AppId, ApiKeys.AppCode);
+            CountryResolver resolver = new CountryResolver(ApiKeys.AppId);
             resolver.CheckAvailability(
                 (Response<bool> response) =>
                 {
@@ -209,7 +209,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void GetTopArtists(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetTopArtists, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetTopArtists, UriKind.Relative));
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void GetGenres(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetGenres, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetGenres, UriKind.Relative));
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void GetTopAlbums(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetTopAlbums, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetTopAlbums, UriKind.Relative));
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void GetNewAlbums(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetNewAlbums, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetNewAlbums, UriKind.Relative));
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void GetMixGroups(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + ShowListPage.MethodCall.GetMixGroups, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetMixGroups, UriKind.Relative));
         }
 
         /// <summary>
