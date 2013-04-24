@@ -10,9 +10,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Maps.Toolkit;
 using Microsoft.Phone.Shell;
-using Nokia.Music.Phone;
-using Nokia.Music.Phone.Tasks;
-using Nokia.Music.Phone.Types;
+using Nokia.Music;
+using Nokia.Music.Tasks;
+using Nokia.Music.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +31,7 @@ namespace BandsAround
     public partial class MainPage : PhoneApplicationPage
     {
         // Music API with which to request nearby artists
-        MusicClientAsync client = null;
+        MusicClient client = null;
 
         // A collection of artists represented on the map with Pushpins.
         private ObservableCollection<Artist> nearbyArtists = null;
@@ -152,13 +152,13 @@ namespace BandsAround
             busyIndicator.IsVisible = true;
             prevSearchCoordinate = Map.Center;
 
-            // Sign up for api appId and appCode at http://api.developer.nokia.com
+            // Sign up for api appId at http://api.developer.nokia.com
             if (client == null)
             {
-                client = new MusicClientAsync(null, null);
+                client = new MusicClient(null);
             }
 
-            var res = await client.GetArtistsAroundLocation(Map.Center.Latitude, Map.Center.Longitude, 50, 0, 40);
+            var res = await client.GetArtistsAroundLocationAsync(Map.Center.Latitude, Map.Center.Longitude, 50, 0, 40);
             if (res.Result != null)
             {
                 if (nearbyArtists == null)

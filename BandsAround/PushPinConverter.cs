@@ -6,7 +6,7 @@
  * See LICENSE.TXT for license information.
  */
 
-using Nokia.Music.Phone.Types;
+using Nokia.Music.Types;
 using System;
 using System.Device.Location;
 using System.Globalization;
