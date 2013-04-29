@@ -1,12 +1,14 @@
 # wp-api-client
 
-This codebase contains the **Nokia Music Windows Phone API**.
+This codebase contains the **Nokia Music C# API**.
 
 ##Overview
-The **Nokia Music Windows Phone API** lets you easily integrate your Windows Phone applicaton with [Nokia Music on Nokia Lumia phones](http://www.nokia.com/global/apps/nokia/music/). The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
+The **Nokia Music C# API** lets you easily integrate your Windows Phone with [Nokia Music on Nokia Lumia phones](http://www.nokia.com/global/apps/nokia/music/)
+or your Windows 8 applicaton with [Nokia Music on Windows 8](http://apps.microsoft.com/windows/en-gb/app/nokia-music/4e9de0ba-ed72-4ffc-866d-cf964def6ddf).
+The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
 
 ##License
-The **Nokia Music Windows Phone API** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
+The **Nokia Music C# API** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
 
 ##Usage
 
@@ -15,6 +17,7 @@ The **Nokia Music Windows Phone API** is released under the 3-clause license ("N
  
 ##Releases
 
+- 2.1.0 - Added various artists flag, release date and label to the product object, removed source-based GZip in favour of SharpGIS.GZipWebClient for Windows Phone
 - 2.0.0 - Added support for Nokia Music on Windows 8. The *Nokia.Music.Phone* namespace has changed to *Nokia.Music*, the async *MusicClientAsync* methods have merged into *MusicClient* correcting the naming convention used, we've added sample clip and genre chart functionality.
 - 1.1.0 - A tidy-up release. We have removed optional paging parameters that had incorrectly been included on the GetMixes and GetProduct methods and removed some unneeded properties from the Location type.
 - 1.0.9 - Added Name to Artist Origin object, added AppToAppUri properties to Artist, Mix and Product
@@ -63,13 +66,14 @@ We're proud to build on the shoulders of the following giants...
  - [NUnit](http://nunit.org) for unit testing
  - [OpenCover](https://github.com/sawilde/opencover/) and [ReportGenerator](http://reportgenerator.codeplex.com) for unit test coverage
  - [StyleCop](http://stylecop.codeplex.com) for keeping the code in order
+ - [SharpGIS.GZipWebClient](https://github.com/dotMorten/SharpGIS.GZipWebClient) for GZIP compression on Windows Phone
  
 The projects make use of [NuGet](http://nuget.org) to install these components at build time.
  
 ## Tools required to develop
 
  - Visual Studio 2010 for Windows Phone 7 development
- - Visual Studio 2012 for Windows Phone 8 development
+ - Visual Studio 2012 for Windows Phone 8 / Windows 8 development
 
 ## Contributing
 

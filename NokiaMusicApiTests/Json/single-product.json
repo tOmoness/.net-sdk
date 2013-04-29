@@ -17,7 +17,7 @@
     "sortname": "Rated R",
     "streetreleasedate": "2009-11-23T00:00:00Z",
     "trackcount": 13,
-    "variousartists": false,
+    "variousartists": true,
     "volumes": 1,
     "tracks": [
         {

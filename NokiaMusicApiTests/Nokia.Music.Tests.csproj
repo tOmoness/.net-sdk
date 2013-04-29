@@ -140,35 +140,11 @@
     <Compile Include="..\NokiaMusicApi\IMusicClient.cs">
       <Link>Source\IMusicClient.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\Crc32.cs">
-      <Link>Source\Internal\Compression\Crc32.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\GzipHandlerWp.cs">
+      <Link>Source\Internal\Compression\GzipHandlerWp.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\FlushType.cs">
-      <Link>Source\Internal\Compression\FlushType.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\GZipStream.cs">
-      <Link>Source\Internal\Compression\GZipStream.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\Inflate.cs">
-      <Link>Source\Internal\Compression\Inflate.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\InfTree.cs">
-      <Link>Source\Internal\Compression\InfTree.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLib.cs">
-      <Link>Source\Internal\Compression\ZLib.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZlibBaseStream.cs">
-      <Link>Source\Internal\Compression\ZlibBaseStream.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibCodec.cs">
-      <Link>Source\Internal\Compression\ZLibCodec.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibConstants.cs">
-      <Link>Source\Internal\Compression\ZLibConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\ZLibStream.cs">
-      <Link>Source\Internal\Compression\ZLibStream.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Compression\IGzipHandler.cs">
+      <Link>Source\Internal\Compression\IGzipHandler.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\DebugLogger.cs">
       <Link>Source\Internal\DebugLogger.cs</Link>
@@ -190,6 +166,9 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandler.cs">
       <Link>Source\Internal\Request\ApiRequestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandlerFactory.cs">
+      <Link>Source\Internal\Request\ApiRequestHandlerFactory.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Request\ApiUriBuilder.cs">
       <Link>Source\Internal\Request\ApiUriBuilder.cs</Link>
@@ -369,6 +348,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(SolutionDir)

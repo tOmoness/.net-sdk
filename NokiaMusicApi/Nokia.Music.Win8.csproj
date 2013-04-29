@@ -9,7 +9,7 @@
     <ProjectGuid>{F3BB90F4-9186-40E9-B068-0C69D5098F3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.Win8</RootNamespace>
+    <RootNamespace>Nokia.Music</RootNamespace>
     <AssemblyName>Nokia.Music.Win8</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;SUPPORTS_ASYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -157,26 +157,8 @@
     </Compile>
     <Compile Include="IMusicClient.cs">
     </Compile>
-    <Compile Include="Internal\Compression\Crc32.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\FlushType.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\GZipStream.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\Inflate.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\InfTree.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\ZLib.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\ZlibBaseStream.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\ZLibCodec.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\ZLibConstants.cs">
-    </Compile>
-    <Compile Include="Internal\Compression\ZLibStream.cs">
-    </Compile>
+    <Compile Include="Internal\Compression\GzipHandlerWin8.cs" />
+    <Compile Include="Internal\Compression\IGzipHandler.cs" />
     <Compile Include="Internal\DebugLogger.cs">
     </Compile>
     <Compile Include="Internal\IMusicClientSettings.cs">
@@ -191,6 +173,7 @@
     </Compile>
     <Compile Include="Internal\Request\ApiRequestHandler.cs">
     </Compile>
+    <Compile Include="Internal\Request\ApiRequestHandlerFactory.cs" />
     <Compile Include="Internal\Request\ApiUriBuilder.cs">
     </Compile>
     <Compile Include="Internal\Request\HttpMethod.cs">

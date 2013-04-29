@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.Phone</RootNamespace>
+    <RootNamespace>Nokia.Music</RootNamespace>
     <AssemblyName>Nokia.Music.Wp7</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -100,6 +100,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpGIS.GZipWebClient, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpGIS.GZipWebClient.1.4.0.0\lib\wp71\SharpGIS.GZipWebClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Device" />
     <Reference Include="System.Net" />
@@ -126,19 +130,12 @@
     <Compile Include="Commands\GenresCommand.cs" />
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />
-    <Compile Include="Internal\Compression\Crc32.cs" />
-    <Compile Include="Internal\Compression\FlushType.cs" />
-    <Compile Include="Internal\Compression\GZipStream.cs" />
-    <Compile Include="Internal\Compression\Inflate.cs" />
-    <Compile Include="Internal\Compression\InfTree.cs" />
-    <Compile Include="Internal\Compression\ZLib.cs" />
-    <Compile Include="Internal\Compression\ZlibBaseStream.cs" />
-    <Compile Include="Internal\Compression\ZLibCodec.cs" />
-    <Compile Include="Internal\Compression\ZLibConstants.cs" />
-    <Compile Include="Internal\Compression\ZLibStream.cs" />
+    <Compile Include="Internal\Compression\GzipHandlerWp.cs" />
+    <Compile Include="Internal\Compression\IGzipHandler.cs" />
     <Compile Include="Internal\DebugLogger.cs" />
     <Compile Include="Internal\Parsing\ArrayJsonProcessor.cs" />
     <Compile Include="Internal\Parsing\ParseHelper.cs" />
+    <Compile Include="Internal\Request\ApiRequestHandlerFactory.cs" />
     <Compile Include="Internal\Request\HttpMethod.cs" />
     <Compile Include="Internal\Parsing\IJsonProcessor.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />

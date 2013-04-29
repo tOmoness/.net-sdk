@@ -12,6 +12,7 @@ using System.Threading;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
+using Nokia.Music.Internal.Compression;
 using Nokia.Music.Internal.Request;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Tests.Internal;
@@ -28,8 +29,7 @@ namespace Nokia.Music.Tests
         [SetUp]
         public void ResetDefaults()
         {
-            MusicClient.RequestTimeout = 60000;
-            MusicClient.GzipEnabled = true;
+            MusicClient.RequestTimeout = 30000;
         }
 
         [Test]
@@ -38,10 +38,7 @@ namespace Nokia.Music.Tests
             // Check ApiMethod param...
             Assert.Throws(
                 typeof(ArgumentNullException),
-                new TestDelegate(() =>
-                {
-                    new ApiRequestHandler(new ApiUriBuilder()).SendRequestAsync<JObject>(null, null, null, null, null);
-                }));
+                () => new ApiRequestHandler(new ApiUriBuilder(), new GzipHandlerWp()).SendRequestAsync<JObject>(null, null, null, null, null));
         }
 
         [Test]
@@ -50,7 +47,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("country.json"));
+            IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("country.json"), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -75,7 +72,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("bad-result.json"));
+            IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("bad-result.json"), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -100,7 +97,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://baduritesting.co")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://baduritesting.co")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -125,7 +122,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder());
+            IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder(), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new CountryResolverCommand("test", null) { BaseApiUri = "http://music.nokia.com/gb/en/badurl" },
                 new MockMusicClientSettings("test", null),
@@ -152,7 +149,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -180,7 +177,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -207,7 +204,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -233,7 +230,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new MockApiCommand(),
                 new MockMusicClientSettings("test", null),
@@ -260,7 +257,7 @@ namespace Nokia.Music.Tests
             ManualResetEvent waiter = new ManualResetEvent(false);
 
             MusicClient.RequestTimeout = 0;
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
                 new MockMusicClientSettings("test", null),
@@ -287,7 +284,7 @@ namespace Nokia.Music.Tests
             bool gotResult = false;
             ManualResetEvent waiter = new ManualResetEvent(false);
 
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://localhost:8123/")));
+            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://localhost:8123/")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new MockApiCommand(),
                 new MockMusicClientSettings("test", null),
@@ -304,31 +301,6 @@ namespace Nokia.Music.Tests
 
             // Wait for the response and parsing...
             waiter.WaitOne(5000);
-            Assert.IsTrue(gotResult, "Expected a result flag");
-        }
-
-        [Test]
-        public void UseGzipOnClientSetsGzipHeadersCorrectly()
-        {
-            bool gotResult = false;
-            ManualResetEvent waiter = new ManualResetEvent(false);
-            Response<JObject> responseResult;
-            MusicClient.GzipEnabled = true;
-            IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")));
-            handler.SendRequestAsync(
-                new ProductCommand(),
-                new MockMusicClientSettings("test", null),
-                null,
-                new JsonResponseCallback((Response<JObject> result) =>
-                {
-                    responseResult = result;
-                    gotResult = true;
-                    waiter.Set();
-                }));
-
-            // Wait for the response and parsing...
-            waiter.WaitOne(5000);
-            Assert.AreEqual(true, MusicClient.GzipEnabled, "Expected GzipEnabled to return same value that was set");
             Assert.IsTrue(gotResult, "Expected a result flag");
         }
 

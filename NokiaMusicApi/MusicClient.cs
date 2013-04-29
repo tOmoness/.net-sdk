@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 #endif
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
+using Nokia.Music.Internal.Compression;
 using Nokia.Music.Internal.Request;
 using Nokia.Music.Types;
 
@@ -34,7 +35,7 @@ namespace Nokia.Music
             : this(
                 appId,
                 RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower(),
-                new ApiRequestHandler(new ApiUriBuilder()))
+                ApiRequestHandlerFactory.Create())
         {
             this.CountryCodeBasedOnRegionInfo = true;
         }
@@ -45,7 +46,7 @@ namespace Nokia.Music
         /// <param name="appId"> The App ID obtained from api.developer.nokia.com </param>
         /// <param name="countryCode"> The country code. </param>
         public MusicClient(string appId, string countryCode)
-            : this(appId, countryCode, new ApiRequestHandler(new ApiUriBuilder()))
+            : this(appId, countryCode, ApiRequestHandlerFactory.Create())
         {
         }
 
@@ -102,19 +103,6 @@ namespace Nokia.Music
         {
             get { return TimedRequest.RequestTimeout; }
             set { TimedRequest.RequestTimeout = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the client should use gzip to make a request.
-        /// By default, gzip is enabled
-        /// </summary>
-        /// <value>
-        ///   <c>True</c> if the client should use gzip; otherwise, <c>false</c>.
-        /// </value>
-        public static bool GzipEnabled
-        {
-            get { return ApiRequestHandler.GzipEnabled; }
-            set { ApiRequestHandler.GzipEnabled = value; }
         }
 
         #region IMusicClientSettings Members

@@ -149,12 +149,5 @@ namespace Nokia.Music.Tests
                 },
                 "test");
         }
-
-        [Test]
-        public void ValidateDefaultSettings()
-        {
-            Assert.AreEqual(60000, MusicClient.RequestTimeout);
-            Assert.IsTrue(MusicClient.GzipEnabled);
-        }
     }
 }

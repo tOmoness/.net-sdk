@@ -8,11 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using Ionic.Zlib;
 using Nokia.Music.Commands;
+using Nokia.Music.Internal.Compression;
 using Nokia.Music.Internal.Response;
 
 namespace Nokia.Music.Internal.Request
@@ -22,27 +21,17 @@ namespace Nokia.Music.Internal.Request
     /// </summary>
     internal class ApiRequestHandler : IApiRequestHandler
     {
-        private static bool _gzipEnabled = true;
+        private readonly IGzipHandler _gzipHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestHandler" /> class.
         /// </summary>
         /// <param name="uriBuilder">The URI builder.</param>
-        public ApiRequestHandler(IApiUriBuilder uriBuilder)
+        /// <param name="gzipHandler">The gzip handler</param>
+        public ApiRequestHandler(IApiUriBuilder uriBuilder, IGzipHandler gzipHandler)
         {
             this.UriBuilder = uriBuilder;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the request should use gzip or not.
-        /// </summary>
-        /// <value>
-        ///   <c>True</c> if the request should use gzip; otherwise, <c>false</c>.
-        /// </value>
-        public static bool GzipEnabled
-        {
-            get { return _gzipEnabled; }
-            set { _gzipEnabled = value; }
+            this._gzipHandler = gzipHandler;
         }
 
         /// <summary>
@@ -124,7 +113,7 @@ namespace Nokia.Music.Internal.Request
                         contentType = response.ContentType;
                         try
                         {
-                            using (Stream responseStream = GetResponseStream(response))
+                            using (Stream responseStream = this._gzipHandler.GetResponseStream(response))
                             {
                                 responseBody = responseStream.AsString();
                                 if (error == null)
@@ -222,25 +211,6 @@ namespace Nokia.Music.Internal.Request
             }
         }
 
-        /// <summary>
-        /// Determines whether response is gzipped and decodes if necessary
-        /// </summary>
-        /// <param name="response">The web response</param>
-        /// <returns>The response stream</returns>
-        private Stream GetResponseStream(WebResponse response)
-        {
-            bool gzipped = false;
-            if (response.Headers != null && response.Headers.Count > 0)
-            {
-                var headerEncoding = response.Headers["Content-Encoding"];
-                gzipped = headerEncoding != null && headerEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) > -1;
-            }
-
-            return gzipped
-                    ? new GZipStream(response.GetResponseStream(), CompressionMode.Decompress)
-                    : response.GetResponseStream();
-        }
-
         private void AddRequestHeaders(WebRequest request, Dictionary<string, string> requestHeaders)
         {
             if (requestHeaders != null)
@@ -251,17 +221,7 @@ namespace Nokia.Music.Internal.Request
                 }
             }
 
-            try
-            {
-                if (GzipEnabled)
-                {
-                    request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance.WriteLog("Failed to add gzip header {0}", ex);
-            }
+            this._gzipHandler.EnableGzip(request);
         }
 
         private class RequestState

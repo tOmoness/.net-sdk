@@ -121,6 +121,30 @@ namespace Nokia.Music.Types
         public int? Sequence { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether there are various artists on this product (album/track).
+        /// </summary>
+        /// <value>
+        ///   <c>True</c> if there are various artists on this product (album/track); otherwise, <c>false</c>.
+        /// </value>
+        public bool VariousArtists { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product's record label.
+        /// </summary>
+        /// <value>
+        /// The name of the record label.
+        /// </value>
+        public string Label { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street release date of the product.
+        /// </summary>
+        /// <value>
+        /// The street release date.
+        /// </value>
+        public DateTime StreetReleaseDate { get; set; }
+
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -266,7 +290,10 @@ namespace Nokia.Music.Types
                 TrackCount = trackCount,
                 Tracks = ExtractTracks(item["tracks"]),
                 Performers = performers,
-                Duration = item.Value<int>("duration")
+                Duration = item.Value<int>("duration"),
+                VariousArtists = item.Value<bool>("variousartists"),
+                StreetReleaseDate = item.Value<DateTime>("streetreleasedate"),
+                Label = item.Value<string>("label")
             };
         }
 

@@ -28,7 +28,7 @@ namespace Nokia.Music
         /// <param name="appId">The AppID obtained from api.developer.nokia.com</param>
         /// <param name="requestId">A unique id to associate with this request</param>
         public CountryResolver(string appId, Guid? requestId = null)
-            : this(appId, new ApiRequestHandler(new ApiUriBuilder()), requestId)
+            : this(appId, ApiRequestHandlerFactory.Create(), requestId)
         {
         }
 

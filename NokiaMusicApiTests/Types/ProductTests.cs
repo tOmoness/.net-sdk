@@ -97,5 +97,34 @@ namespace Nokia.Music.Tests.Types
             product.Show();
             Assert.Pass();
         }
+
+        [Test]
+        public void AlbumFromJTokenParsesSuccessfully()
+        {
+            var json = JObject.Parse(Encoding.UTF8.GetString(Resources.single_product));
+            Product album = Product.FromJToken(json);
+
+            Assert.That(album, Is.Not.Null, "Album");
+            Assert.That(album.Category, Is.EqualTo(Category.Album));
+            Assert.That(album.Performers.Length, Is.EqualTo(1), "Product.Performers.Length");
+            Assert.That(album.Performers[0].Name, Is.EqualTo("Rihanna"), "Product.Performers.Name");
+            Assert.That(album.Performers[0].Id, Is.EqualTo("305681"), "Product.Performers.Id");
+
+            Assert.That(album.Thumb100Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=100&q=70"), "Thumb100Uri");
+            Assert.That(album.Thumb200Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=200&q=90"), "Thumb200Uri");
+            Assert.That(album.Thumb50Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=50&q=40"), "Thumb50Uri");
+            Assert.That(album.Id, Is.EqualTo("31189154"), "Product.Id");
+            Assert.That(album.Name, Is.EqualTo("Rated R"), "Product.Name");
+            Assert.That(album.VariousArtists, Is.EqualTo(true), "VariousArtists");
+            Assert.That(album.Label, Is.EqualTo("Def Jam"), "Label");
+            Assert.That(album.StreetReleaseDate, Is.EqualTo(new DateTime(2009, 11, 23)));
+            Assert.That(album.TakenFrom, Is.Null);
+            Assert.That(album.Duration, Is.EqualTo(0), "Duration");
+            Assert.That(album.TrackCount, Is.EqualTo(13), "track count");
+
+            Assert.That(album.Tracks[0].Category, Is.EqualTo(Category.Track));
+            Assert.That(album.Tracks[0].VariousArtists, Is.EqualTo(false), "Track 1 : VariousArtists");
+            Assert.That(album.Tracks[0].TrackCount, Is.Null, "Track 1 : track count");
+        }
     }
 }
