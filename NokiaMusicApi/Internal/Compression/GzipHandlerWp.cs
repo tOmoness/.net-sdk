@@ -8,6 +8,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
+using Nokia.Music.Commands;
 
 namespace Nokia.Music.Internal.Compression
 {
@@ -19,8 +20,8 @@ namespace Nokia.Music.Internal.Compression
         public GzipHandlerWp()
         {
 #if WINDOWS_PHONE
-            WebRequest.RegisterPrefix("http://", SharpGIS.WebRequestCreator.GZip);
-            WebRequest.RegisterPrefix("https://", SharpGIS.WebRequestCreator.GZip);
+            WebRequest.RegisterPrefix(MusicClientCommand.DefaultBaseApiUri, SharpGIS.WebRequestCreator.GZip);
+            WebRequest.RegisterPrefix(MusicClientCommand.DefaultSecureBaseApiUri, SharpGIS.WebRequestCreator.GZip);
 #endif
         }
 

@@ -63,7 +63,11 @@ namespace Nokia.Music.Commands
                                 break;
 
                             case HttpStatusCode.NotFound:
-                                response = new Response<bool>(rawResult.StatusCode, false, RequestId);
+                                if (rawResult.Result != null)
+                                {
+                                    response = new Response<bool>(rawResult.StatusCode, false, RequestId);
+                                }
+
                                 break;
 
                             case HttpStatusCode.Forbidden:

@@ -64,15 +64,11 @@ namespace Nokia.Music.Tasks
             if (!string.IsNullOrEmpty(this._productId))
             {
                 // Append the appId if one has been supplied...
-                string appId;
-                if (!string.IsNullOrEmpty(this._appId))
-                {
-                    appId = "&apikey=" + this._appId;
-                }
-                else
-                {
-                    appId = string.Empty;
-                }
+                string appId = string.Empty;
+                ////if (!string.IsNullOrEmpty(this._appId))
+                ////{
+                ////    appId = "&apikey=" + this._appId;
+                ////}
 
                 this.Launch(
                     new Uri(string.Format(Product.AppToAppShowUri, this._productId) + appId),

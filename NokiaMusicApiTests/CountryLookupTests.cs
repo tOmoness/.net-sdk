@@ -75,7 +75,7 @@ namespace Nokia.Music.Tests
         public void EnsureCheckAvailabilityReturnsFailsForInvalidCountry()
         {
             Guid requestId = new Guid();
-            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(FakeResponse.NotFound()), requestId);
+            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(FakeResponse.NotFound("{}")), requestId);
             client.CheckAvailability(
                 (Response<bool> result) =>
                 {
@@ -87,6 +87,19 @@ namespace Nokia.Music.Tests
                     Assert.IsFalse(result.Result, "Expected a false result");
                     Assert.AreEqual(requestId, result.RequestId, "Expected a matching request Id");
                     Assert.IsNull(result.Error, "Expected no error");
+                },
+                "xx");
+        }
+
+        [Test]
+        public void EnsureCheckAvailabilityIsTreatedAsErrorForNetworkFailure()
+        {
+            Guid requestId = new Guid();
+            CountryResolver client = new CountryResolver("test", new MockApiRequestHandler(FakeResponse.NotFound()), requestId);
+            client.CheckAvailability(
+                (Response<bool> result) =>
+                {
+                    Assert.IsNotNull(result.Error, "Expected an error");
                 },
                 "xx");
         }

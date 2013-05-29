@@ -49,8 +49,13 @@ namespace Nokia.Music.Tests.Internal
             return new FakeResponse(new Response<JObject>(HttpStatusCode.GatewayTimeout, (JObject)null, Guid.Empty));
         }
 
-        public static FakeResponse NotFound()
+        public static FakeResponse NotFound(string response = null)
         {
+            if (response != null)
+            {
+                return new FakeResponse(new Response<JObject>(HttpStatusCode.NotFound, JObject.Parse(response), Guid.Empty));
+            }
+
             return new FakeResponse(new Response<JObject>(HttpStatusCode.NotFound, (JObject)null, Guid.Empty));
         }
 

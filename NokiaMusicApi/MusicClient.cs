@@ -148,6 +148,7 @@ namespace Nokia.Music
 
         #region IMusicClient Members
 #if !NETFX_CORE
+
         /// <summary>
         /// Searches for an Artist
         /// </summary>

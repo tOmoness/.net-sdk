@@ -32,6 +32,7 @@ namespace Nokia.Music.Commands
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";
         internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
+        internal const string DefaultSecureBaseApiUri = "https://sapi.ent.nokia.com/1.x/";
 
         private string _baseApiUri = DefaultBaseApiUri;
         private Guid _requestId = Guid.Empty;

@@ -73,6 +73,13 @@ namespace Nokia.Music.Commands
             this.Execute();
         }
 
+        protected static bool IsValidContentType(Response<JObject> rawResult)
+        {
+            return rawResult.Result != null &&
+                   rawResult.ContentType != null &&
+                   rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase);
+        }
+
         /// <summary>
         /// Generic response handler for content lists
         /// </summary>
@@ -93,9 +100,7 @@ namespace Nokia.Music.Commands
                     case HttpStatusCode.OK:
                     case HttpStatusCode.Accepted:
                     case HttpStatusCode.Created:
-                        if (rawResult.Result != null &&
-                            rawResult.ContentType != null &&
-                            rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
+                        if (IsValidContentType(rawResult))
                         {
                             List<T> results = this.JsonProcessor.ParseList(rawResult.Result, itemsName, converter);
                             int? totalResults = null;
@@ -131,7 +136,7 @@ namespace Nokia.Music.Commands
 
             if (response == null)
             {
-                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException(), rawResult.ErrorResponseBody, RequestId);
+                response = new ListResponse<T>(rawResult.StatusCode, new ApiCallFailedException(rawResult.StatusCode), rawResult.ErrorResponseBody, RequestId);
             }
 
             callback(response);
@@ -156,9 +161,7 @@ namespace Nokia.Music.Commands
                     case HttpStatusCode.OK:
                     case HttpStatusCode.Accepted:
                     case HttpStatusCode.Created:
-                        if (rawResult.Result != null &&
-                            rawResult.ContentType != null &&
-                            rawResult.ContentType.StartsWith("application/vnd.nokia.ent", StringComparison.OrdinalIgnoreCase))
+                        if (IsValidContentType(rawResult))
                         {
                             T result = converter(rawResult.Result);
                             response = new Response<T>(rawResult.StatusCode, result, RequestId);
@@ -182,7 +185,7 @@ namespace Nokia.Music.Commands
 
             if (response == null)
             {
-                response = new Response<T>(rawResult.StatusCode, new ApiCallFailedException(), rawResult.ErrorResponseBody, RequestId);
+                response = new Response<T>(rawResult.StatusCode, new ApiCallFailedException(rawResult.StatusCode), rawResult.ErrorResponseBody, RequestId);
             }
 
             callback(response);

@@ -116,10 +116,7 @@ namespace Nokia.Music.Internal.Request
                             using (Stream responseStream = this._gzipHandler.GetResponseStream(response))
                             {
                                 responseBody = responseStream.AsString();
-                                if (error == null)
-                                {
-                                    responseItem = callback.ConvertFromRawResponse(responseBody);
-                                }
+                                responseItem = callback.ConvertFromRawResponse(responseBody);
                             }
                         }
                         catch (Exception ex)
@@ -129,11 +126,21 @@ namespace Nokia.Music.Internal.Request
                         }
                     }
 
-                    DoCallback(callback.Callback, responseItem, statusCode, contentType, error, responseBody, command.RequestId, uri);
+                    DoCallback(callback.Callback, responseItem, statusCode, contentType, error, responseBody, command.RequestId, uri, IsFake404(response));
                 },
                 () => DoCallback(callback.Callback, default(T), null, null, new ApiCallFailedException(), null, command.RequestId, uri),
                 request,
                 command);
+        }
+
+        /// <summary>
+        /// Determines the difference between a 404 explicitly delivered by a service and a 404 response from WP while offline
+        /// </summary>
+        /// <param name="response">The web response</param>
+        /// <returns>True if this 404 was provided by the WP platform without making a request</returns>
+        private static bool IsFake404(WebResponse response)
+        {
+            return response != null && (response.ResponseUri == null || string.IsNullOrEmpty(response.ResponseUri.OriginalString));
         }
 
         /// <summary>
@@ -148,6 +155,7 @@ namespace Nokia.Music.Internal.Request
         /// <param name="responseBody">The response body</param>
         /// <param name="requestId">The unique id of this request</param>
         /// <param name="uri">The uri requested</param>
+        /// <param name="offlineNotFoundResponse">Indicates whether this is a 'fake' 404 that WP can provide while offline</param>
         private static void DoCallback<T>(
                                        Action<Response<T>> callback,
                                        T response,
@@ -156,10 +164,11 @@ namespace Nokia.Music.Internal.Request
                                        Exception error,
                                        string responseBody,
                                        Guid requestId,
-                                       Uri uri)
+                                       Uri uri,
+                                       bool offlineNotFoundResponse = false)
         {
             DebugLogger.Instance.WriteLog("{0} response from {1}", statusCode.HasValue ? statusCode.ToString() : "Timeout", uri.ToString());
-            if (response != null)
+            if (response != null && !offlineNotFoundResponse)
             {
                 callback(new Response<T>(statusCode, contentType, response, requestId));
             }
