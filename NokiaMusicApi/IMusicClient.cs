@@ -478,6 +478,34 @@ namespace Nokia.Music
 #endif
 #if !NETFX_CORE
         /// <summary>
+        /// Searches within a Nokia Music Genre
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="genreId">The genre id</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        void SearchGenre(Action<ListResponse<MusicItem>> callback, string genreId, string searchTerm = null, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Searches within a Nokia Music Genre
+        /// </summary>
+        /// <param name="genreId">The genre id</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing MusicItems or an Error
+        /// </returns>
+        Task<ListResponse<MusicItem>> SearchGenreAsync(string genreId, string searchTerm = null, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage);
+
+#endif
+#if !NETFX_CORE
+        /// <summary>
         /// Gets search suggestions.
         /// </summary>
         /// <param name="callback">The callback.</param>

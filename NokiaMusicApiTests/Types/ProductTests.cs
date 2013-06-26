@@ -118,6 +118,7 @@ namespace Nokia.Music.Tests.Types
             Assert.That(album.VariousArtists, Is.EqualTo(true), "VariousArtists");
             Assert.That(album.Label, Is.EqualTo("Def Jam"), "Label");
             Assert.That(album.StreetReleaseDate, Is.EqualTo(new DateTime(2009, 11, 23)));
+            Assert.That(album.SellerStatement, Is.EqualTo("Sold by Sony"), "SellerStatement");
             Assert.That(album.TakenFrom, Is.Null);
             Assert.That(album.Duration, Is.EqualTo(0), "Duration");
             Assert.That(album.TrackCount, Is.EqualTo(13), "track count");

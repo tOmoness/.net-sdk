@@ -855,7 +855,7 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         public void Search(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
-            this.SearchInternal(callback, searchTerm, category, startIndex, itemsPerPage);
+            this.SearchInternal(callback, searchTerm, category, null, startIndex, itemsPerPage);
         }
 
 #endif
@@ -873,7 +873,43 @@ namespace Nokia.Music
         public Task<ListResponse<MusicItem>> SearchAsync(string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
             var wrapper = new TaskCompletionSource<ListResponse<MusicItem>>();
-            this.SearchInternal(result => wrapper.TrySetResult(result), searchTerm, category, startIndex, itemsPerPage);
+            this.SearchInternal(result => wrapper.TrySetResult(result), searchTerm, category, null, startIndex, itemsPerPage);
+            return wrapper.Task;
+        }
+
+#endif
+#if !NETFX_CORE
+        /// <summary>
+        /// Searches Nokia Music
+        /// </summary>
+        /// <param name="callback">The callback to use when the API call has completed</param>
+        /// <param name="genreId">The optional genre id</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        public void SearchGenre(Action<ListResponse<MusicItem>> callback, string genreId, string searchTerm = null, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            this.SearchInternal(callback, searchTerm, category, genreId, startIndex, itemsPerPage);
+        }
+
+#endif
+#if SUPPORTS_ASYNC
+        /// <summary>
+        /// Searches Nokia Music
+        /// </summary>
+        /// <param name="genreId">The optional genre id</param>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <returns>
+        /// A ListResponse containing MusicItems or an Error
+        /// </returns>
+        public Task<ListResponse<MusicItem>> SearchGenreAsync(string genreId, string searchTerm = null, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        {
+            var wrapper = new TaskCompletionSource<ListResponse<MusicItem>>();
+            this.SearchInternal(result => wrapper.TrySetResult(result), searchTerm, category, genreId, startIndex, itemsPerPage);
             return wrapper.Task;
         }
 
@@ -1320,13 +1356,15 @@ namespace Nokia.Music
         /// <param name="callback">The callback to use when the API call has completed</param>
         /// <param name="searchTerm">The search term.</param>
         /// <param name="category">The category.</param>
+        /// <param name="genreId">The genre id.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
-        private void SearchInternal(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        private void SearchInternal(Action<ListResponse<MusicItem>> callback, string searchTerm, Category? category = null, string genreId = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
         {
             var cmd = this.Create<SearchCommand>();
             cmd.SearchTerm = searchTerm;
             cmd.Category = category;
+            cmd.GenreId = genreId;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
             cmd.Invoke(callback);

@@ -145,6 +145,14 @@ namespace Nokia.Music.Types
         public DateTime StreetReleaseDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the Seller Statement for the product
+        /// </summary>
+        /// <value>
+        /// The state from the seller, if available. Sony provide this for example.
+        /// </value>
+        public string SellerStatement { get; set; }
+    
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -180,7 +188,6 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
-#if !NETFX_CORE
         /// <summary>
         /// Launches Nokia Music to show details about the product using the ShowProductTask
         /// </summary>
@@ -190,7 +197,6 @@ namespace Nokia.Music.Types
             task.Show();
         }
 
-#endif
         /// <summary>
         /// Creates a Product from a JSON Object
         /// </summary>
@@ -275,7 +281,7 @@ namespace Nokia.Music.Types
             MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
 
             // Create the resulting Product object...
-            return new Product()
+            var product = new Product()
             {
                 Id = item.Value<string>("id"),
                 Name = item.Value<string>("name"),
@@ -293,8 +299,17 @@ namespace Nokia.Music.Types
                 Duration = item.Value<int>("duration"),
                 VariousArtists = item.Value<bool>("variousartists"),
                 StreetReleaseDate = item.Value<DateTime>("streetreleasedate"),
+                SellerStatement = item.Value<string>("sellerstatement"),
                 Label = item.Value<string>("label")
             };
+
+            var sequence = item.Value<int>("sequence");
+            if (sequence >= 1)
+            {
+                product.Sequence = sequence;
+            }
+
+            return product;
         }
 
         /// <summary>

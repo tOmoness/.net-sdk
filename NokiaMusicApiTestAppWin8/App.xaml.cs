@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
+using Nokia.Music.Tasks;
 using Nokia.Music.Types;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -145,13 +146,8 @@ namespace Nokia.Music.TestApp
                 if (product.Category == Category.Track)
                 {
                     Debug.WriteLine("Track pressed");
-                    MediaElementState state = player.CurrentState;
-                    player.Stop();
-                    if (state != MediaElementState.Playing)
-                    {
-                        player.Source = App.ApiClient.GetTrackSampleUri(product.Id);
-                        player.Play();
-                    }
+                    ShowProductTask task = new ShowProductTask() { ProductId = product.Id };
+                    task.Show();
                 }
                 else if (product.Category == Category.Album)
                 {

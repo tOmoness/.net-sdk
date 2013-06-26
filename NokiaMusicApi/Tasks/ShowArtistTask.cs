@@ -72,7 +72,7 @@ namespace Nokia.Music.Tasks
             else if (!string.IsNullOrEmpty(this._artistName))
             {
                 this.Launch(
-                    new Uri("nokia-music://show/artist/?name=" + this._artistName),
+                    new Uri("nokia-music://show/artist/?name=" + this._artistName.Replace("&", string.Empty)),
                     new Uri("http://music.nokia.com/r/search/" + this._artistName));
             }
             else

@@ -97,6 +97,7 @@ namespace Nokia.Music.Internal.Request
                     }
                     catch (WebException ex)
                     {
+                        DebugLogger.Instance.WriteVerboseInfo("Web Exception: {0} when calling {1}", ex, uri);
                         error = ex;
                         if (ex.Response != null)
                         {
@@ -121,6 +122,7 @@ namespace Nokia.Music.Internal.Request
                         }
                         catch (Exception ex)
                         {
+                            DebugLogger.Instance.WriteVerboseInfo("Exception: {0} trying to handle response stream when calling {1}", ex, uri);
                             error = ex;
                             responseItem = default(T);
                         }

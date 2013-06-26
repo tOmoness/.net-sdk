@@ -209,6 +209,7 @@
     </Compile>
     <Compile Include="Tasks\ShowMixesTask.cs">
     </Compile>
+    <Compile Include="Tasks\ShowProductTask.cs" />
     <Compile Include="Tasks\TaskBase.cs">
     </Compile>
     <Compile Include="Types\Artist.cs">

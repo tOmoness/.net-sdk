@@ -8,8 +8,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Request;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 

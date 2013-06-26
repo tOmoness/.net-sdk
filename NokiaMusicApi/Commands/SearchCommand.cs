@@ -29,6 +29,11 @@ namespace Nokia.Music.Commands
         public Category? Category { get; set; }
 
         /// <summary>
+        /// Gets or sets the genre
+        /// </summary>
+        public string GenreId { get; set; }
+
+        /// <summary>
         /// Creates an CatalogItem based on it's category field
         /// </summary>
         /// <param name="item">The JSON item</param>
@@ -63,12 +68,12 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            if (string.IsNullOrEmpty(this.SearchTerm))
+            if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId))
             {
-                throw new ArgumentNullException("SearchTerm", "A searchTerm must be supplied");
+                throw new ArgumentNullException("SearchTerm", "A searchTerm or genreId must be supplied");
             }
 
-            this.InternalSearch<MusicItem>(this.SearchTerm, null, this.Category, null, null, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
+            this.InternalSearch<MusicItem>(this.SearchTerm, this.GenreId, this.Category, null, null, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
         }
     }
 }

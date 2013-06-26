@@ -102,9 +102,9 @@ namespace Nokia.Music.Internal.Request
         /// <param name="state">The state object</param>
         private void TimeoutReached(object state)
         {
+            DebugLogger.Instance.WriteLog("Request timed-out");
             this.HasTimedOut = true;
 #if NETFX_CORE
-            System.Diagnostics.Debug.WriteLine("TimeoutReached");
             this._timer.Stop();
 #else
             this._timer.Dispose();

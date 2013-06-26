@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 using Nokia.Music.Internal.Parsing;
 
 namespace Nokia.Music.Commands
@@ -95,6 +96,7 @@ namespace Nokia.Music.Commands
             // Parse the result if we got one...
             if (rawResult.StatusCode.HasValue)
             {
+                DebugLogger.Instance.WriteVerboseInfo("Parsing list response. Status Code: {0}", rawResult.StatusCode);
                 switch (rawResult.StatusCode.Value)
                 {
                     case HttpStatusCode.OK:
@@ -102,6 +104,7 @@ namespace Nokia.Music.Commands
                     case HttpStatusCode.Created:
                         if (IsValidContentType(rawResult))
                         {
+                            DebugLogger.Instance.WriteVerboseInfo("Valid content type. Parsing...");
                             List<T> results = this.JsonProcessor.ParseList(rawResult.Result, itemsName, converter);
                             int? totalResults = null;
                             int? startIndex = null;
@@ -128,6 +131,7 @@ namespace Nokia.Music.Commands
 
                         break;
 
+                    case HttpStatusCode.Unauthorized:
                     case HttpStatusCode.Forbidden:
                         response = new ListResponse<T>(rawResult.StatusCode, new InvalidApiCredentialsException(), rawResult.ErrorResponseBody, RequestId);
                         break;

@@ -17,6 +17,7 @@ The **Nokia Music C# API** is released under the 3-clause license ("New BSD Lice
  
 ##Releases
 
+- 2.4.0 - Added support for .Net 4 projects, added SearchGenre method, fixed PlayMixTask for artists with & in the name, enabled ShowProductTask / Product.Show for Win8 now Nokia Music 1.2 supports product views.
 - 2.3.0 - Fix to ensure GZip enabled only for Nokia Music domains rather than all.
 - 2.2.0 - NuGet package fixes for Windows 8 and Windows Phone 7.
 - 2.1.0 - Added various artists flag, release date and label to the product object, removed source-based GZip in favour of SharpGIS.GZipWebClient for Windows Phone

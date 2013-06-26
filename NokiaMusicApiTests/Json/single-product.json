@@ -16,6 +16,7 @@
     "rightsholder": "Universal North America",
     "sortname": "Rated R",
     "streetreleasedate": "2009-11-23T00:00:00Z",
+	"sellerstatement" : "Sold by Sony",
     "trackcount": 13,
     "variousartists": true,
     "volumes": 1,
@@ -40,6 +41,7 @@
             "sequence": 1,
             "sortname": "Mad House",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -93,6 +95,7 @@
             "sequence": 2,
             "sortname": "Wait Your Turn",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -146,6 +149,7 @@
             "sequence": 3,
             "sortname": "Hard",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -199,6 +203,7 @@
             "sequence": 4,
             "sortname": "Stupid In Love",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -252,6 +257,7 @@
             "sequence": 5,
             "sortname": "ROCKSTAR 101",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -305,6 +311,7 @@
             "sequence": 6,
             "sortname": "Russian Roulette",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -358,6 +365,7 @@
             "sequence": 7,
             "sortname": "Fire Bomb",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -411,6 +419,7 @@
             "sequence": 8,
             "sortname": "Rude Boy",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -464,6 +473,7 @@
             "sequence": 9,
             "sortname": "Photographs",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -517,6 +527,7 @@
             "sequence": 10,
             "sortname": "G4L",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -570,6 +581,7 @@
             "sequence": 11,
             "sortname": "Te Amo",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -623,6 +635,7 @@
             "sequence": 12,
             "sortname": "Cold Case Love",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
@@ -676,6 +689,7 @@
             "sequence": 13,
             "sortname": "The Last Song",
             "streetreleasedate": "2009-11-23T00:00:00Z",
+			"sellerstatement" : "Sold by Sony",
             "takenfrom": {
                 "name": "Rated R",
                 "id": "31189154"
