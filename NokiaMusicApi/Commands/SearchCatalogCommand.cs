@@ -76,17 +76,17 @@ namespace Nokia.Music.Commands
 
             if (category != null && category.Value != Types.Category.Unknown)
             {
-                parameters.Add(new KeyValuePair<string, string>(ParamCategory, category.ToString().ToLowerInvariant()));
+                parameters.Add(new KeyValuePair<string, string>(ParamCategory, category.Value.ToString().ToLowerInvariant()));
             }
 
-            if (orderBy != null)
+            if (orderBy != null && orderBy.HasValue)
             {
-                parameters.Add(new KeyValuePair<string, string>(ParamOrderBy, orderBy.ToString().ToLowerInvariant()));
+                parameters.Add(new KeyValuePair<string, string>(ParamOrderBy, orderBy.Value.ToString().ToLowerInvariant()));
             }
 
-            if (sortOrder != null)
+            if (sortOrder != null && sortOrder.HasValue)
             {
-                parameters.Add(new KeyValuePair<string, string>(ParamSortOrder, sortOrder.ToString().ToLowerInvariant()));
+                parameters.Add(new KeyValuePair<string, string>(ParamSortOrder, sortOrder.Value.ToString().ToLowerInvariant()));
             }
 
             if (!string.IsNullOrEmpty(location))
