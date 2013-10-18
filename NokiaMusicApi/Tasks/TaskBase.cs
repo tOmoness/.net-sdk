@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="TaskBase.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -29,8 +29,8 @@ namespace Nokia.Music.Tasks
         [SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule", Justification = "Adding the SecurityCritical attribute was over the top")]
         protected void Launch(Uri appToAppUri, Uri webFallbackUri)
         {
-#if WP8 || NETFX_CORE
-#if WP8
+#if WINDOWS_PHONE || NETFX_CORE
+#if WINDOWS_PHONE
             bool canLaunch = string.Equals(DeviceStatus.DeviceManufacturer, "NOKIA", StringComparison.OrdinalIgnoreCase);
 #else
             bool canLaunch = true;

@@ -1,11 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Wp8", "NokiaMusicApi\Nokia.Music.Wp8.csproj", "{578A4839-2BF0-40C1-98D7-7A8C1C3EAC2C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Wp7", "NokiaMusicApi\Nokia.Music.Wp7.csproj", "{2501ABE0-A2D9-4155-83B2-D551DB34B10D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Wp7", "NokiaMusicApiTestApp\Nokia.Music.TestApp.Wp7.csproj", "{37CDD983-3798-4A13-B2DA-C10E9C989478}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Tests", "NokiaMusicApiTests\Nokia.Music.Tests.csproj", "{E5470471-A7EB-410A-8676-4B1F70BA1411}"
 EndProject
@@ -17,13 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E9D39A
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Wp8", "NokiaMusicApiTestAppWp8\Nokia.Music.TestApp.Wp8.csproj", "{36C9690A-7033-4475-894C-6874F8E2FF9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Wp8", "NokiaMusicApiTestApps\NokiaMusicApiTestAppWp8\Nokia.Music.TestApp.Wp8.csproj", "{36C9690A-7033-4475-894C-6874F8E2FF9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Win8", "NokiaMusicApiTestAppWin8\Nokia.Music.TestApp.Win8.csproj", "{D31E7A39-4C29-4344-B95F-96232913D1F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Win8", "NokiaMusicApiTestApps\NokiaMusicApiTestAppWin8\Nokia.Music.TestApp.Win8.csproj", "{D31E7A39-4C29-4344-B95F-96232913D1F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Win8", "NokiaMusicApi\Nokia.Music.Win8.csproj", "{F3BB90F4-9186-40E9-B068-0C69D5098F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Net40", "NokiaMusicApi\Nokia.Music.Net40.csproj", "{125DCED1-248C-4D16-85D8-847CCE8B8923}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Net45", "NokiaMusicApi\Nokia.Music.Net45.csproj", "{125DCED1-248C-4D16-85D8-847CCE8B8923}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.PCL", "NokiaMusicApi\Nokia.Music.PCL.csproj", "{C2925B4D-2347-473B-908F-5CC79BC717A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +193,20 @@ Global
 		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|x64.ActiveCfg = Release|Any CPU
 		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|x86.ActiveCfg = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,9 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+#if !PORTABLE
 using Nokia.Music.Tasks;
+#endif
 
 namespace Nokia.Music.Types
 {
@@ -89,6 +91,7 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
+#if !PORTABLE
         /// <summary>
         /// Launches Nokia Music to start playback of the mix using the PlayMixTask
         /// </summary>
@@ -98,6 +101,7 @@ namespace Nokia.Music.Types
             task.Show();
         }
 
+#endif
         /// <summary>
         /// Creates a Mix from a JSON Object
         /// </summary>
@@ -105,6 +109,11 @@ namespace Nokia.Music.Types
         /// <returns>A Mix object</returns>
         internal static Mix FromJToken(JToken item)
         {
+            if (item == null)
+            {
+                return null;
+            }
+
             bool parentalAdvisory = false;
             JToken parentaladvisoryToken = item["parentaladvisory"];
             if (parentaladvisoryToken != null)

@@ -43,7 +43,7 @@ namespace Nokia.Music.Commands
         /// <exception cref="System.ArgumentNullException">SearchTerm;A searchTerm must be supplied</exception>
         protected override void Execute()
         {
-            if (string.IsNullOrEmpty(this.SearchTerm) && (this.Location == null || (this.Location.Latitude == 0 || this.Location.Longitude == 0)))
+            if (string.IsNullOrEmpty(this.SearchTerm) && (this.Location == null || (this.Location.Latitude == 0 && this.Location.Longitude == 0)))
             {
                 throw new ArgumentNullException("SearchTerm", "A searchTerm or location must be supplied");
             }
@@ -61,7 +61,7 @@ namespace Nokia.Music.Commands
                 maxdistance = this.MaxDistance.ToString();
             }
 
-            this.InternalSearch(this.SearchTerm, null, Category.Artist, location, maxdistance, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            this.InternalSearch(this.SearchTerm, null, null, Types.Category.Artist, location, maxdistance, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
         }
     }
 }

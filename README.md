@@ -1,14 +1,14 @@
 # wp-api-client
 
-This codebase contains the **Nokia Music C# API**.
+This codebase contains the **Nokia Music C# SDK**.
 
 ##Overview
-The **Nokia Music C# API** lets you easily integrate your Windows Phone with [Nokia Music on Nokia Lumia phones](http://www.nokia.com/global/apps/nokia/music/)
-or your Windows 8 applicaton with [Nokia Music on Windows 8](http://apps.microsoft.com/windows/en-gb/app/nokia-music/4e9de0ba-ed72-4ffc-866d-cf964def6ddf).
+The **Nokia Music C# SDK** lets you easily integrate your Windows Phone with [Nokia Music on Nokia Lumia phones](http://nokia.ly/musicapp)
+or your Windows 8 applicaton with [Nokia Music on Windows 8](http://nokia.ly/musicappwin8).
 The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
 
 ##License
-The **Nokia Music C# API** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
+The **Nokia Music C# SDK** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
 
 ##Usage
 
@@ -17,6 +17,7 @@ The **Nokia Music C# API** is released under the 3-clause license ("New BSD Lice
  
 ##Releases
 
+- 3.0.0 - Added PCL project, added user data APIs and OAuth2 support for Wp8/Win8, added sorting for Search and GetArtistProducts, dropped support for Windows Phone 7, removed SearchGenre method (replaced with genreId param in Search method), updated to latest Json.Net
 - 2.4.0 - Added support for .Net 4 projects, added SearchGenre method, fixed PlayMixTask for artists with & in the name, enabled ShowProductTask / Product.Show for Win8 now Nokia Music 1.2 supports product views.
 - 2.3.0 - Fix to ensure GZip enabled only for Nokia Music domains rather than all.
 - 2.2.0 - NuGet package fixes for Windows 8 and Windows Phone 7.
@@ -58,6 +59,12 @@ With the lower-level API access, you get more control and can perform the follow
 - Get artist recommendations
 - Get a list of available mixes
 
+## New User Data API Methods
+New in v3.x, you can access user data (provided the user authorises your app!):
+
+- Read the user's play history
+- Read the user's taste profile to access favourite artists
+
 ## Documentation
 The documentation for this component is at <http://nokia.ly/wpmusicapidoc>
 
@@ -75,7 +82,6 @@ The projects make use of [NuGet](http://nuget.org) to install these components a
  
 ## Tools required to develop
 
- - Visual Studio 2010 for Windows Phone 7 development
  - Visual Studio 2012 for Windows Phone 8 / Windows 8 development
 
 ## Contributing

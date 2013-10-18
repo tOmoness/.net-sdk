@@ -1,12 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ProductTests.cs" company="NOKIA">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Commands;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
 using NUnit.Framework;
@@ -60,9 +61,11 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestJsonParsing()
         {
+            Assert.IsNull(Product.FromJToken(null), "Expected a null return");
+
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_parse_tests));
 
-            JArray items = json.Value<JArray>("items");
+            JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
 
             // Test a full representation
             Product fullItem = Product.FromJToken(items[0]) as Product;

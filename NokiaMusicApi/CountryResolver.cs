@@ -6,9 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
-#if SUPPORTS_ASYNC
 using System.Threading.Tasks;
-#endif
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Request;
 
@@ -19,70 +17,50 @@ namespace Nokia.Music
     /// </summary>
     public sealed class CountryResolver : ICountryResolver
     {
-        private readonly IApiRequestHandler _requestHandler;
-        private readonly CountryResolverCommand _command;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CountryResolver" /> class.
         /// </summary>
-        /// <param name="appId">The AppID obtained from api.developer.nokia.com</param>
-        /// <param name="requestId">A unique id to associate with this request</param>
-        public CountryResolver(string appId, Guid? requestId = null)
-            : this(appId, ApiRequestHandlerFactory.Create(), requestId)
+        /// <param name="clientId">The Application Client ID obtained during registration</param>
+        public CountryResolver(string clientId)
+            : this(clientId, ApiRequestHandlerFactory.Create())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CountryResolver" /> class.
         /// </summary>
-        /// <param name="appId">The App ID obtained from api.developer.nokia.com</param>
+        /// <param name="clientId">The Application Client ID obtained during registration</param>
         /// <param name="requestHandler">The request handler.</param>
-        /// <param name="requestId">A unique id to associate with this request.</param>
         /// <remarks>
         /// Allows custom requestHandler for testing purposes
         /// </remarks>
-        internal CountryResolver(string appId, IApiRequestHandler requestHandler, Guid? requestId = null)
+        internal CountryResolver(string clientId, IApiRequestHandler requestHandler)
         {
-            if (string.IsNullOrEmpty(appId))
+            if (string.IsNullOrEmpty(clientId))
             {
                 throw new ApiCredentialsRequiredException();
             }
 
-            this._requestHandler = requestHandler;
-            this._command = new CountryResolverCommand(appId, requestHandler);
-            if (requestId.HasValue)
-            {
-                this._command.RequestId = requestId.Value;
-            }
+            this.ClientId = clientId;
+            this.RequestHandler = requestHandler;
         }
 
         /// <summary>
-        /// Gets the request handler.
+        /// Gets the client id.
+        /// </summary>
+        /// <value>
+        /// The client id.
+        /// </value>
+        public string ClientId { get; private set; }
+
+        /// <summary>
+        /// Gets the request handler in use for testing purposes.
         /// </summary>
         /// <value>
         /// The request handler.
         /// </value>
-        internal IApiRequestHandler RequestHandler
-        {
-            get
-            {
-                return this._requestHandler;
-            }
-        }
+        internal IApiRequestHandler RequestHandler { get; private set; }
 
-#if !NETFX_CORE
-        /// <summary>
-        /// Validates that the Nokia Music API is available for a country
-        /// </summary>
-        /// <param name="callback">The callback to use when the API call has completed</param>
-        /// <param name="countryCode">The country code.</param>
-        public void CheckAvailability(Action<Response<bool>> callback, string countryCode)
-        {
-            this.CheckAvailabilityInternal(callback, countryCode);
-        }
-
-#endif
-#if SUPPORTS_ASYNC
         /// <summary>
         /// Validates that the Nokia Music API is available for a country
         /// </summary>
@@ -90,28 +68,21 @@ namespace Nokia.Music
         /// <returns>
         /// A Response containing whether the API is available or not
         /// </returns>
-        public Task<Response<bool>> CheckAvailabilityAsync(string countryCode)
-        {
-            var wrapper = new TaskCompletionSource<Response<bool>>();
-            this.CheckAvailabilityInternal(result => wrapper.TrySetResult(result), countryCode);
-            return wrapper.Task;
-        }
-
-#endif
-        /// <summary>
-        /// Validates that the Nokia Music API is available for a country
-        /// </summary>
-        /// <param name="callback">The callback to use when the API call has completed</param>
-        /// <param name="countryCode">The country code.</param>
-        private void CheckAvailabilityInternal(Action<Response<bool>> callback, string countryCode)
+        public async Task<bool> CheckAvailabilityAsync(string countryCode)
         {
             if (!this.ValidateCountryCode(countryCode))
             {
                 throw new InvalidCountryCodeException();
             }
 
-            this._command.CountryCode = countryCode;
-            this._command.Invoke(callback);
+            CountryResolverCommand command = new CountryResolverCommand(this.ClientId, this.RequestHandler)
+            {
+                CountryCode = countryCode,
+                RequestId = new Guid()
+            };
+
+            var response = await command.InvokeAsync();
+            return response.Result;
         }
 
         /// <summary>

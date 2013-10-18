@@ -19,13 +19,6 @@ namespace Nokia.Music.Commands
     /// </summary>
     internal sealed class TopProductsCommand : SearchCatalogCommand<Product>
     {
-        private string _category;
-
-        /// <summary>
-        /// Gets or sets the category - only Album and Track charts are available.
-        /// </summary>
-        public Category Category { get; set; }
-
         /// <summary>
         /// Gets or sets the genre ID to get results for.
         /// </summary>
@@ -37,13 +30,31 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
+            string category = null;
+
+            if (this.Category != null && this.Category.HasValue)
+            {
+                switch (this.Category.Value)
+                {
+                    case Types.Category.Album:
+                    case Types.Category.Track:
+                        category = this.Category.ToString().ToLowerInvariant();
+                        break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(category))
+            {
+                throw new ArgumentOutOfRangeException("Category", "Only Album and Track charts are available");
+            }
+
             if (string.IsNullOrEmpty(this.GenreId))
             {
-                uri.AppendFormat("products/charts/{0}/", this._category);
+                uri.AppendFormat("products/charts/{0}/", category);
             }
             else
             {
-                uri.AppendFormat("genres/{0}/charts/{1}/", this.GenreId, this._category);
+                uri.AppendFormat("genres/{0}/charts/{1}/", this.GenreId, category);
             }
         }
 
@@ -52,30 +63,11 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            this.ValidateCategory();
-
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 this.GetPagingParams(),
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
-        }
-
-        /// <summary>
-        /// Ensures that the supplied category is one of the supported types
-        /// </summary>
-        private void ValidateCategory()
-        {
-            switch (this.Category)
-            {
-                case Category.Album:
-                case Category.Track:
-                    this._category = this.Category.ToString().ToLowerInvariant();
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException("Category", "Only Album and Track charts are available");
-            }
         }
     }
 }

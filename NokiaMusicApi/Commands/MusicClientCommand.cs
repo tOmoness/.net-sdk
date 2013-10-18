@@ -20,9 +20,18 @@ namespace Nokia.Music.Commands
     /// </summary>
     internal abstract class MusicClientCommand
     {
+        internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
+        internal const string DefaultSecureBaseApiUri = "https://sapi.ent.nokia.com/1.x/";
         internal const string ArrayNameItems = "items";
+        
+        internal const string ContentTypeFormPost = "application/x-www-form-urlencoded";
+        internal const string ContentTypeApiResponseStart = "application/vnd.nokia.ent";
+        internal const string ContentTypeJson = "application/json";
+        
         internal const string ParamId = "id";
         internal const string ParamCategory = "category";
+        internal const string ParamOrderBy = "orderby";
+        internal const string ParamSortOrder = "sortorder";
         internal const string ParamExclusive = "exclusive";
         internal const string ParamGenre = "genre";
         internal const string ParamLocation = "location";
@@ -31,8 +40,6 @@ namespace Nokia.Music.Commands
         internal const string PagingStartIndex = "startindex";
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";
-        internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
-        internal const string DefaultSecureBaseApiUri = "https://sapi.ent.nokia.com/1.x/";
 
         private string _baseApiUri = DefaultBaseApiUri;
         private Guid _requestId = Guid.Empty;
@@ -51,36 +58,6 @@ namespace Nokia.Music.Commands
         /// <param name="item">The item.</param>
         /// <returns>A typed object</returns>
         internal delegate T JTokenConversionDelegate<T>(JToken item);
-
-        /// <summary>
-        /// Gets or sets the settings.
-        /// </summary>
-        /// <value>
-        /// The settings.
-        /// </value>
-        internal IMusicClientSettings MusicClientSettings { get; set; }
-
-        /// <summary>
-        /// Gets or sets the request handler.
-        /// </summary>
-        /// <value>
-        /// The request handler.
-        /// </value>
-        internal IApiRequestHandler RequestHandler { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the API method requires a country code to be specified.
-        /// API methods require a country code by default. Override this method for calls that do not.
-        /// </summary>
-        internal virtual bool RequiresCountryCode
-        {
-            get { return true; }
-        }
-
-        internal virtual bool UseBlankTerritory
-        {
-            get { return false; }
-        }
 
         /// <summary>
         /// Gets or sets the base uri for Api requests
@@ -102,12 +79,11 @@ namespace Nokia.Music.Commands
         }
 
         /// <summary>
-        /// Gets or sets an id representing this request.
+        /// Gets the content type for this request
         /// </summary>
-        internal Guid RequestId
+        internal virtual string ContentType
         {
-            get { return this._requestId; }
-            set { this._requestId = value; }
+            get { return null; }
         }
 
         /// <summary>
@@ -119,11 +95,68 @@ namespace Nokia.Music.Commands
         }
 
         /// <summary>
-        /// Gets the content type for this request
+        /// Gets or sets the settings.
         /// </summary>
-        internal virtual string ContentType
+        /// <value>
+        /// The settings.
+        /// </value>
+        internal IMusicClientSettings ClientSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets an id representing this request.
+        /// </summary>
+        internal Guid RequestId
         {
-            get { return null; }
+            get { return this._requestId; }
+            set { this._requestId = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the request handler.
+        /// </summary>
+        /// <value>
+        /// The request handler.
+        /// </value>
+        internal IApiRequestHandler RequestHandler { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the API method requires a country code to be specified.
+        /// API methods require a country code by default. Override this method for calls that do not.
+        /// </summary>
+        internal virtual bool RequiresCountryCode
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to use a blank querystring.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if should use a blank querystring.
+        /// </value>
+        internal virtual bool RequiresEmptyQuerystring
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the command should throw upon error responses.
+        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in the CountryResolver class for now</remarks>
+        /// </summary>
+        internal virtual bool ThrowOnError
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to use a blank territory in the URI path.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if should use a blank territory.
+        /// </value>
+        internal virtual bool UseBlankTerritory
+        {
+            get { return false; }
         }
 
         /// <summary>

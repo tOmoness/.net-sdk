@@ -14,14 +14,14 @@ namespace Nokia.Music
     /// Contains the result or the error if an error occurred.
     /// </summary>
     /// <typeparam name="T">The type of the result.</typeparam>
-    public class Response<T>
+    public class Response<T> : Response
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Response{T}" /> class.
         /// </summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="result">The result.</param>
-        /// /// <param name="requestId">The request id</param>
+        /// <param name="requestId">The request id</param>
         internal Response(HttpStatusCode? statusCode, T result, Guid requestId)
             : this(statusCode, null, result, requestId)
         {
@@ -35,11 +35,10 @@ namespace Nokia.Music
         /// <param name="result">The result.</param>
         /// <param name="requestId">The request id</param>
         internal Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId)
+            : base(statusCode, requestId)
         {
             this.ContentType = contentType;
-            this.StatusCode = statusCode;
             this.Result = result;
-            this.RequestId = requestId;
         }
 
         /// <summary>
@@ -50,24 +49,8 @@ namespace Nokia.Music
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
         internal Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
+            : base(statusCode, error, responseBody, requestId)
         {
-            this.StatusCode = statusCode;
-            this.Error = error;
-            this.RequestId = requestId;
-            this.ErrorResponseBody = responseBody;
-        }
-
-        /// <summary>
-        /// Gets the exception if the call was not successful
-        /// </summary>
-        public Exception Error { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the call succeeded
-        /// </summary>
-        public bool Succeeded
-        {
-            get { return this.Error == null; }
         }
 
         /// <summary>
@@ -79,29 +62,11 @@ namespace Nokia.Music
         public T Result { get; private set; }
 
         /// <summary>
-        /// Gets or sets the id of this request
-        /// </summary>
-        public Guid RequestId { get; set; }
-
-        /// <summary>
         /// Gets or sets the HTTP Content Type
         /// </summary>
         /// <value>
         /// The content type.
         /// </value>
         internal string ContentType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the response body supplied for an error response
-        /// </summary>
-        /// <value>
-        /// The raw response body.
-        /// </value>
-        internal string ErrorResponseBody { get; set; }
-
-        /// <summary>
-        /// Gets or sets the HTTP Status code
-        /// </summary>
-        internal HttpStatusCode? StatusCode { get; set; }
     }
 }

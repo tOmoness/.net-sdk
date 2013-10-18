@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MixTests.cs" company="NOKIA">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -58,6 +58,8 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestJsonParsing()
         {
+            Assert.IsNull(Mix.FromJToken(null), "Expected a null return");
+
             Mix mix = new Mix() { Id = "1234", Name = "Metal", ParentalAdvisory = true };
             JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1182.jpg\" } }");
 

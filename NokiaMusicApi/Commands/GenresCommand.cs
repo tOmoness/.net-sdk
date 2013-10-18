@@ -5,10 +5,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
@@ -35,7 +31,7 @@ namespace Nokia.Music.Commands
         {
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 null,
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Genre.FromJToken, Callback)));
         }

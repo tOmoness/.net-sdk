@@ -18,7 +18,7 @@ namespace Nokia.Music
         /// Initializes a new instance of the <see cref="InvalidApiCredentialsException" /> class.
         /// </summary>
         public InvalidApiCredentialsException()
-            : base("The API Credentials (AppId) appear to be invalid")
+            : base("The API Credentials appear to be invalid. For user-secured resources, we recommend calling DeleteAuthenticationToken and getting the user to re-authenticate.")
         {
         }
     }

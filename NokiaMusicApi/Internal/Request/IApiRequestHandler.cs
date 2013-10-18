@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nokia.Music.Commands;
@@ -24,6 +25,14 @@ namespace Nokia.Music.Internal.Request
         /// The URI builder.
         /// </value>
         IApiUriBuilder UriBuilder { get; }
+
+        /// <summary>
+        /// Gets the server UTC time.
+        /// </summary>
+        /// <value>
+        /// The server UTC time.
+        /// </value>
+        DateTime ServerTimeUtc { get; }
 
         /// <summary>
         /// Makes the API request

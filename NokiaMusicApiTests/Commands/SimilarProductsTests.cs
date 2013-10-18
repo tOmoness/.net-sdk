@@ -1,12 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="SimilarProductsTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
@@ -18,11 +19,11 @@ namespace Nokia.Music.Tests.Commands
     public class SimilarProductsTests : ProductTestBase
     {
         [Test]
-        public void EnsureGetSimilarProductsReturnsItems()
+        public async Task EnsureGetSimilarProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetSimilarProducts(this.ValidateProductListResponse, "test");
-            client.GetSimilarProducts(this.ValidateProductListResponse, new Product() { Id = "test" });
+            this.ValidateProductListResponse(await client.GetSimilarProductsAsync("test"));
+            this.ValidateProductListResponse(await client.GetSimilarProductsAsync(new Product() { Id = "test" }));
 
             var task = client.GetSimilarProductsAsync("test");
             this.ValidateProductListResponse(task.Result);
@@ -36,7 +37,7 @@ namespace Nokia.Music.Tests.Commands
         public void EnsureExceptionIsThrownIfNullProductId()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetSimilarProducts(null, string.Empty);
+            client.GetSimilarProductsAsync(string.Empty).Wait();
         }
 
         [Test]
@@ -45,26 +46,7 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Product nullProduct = null;
-            client.GetSimilarProducts(null, nullProduct);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureExceptionIsThrownIfNullProductAsync()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            Product nullProduct = null;
-            var t = client.GetSimilarProductsAsync(nullProduct);
-            t.Wait();
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureExceptionIsThrownIfNullProductIdAsync()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            var t = client.GetSimilarProductsAsync(string.Empty);
-            t.Wait();
+            client.GetSimilarProductsAsync(nullProduct).Wait();
         }
 
         [Test]

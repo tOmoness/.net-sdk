@@ -20,7 +20,7 @@ namespace Nokia.Music.Commands
     {
         public CountryResolverCommand(string appId, IApiRequestHandler handler)
         {
-            this.MusicClientSettings = new CountryResolverSettings(appId);
+            this.ClientSettings = new CountryResolverSettings(appId);
             this.RequestHandler = handler;
         }
 
@@ -34,11 +34,23 @@ namespace Nokia.Music.Commands
             get { return false; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the command should throw upon error responses.
+        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in the CountryResolver class for now</remarks>
+        /// </summary>
+        internal override bool ThrowOnError
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         protected override void Execute()
         {
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("countrycode", this.CountryCode) },
                 new JsonResponseCallback(
                 (Response<JObject> rawResult) =>
@@ -53,7 +65,7 @@ namespace Nokia.Music.Commands
                             case HttpStatusCode.OK:
                                 if (rawResult.Result != null)
                                 {
-                                    JArray items = rawResult.Result.Value<JArray>("items");
+                                    JArray items = rawResult.Result.Value<JArray>(MusicClientCommand.ArrayNameItems);
                                     if (items != null && items.Count == 1)
                                     {
                                         response = new Response<bool>(rawResult.StatusCode, true, RequestId);
@@ -94,16 +106,16 @@ namespace Nokia.Music.Commands
         /// </summary>
         private class CountryResolverSettings : IMusicClientSettings
         {
-            private readonly string _appId;
-            
-            public CountryResolverSettings(string appId)
+            private readonly string _clientId;
+
+            public CountryResolverSettings(string clientId)
             {
-                this._appId = appId;
+                this._clientId = clientId;
             }
 
-            public string AppId
+            public string ClientId
             {
-                get { return this._appId; }
+                get { return this._clientId; }
             }
 
             public string CountryCode
@@ -114,6 +126,11 @@ namespace Nokia.Music.Commands
             public bool CountryCodeBasedOnRegionInfo
             {
                 get { return false; }
+            }
+
+            public string Language
+            {
+                get { return null; }
             }
         }
     }

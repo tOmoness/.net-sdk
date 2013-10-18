@@ -1,12 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="SearchArtistByLocationTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
 using NUnit.Framework;
@@ -18,82 +19,64 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetArtistsAroundLocationThrowsExceptionForZeroLatitude()
+        public void EnsureThatADefaultZeroValueIsTreatedAsNull()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocation((ListResponse<Artist> result) => { }, 0, -2.59239);
-        }
-
-        public void EnsureGetArtistsAroundLocationThrowsExceptionForZeroLongitude()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocation((ListResponse<Artist> result) => { }, 51.45534, 0);
+            client.GetArtistsAroundLocationAsync(0, 0).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetArtistsAroundLocationThrowsExceptionForNullCallback()
+        public void EnsureGetArtistsAroundLocationAcceptsZeroLatitude()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocation(null, 51.45534, -2.59239);
+            client.GetArtistsAroundLocationAsync(0, -2.59239).Wait();
         }
 
         [Test]
-        public void EnsureGetArtistsAroundLocationReturnsArtistsForValidSearch()
+        public void EnsureGetArtistsAroundLocationAcceptsZeroLongitude()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocation(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+            client.GetArtistsAroundLocationAsync(51.45534, 0).Wait();
+        }
 
-                    foreach (Artist artist in result.Result)
-                    {
-                        Assert.IsFalse(string.IsNullOrEmpty(artist.Id), "Expected Id to be populated");
-                        Assert.IsFalse(string.IsNullOrEmpty(artist.Name), "Expected Name to be populated");
-                        Assert.IsNotNull(artist.Genres, "Expected a genre list");
-                        Assert.Greater(artist.Genres.Length, 0, "Expected more than 0 genres");
-                    }
-                },
-                51.45534,
-                -2.59239);
+        [Test]
+        public async Task EnsureGetArtistsAroundLocationReturnsArtistsForValidSearch()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
+            ListResponse<Artist> result = await client.GetArtistsAroundLocationAsync(51.45534, -2.59239);
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+            foreach (Artist artist in result.Result)
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(artist.Id), "Expected Id to be populated");
+                Assert.IsFalse(string.IsNullOrEmpty(artist.Name), "Expected Name to be populated");
+                Assert.IsNotNull(artist.Genres, "Expected a genre list");
+                Assert.Greater(artist.Genres.Length, 0, "Expected more than 0 genres");
+            }
         }
 
         /// <summary>
         /// The faked GetArtistsAroundLocation response Returns no results found
         /// </summary>
+        /// <returns>An async Task</returns>
         [Test]
-        public void EnsureGetArtistsAroundLocationReturnsErrorForFailedCall()
+        public async Task EnsureGetArtistsAroundLocationReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
-            client.GetArtistsAroundLocation(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
-                },
-                51.45534,
-                -2.59239);
-        }
-
-        [Test]
-        public async void EnsureAsyncGetArtistsAroundLocationReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
             ListResponse<Artist> result = await client.GetArtistsAroundLocationAsync(51.45534, -2.59239);
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
         }
     }
 }

@@ -18,3 +18,5 @@ Uploads
 /TestResultPrivate.xml
 /BandsAround/packages/*
 packages
+*[Nn][Cc]runch*
+/*.ncrunchsolution

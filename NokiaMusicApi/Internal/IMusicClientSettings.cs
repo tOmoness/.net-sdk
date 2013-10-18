@@ -13,12 +13,12 @@ namespace Nokia.Music.Internal
     internal interface IMusicClientSettings
     {
         /// <summary>
-        /// Gets the app id.
+        /// Gets the app client id.
         /// </summary>
         /// <value>
-        /// The app id.
+        /// The app client id.
         /// </value>
-        string AppId { get; }
+        string ClientId { get; }
 
         /// <summary>
         /// Gets the country code.
@@ -35,5 +35,13 @@ namespace Nokia.Music.Internal
         /// <c>true</c> if the country code was based on region info; otherwise, <c>false</c>.
         /// </value>
         bool CountryCodeBasedOnRegionInfo { get; }
+
+        /// <summary>
+        /// Gets the language code.
+        /// </summary>
+        /// <value>
+        /// The language code.
+        /// </value>
+        string Language { get; }
     }
 }

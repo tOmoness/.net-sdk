@@ -25,12 +25,7 @@ namespace Nokia.Music.Commands
         /// The artist id.
         /// </value>
         public string ArtistId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category.
-        /// </summary>
-        public Category? Category { get; set; }
-
+        
         /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
@@ -57,9 +52,19 @@ namespace Nokia.Music.Commands
                 querystring.Add(new KeyValuePair<string, string>(ParamCategory, this.Category.ToString().ToLowerInvariant()));
             }
 
+            if (this.OrderBy != null)
+            {
+                querystring.Add(new KeyValuePair<string, string>(ParamOrderBy, this.OrderBy.ToString().ToLowerInvariant()));
+            }
+
+            if (this.SortOrder != null)
+            {
+                querystring.Add(new KeyValuePair<string, string>(ParamSortOrder, this.SortOrder.ToString().ToLowerInvariant()));
+            }
+
             RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 querystring,
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Product.FromJToken, this.Callback)));
         }

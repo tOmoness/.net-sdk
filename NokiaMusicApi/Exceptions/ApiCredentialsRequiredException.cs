@@ -17,7 +17,7 @@ namespace Nokia.Music
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiCredentialsRequiredException" /> class.
         /// </summary>
-        public ApiCredentialsRequiredException() : base("API Credentials (AppId) are required for all method calls")
+        public ApiCredentialsRequiredException() : base("API Credentials are required for all method calls")
         {
         }
     }

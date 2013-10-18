@@ -50,7 +50,7 @@ namespace Nokia.Music.Commands
 
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 this.GetPagingParams(),
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler<Artist>(rawResult, ArrayNameItems, Artist.FromJToken, Callback)));
         }

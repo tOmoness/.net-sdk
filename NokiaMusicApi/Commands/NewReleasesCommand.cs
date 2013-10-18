@@ -19,8 +19,6 @@ namespace Nokia.Music.Commands
     /// </summary>
     internal sealed class NewReleasesCommand : MusicClientCommand<ListResponse<Product>>
     {
-        private string _category;
-
         /// <summary>
         /// Gets or sets the category - only Album and Track lists are available.
         /// </summary>
@@ -37,13 +35,26 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
+            string category = null;
+
+            switch (this.Category)
+            {
+                case Category.Album:
+                case Category.Track:
+                    category = this.Category.ToString().ToLowerInvariant();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("Category", "Only Album and Track lists are available");
+            }
+
             if (string.IsNullOrEmpty(this.GenreId))
             {
-                uri.AppendFormat("products/new/{0}/", this._category);
+                uri.AppendFormat("products/new/{0}/", category);
             }
             else
             {
-                uri.AppendFormat("genres/{0}/new/{1}/", this.GenreId.ToLowerInvariant(), this._category);
+                uri.AppendFormat("genres/{0}/new/{1}/", this.GenreId.ToLowerInvariant(), category);
             }
         }
 
@@ -52,30 +63,11 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            this.ValidateCategory();
-
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 this.GetPagingParams(),
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
-        }
-
-        /// <summary>
-        /// Ensures that only a supported category type is used
-        /// </summary>
-        private void ValidateCategory()
-        {
-            switch (this.Category)
-            {
-                case Category.Album:
-                case Category.Track:
-                    this._category = this.Category.ToString().ToLowerInvariant();
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException("Category", "Only Album and Track lists are available");
-            }
         }
     }
 }

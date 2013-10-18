@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>Bin\ARM\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP8;SUPPORTS_ASYNC;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_PHONE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>
@@ -87,10 +87,11 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Optimize>false</Optimize>
+    <DocumentationFile>Bin\ARM\Debug\Nokia.Music.Wp8.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>Bin\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WP8;SUPPORTS_ASYNC;</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS_PHONE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
@@ -101,8 +102,11 @@
     <DocumentationFile>Bin\ARM\Release\Nokia.Music.Wp8.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommandsUser\GetUserTopArtistsCommand.cs" />
+    <Compile Include="CommandsUser\GetUserPlayHistoryCommand.cs" />
     <Compile Include="Commands\ArtistProductsCommand.cs" />
     <Compile Include="Commands\CountryResolverCommand.cs" />
+    <Compile Include="CommandsUser\GetAuthTokenCommand.cs" />
     <Compile Include="Commands\ProductCommand.cs" />
     <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SearchCatalogCommand.cs" />
@@ -110,18 +114,30 @@
     <Compile Include="Commands\MixesCommand.cs" />
     <Compile Include="Commands\MixGroupsCommand.cs" />
     <Compile Include="Commands\MusicClientCommand.cs" />
-    <Compile Include="Commands\MusicClientCommand{TReturnType}.cs" />
+    <Compile Include="Commands\MusicClientCommand{TResult}.cs" />
     <Compile Include="Commands\NewReleasesCommand.cs" />
     <Compile Include="Commands\SearchArtistsCommand.cs" />
     <Compile Include="Commands\SearchCommand.cs" />
+    <Compile Include="CommandsUser\SecureMusicClientCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
     <Compile Include="Commands\SimilarProductsCommand.cs" />
     <Compile Include="Commands\TopArtistsCommand.cs" />
     <Compile Include="Commands\TopProductsCommand.cs" />
     <Compile Include="Converters\LocationConverter.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Exceptions\ApiNotAvailableException.cs" />
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />
+    <Compile Include="Exceptions\UserAuthRequiredException.cs" />
+    <Compile Include="Internal\Authorization\OAuthHeaderDataProvider.cs" />
+    <Compile Include="Internal\Authorization\OAuthResultParser.cs" />
+    <Compile Include="Internal\Authorization\OAuthUserFlow.cs" />
+    <Compile Include="Internal\StorageHelper.cs" />
+    <Compile Include="Types\AuthResultCode.cs" />
+    <Compile Include="Internal\Authorization\OAuthBrowserController.cs" />
+    <Compile Include="Types\AuthScope.cs" />
     <Compile Include="IMusicClient.cs" />
+    <Compile Include="Internal\Authorization\IAuthHeaderDataProvider.cs" />
+    <Compile Include="Internal\Authorization\OAuth2.cs" />
     <Compile Include="Internal\Compression\GzipHandlerWp.cs" />
     <Compile Include="Internal\Compression\IGzipHandler.cs" />
     <Compile Include="Internal\DebugLogger.cs" />
@@ -142,6 +158,7 @@
     <Compile Include="Internal\Response\RawResponseCallback.cs" />
     <Compile Include="Internal\Response\ResponseInfo.cs" />
     <Compile Include="Internal\StreamExtensions.cs" />
+    <Compile Include="Internal\Authorization\TokenResponse.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="MusicClient.cs" />
     <Compile Include="CountryResolver.cs" />
@@ -164,15 +181,18 @@
     <Compile Include="Types\Artist.cs" />
     <Compile Include="Types\Location.cs" />
     <Compile Include="Types\LocationExtensions.cs" />
-    <Compile Include="Types\LocationSource.cs" />
     <Compile Include="Types\MusicItem.cs" />
     <Compile Include="Types\Category.cs" />
-    <Compile Include="Types\CategoryExtensions.cs" />
     <Compile Include="Types\MixGroup.cs" />
+    <Compile Include="Types\OrderBy.cs" />
     <Compile Include="Types\Price.cs" />
     <Compile Include="Types\Mix.cs" />
     <Compile Include="Types\Product.cs" />
     <Compile Include="Types\Genre.cs" />
+    <Compile Include="Types\SortOrder.cs" />
+    <Compile Include="Types\UserEvent.cs" />
+    <Compile Include="Types\UserEventAction.cs" />
+    <Compile Include="Types\UserEventTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -181,7 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpGIS.GZipWebClient, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ApiRequestHandlerTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -50,7 +50,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("country.json"), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -75,7 +75,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new LocalFileUriBuilder("bad-result.json"), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -100,7 +100,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://baduritesting.co")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -125,7 +125,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder(), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new CountryResolverCommand("test", null) { BaseApiUri = "http://music.nokia.com/gb/en/badurl" },
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -152,7 +152,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -180,7 +180,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -207,7 +207,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -233,7 +233,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new MockApiCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -260,7 +260,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://www.nokia.com")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new ProductCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {
@@ -287,7 +287,7 @@ namespace Nokia.Music.Tests
             IApiRequestHandler handler = new ApiRequestHandler(new TestHttpUriBuilder(new Uri("http://localhost:8123/")), new GzipHandlerWp());
             handler.SendRequestAsync(
                 new MockApiCommand(),
-                new MockMusicClientSettings("test", null),
+                new MockMusicClientSettings("test", null, null),
                 null,
                 new JsonResponseCallback((Response<JObject> result) =>
                 {

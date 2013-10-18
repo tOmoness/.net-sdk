@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ResponseTests.cs" company="NOKIA">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -105,6 +105,29 @@ namespace Nokia.Music.Tests
             ListResponse<MusicItem> response = new ListResponse<MusicItem>(HttpStatusCode.OK, new List<MusicItem>(), null, null, null, Guid.Empty);
             Assert.IsNotNull((response as System.Collections.IEnumerable).GetEnumerator(), "Expected a non-null enumerator");
             Assert.IsNotNull((response as System.Collections.Generic.IEnumerable<MusicItem>).GetEnumerator(), "Expected a non-null enumerator");
+        }
+
+        [Test]
+        public void EnsureResponsePropertiesEmptyByDefault()
+        {
+            Response r = new Response();
+            Assert.IsNull(r.Error, "Expected nothing");
+            Assert.IsNull(r.ErrorResponseBody, "Expected nothing");
+            Assert.AreEqual(r.RequestId, Guid.Empty, "Expected Empty");
+            Assert.IsNull(r.StatusCode, "Expected nothing");
+            Assert.IsTrue(r.Succeeded, "No error means success");
+        }
+
+        [Test]
+        public void EnsureResponsePropertiesPersist()
+        {
+            Response r = new Response(HttpStatusCode.OK, new Exception(), "body", new Guid());
+            Assert.IsNotNull(r.Error, "Expected something");
+            Assert.IsNotNull(r.ErrorResponseBody, "Expected something");
+            Assert.IsNotNull(r.RequestId, "Expected something");
+            Assert.IsNotNull(r.StatusCode, "Expected something");
+            Assert.AreEqual(r.StatusCode.Value, HttpStatusCode.OK, "Expected OK");
+            Assert.IsFalse(r.Succeeded, "Error means failure");
         }
     }
 }

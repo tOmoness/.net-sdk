@@ -11,7 +11,9 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Parsing;
+#if !PORTABLE
 using Nokia.Music.Tasks;
+#endif
 
 namespace Nokia.Music.Types
 {
@@ -188,6 +190,7 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
+#if !PORTABLE
         /// <summary>
         /// Launches Nokia Music to show details about the product using the ShowProductTask
         /// </summary>
@@ -197,6 +200,7 @@ namespace Nokia.Music.Types
             task.Show();
         }
 
+#endif
         /// <summary>
         /// Creates a Product from a JSON Object
         /// </summary>
@@ -204,6 +208,11 @@ namespace Nokia.Music.Types
         /// <returns>A Product object</returns>
         internal static Product FromJToken(JToken item)
         {
+            if (item == null)
+            {
+                return null;
+            }
+
             // Extract category...
             Category category = Category.Unknown;
             JToken jsonCategory = item["category"];

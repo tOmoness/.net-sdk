@@ -73,13 +73,25 @@
         <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')"  />
     </Target>
 
-    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
-        <Exec Command="$(RestoreCommand)"
-              Condition="'$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')" />
-              
-        <Exec Command="$(RestoreCommand)"
-              LogStandardErrorAsError="true"
-              Condition="'$(OS)' == 'Windows_NT' And Exists('$(PackagesConfig)')" />
+    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites" Condition="Exists('$(PackagesConfig)')">
+        <PropertyGroup>
+            <NugetLogStandardErrorAsError Condition="'$(OS)' == 'Windows_NT'">true</NugetLogStandardErrorAsError>
+            <NugetLogStandardErrorAsError Condition="'$(OS)' != 'Windows_NT'">false</NugetLogStandardErrorAsError>
+        </PropertyGroup>
+
+        <Exec Command="$(RestoreCommand)" LogStandardErrorAsError="$(NugetLogStandardErrorAsError)" IgnoreExitCode="True">
+            <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+        </Exec>
+
+        <Message Text="Error occurred, #1 retry..." Importance="High" Condition=" $(ExitCode) != 0 " />
+
+        <Exec Command="$(RestoreCommand)" LogStandardErrorAsError="$(NugetLogStandardErrorAsError)" IgnoreExitCode="True" Condition=" $(ExitCode) != 0 ">
+            <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+        </Exec>
+
+        <Message Text="Error occurred, #2 and last retry..." Importance="High" Condition=" $(ExitCode) != 0 " />
+
+        <Exec Command="$(RestoreCommand)" LogStandardErrorAsError="$(NugetLogStandardErrorAsError)" Condition=" $(ExitCode) != 0 " />
     </Target>
 
     <Target Name="BuildPackage" DependsOnTargets="CheckPrerequisites">

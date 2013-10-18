@@ -20,19 +20,37 @@ namespace Nokia.Music.Commands
     internal abstract class SearchCatalogCommand<TReturnType> : MusicClientCommand<ListResponse<TReturnType>>
     {
         /// <summary>
+        /// Gets or sets the order by field.
+        /// </summary>
+        public OrderBy? OrderBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
+        public SortOrder? SortOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        public Category? Category { get; set; }
+
+        /// <summary>
         /// Searches for items
         /// </summary>
         /// <typeparam name="T">The type to return</typeparam>
         /// <param name="searchTerm">The search term.</param>
         /// <param name="genreId">The genre to filter the results by.</param>
+        /// <param name="id">An artist or product id.</param>
         /// <param name="category">The category to filter the results by.</param>
         /// <param name="location">The location to filter the results by.</param>
         /// <param name="maxdistance">The max distance from the location to to filter the results by.</param>
+        /// <param name="orderBy">The field to sort the items by.</param>
+        /// <param name="sortOrder">The sort order of the items to fetch.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="converter">The object creation method to use</param>
         /// <param name="callback">The callback to use when the API call has completed</param>
-        protected void InternalSearch<T>(string searchTerm, string genreId, Category? category, string location, string maxdistance, int startIndex, int itemsPerPage, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
+        protected void InternalSearch<T>(string searchTerm, string genreId, string id, Category? category, string location, string maxdistance, OrderBy? orderBy, SortOrder? sortOrder, int startIndex, int itemsPerPage, JTokenConversionDelegate<T> converter, Action<ListResponse<T>> callback)
         {
             // Build querystring parameters...
             var parameters = new List<KeyValuePair<string, string>>
@@ -51,9 +69,24 @@ namespace Nokia.Music.Commands
                 parameters.Add(new KeyValuePair<string, string>(ParamGenre, genreId));
             }
 
-            if (category != null && category.Value != Category.Unknown)
+            if (!string.IsNullOrEmpty(id))
+            {
+                parameters.Add(new KeyValuePair<string, string>(ParamId, id));
+            }
+
+            if (category != null && category.Value != Types.Category.Unknown)
             {
                 parameters.Add(new KeyValuePair<string, string>(ParamCategory, category.ToString().ToLowerInvariant()));
+            }
+
+            if (orderBy != null)
+            {
+                parameters.Add(new KeyValuePair<string, string>(ParamOrderBy, orderBy.ToString().ToLowerInvariant()));
+            }
+
+            if (sortOrder != null)
+            {
+                parameters.Add(new KeyValuePair<string, string>(ParamSortOrder, sortOrder.ToString().ToLowerInvariant()));
             }
 
             if (!string.IsNullOrEmpty(location))
@@ -68,7 +101,7 @@ namespace Nokia.Music.Commands
 
             this.RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 parameters,
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler<T>(rawResult, ArrayNameItems, converter, callback)));
         }

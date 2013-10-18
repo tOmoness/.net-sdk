@@ -1,0 +1,56 @@
+{
+    "action": "complete",
+    "client": "NokiaMusic",
+    "clientversion": "3.10",
+    "datetime": "2013-01-01T09:00:00.000+0000",
+    "location": {
+        "lat": 1.2345,
+        "lng": 2.3456,
+        "name": "TestLocation"
+    },
+    "target": "track",
+    "offset": 250,
+    "mix": {
+        "id": "1234"
+    },
+    "product": {
+        "sequence": 4,
+        "duration": 250,
+        "creators": {
+            "performers": [
+                {
+                    "name": "Pearl Jam",
+                    "id": "293399"
+                }
+            ]
+        },
+        "name": "Tremor Christ",
+        "samples": {
+            "wmamms": "mms://wmstream.music.ovi.com/a1139/l1/1.0/s/clips/mc/musicgb/6020029/43/6020029.wma",
+            "mp3rtmp": "rtmp://stream.music.ovi.com/a1139/l1/mp3:1.0/s/clips/pc/musicgb/6020029/43/6020029.mp3"
+        },
+        "parentaladvisory": false,
+        "type": "musictrack",
+        "thumbnails": {
+            "50x50": "http://4.musicimg.ovi.com/u/1.0/image/132923470/?w=50&q=40",
+            "100x100": "http://4.musicimg.ovi.com/u/1.0/image/132923470/?w=100&q=70",
+            "200x200": "http://4.musicimg.ovi.com/u/1.0/image/132923470/?w=200&q=90",
+            "320x320": "http://4.musicimg.ovi.com/u/1.0/image/132923470/?w=320&q=90"
+        },
+        "genres": [
+            {
+                "id": "Rock",
+                "name": "Rock"
+            }
+        ],
+        "id": "6020029",
+        "takenfrom": {
+            "name": "Vitalogy",
+            "id": "6020025"
+        },
+        "category": {
+            "id": "Track",
+            "name": "Track"
+        }
+    }
+}

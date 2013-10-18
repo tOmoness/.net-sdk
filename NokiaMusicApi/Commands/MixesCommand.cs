@@ -7,8 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Nokia.Music.Internal.Request;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
@@ -52,7 +50,7 @@ namespace Nokia.Music.Commands
 
             RequestHandler.SendRequestAsync(
                 this,
-                this.MusicClientSettings,
+                this.ClientSettings,
                 this.BuildQueryString(),
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback)));
         }

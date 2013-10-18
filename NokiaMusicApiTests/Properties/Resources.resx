@@ -139,6 +139,9 @@
   <data name="genres" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\genres.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="get_artist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\get-artist.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="mixes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\mixes.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -181,10 +184,19 @@
   <data name="suggestions_artists" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\suggestions-artists.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="token_response" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\token-response.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="top_artists" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\top-artists.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="top_artists_genre" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\top-artists-genre.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="userevent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\userevent.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="usereventlist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\usereventlist.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

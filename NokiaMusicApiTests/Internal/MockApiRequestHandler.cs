@@ -1,10 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MockApiRequestHandler.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
@@ -64,6 +65,11 @@ namespace Nokia.Music.Tests
             }
         }
 
+        public DateTime ServerTimeUtc
+        {
+            get { return DateTime.UtcNow; }
+        }
+
         /// <summary>
         /// Gets the Query string params that were passed with the last request
         /// </summary>
@@ -103,6 +109,13 @@ namespace Nokia.Music.Tests
         {
             this._lastSettings = settings;
             this._queryString = querystring;
+
+            // Ensure URI building is exercised...
+            Uri uri = this.UriBuilder.BuildUri(command, settings, querystring);
+
+            // Ensure we call this method to make
+            // sure the code gets a run through...
+            string body = command.BuildRequestBody();
 
             if (this._responseInfo != null)
             {

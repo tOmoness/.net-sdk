@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="GetProductTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,9 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
+using Nokia.Music.Internal.Request;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
@@ -25,49 +27,40 @@ namespace Nokia.Music.Tests.Commands
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
-            client.GetProduct((Response<Product> result) => { }, nullId);
+            client.GetProductAsync(nullId).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetProductThrowsExceptionForNullCallback()
+        public async Task EnsureGetProductReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
-            client.GetProduct(null, "test");
+            this.ValidateProductResponse(await client.GetProductAsync("test"));
         }
 
         [Test]
-        public void EnsureGetProductReturnsItems()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
-            client.GetProduct(this.ValidateProductResponse, "test");
-        }
-
-        [Test]
-        public void EnsureGetProductReturnsErrorForFailedCall()
+        public async Task EnsureGetProductReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetProduct(
-                (Response<Product> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
-                    Assert.IsNotNull(result.Error, "Expected an error");
-                    Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                },
-                "test");
+            Response<Product> result = await client.GetProductAsync("test");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
 
         [Test]
-        public void EnsureAsyncGetProductsReturnsItems()
+        public async Task EnsureGetProductReturnsUnknownErrorForFailedCall()
         {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.single_product));
-            var task = client.GetProductAsync("test");
-            task.Wait();
-            this.ValidateProductResponse(task.Result);
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.ConflictServerError("{ \"error\":\"true\"}")));
+            Response<Product> result = await client.GetProductAsync("test");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
 
         [Test]
@@ -83,15 +76,15 @@ namespace Nokia.Music.Tests.Commands
         public void EnsureGetTrackSampleUriThrowsExceptionForNullId()
         {
             string nullId = null;
-            IMusicClient client = new MusicClient("test", "gb", null);
+            IMusicClient client = new MusicClient("test", "gb", (IApiRequestHandler)null);
             client.GetTrackSampleUri(nullId);
         }
 
         [Test]
         public void EnsureGetTrackSampleUriIsBuiltCorrectly()
         {
-            IMusicClient client = new MusicClient("test", "gb", null);
-            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/1234/sample/?domain=music&app_id=test", client.GetTrackSampleUri("1234").ToString());
+            IMusicClient client = new MusicClient("test", "gb", (IApiRequestHandler)null);
+            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/1234/sample/?domain=music&client_id=test", client.GetTrackSampleUri("1234").ToString());
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// <copyright file="ProductTestBase.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

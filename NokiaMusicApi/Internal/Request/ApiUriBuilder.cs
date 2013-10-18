@@ -48,7 +48,11 @@ namespace Nokia.Music.Internal.Request
             url.Append(command.BaseApiUri);
             this.AddCountryCode(url, command, settings.CountryCode);
             command.AppendUriPath(url);
-            this.AppendQueryString(url, command, settings, queryParams);
+
+            if (!command.RequiresEmptyQuerystring)
+            {
+                this.AppendQueryString(url, command, settings, queryParams);
+            }
 
             return new Uri(url.ToString());
         }
@@ -60,12 +64,12 @@ namespace Nokia.Music.Internal.Request
         /// <param name="settings">The music client settings.</param>
         protected virtual void AddAuthorisationParams(StringBuilder url, IMusicClientSettings settings)
         {
-            if (string.IsNullOrEmpty(settings.AppId))
+            if (string.IsNullOrEmpty(settings.ClientId))
             {
                 throw new ApiCredentialsRequiredException();
             }
 
-            url.AppendFormat(@"?app_id={0}", settings.AppId);
+            url.AppendFormat(@"?client_id={0}", settings.ClientId);
         }
 
         /// <summary>
@@ -105,12 +109,17 @@ namespace Nokia.Music.Internal.Request
 
             url.AppendFormat("&domain=music");
 
+            if (!string.IsNullOrWhiteSpace(settings.Language))
+            {
+                url.AppendFormat("&lang={0}", settings.Language);
+            }
+
             // Add other parameters...
             if (queryParams != null)
             {
                 foreach (KeyValuePair<string, string> pair in queryParams)
                 {
-                    url.AppendFormat("&{0}={1}", pair.Key, pair.Value);
+                    url.AppendFormat("&{0}={1}", pair.Key, pair.Value == null ? string.Empty : Uri.EscapeDataString(pair.Value));
                 }
             }
         }

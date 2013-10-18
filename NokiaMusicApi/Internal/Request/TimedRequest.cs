@@ -9,7 +9,9 @@ using System;
 using System.Net;
 #if !NETFX_CORE
 using System.Threading;
-#else
+#endif
+using System.Threading.Tasks;
+#if NETFX_CORE
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -20,15 +22,11 @@ namespace Nokia.Music.Internal.Request
     /// <summary>
     /// Time-out implementation for web requests
     /// </summary>
-    internal sealed class TimedRequest : IDisposable
+    internal sealed class TimedRequest
     {
         private static int _timeoutInMilliseconds = 30000;
         private Action _timeoutCallback;
-#if NETFX_CORE
-        private DispatcherTimer _timer;
-#else
-        private Timer _timer;
-#endif
+        private bool _requestCompleted;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimedRequest" /> class.
@@ -36,7 +34,7 @@ namespace Nokia.Music.Internal.Request
         /// <param name="uri">The uri used in the web request</param>
         internal TimedRequest(Uri uri)
         {
-            WebRequest = WebRequest.Create(uri);
+            this.WebRequest = WebRequest.Create(uri);
         }
 
         /// <summary>
@@ -53,30 +51,6 @@ namespace Nokia.Music.Internal.Request
         internal bool HasTimedOut { get; private set; }
 
         /// <summary>
-        /// Stops the timer
-        /// </summary>
-#if NETFX_CORE
-        public async void Dispose()
-#else
-        public void Dispose()
-#endif
-        {
-            if (this._timer != null)
-            {
-#if NETFX_CORE
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                    CoreDispatcherPriority.High,
-                    () =>
-                        {
-                            this._timer.Stop();
-                        });
-#else
-                this._timer.Dispose();
-#endif
-            }
-        }
-
-        /// <summary>
         /// Makes the request and starts the timer
         /// </summary>
         /// <param name="successCallback">The callback if the request is successful</param>
@@ -85,15 +59,25 @@ namespace Nokia.Music.Internal.Request
         internal void BeginGetResponse(AsyncCallback successCallback, Action timeoutCallback, object state)
         {
             this._timeoutCallback = timeoutCallback;
-#if NETFX_CORE
-            this._timer = new DispatcherTimer();
-            this._timer.Interval = TimeSpan.FromMilliseconds((double)_timeoutInMilliseconds);
-            this._timer.Tick += this.TimeoutReached;
-            this._timer.Start();
-#else
-            this._timer = new Timer(this.TimeoutReached, null, _timeoutInMilliseconds, Timeout.Infinite);
-#endif
-            this.WebRequest.BeginGetResponse(successCallback, state);
+            Task.Factory.StartNew(async () => await this.BeginAsyncTimer());
+
+            this.WebRequest.BeginGetResponse(
+                ar =>
+                {
+                    this._requestCompleted = true;
+                    successCallback(ar);
+                },
+                state);
+        }
+
+        private async Task BeginAsyncTimer()
+        {
+            await Task.Delay(_timeoutInMilliseconds);
+
+            if (!this._requestCompleted)
+            {
+                this.TimeoutReached(this);
+            }
         }
 
         /// <summary>
@@ -104,26 +88,9 @@ namespace Nokia.Music.Internal.Request
         {
             DebugLogger.Instance.WriteLog("Request timed-out");
             this.HasTimedOut = true;
-#if NETFX_CORE
-            this._timer.Stop();
-#else
-            this._timer.Dispose();
-#endif
-            this._timer = null;
+
             this.WebRequest.Abort();
             this._timeoutCallback();
         }
-
-#if NETFX_CORE
-        /// <summary>
-        /// Signals that the timeout has been reached
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void TimeoutReached(object sender, object e)
-        {
-            this.TimeoutReached(null);
-        }
-#endif
     }
 }

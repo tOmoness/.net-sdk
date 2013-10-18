@@ -1,12 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ArtistTests.cs" company="NOKIA">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Commands;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
 using NUnit.Framework;
@@ -61,8 +62,8 @@ namespace Nokia.Music.Tests.Types
         public void TestJsonParsing()
         {
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.artist_parse_tests));
-            
-            JArray items = json.Value<JArray>("items");
+
+            JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
             
             // Test a full artist representation
             Artist fullArtist = Artist.FromJToken(items[0]) as Artist;

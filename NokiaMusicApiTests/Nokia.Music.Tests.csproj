@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TESTS;SUPPORTS_ASYNC;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -32,7 +32,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;TESTS;SUPPORTS_ASYNC;</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,6 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NokiaMusicApi\CommandsUser\GetAuthTokenCommand.cs">
+      <Link>Source\CommandsUser\GetAuthTokenCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserPlayHistoryCommand.cs">
+      <Link>Source\CommandsUser\GetUserPlayHistoryCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserTopArtistsCommand.cs">
+      <Link>Source\CommandsUser\GetUserTopArtistsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\CommandsUser\SecureMusicClientCommand.cs">
+      <Link>Source\CommandsUser\SecureMusicClientCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\ArtistProductsCommand.cs">
       <Link>Source\Commands\ArtistProductsCommand.cs</Link>
     </Compile>
@@ -74,7 +86,7 @@
     <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand.cs">
       <Link>Source\Commands\MusicClientCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TReturnType}.cs">
+    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TResult}.cs">
       <Link>Source\Commands\MusicClientCommand{TReturnType}.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\NewReleasesCommand.cs">
@@ -140,6 +152,18 @@
     <Compile Include="..\NokiaMusicApi\IMusicClient.cs">
       <Link>Source\IMusicClient.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\IAuthHeaderDataProvider.cs">
+      <Link>Source\Internal\Authorization\IAuthHeaderDataProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuth2.cs">
+      <Link>Source\Internal\Authorization\OAuth2.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthResultParser.cs">
+      <Link>Source\Internal\Authorization\OAuthResultParser.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\TokenResponse.cs">
+      <Link>Source\Internal\Authorization\TokenResponse.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Compression\GzipHandlerWp.cs">
       <Link>Source\Internal\Compression\GzipHandlerWp.cs</Link>
     </Compile>
@@ -194,6 +218,9 @@
     <Compile Include="..\NokiaMusicApi\Internal\Response\ResponseInfo.cs">
       <Link>Source\Internal\Response\ResponseInfo.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\StorageHelper.cs">
+      <Link>Source\Internal\StorageHelper.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\StreamExtensions.cs">
       <Link>Source\Internal\StreamExtensions.cs</Link>
     </Compile>
@@ -202,6 +229,9 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\MusicClient.cs">
       <Link>Source\MusicClient.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Response.cs">
+      <Link>Source\Response.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Response{T}.cs">
       <Link>Source\Response{T}.cs</Link>
@@ -233,11 +263,14 @@
     <Compile Include="..\NokiaMusicApi\Types\Artist.cs">
       <Link>Source\Types\Artist.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\AuthResultCode.cs">
+      <Link>Source\Types\AuthResultCode.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\AuthScope.cs">
+      <Link>Source\Types\AuthScope.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Category.cs">
       <Link>Source\Types\Category.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\CategoryExtensions.cs">
-      <Link>Source\Types\CategoryExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Genre.cs">
       <Link>Source\Types\Genre.cs</Link>
@@ -248,9 +281,6 @@
     <Compile Include="..\NokiaMusicApi\Types\LocationExtensions.cs">
       <Link>Source\Types\LocationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\LocationSource.cs">
-      <Link>Source\Types\LocationSource.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Mix.cs">
       <Link>Source\Types\Mix.cs</Link>
     </Compile>
@@ -260,17 +290,40 @@
     <Compile Include="..\NokiaMusicApi\Types\MusicItem.cs">
       <Link>Source\Types\MusicItem.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\OrderBy.cs">
+      <Link>Source\Types\OrderBy.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Price.cs">
       <Link>Source\Types\Price.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\SortOrder.cs">
+      <Link>Source\Types\SortOrder.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\UserEvent.cs">
+      <Link>Source\Types\UserEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\UserEventAction.cs">
+      <Link>Source\Types\UserEventAction.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\UserEventTarget.cs">
+      <Link>Source\Types\UserEventTarget.cs</Link>
+    </Compile>
+    <Compile Include="CommandsUser\GetUserTopArtistsCommandTests.cs" />
+    <Compile Include="CommandsUser\GetUserPlayHistoryCommandTests.cs" />
+    <Compile Include="CommandsUser\GetAuthTokenCommandTests.cs" />
     <Compile Include="Commands\ProductTestBase.cs" />
     <Compile Include="Commands\SimilarProductsTests.cs" />
     <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="Commands\GetProductTests.cs" />
+    <Compile Include="ListResponseTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
+    <Compile Include="Internal\FakeAuthHeaderProvider.cs" />
+    <Compile Include="Internal\StorageHelperTests.cs" />
+    <Compile Include="Internal\OAuthTests.cs" />
+    <Compile Include="Internal\TokenResponseTests.cs" />
     <Compile Include="Internal\JsonResponseCallbackTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
@@ -292,7 +345,6 @@
     <Compile Include="Commands\SearchTests.cs" />
     <Compile Include="Commands\SearchArtistsTests.cs" />
     <Compile Include="Internal\ApiRequestHandlerTests.cs" />
-    <Compile Include="CountryLookupTests.cs" />
     <Compile Include="Internal\ApiUriBuilderTests.cs" />
     <Compile Include="Internal\MockApiRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -309,7 +361,10 @@
     <Compile Include="Tasks\ShowArtistTaskTests.cs" />
     <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
-    <Compile Include="Types\CategoryExtensionsTests.cs" />
+    <Compile Include="Types\AuthResultCodeTests.cs" />
+    <Compile Include="Types\TypeExtensionsTests.cs" />
+    <Compile Include="Types\AuthScopesTests.cs" />
+    <Compile Include="Types\UserEventTests.cs" />
     <Compile Include="Types\LocationTests.cs" />
     <Compile Include="Types\MixGroupTests.cs" />
     <Compile Include="Types\ProductTests.cs" />
@@ -322,6 +377,8 @@
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\get-artist.json" />
+    <None Include="Json\usereventlist.json" />
     <None Include="Json\search-suggestions-noresults.json" />
     <None Include="Json\product-parse-tests.json" />
     <None Include="Json\genres.json" />
@@ -339,6 +396,7 @@
     <None Include="Json\single-product.json" />
     <None Include="Json\suggestions-artists.json" />
     <None Include="Json\suggestions.json" />
+    <None Include="Json\token-response.json" />
     <None Include="Json\top-artists-genre.json" />
     <None Include="Json\top-artists.json" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -346,6 +404,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Json\userevent.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
@@ -363,7 +422,7 @@ rem RunTests.bat</PostBuildEvent>
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>

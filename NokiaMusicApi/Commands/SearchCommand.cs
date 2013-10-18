@@ -24,14 +24,14 @@ namespace Nokia.Music.Commands
         public string SearchTerm { get; set; }
 
         /// <summary>
-        /// Gets or sets the category.
-        /// </summary>
-        public Category? Category { get; set; }
-
-        /// <summary>
         /// Gets or sets the genre
         /// </summary>
         public string GenreId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the artist or product id
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// Creates an CatalogItem based on it's category field
@@ -68,12 +68,12 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId))
+            if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId) && string.IsNullOrEmpty(this.Id))
             {
-                throw new ArgumentNullException("SearchTerm", "A searchTerm or genreId must be supplied");
+                throw new ArgumentNullException("SearchTerm", "A searchTerm, Id or genreId must be supplied");
             }
 
-            this.InternalSearch<MusicItem>(this.SearchTerm, this.GenreId, this.Category, null, null, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
+            this.InternalSearch<MusicItem>(this.SearchTerm, this.GenreId, this.Id, this.Category, null, null, this.OrderBy, this.SortOrder, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="LocationExtensions.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,6 +10,9 @@ using System.Device.Location;
 
 namespace Nokia.Music.Types
 {
+    /// <summary>
+    /// Helper method(s) for Location type
+    /// </summary>
     internal static class LocationExtensions
     {
         /// <summary>
@@ -24,14 +27,7 @@ namespace Nokia.Music.Types
         /// </remarks>
         internal static GeoCoordinate ToGeoCoordinate(this Location location)
         {
-            return new GeoCoordinate(
-                location.Latitude,
-                location.Longitude,
-                0,
-                location.HorizontalAccuracy.GetValueOrDefault(),
-                0,
-                0,
-                0);
+            return new GeoCoordinate(location.Latitude, location.Longitude);
         }
     }
 }

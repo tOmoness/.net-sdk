@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MixTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
@@ -21,50 +22,36 @@ namespace Nokia.Music.Tests.Commands
     public class MixTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetMixGroupsThrowsExceptionForNullCallback()
+        public async Task EnsureGetMixGroupsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
-            client.GetMixGroups(null);
+            ListResponse<MixGroup> result = await client.GetMixGroupsAsync();
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+
+            foreach (MixGroup mixGroup in result.Result)
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(mixGroup.Id), "Expected Id to be populated");
+                Assert.IsFalse(string.IsNullOrEmpty(mixGroup.Name), "Expected Name to be populated");
+            }
         }
 
         [Test]
-        public void EnsureGetMixGroupsReturnsItems()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
-            client.GetMixGroups(
-                (ListResponse<MixGroup> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-                    foreach (MixGroup mixGroup in result.Result)
-                    {
-                        Assert.IsFalse(string.IsNullOrEmpty(mixGroup.Id), "Expected Id to be populated");
-                        Assert.IsFalse(string.IsNullOrEmpty(mixGroup.Name), "Expected Name to be populated");
-                    }
-                });
-        }
-
-        [Test]
-        public void EnsureGetMixGroupsReturnsErrorForFailedCall()
+        public async Task EnsureGetMixGroupsReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetMixGroups(
-                (ListResponse<MixGroup> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
-                    Assert.IsNotNull(result.Error, "Expected an error");
-                    Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                });
+            ListResponse<MixGroup> result = await client.GetMixGroupsAsync();
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
 
         [Test]
@@ -73,7 +60,7 @@ namespace Nokia.Music.Tests.Commands
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixes((ListResponse<Mix> result) => { }, nullId);
+            client.GetMixesAsync(nullId).Wait();
         }
 
         [Test]
@@ -82,82 +69,34 @@ namespace Nokia.Music.Tests.Commands
         {
             MixGroup nullGroup = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixes((ListResponse<Mix> result) => { }, nullGroup);
+            client.GetMixesAsync(nullGroup).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetMixesAsyncThrowsExceptionForNullGroup()
-        {
-            MixGroup nullGroup = null;
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixesAsync(nullGroup);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetMixesThrowsExceptionForNullCallback()
+        public async Task EnsureGetMixesReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixes(null, "test");
+            ListResponse<Mix> result = await client.GetMixesAsync(new MixGroup() { Id = "test" });
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
         [Test]
-        public void EnsureGetMixesReturnsItems()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixes(
-                (ListResponse<Mix> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-                },
-                new MixGroup() { Id = "test" });
-        }
-
-        [Test]
-        public void EnsureGetMixesReturnsErrorForFailedCall()
+        public async Task EnsureGetMixesReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetMixes(
-                (ListResponse<Mix> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
-                    Assert.IsNotNull(result.Error, "Expected an error");
-                    Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                },
-                "test");
-        }
-
-        [Test]
-        public async void EnsureAsyncGetMixGroupsReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixgroups));
-
-            ListResponse<MixGroup> result = await client.GetMixGroupsAsync();
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-        }
-
-        [Test]
-        public async void EnsureAsyncGetMixesReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-
             ListResponse<Mix> result = await client.GetMixesAsync("test");
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-            result = await client.GetMixesAsync(new MixGroup() { Id = "test" });
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
 
         [Test]

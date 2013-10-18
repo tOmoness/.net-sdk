@@ -8,7 +8,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+#if !PORTABLE
 using Nokia.Music.Tasks;
+#endif
 
 namespace Nokia.Music.Types
 {
@@ -104,6 +106,7 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
+#if !PORTABLE
         /// <summary>
         /// Launches Nokia Music to start a mix for the artist using the PlayMixTask
         /// </summary>
@@ -122,6 +125,7 @@ namespace Nokia.Music.Types
             task.Show();
         }
 
+#endif
         /// <summary>
         /// Creates an Artist from a JSON Object
         /// </summary>

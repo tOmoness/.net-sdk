@@ -1,12 +1,13 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="SearchArtistsTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
@@ -22,107 +23,129 @@ namespace Nokia.Music.Tests.Commands
         public void EnsureSearchArtistsThrowsExceptionForNullSearchTerm()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.SearchArtists((ListResponse<Artist> result) => { }, null);
+            client.SearchArtistsAsync(null).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureSearchArtistsThrowsExceptionForNullCallback()
+        public async Task EnsureSearchArtistsReturnsArtistsForValidSearch()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.SearchArtists(null, @"lady gaga");
-        }
+            ListResponse<Artist> result = await client.SearchArtistsAsync("muse");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
 
-        [Test]
-        public void EnsureSearchArtistsReturnsArtistsForValidSearch()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.SearchArtists(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-                    foreach (Artist artist in result.Result)
-                    {
-                        Assert.IsFalse(string.IsNullOrEmpty(artist.Id), "Expected Id to be populated");
-                        Assert.IsFalse(string.IsNullOrEmpty(artist.Name), "Expected Name to be populated");
-                        Assert.IsNotNull(artist.Genres, "Expected a genre list");
-                        Assert.Greater(artist.Genres.Length, 0, "Expected more than 0 genres");
-                    }
-                },
-                "muse");
+            foreach (Artist artist in result.Result)
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(artist.Id), "Expected Id to be populated");
+                Assert.IsFalse(string.IsNullOrEmpty(artist.Name), "Expected Name to be populated");
+                Assert.IsNotNull(artist.Genres, "Expected a genre list");
+                Assert.Greater(artist.Genres.Length, 0, "Expected more than 0 genres");
+            }
         }
 
         /// <summary>
         /// The faked SearchArtists response Returns no results found
         /// </summary>
+        /// <returns>An async Task</returns>
         [Test]
-        public void EnsureSearchArtistsReturnsErrorForFailedCall()
+        public async Task EnsureSearchArtistsReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
-            client.SearchArtists(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
-                },
-                "muse");
+            ListResponse<Artist> result = await client.SearchArtistsAsync("muse");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopArtistsThrowsExceptionForNullCallback()
+        public async Task EnsureGetArtistWithValidIdReturnsOneArtist()
         {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
-            client.GetTopArtists(null);
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.get_artist));
+            Response<Artist> result = await client.GetArtistAsync("559688");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a result");
+            Assert.IsNull(result.Error, "Expected no error");
         }
 
         [Test]
-        public void EnsureGetTopArtistsReturnsArtists()
+        public async Task EnsureGetArtistWithInvalidIdReturnsNullResult()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
+            Response<Artist> result = await client.GetArtistAsync("559688");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNull(result.Result, "Expected no result");
+            Assert.IsNull(result.Error, "Expected no error");
+        }
+
+        [Test]
+        public async Task EnsureGetArtistWithInvalidCredsGivesError()
+        {
+            IMusicClient client = new MusicClient("badcreds", "gb", new MockApiRequestHandler(FakeResponse.Unauthorized()));
+            Response<Artist> result = await client.GetArtistAsync("559688");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.Unauthorized, result.StatusCode.Value, "Expected a 401 response");
+            Assert.IsNull(result.Result, "Expected no result");
+            Assert.IsNotNull(result.Error, "Expected an error");
+        }
+
+        [Test]
+        public async Task EnsureGetTopArtistsReturnsArtists()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
-            client.GetTopArtists(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-                });
+            ListResponse<Artist> result = await client.GetTopArtistsAsync();
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
         /// <summary>
         /// The faked GetTopArtists response Returns no results found
         /// </summary>
+        /// <returns>An async Task</returns>
         [Test]
-        public void EnsureGetTopArtistsReturnsErrorForFailedCall()
+        public async Task EnsureGetTopArtistsReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_noresults));
-            client.GetTopArtists(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
-                });
+            ListResponse<Artist> result = await client.GetTopArtistsAsync();
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.AreEqual(result.Result.Count, 0, "Expected 0 results");
+        }
+
+        [Test]
+        public async Task EnsureRequestIdComesBackInResponse()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
+            var requestId = Guid.NewGuid();
+            ListResponse<Artist> result = await client.SearchArtistsAsync("muse", requestId: requestId);
+
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.AreEqual(requestId, result.RequestId);
         }
 
         [Test]
@@ -131,7 +154,7 @@ namespace Nokia.Music.Tests.Commands
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenre((ListResponse<Artist> result) => { }, nullId);
+            client.GetTopArtistsForGenreAsync(nullId).Wait();
         }
 
         [Test]
@@ -140,93 +163,39 @@ namespace Nokia.Music.Tests.Commands
         {
             Genre nullGenre = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenre((ListResponse<Artist> result) => { }, nullGenre);
+            client.GetTopArtistsForGenreAsync(nullGenre).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopArtistsForGenreAsyncThrowsExceptionForNullGenre()
-        {
-            Genre nullGenre = null;
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenreAsync(nullGenre);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopArtistsForGenreThrowsExceptionForNullCallback()
+        public async Task EnsureGetTopArtistsForGenreReturnsArtists()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenre(null, "rock");
-        }
-
-        [Test]
-        public void EnsureGetTopArtistsForGenreReturnsArtists()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenre(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
-                    Assert.IsNotNull(result.Result, "Expected a list of results");
-                    Assert.IsNull(result.Error, "Expected no error");
-                    Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-                },
-                new Genre() { Id = "rock" });
+            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync(new Genre() { Id = "rock" });
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
 
         /// <summary>
         /// The faked GetTopArtistsForGenre response Returns an error condition rather than no results
         /// </summary>
+        /// <returns>An async Task</returns>
         [Test]
-        public void EnsureGetTopArtistsForGenreReturnsErrorForFailedCall()
+        public async Task EnsureGetTopArtistsForGenreReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetTopArtistsForGenre(
-                (ListResponse<Artist> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-200 response");
-                    Assert.IsNull(result.Result, "Expected no results");
-                    Assert.IsNotNull(result.Error, "Expected an error");
-                    Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                },
-                "rock");
-        }
-
-        [Test]
-        public async void EnsureAsyncSearchArtistsReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            ListResponse<Artist> result = await client.SearchArtistsAsync("test");
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-        }
-
-        [Test]
-        public async void EnsureAsyncGetTopArtistsReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists));
-            ListResponse<Artist> result = await client.GetTopArtistsAsync();
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-        }
-
-        [Test]
-        public async void EnsureAsyncGetTopArtistsForGenreReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync("test");
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-            result = await client.GetTopArtistsForGenreAsync(new Genre() { Id = "test" });
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync("rock");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-200 response");
+            Assert.IsNull(result.Result, "Expected no results");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
     }
 }

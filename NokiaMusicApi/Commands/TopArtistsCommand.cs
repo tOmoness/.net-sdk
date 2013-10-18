@@ -24,7 +24,7 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            this.InternalSearch(null, this.GenreId, Category.Artist, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            this.InternalSearch(null, this.GenreId, null, Types.Category.Artist, null, null, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
         }
     }
 }

@@ -21,7 +21,10 @@ namespace Nokia.Music.Internal.Request
     /// </summary>
     internal class ApiRequestHandler : IApiRequestHandler
     {
-        private readonly IGzipHandler _gzipHandler;
+        private IGzipHandler _gzipHandler;
+
+        private TimeSpan _serverTimeOffset = new TimeSpan(0);
+        private bool _obtainedServerTime = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestHandler" /> class.
@@ -41,6 +44,20 @@ namespace Nokia.Music.Internal.Request
         /// The URI builder.
         /// </value>
         public IApiUriBuilder UriBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the server UTC time.
+        /// </summary>
+        /// <value>
+        /// The server UTC time.
+        /// </value>
+        public DateTime ServerTimeUtc
+        {
+            get
+            {
+                return DateTime.UtcNow.Add(this._serverTimeOffset);
+            }
+        }
 
         /// <summary>
         /// Makes the API request
@@ -69,6 +86,7 @@ namespace Nokia.Music.Internal.Request
 
             TimedRequest request = new TimedRequest(uri);
             this.AddRequestHeaders(request.WebRequest, requestHeaders);
+
             this.TryBuildRequestBody(
                 (IAsyncResult ar) =>
                 {
@@ -77,7 +95,6 @@ namespace Nokia.Music.Internal.Request
                         return;
                     }
 
-                    request.Dispose();
                     WebResponse response = null;
                     HttpWebResponse webResponse = null;
                     T responseItem = default(T);
@@ -91,8 +108,11 @@ namespace Nokia.Music.Internal.Request
                         webResponse = response as HttpWebResponse;
                         if (webResponse != null)
                         {
-                            command.SetAdditionalResponseInfo(new ResponseInfo(webResponse.ResponseUri, webResponse.Headers));
                             statusCode = webResponse.StatusCode;
+                            command.SetAdditionalResponseInfo(new ResponseInfo(webResponse.ResponseUri, webResponse.Headers));
+
+                            // Capture Server Time offset if we haven't already...
+                            this.DeriveServerTimeOffset(webResponse.Headers);
                         }
                     }
                     catch (WebException ex)
@@ -136,6 +156,35 @@ namespace Nokia.Music.Internal.Request
         }
 
         /// <summary>
+        /// Derives the server time offset from the Date and Age headers.
+        /// </summary>
+        /// <param name="headers">The response headers.</param>
+        internal void DeriveServerTimeOffset(WebHeaderCollection headers)
+        {
+            if (!this._obtainedServerTime)
+            {
+                if (headers != null)
+                {
+                    var timeHeader = headers["Date"];
+                    DateTime serverTimeUtc;
+                    if (!string.IsNullOrEmpty(timeHeader) && DateTime.TryParse(timeHeader, out serverTimeUtc))
+                    {
+                        serverTimeUtc = serverTimeUtc.ToUniversalTime();
+                        int age;
+                        var ageHeader = headers["Age"];
+                        if (!string.IsNullOrEmpty(ageHeader) && int.TryParse(ageHeader, out age))
+                        {
+                            serverTimeUtc = serverTimeUtc.AddSeconds(age);
+                        }
+
+                        this._serverTimeOffset = serverTimeUtc.Subtract(DateTime.UtcNow);
+                        this._obtainedServerTime = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Determines the difference between a 404 explicitly delivered by a service and a 404 response from WP while offline
         /// </summary>
         /// <param name="response">The web response</param>
@@ -170,13 +219,22 @@ namespace Nokia.Music.Internal.Request
                                        bool offlineNotFoundResponse = false)
         {
             DebugLogger.Instance.WriteLog("{0} response from {1}", statusCode.HasValue ? statusCode.ToString() : "Timeout", uri.ToString());
+
+            if (!offlineNotFoundResponse && error != null)
+            {
+                DebugLogger.Instance.WriteException(
+                    error,
+                    new KeyValuePair<string, string>("uri", uri.ToString()),
+                    new KeyValuePair<string, string>("errorResponseBody", responseBody),
+                    new KeyValuePair<string, string>("statusCode", statusCode == null ? "Timeout" : statusCode.ToString()));
+            }
+
             if (response != null && !offlineNotFoundResponse)
             {
                 callback(new Response<T>(statusCode, contentType, response, requestId));
             }
             else
             {
-                DebugLogger.Instance.WriteLog("Error:{0}", error);
                 callback(new Response<T>(statusCode, error, responseBody, requestId));
             }
         }
@@ -189,6 +247,7 @@ namespace Nokia.Music.Internal.Request
             {
                 var requestState = new RequestState(request, requestBody, requestSuccessCallback, requestTimeoutCallback);
                 request.WebRequest.ContentType = apiMethod.ContentType;
+
                 request.WebRequest.BeginGetRequestStream(this.RequestStreamCallback, requestState);
             }
             else
@@ -228,6 +287,7 @@ namespace Nokia.Music.Internal.Request
             {
                 foreach (KeyValuePair<string, string> header in requestHeaders)
                 {
+                    DebugLogger.Instance.WriteLog(" Request Header: {0} = {1}", header.Key, header.Value);
                     request.Headers[header.Key] = header.Value;
                 }
             }

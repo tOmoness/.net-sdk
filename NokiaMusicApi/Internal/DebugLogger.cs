@@ -5,7 +5,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Nokia.Music.Internal
 {
@@ -33,6 +37,18 @@ namespace Nokia.Music.Internal
         public virtual void WriteLog(string message, params object[] args)
         {
             Debug.WriteLine(string.Format("NokiaMusicApi | {0}", message), args);
+        }
+
+        public virtual void WriteException(Exception ex, params KeyValuePair<string, string>[] otherInfoItems)
+        {
+            Debug.WriteLine(ex == null ? "<null>" : ex.ToString());
+
+            if (otherInfoItems != null && otherInfoItems.Length > 0)
+            {
+                var otherInfoItemsAsJObject = new JObject(otherInfoItems.Select(x => new JProperty(x.Key, x.Value)));
+
+                Debug.WriteLine(otherInfoItemsAsJObject);
+            }
         }
 
         public void WriteVerboseInfo(string message, params object[] args)

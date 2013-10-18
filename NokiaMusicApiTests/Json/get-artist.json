@@ -1,0 +1,42 @@
+{
+	"items": [
+		{
+			"category": {
+				"id": "Artist",
+				"name": "Artist"
+			},
+			"country": {
+				"id": "GB",
+				"name": "GB"
+			},
+			"genres": [
+				{
+					"id": "IndieAlternative",
+					"name": "Indie/Alternative"
+				}
+			],
+			"name": "Muse",
+			"origin": {
+				"location": {
+					"lat": 50.54829997010529,
+					"lng": -3.5000998713076115
+				}
+			},
+			"thumbnails": {
+				"50x50": "http://assets.ent.nokia.com/p/d/music_image/50x50/559688.jpg",
+				"320x320": "http://assets.ent.nokia.com/p/d/music_image/320x320/559688.jpg",
+				"200x200": "http://assets.ent.nokia.com/p/d/music_image/200x200/559688.jpg",
+				"120x120": "http://assets.ent.nokia.com/p/d/music_image/120x120/559688.jpg",
+				"100x100": "http://assets.ent.nokia.com/p/d/music_image/100x100/559688.jpg"
+			},
+			"id": "559688",
+			"type": "musicartist"
+		}
+	],
+	"paging": {
+		"total": 1,
+		"startindex": 0,
+		"itemsperpage": 10
+	},
+	"type": "creatorlist"
+}

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ProductChartTests.cs" company="Nokia">
-// Copyright (c) 2012, Nokia
+// Copyright (c) 2013, Nokia
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,6 +8,7 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
@@ -24,48 +25,27 @@ namespace Nokia.Music.Tests.Commands
         public void EnsureGetTopProductsThrowsExceptionForUnsupportedCategory()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetTopProducts((ListResponse<Product> result) => { }, Category.Unknown);
+            client.GetTopProductsAsync(Category.Unknown).Wait();
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopProductsThrowsExceptionForNullCallback()
+        public async Task EnsureGetTopProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetTopProducts(null, Category.Album);
+            this.ValidateTopProductsResponse(await client.GetTopProductsAsync(Category.Album));
         }
 
         [Test]
-        public void EnsureGetTopProductsReturnsItems()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetTopProducts(this.ValidateTopProductsResponse, Category.Album);
-        }
-
-        [Test]
-        public void EnsureGetTopProductsReturnsErrorForFailedCall()
+        public async Task EnsureGetTopProductsReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
-            client.GetTopProducts(
-                (ListResponse<Product> result) =>
-                {
-                    Assert.IsNotNull(result, "Expected a result");
-                    Assert.IsNotNull(result.StatusCode, "Expected a status code");
-                    Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
-                    Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
-                    Assert.IsNotNull(result.Error, "Expected an error");
-                    Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
-                },
-                Category.Album);
-        }
-
-        [Test]
-        public async void EnsureAsyncGetTopProductsReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             ListResponse<Product> result = await client.GetTopProductsAsync(Category.Album);
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreNotEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a non-OK response");
+            Assert.IsNotNull(result.Error, "Expected an error");
+            Assert.AreEqual(typeof(ApiCallFailedException), result.Error.GetType(), "Expected an ApiCallFailedException");
         }
 
         [Test]
@@ -73,15 +53,7 @@ namespace Nokia.Music.Tests.Commands
         public void EnsureGetNewReleasesForGenreThrowsExceptionForUnsupportedCategory()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleasesForGenre((ListResponse<Product> result) => { }, "rock", Category.Unknown);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetNewReleasesForGenreThrowsExceptionForNullCallback()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleasesForGenre(null, "pop", Category.Album);
+            client.GetNewReleasesForGenreAsync("rock", Category.Unknown).Wait();
         }
 
         [Test]
@@ -90,7 +62,7 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
-            client.GetTopProductsForGenre((ListResponse<Product> result) => { }, nullGenre, Category.Album);
+            client.GetTopProductsForGenreAsync(nullGenre, Category.Album).Wait();
         }
 
         [Test]
@@ -99,36 +71,15 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             string nullGenreId = null;
-            client.GetTopProductsForGenre((ListResponse<Product> result) => { }, nullGenreId, Category.Album);
+            client.GetTopProductsForGenreAsync(nullGenreId, Category.Album).Wait();
         }
 
         [Test]
-        public void EnsureGetTopProductsForGenreReturnsItems()
+        public async Task EnsureGetTopProductsForGenreReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetTopProductsForGenre(this.ValidateTopProductsResponse, new Genre() { Id = "rock" }, Category.Album);
-            client.GetTopProductsForGenre(this.ValidateTopProductsResponse, "rock", Category.Album);
-        }
-
-        [Test]
-        public async void EnsureGetTopProductsForGenreAsyncReturnsItems()
-        {
-            // Only test happy path, as the MusicClient tests cover the unhappy path
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            ListResponse<Product> result = await client.GetTopProductsForGenreAsync("rock", Category.Album);
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-
-            result = await client.GetTopProductsForGenreAsync(new Genre() { Id = "rock" }, Category.Album);
-            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopProductsForGenreAsyncThrowsExceptionForNullGenre()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            Genre nullGenre = null;
-            client.GetTopProductsForGenreAsync(nullGenre, Category.Album);
+            this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync(new Genre() { Id = "rock" }, Category.Album));
+            this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync("rock", Category.Album));
         }
 
         [Test]
@@ -139,9 +90,8 @@ namespace Nokia.Music.Tests.Commands
             {
                 RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
                 Category = Category.Album,
-                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty)
+                ClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
             };
-            cmd.Invoke(response => { });
             cmd.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/charts/album/", uri.ToString());
         }
@@ -154,9 +104,8 @@ namespace Nokia.Music.Tests.Commands
             {
                 RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
                 Category = Category.Track,
-                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty)
+                ClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
             };
-            cmd.Invoke(response => { });
             cmd.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/charts/track/", uri.ToString());
         }
@@ -170,9 +119,8 @@ namespace Nokia.Music.Tests.Commands
                 RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
                 Category = Category.Album,
                 GenreId = "pop",
-                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty)
+                ClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
             };
-            cmd.Invoke(response => { });
             cmd.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/genres/pop/charts/album/", uri.ToString());
         }
@@ -186,9 +134,8 @@ namespace Nokia.Music.Tests.Commands
                 RequestHandler = new MockApiRequestHandler(FakeResponse.NotFound()),
                 Category = Category.Track,
                 GenreId = "pop",
-                MusicClientSettings = new MockMusicClientSettings(string.Empty, string.Empty)
+                ClientSettings = new MockMusicClientSettings(string.Empty, string.Empty, string.Empty)
             };
-            cmd.Invoke(response => { });
             cmd.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/genres/pop/charts/track/", uri.ToString());
         }
