@@ -83,7 +83,72 @@ namespace MusicExplorer.Models
             }
         }
 
-        private Uri _thumbUri;
+        private Uri _thumb100Uri;
+        /// <summary>
+        /// MixModel's Thumb100Uri (100 px) property.
+        /// This property is used in the UI to display the image in Uri using a Binding.
+        /// </summary>
+        public Uri Thumb100Uri
+        {
+            get
+            {
+                return _thumb100Uri;
+            }
+            set
+            {
+                if (value != _thumb100Uri)
+                {
+                    _thumb100Uri = value;
+                    NotifyPropertyChanged("Thumb100Uri");
+                    NotifyPropertyChanged("ThumbUri");
+                }
+            }
+        }
+
+        private Uri _thumb200Uri;
+        /// <summary>
+        /// MixModel's Thumb200Uri (200 px) property.
+        /// This property is used in the UI to display the image in Uri using a Binding.
+        /// </summary>
+        public Uri Thumb200Uri
+        {
+            get
+            {
+                return _thumb200Uri;
+            }
+            set
+            {
+                if (value != _thumb200Uri)
+                {
+                    _thumb200Uri = value;
+                    NotifyPropertyChanged("Thumb200Uri");
+                    NotifyPropertyChanged("ThumbUri");
+                }
+            }
+        }
+
+        private Uri _thumb320Uri;
+        /// <summary>
+        /// MixModel's Thumb320Uri (320 px) property.
+        /// This property is used in the UI to display the image in Uri using a Binding.
+        /// </summary>
+        public Uri Thumb320Uri
+        {
+            get
+            {
+                return _thumb320Uri;
+            }
+            set
+            {
+                if (value != _thumb320Uri)
+                {
+                    _thumb320Uri = value;
+                    NotifyPropertyChanged("Thumb320Uri");
+                    NotifyPropertyChanged("ThumbUri");
+                }
+            }
+        }
+
         /// <summary>
         /// MixModel's ThumbUri property.
         /// This property is used in the UI to display the image in Uri using a Binding.
@@ -92,18 +157,67 @@ namespace MusicExplorer.Models
         {
             get
             {
-                return _thumbUri;
-            }
-            set
-            {
-                if (value != _thumbUri)
+                if (_thumb320Uri != null)
                 {
-                    _thumbUri = value;
-                    NotifyPropertyChanged("ThumbUri");
+                    return _thumb320Uri;
+                }
+                else if (_thumb200Uri != null)
+                {
+                    return _thumb200Uri;
+                }
+                else if (_thumb100Uri != null)
+                {
+                    return _thumb100Uri;
+                }
+                else
+                {
+                    return new Uri("/Assets/thumb_100_placeholder.png",
+                                   UriKind.Relative);
                 }
             }
         }
 
+        private string _itemWidth;
+        /// <summary>
+        /// Mix's itemWidth property.
+        /// This property is used when determining width of the mix item.
+        /// </summary>
+        public string ItemWidth
+        {
+            get
+            {
+                return _itemWidth;
+            }
+            set
+            {
+                if (value != _itemWidth)
+                {
+                    _itemWidth = value;
+                    NotifyPropertyChanged("ItemWidth");
+                }
+            }
+        }
+
+        private string _itemHeight;
+        /// <summary>
+        /// Mix's ItemWidth property.
+        /// This property is used when determining height of the mix item.
+        /// </summary>
+        public string ItemHeight
+        {
+            get
+            {
+                return _itemHeight;
+            }
+            set
+            {
+                if (value != _itemHeight)
+                {
+                    _itemHeight = value;
+                    NotifyPropertyChanged("ItemHeight");
+                }
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {

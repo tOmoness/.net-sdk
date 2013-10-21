@@ -13,6 +13,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:controls="clr-namespace:MusicExplorer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -60,28 +61,30 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MUSIC EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding SelectedMixGroup}" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="radio mixes" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24,0,12,0">
-            <phone:LongListSelector x:Name="MixesList" Margin="0,0,0,0" ItemsSource="{Binding Mixes}" SelectionChanged="OnMixSelected">
-                <phone:LongListSelector.ItemTemplate>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ListBox Margin="0,0,0,0" x:Name="MixesList" ItemsSource="{Binding Mixes}" SelectionChanged="OnMixSelected">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <toolkit:WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <StackPanel Orientation="Horizontal" Margin="0,2,0,4" HorizontalAlignment="Left" Height="105" Width="432">
-                                <Image Width="100" Height="100" Source="{Binding ThumbUri}"/>
-                                <StackPanel Width="311" Margin="8,-7,0,0">
-                                    <TextBlock Text="{Binding Name}" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-                                    <TextBlock Text="{Binding ParentalAdvisory}" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
-                                </StackPanel>
-                            </StackPanel>
-                            <Image Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,2,0,0" Source="Assets/music_explorer_note.png"/>
-                        </Grid>
+                        <controls:TileItem Height="{Binding ItemHeight}"
+                                                   Width="{Binding ItemWidth}"
+                                                   ItemWidth="{Binding ItemWidth}"
+                                                   PrimaryText="{Binding Name}" 
+                                                   SecondaryText="{Binding Name}"                                                   Image="{Binding ThumbUri}"
+                                                   NoteImage="True"/>
                     </DataTemplate>
-                </phone:LongListSelector.ItemTemplate>
-            </phone:LongListSelector>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 

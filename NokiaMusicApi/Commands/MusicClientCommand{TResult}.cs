@@ -95,7 +95,7 @@ namespace Nokia.Music.Commands
         /// <remarks>
         /// API will return application/json for error cases, so allow that as well as the custom type
         /// </remarks>
-        internal bool IsValidContentType(Response<JObject> rawResult)
+        internal bool IsValidContentType<TResponse>(Response<TResponse> rawResult)
         {
             return rawResult.Result != null &&
                    rawResult.ContentType != null &&
