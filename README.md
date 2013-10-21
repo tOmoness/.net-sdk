@@ -63,7 +63,7 @@ With the lower-level API access, you get more control and can perform the follow
 New in v3.x, you can access user data (provided the user authorises your app!):
 
 - Read the user's play history
-- Read the user's taste profile to access favourite artists
+- Read the user's top artists
 
 ## Documentation
 The documentation for this component is at <http://nokia.ly/wpmusicapidoc>
