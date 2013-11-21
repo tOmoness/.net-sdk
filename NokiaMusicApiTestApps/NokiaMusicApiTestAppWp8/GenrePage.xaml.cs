@@ -152,7 +152,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Shows details of a top track (in Nokia Music) or similar Genre.
+        /// Shows details of a top track (in Nokia MixRadio) or similar Genre.
         /// </summary>
         /// <param name="sender">top tracks or similar Genres listbox</param>
         /// <param name="e">Event arguments</param>

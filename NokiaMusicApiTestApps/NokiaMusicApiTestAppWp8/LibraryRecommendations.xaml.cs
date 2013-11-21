@@ -76,7 +76,7 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Reads local media for artists, which are then ordered based on
         /// the number of tracks and play count of their tracks. Begins
-        /// further processing to find recommendations using Nokia Music API.
+        /// further processing to find recommendations using Nokia MixRadio API.
         /// </summary>
         private void FindTopArtists()
         {
@@ -134,7 +134,7 @@ namespace Nokia.Music.TestApp
 
         /// <summary>
         /// Works through the top artist list, trying to find the artist in
-        /// the Nokia Music API, recommending similar artists from there
+        /// the Nokia MixRadio API, recommending similar artists from there
         /// and then checking if the user has the artist in their library already!
         /// <remarks>It gets a bit gnarly in here!</remarks>
         /// </summary>

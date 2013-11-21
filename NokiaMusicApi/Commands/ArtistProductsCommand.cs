@@ -47,17 +47,17 @@ namespace Nokia.Music.Commands
 
             // Build querystring parameters...
             var querystring = this.GetPagingParams();
-            if (this.Category != null)
+            if (this.Category.HasValue)
             {
                 querystring.Add(new KeyValuePair<string, string>(ParamCategory, this.Category.ToString().ToLowerInvariant()));
             }
 
-            if (this.OrderBy != null && this.OrderBy.HasValue)
+            if (this.OrderBy.HasValue)
             {
                 querystring.Add(new KeyValuePair<string, string>(ParamOrderBy, this.OrderBy.ToString().ToLowerInvariant()));
             }
 
-            if (this.SortOrder != null && this.SortOrder.HasValue)
+            if (this.SortOrder.HasValue)
             {
                 querystring.Add(new KeyValuePair<string, string>(ParamSortOrder, this.SortOrder.ToString().ToLowerInvariant()));
             }

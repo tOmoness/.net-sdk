@@ -55,7 +55,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Initialized the page and makes a request to Nokia Music API 
+        /// Initialized the page and makes a request to Nokia MixRadio API 
         /// based on provided method call parameter.
         /// </summary>
         /// <param name="e">Event arguments</param>
@@ -146,8 +146,8 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Populates list box with search results.
         /// </summary>
-        /// <param name="response">Search results from Nokia Music API</param>
-        /// <typeparam name="T">Any MusicItem from Nokia Music API</typeparam>
+        /// <param name="response">Search results from Nokia MixRadio API</param>
+        /// <typeparam name="T">Any MusicItem from Nokia MixRadio API</typeparam>
         private void ResponseHandler<T>(ListResponse<T> response)
         {
             Dispatcher.BeginInvoke(async () =>
@@ -202,7 +202,7 @@ namespace Nokia.Music.TestApp
 
         /// <summary>
         /// Shows details of a product/artist/genre/mix group.
-        /// Tracks and mixes will be shown in Nokia Music app.
+        /// Tracks and mixes will be shown in Nokia MixRadio app.
         /// </summary>
         /// <param name="sender">Results listbox</param>
         /// <param name="e">Event arguments</param>

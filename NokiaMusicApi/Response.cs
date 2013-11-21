@@ -18,7 +18,12 @@ namespace Nokia.Music
         /// <summary>
         /// Initializes a new instance of the <see cref="Response" /> class.
         /// </summary>
-        internal Response()
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif 
+        Response()
         {
         }
 
@@ -27,7 +32,12 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="requestId">The request id</param>
-        internal Response(HttpStatusCode? statusCode, Guid requestId)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        Response(HttpStatusCode? statusCode, Guid requestId)
             : this(statusCode, null, null, requestId)
         {
         }
@@ -39,7 +49,12 @@ namespace Nokia.Music
         /// <param name="error">The error.</param>
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
-        internal Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
         {
             this.StatusCode = statusCode;
             this.Error = error;

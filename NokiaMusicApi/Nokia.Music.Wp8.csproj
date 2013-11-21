@@ -192,6 +192,7 @@
     <Compile Include="Types\SortOrder.cs" />
     <Compile Include="Types\UserEvent.cs" />
     <Compile Include="Types\UserEventAction.cs" />
+    <Compile Include="Types\UserEventClientType.cs" />
     <Compile Include="Types\UserEventTarget.cs" />
   </ItemGroup>
   <ItemGroup>

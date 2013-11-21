@@ -72,7 +72,7 @@ namespace Nokia.Music.Tasks
 
                 this.Launch(
                     new Uri(string.Format(Product.AppToAppShowUri, this._productId) + appId),
-                    new Uri("http://music.nokia.com/r/Product/-/-/" + this._productId));
+                    new Uri(string.Format(Product.WebShowUri, this._productId)));
             }
             else
             {

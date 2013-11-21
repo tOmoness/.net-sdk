@@ -30,6 +30,11 @@ namespace Nokia.Music.Types
         public abstract Uri AppToAppUri { get; }
 
         /// <summary>
+        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// </summary>
+        public abstract Uri WebUri { get; }
+
+        /// <summary>
         /// Gets or sets the item name.
         /// </summary>
         /// <value>

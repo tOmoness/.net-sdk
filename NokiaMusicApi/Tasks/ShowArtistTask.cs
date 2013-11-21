@@ -67,7 +67,7 @@ namespace Nokia.Music.Tasks
             {
                 this.Launch(
                     new Uri(string.Format(Artist.AppToAppShowUri, this._artistId)),
-                    new Uri("http://music.nokia.com/r/artist/-/" + this._artistId));
+                    new Uri(string.Format(Artist.WebShowUri, this._artistId)));
             }
             else if (!string.IsNullOrEmpty(this._artistName))
             {

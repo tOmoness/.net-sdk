@@ -40,7 +40,7 @@
 
                     <ScrollViewer Grid.Row="1" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Hidden" HorizontalScrollMode="Disabled">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Launchers are a simple way to integrate with Nokia Music with only a few lines of code and no need to sign up for full API access." Style="{StaticResource NoteText}" TextWrapping="Wrap" Margin="0,0,0,18" />
+                            <TextBlock Text="Launchers are a simple way to integrate with Nokia MixRadio with only a few lines of code and no need to sign up for full API access." Style="{StaticResource NoteText}" TextWrapping="Wrap" Margin="0,0,0,18" />
 
                             <TextBlock Text="Try the SearchTask to search for 'Muse'" Style="{StaticResource SubHeadingText}" TextWrapping="Wrap" />
                             <Button Content="Search Task" Click="ShowSearchTask" Style="{StaticResource LargeButton}" />

@@ -79,7 +79,7 @@
 
                 <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Style="{StaticResource AboutHeadText}" TextWrapping="Wrap" Text="The Nokia Music SDK is Copyright (c) 2012-2013, Nokia, All rights reserved."/>
+                        <TextBlock Style="{StaticResource AboutHeadText}" TextWrapping="Wrap" Text="The Nokia MixRadio SDK is Copyright (c) 2012-2013, Nokia, All rights reserved."/>
 
                         <Button Tag="http://nokia.ly/musicapi" Click="OpenWebLink" Template="{StaticResource HeadlessButton}" Margin="0,18" HorizontalAlignment="Stretch">
                             <StackPanel>
@@ -128,7 +128,7 @@
                         </TextBlock>
 
                         <TextBlock Style="{StaticResource AboutText}" Margin="0,36,0,24" TextWrapping="Wrap">
-                    <Run>The Nokia Music SDK uses the awesome JSON.Net...</Run>
+                    <Run>The Nokia MixRadio SDK uses the awesome JSON.Net...</Run>
                     <!--<Hyperlink>http://json.codeplex.com/</Hyperlink>-->
                         </TextBlock>
 

@@ -22,7 +22,12 @@ namespace Nokia.Music
         /// <param name="statusCode">The status code.</param>
         /// <param name="result">The result.</param>
         /// <param name="requestId">The request id</param>
-        internal Response(HttpStatusCode? statusCode, T result, Guid requestId)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        Response(HttpStatusCode? statusCode, T result, Guid requestId)
             : this(statusCode, null, result, requestId)
         {
         }
@@ -34,7 +39,12 @@ namespace Nokia.Music
         /// <param name="contentType">The response Content Type.</param>
         /// <param name="result">The result.</param>
         /// <param name="requestId">The request id</param>
-        internal Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId)
             : base(statusCode, requestId)
         {
             this.ContentType = contentType;
@@ -48,7 +58,12 @@ namespace Nokia.Music
         /// <param name="error">The error.</param>
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
-        internal Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif 
+        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
             : base(statusCode, error, responseBody, requestId)
         {
         }

@@ -231,6 +231,7 @@
     <Compile Include="Types\AuthResultCode.cs" />
     <Compile Include="Types\Category.cs">
     </Compile>
+    <Compile Include="Types\UserEventClientType.cs" />
     <Compile Include="Types\Genre.cs">
     </Compile>
     <Compile Include="Types\Location.cs">

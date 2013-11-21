@@ -119,8 +119,8 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Populates list box with search results.
         /// </summary>
-        /// <param name="response">Search results from Nokia Music API</param>
-        /// <typeparam name="T">Any MusicItem from Nokia Music API</typeparam>
+        /// <param name="response">Search results from Nokia MixRadio API</param>
+        /// <typeparam name="T">Any MusicItem from Nokia MixRadio API</typeparam>
         private async void ResponseHandler<T>(ListResponse<T> response)
         {
             this.DefaultViewModel["Items"] = response.Result;

@@ -13,7 +13,12 @@ namespace Nokia.Music.Internal.Response
     /// Defines a response callback
     /// </summary>
     /// <typeparam name="T">The type that the response callback is for</typeparam>
-    internal interface IResponseCallback<T>
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    interface IResponseCallback<T>
     {
         /// <summary>
         /// Gets the callback.

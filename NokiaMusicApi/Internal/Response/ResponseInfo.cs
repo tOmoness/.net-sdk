@@ -10,7 +10,12 @@ using System.Net;
 
 namespace Nokia.Music.Internal.Response
 {
-    internal class ResponseInfo
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    class ResponseInfo
     {
         public ResponseInfo(Uri responseUri, WebHeaderCollection headers)
         {

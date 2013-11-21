@@ -20,6 +20,7 @@ namespace Nokia.Music.Types
     public partial class Artist : MusicItem
     {
         internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
+        internal const string WebShowUri = "http://www.mixrad.io/artists/-/{0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
@@ -38,6 +39,24 @@ namespace Nokia.Music.Types
                 if (!string.IsNullOrEmpty(this.Id))
                 {
                     return new Uri(string.Format(AppToAppShowUri, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the web uri to use to show this item in Nokia Music on the web
+        /// </summary>
+        public override Uri WebUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(WebShowUri, this.Id));
                 }
                 else
                 {

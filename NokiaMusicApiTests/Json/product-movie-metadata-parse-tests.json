@@ -1,0 +1,73 @@
+{
+   "actornames":[
+      "Aamir Khan",
+      "Juhi Chawla"
+   ],
+   "category":{
+      "id":"Track",
+      "name":"Track"
+   },
+   "copyright":"(P) Super Cassettes Industries Ltd. (C) Super Cassettes Industries Ltd.",
+   "duration":355,
+   "genres":[
+      {
+         "id":"World",
+         "name":"World"
+      }
+   ],
+   "label":"T-Series",
+   "lyricistnames":[
+      "Majrooh Sultanpuri"
+   ],
+   "moviedirectornames":[
+      "Mansoor Khan"
+   ],
+   "movieproducernames":[
+      "Nasir Hussain"
+   ],
+   "musicdirectornames":[
+      "Anand-Milind"
+   ],
+   "name":"Ey Mere Humsafar",
+   "parentaladvisory":false,
+   "rightsholder":"Virtual Marketing",
+   "sequence":2,
+   "singernames":[
+      "Udit Narayan",
+      "Alka Yagnik"
+   ],
+   "sortname":"Ey Mere Humsafar",
+   "streetreleasedate":"1988-06-11T00:00:00Z",
+   "takenfrom":{
+      "name":"Qayamat Se Qayamat Tak",
+      "id":"4067949"
+   },
+   "volume":1,
+   "prices":{
+      "permanentdownload":{
+         "value":0.99,
+         "currency":"USD"
+      }
+   },
+   "thumbnails":{
+      "50x50":"http://4.musicimg.ovi.com/u/1.0/image/69356556/?w=50&q=40",
+      "100x100":"http://4.musicimg.ovi.com/u/1.0/image/69356556/?w=100&q=70",
+      "200x200":"http://4.musicimg.ovi.com/u/1.0/image/69356556/?w=200&q=90",
+      "320x320":"http://4.musicimg.ovi.com/u/1.0/image/69356556/?w=320&q=90"
+   },
+   "creators":{
+      "performers":[
+         {
+            "name":"Udit Narayan",
+            "id":"313753"
+         }
+      ]
+   },
+   "storeuri":"http://music.nokia.com/us/r/product/-/-/4067951/",
+   "samples":{
+      "wmamms":"mms://wmstream.music.ovi.com/a1139/l1/1.0/s/clips/mc/musicus/4067951/38/4067951.wma",
+      "mp3rtmp":"rtmp://stream.music.ovi.com/a1139/l1/mp3:1.0/s/clips/pc/musicus/4067951/38/4067951.mp3"
+   },
+   "id":"4067951",
+   "type":"musictrack"
+}

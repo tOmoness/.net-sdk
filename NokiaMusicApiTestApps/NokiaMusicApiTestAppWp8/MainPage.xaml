@@ -32,14 +32,14 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,0">
-            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MUSIC SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <controls:Pivot Grid.Row="1" Margin="0,-17,0,0">
             <controls:PivotItem Header="launchers">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Launchers are a simple way to integrate with Nokia Music with only a few lines of code and no need to sign up for full API access." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Margin="12,0,0,12" />
+                        <TextBlock Text="Launchers are a simple way to integrate with Nokia MixRadio with only a few lines of code and no need to sign up for full API access." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Margin="12,0,0,12" />
                         <TextBlock Text="On non-Nokia Windows Phone 8.x devices, we provide a web version where possible." Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap" Margin="12,0,0,24" />
 
                         <TextBlock Text="Try the SearchTask to search for 'Muse'" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />

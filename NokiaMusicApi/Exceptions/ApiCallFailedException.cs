@@ -27,7 +27,12 @@ namespace Nokia.Music
         /// Initializes a new instance of the <see cref="ApiCallFailedException"/> class.
         /// </summary>
         /// <param name="statusCode">Details to append to the exception message</param>
-        internal ApiCallFailedException(HttpStatusCode? statusCode)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        ApiCallFailedException(HttpStatusCode? statusCode)
             : base(string.Format(CultureInfo.InvariantCulture, "Unexpected failure, check connectivity. Result: {0}", statusCode.HasValue ? statusCode.ToString() : "timeout"))
         {
             this.StatusCode = statusCode;

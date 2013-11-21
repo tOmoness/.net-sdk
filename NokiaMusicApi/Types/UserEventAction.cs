@@ -60,6 +60,21 @@ namespace Nokia.Music.Types
         /// <summary>
         /// User reverts a dislike of the current track
         /// </summary>
-        Undislike
+        Undislike,
+
+        /// <summary>
+        /// User performs a navigation in the application
+        /// </summary>
+        NavigateTo,
+
+        /// <summary>
+        /// User shares a mix
+        /// </summary>
+        Share,
+
+        /// <summary>
+        /// User starts a dynamic playsession
+        /// </summary>
+        PlaySession
     }
 }

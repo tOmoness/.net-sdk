@@ -19,10 +19,13 @@ namespace Nokia.Music.Internal.Request
     /// <summary>
     /// Implementation of the raw API interface for making requests
     /// </summary>
-    internal class ApiRequestHandler : IApiRequestHandler
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    class ApiRequestHandler : IApiRequestHandler
     {
-        private IGzipHandler _gzipHandler;
-
         private TimeSpan _serverTimeOffset = new TimeSpan(0);
         private bool _obtainedServerTime = false;
 
@@ -34,7 +37,7 @@ namespace Nokia.Music.Internal.Request
         public ApiRequestHandler(IApiUriBuilder uriBuilder, IGzipHandler gzipHandler)
         {
             this.UriBuilder = uriBuilder;
-            this._gzipHandler = gzipHandler;
+            this.GzipHandler = gzipHandler;
         }
 
         /// <summary>
@@ -60,6 +63,11 @@ namespace Nokia.Music.Internal.Request
         }
 
         /// <summary>
+        /// Gets the handler gzip logic
+        /// </summary>
+        protected IGzipHandler GzipHandler { get; private set; }
+
+        /// <summary>
         /// Makes the API request
         /// </summary>
         /// <typeparam name="T">The type of response item</typeparam>
@@ -69,7 +77,7 @@ namespace Nokia.Music.Internal.Request
         /// <param name="callback">The callback to hit when done.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
         /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        public void SendRequestAsync<T>(
+        public virtual void SendRequestAsync<T>(
                                      MusicClientCommand command,
                                      IMusicClientSettings settings,
                                      List<KeyValuePair<string, string>> queryParams,
@@ -134,7 +142,7 @@ namespace Nokia.Music.Internal.Request
                         contentType = response.ContentType;
                         try
                         {
-                            using (Stream responseStream = this._gzipHandler.GetResponseStream(response))
+                            using (Stream responseStream = this.GzipHandler.GetResponseStream(response))
                             {
                                 responseBody = responseStream.AsString();
                                 responseItem = callback.ConvertFromRawResponse(responseBody);
@@ -159,7 +167,12 @@ namespace Nokia.Music.Internal.Request
         /// Derives the server time offset from the Date and Age headers.
         /// </summary>
         /// <param name="headers">The response headers.</param>
-        internal void DeriveServerTimeOffset(WebHeaderCollection headers)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif 
+        void DeriveServerTimeOffset(WebHeaderCollection headers)
         {
             if (!this._obtainedServerTime)
             {
@@ -292,7 +305,7 @@ namespace Nokia.Music.Internal.Request
                 }
             }
 
-            this._gzipHandler.EnableGzip(request);
+            this.GzipHandler.EnableGzip(request);
         }
 
         private class RequestState

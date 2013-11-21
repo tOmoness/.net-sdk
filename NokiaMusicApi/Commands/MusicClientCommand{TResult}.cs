@@ -88,6 +88,7 @@ namespace Nokia.Music.Commands
         /// <summary>
         /// Determines whether we have a valid content type
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="rawResult">The raw result.</param>
         /// <returns>
         ///   <c>true</c> if this is a valid content type; otherwise, <c>false</c>.

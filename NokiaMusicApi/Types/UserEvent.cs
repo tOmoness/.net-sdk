@@ -8,7 +8,6 @@
 using System;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal.Parsing;
-using Nokia.Music.Types;
 
 namespace Nokia.Music.Types
 {
@@ -32,9 +31,17 @@ namespace Nokia.Music.Types
         /// The client version.
         /// </value>
         public string ClientVersion { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the client type.
+        /// </summary>
+        /// <value>
+        /// A value from the UserEventClientType enumeration.
+        /// </value>
+        public UserEventClientType ClientType { get; set; }
 
         /// <summary>
-        /// Gets or sets the date time of the event.
+        /// Gets or sets the date time of the event in UTC.
         /// </summary>
         /// <value>
         /// The date time.
@@ -96,7 +103,7 @@ namespace Nokia.Music.Types
         /// <returns>A UserEvent object</returns>
         internal static UserEvent FromJToken(JToken item)
         {
-            return new UserEvent()
+            return new UserEvent
             {
                 Action = ParseHelper.ParseEnumOrDefault<UserEventAction>(item.Value<string>("action")),
                 Client = item.Value<string>("client"),
@@ -106,7 +113,8 @@ namespace Nokia.Music.Types
                 Mix = Mix.FromJToken(item["mix"]),
                 Offset = item.Value<int>("offset"),
                 Product = Product.FromJToken(item["product"]),
-                Target = ParseHelper.ParseEnumOrDefault<UserEventTarget>(item.Value<string>("target"))
+                Target = ParseHelper.ParseEnumOrDefault<UserEventTarget>(item.Value<string>("target")),
+                ClientType = ParseHelper.ParseEnumOrDefault<UserEventClientType>(item.Value<string>("clienttype"))
             };
         }
     }

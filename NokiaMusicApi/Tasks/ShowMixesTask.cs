@@ -20,7 +20,7 @@ namespace Nokia.Music.Tasks
         /// </summary>
         public void Show()
         {
-            this.Launch(new Uri("nokia-music://show/mixes/"), new Uri("http://music.nokia.com/"));
+            this.Launch(new Uri("nokia-music://show/mixes/"), new Uri("http://www.mixrad.io/mixes"));
         }
     }
 }

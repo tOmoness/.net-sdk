@@ -22,6 +22,11 @@ namespace Nokia.Music.Internal.Parsing
         /// <returns>The matching value or the default value which should be unknown or none</returns>
         internal static T ParseEnumOrDefault<T>(string value)
         {
+            if (value == null)
+            {
+                return default(T);
+            }
+
             try
             {
                 return (T)Enum.Parse(typeof(T), value, true);

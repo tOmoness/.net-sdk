@@ -1,14 +1,14 @@
 # wp-api-client
 
-This codebase contains the **Nokia Music C# SDK**.
+This codebase contains the **Nokia MixRadio C# SDK**.
 
 ##Overview
-The **Nokia Music C# SDK** lets you easily integrate your Windows Phone with [Nokia Music on Nokia Lumia phones](http://nokia.ly/musicapp)
-or your Windows 8 applicaton with [Nokia Music on Windows 8](http://nokia.ly/musicappwin8).
+The **Nokia MixRadio C# SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone with [Nokia MixRadio on Nokia Lumia phones](http://nokia.ly/musicapp)
+or your Windows 8 applicaton with [Nokia MixRadio on Windows 8](http://nokia.ly/musicappwin8).
 The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
 
 ##License
-The **Nokia Music C# SDK** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/nokia-entertainment/wp-api-client/master/LICENSE.txt>.
+The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/mixradio/wp-api-client/master/LICENSE.txt>.
 
 ##Usage
 
@@ -17,6 +17,7 @@ The **Nokia Music C# SDK** is released under the 3-clause license ("New BSD Lice
  
 ##Releases
 
+- 3.1.0 - Adding WebUri property to Artist, Product and Mix for web fallback on non-Nokia WP8 devices and linking. Other minor few bug fixes to sorting. Renamed test app to new brand.
 - 3.0.0 - Added PCL project, added user data APIs and OAuth2 support for Wp8/Win8, added sorting for Search and GetArtistProducts, dropped support for Windows Phone 7, removed SearchGenre method (replaced with genreId param in Search method), updated to latest Json.Net
 - 2.4.0 - Added support for .Net 4 projects, added SearchGenre method, fixed PlayMixTask for artists with & in the name, enabled ShowProductTask / Product.Show for Win8 now Nokia Music 1.2 supports product views.
 - 2.3.0 - Fix to ensure GZip enabled only for Nokia Music domains rather than all.
@@ -37,9 +38,9 @@ The **Nokia Music C# SDK** is released under the 3-clause license ("New BSD Lice
 ## Launcher Tasks
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
 
-With the high-level Launchers, you can perform the following using the new app-to-app APIs that Nokia Music supports on Windows Phone 8:
+With the high-level Launchers, you can perform the following using the new app-to-app APIs that Nokia MixRadio supports on Windows Phone 8 and Windows 8:
 
-- Launch the Nokia Music app
+- Launch the Nokia MixRadio app
 - Search for music
 - Show Artist details
 - Show Gigs nearby

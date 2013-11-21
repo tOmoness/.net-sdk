@@ -32,7 +32,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,0">
-            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MUSIC SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <MediaElement x:Name="Player" AutoPlay="True" />
@@ -48,7 +48,7 @@
                             </Grid>
                             <TextBlock x:Name="AlbumName" Style="{StaticResource PhoneTextLargeStyle}" TextWrapping="Wrap" />
                         </StackPanel>
-                        <Button Content="Show in Nokia Music" Click="ShowProduct" />
+                        <Button Content="Show in Nokia MixRadio" Click="ShowProduct" />
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>

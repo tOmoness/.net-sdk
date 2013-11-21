@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Response;
 
@@ -16,7 +15,12 @@ namespace Nokia.Music.Internal.Request
     /// <summary>
     /// Defines the raw API interface for making requests
     /// </summary>
-    internal interface IApiRequestHandler
+#if OPEN_INTERNALS
+    public
+#else
+        internal
+#endif
+    interface IApiRequestHandler
     {
         /// <summary>
         /// Gets the URI builder that is being used.

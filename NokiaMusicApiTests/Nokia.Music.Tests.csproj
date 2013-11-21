@@ -308,6 +308,9 @@
     <Compile Include="..\NokiaMusicApi\Types\UserEventAction.cs">
       <Link>Source\Types\UserEventAction.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\UserEventClientType.cs">
+      <Link>Source\Types\UserEventClientType.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\UserEventTarget.cs">
       <Link>Source\Types\UserEventTarget.cs</Link>
     </Compile>
@@ -362,6 +365,7 @@
     <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
     <Compile Include="Types\AuthResultCodeTests.cs" />
+    <Compile Include="Types\PriceTests.cs" />
     <Compile Include="Types\TypeExtensionsTests.cs" />
     <Compile Include="Types\AuthScopesTests.cs" />
     <Compile Include="Types\UserEventTests.cs" />
@@ -377,6 +381,7 @@
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\product-movie-metadata-parse-tests.json" />
     <None Include="Json\get-artist.json" />
     <None Include="Json\usereventlist.json" />
     <None Include="Json\search-suggestions-noresults.json" />

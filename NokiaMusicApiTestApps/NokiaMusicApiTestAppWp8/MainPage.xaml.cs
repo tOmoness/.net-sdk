@@ -149,11 +149,11 @@ namespace Nokia.Music.TestApp
                 bool available = await resolver.CheckAvailabilityAsync(countryCode);
                 if (available)
                 {
-                    message = "Hooray! Nokia Music is available in " + RegionInfo.CurrentRegion.DisplayName + "!";
+                    message = "Hooray! Nokia MixRadio is available in " + RegionInfo.CurrentRegion.DisplayName + "!";
                 }
                 else
                 {
-                    message = "Sorry, Nokia Music is not available in your region - you won't be able to use the API features.";
+                    message = "Sorry, Nokia MixRadio is not available in your region - you won't be able to use the API features.";
                     countryCode = null;
                 }
             }

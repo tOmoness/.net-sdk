@@ -21,5 +21,30 @@ namespace Nokia.Music.Types
         /// Track event
         /// </summary>
         Track,
+
+        /// <summary>
+        /// Mix event
+        /// </summary>
+        Mix,
+
+        /// <summary>
+        /// The event targets an artist mix
+        /// </summary>
+        Create,
+
+        /// <summary>
+        /// The event targets a Play Me mix
+        /// </summary>
+        PlayMe,
+
+        /// <summary>
+        /// The event targets a shared artist mix
+        /// </summary>
+        SharedCreate,
+
+        /// <summary>
+        /// The event targets a shared Play Me mix
+        /// </summary>
+        SharedPlayMe
     }
 }

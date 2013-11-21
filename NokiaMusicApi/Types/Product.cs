@@ -23,6 +23,7 @@ namespace Nokia.Music.Types
     public sealed partial class Product : MusicItem
     {
         internal const string AppToAppShowUri = "nokia-music://show/product/?id={0}";
+        internal const string WebShowUri = "http://www.mixrad.io/product/{0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Product" /> class.
@@ -42,6 +43,24 @@ namespace Nokia.Music.Types
                 if (!string.IsNullOrEmpty(this.Id))
                 {
                     return new Uri(string.Format(AppToAppShowUri, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the web uri to use to show this item in Nokia Music on the web
+        /// </summary>
+        public override Uri WebUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(WebShowUri, this.Id));
                 }
                 else
                 {
@@ -153,6 +172,42 @@ namespace Nokia.Music.Types
         /// The state from the seller, if available. Sony provide this for example.
         /// </value>
         public string SellerStatement { get; set; }
+
+        /// <summary>
+        /// Gets or sets the actor names
+        /// Only available in India
+        /// </summary>
+        public List<string> ActorNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Lyricist name
+        /// Only available in India
+        /// </summary>
+        public List<string> LyricistsNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Singer names
+        /// Only available in India
+        /// </summary>
+        public List<string> SingerNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the movie director names
+        /// Only available in India
+        /// </summary>
+        public List<string> MovieDirectorNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the movie producer names
+        /// Only available in India
+        /// </summary>
+        public List<string> MovieProducerNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the music director names
+        /// Only available in India
+        /// </summary>
+        public List<string> MusicDirectorNames { get; set; }
     
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -289,6 +344,44 @@ namespace Nokia.Music.Types
 
             MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
 
+            // Extract Bollywood information
+            var actorNames = new List<string>();
+
+            if (item["actornames"] != null)
+            {
+                ParseArray(item, actorNames, "actornames");
+            }
+
+            var lyricistNames = new List<string>();
+            if (item["lyricistnames"] != null)
+            {
+                ParseArray(item, lyricistNames, "lyricistnames");
+            }
+
+            var singerNames = new List<string>();
+            if (item["singernames"] != null)
+            {
+                ParseArray(item, singerNames, "singernames");
+            }
+
+            var movieDirectorNames = new List<string>();
+            if (item["moviedirectornames"] != null)
+            {
+                ParseArray(item, movieDirectorNames, "moviedirectornames");
+            }
+
+            var movieProducerNames = new List<string>();
+            if (item["movieproducernames"] != null)
+            {
+                ParseArray(item, movieProducerNames, "movieproducernames");
+            }
+
+            var musicDirectorNames = new List<string>();
+            if (item["moviedirectornames"] != null)
+            {
+                ParseArray(item, musicDirectorNames, "musicdirectornames");
+            }
+
             // Create the resulting Product object...
             var product = new Product()
             {
@@ -309,7 +402,13 @@ namespace Nokia.Music.Types
                 VariousArtists = item.Value<bool>("variousartists"),
                 StreetReleaseDate = item.Value<DateTime>("streetreleasedate"),
                 SellerStatement = item.Value<string>("sellerstatement"),
-                Label = item.Value<string>("label")
+                Label = item.Value<string>("label"),
+                ActorNames = actorNames,
+                LyricistsNames = lyricistNames,
+                SingerNames = singerNames,
+                MovieDirectorNames = movieDirectorNames,
+                MovieProducerNames = movieProducerNames,
+                MusicDirectorNames = musicDirectorNames
             };
 
             var sequence = item.Value<int>("sequence");
@@ -319,6 +418,16 @@ namespace Nokia.Music.Types
             }
 
             return product;
+        }
+
+        private static void ParseArray(JToken item, List<string> addToList,  string jsonField)
+        {
+            var jsonActorNames = item.Value<JArray>(jsonField);
+
+            foreach (var jsonActorName in jsonActorNames)
+            {
+                addToList.Add(jsonActorName.Value<string>());
+            }
         }
 
         /// <summary>

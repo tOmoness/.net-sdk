@@ -18,7 +18,12 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Defines the Music Client Command base class
     /// </summary>
-    internal abstract class MusicClientCommand
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    abstract class MusicClientCommand
     {
         internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
         internal const string DefaultSecureBaseApiUri = "https://sapi.ent.nokia.com/1.x/";
@@ -37,6 +42,7 @@ namespace Nokia.Music.Commands
         internal const string ParamLocation = "location";
         internal const string ParamMaxDistance = "maxdistance";
         internal const string ParamSearchTerm = "q";
+        internal const string ParamMaxItems = "maxitems";
         internal const string PagingStartIndex = "startindex";
         internal const string PagingItemsPerPage = "itemsperpage";
         internal const string PagingTotal = "total";
@@ -94,6 +100,13 @@ namespace Nokia.Music.Commands
             get { return HttpMethod.Get; }
         }
 
+#if OPEN_INTERNALS
+        public string Method
+        {
+            get { return HttpMethod.ToString().ToUpperInvariant(); }
+        }
+#endif
+
         /// <summary>
         /// Gets or sets the settings.
         /// </summary>
@@ -105,7 +118,12 @@ namespace Nokia.Music.Commands
         /// <summary>
         /// Gets or sets an id representing this request.
         /// </summary>
-        internal Guid RequestId
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        Guid RequestId
         {
             get { return this._requestId; }
             set { this._requestId = value; }
@@ -182,7 +200,12 @@ namespace Nokia.Music.Commands
         /// In special cases, allows a command to use any additional information about the response
         /// </summary>
         /// <param name="responseInfo">The web response info</param>
-        internal virtual void SetAdditionalResponseInfo(ResponseInfo responseInfo)
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+        virtual void SetAdditionalResponseInfo(ResponseInfo responseInfo)
         {
             // Does nothing by default
         }

@@ -10,7 +10,12 @@ namespace Nokia.Music.Internal
     /// <summary>
     /// Defines the MusicClient Settings
     /// </summary>
-    internal interface IMusicClientSettings
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    interface IMusicClientSettings
     {
         /// <summary>
         /// Gets the app client id.

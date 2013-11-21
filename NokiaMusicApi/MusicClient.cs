@@ -454,7 +454,7 @@ namespace Nokia.Music
         /// <param name="id">The artist id.</param>
         /// <param name="category">The category.</param>
         /// <param name="orderBy">The field to sort the items by.</param>
-        /// <param name="sortOrder">The sort order of the items to fetch.</param>
+        /// <param name="sortOrder">The sort order of the items.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
@@ -478,7 +478,7 @@ namespace Nokia.Music
         /// <param name="artist">The artist.</param>
         /// <param name="category">The category.</param>
         /// <param name="orderBy">The field to sort the items by.</param>
-        /// <param name="sortOrder">The sort order of the items to fetch.</param>
+        /// <param name="sortOrder">The sort order of the items.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <returns>
@@ -711,7 +711,7 @@ namespace Nokia.Music
         /// <param name="category">Optional category.</param>
         /// <param name="genreId">Optional genre id</param>
         /// <param name="orderBy">The field to sort the items by.</param>
-        /// <param name="sortOrder">The sort order of the items to fetch.</param>
+        /// <param name="sortOrder">The sort order of the items.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="requestId">Id of the request.</param>

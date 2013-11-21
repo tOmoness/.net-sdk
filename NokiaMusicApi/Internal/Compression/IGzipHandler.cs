@@ -10,7 +10,12 @@ using System.Net;
 
 namespace Nokia.Music.Internal.Compression
 {
-    internal interface IGzipHandler
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    interface IGzipHandler
     {
         /// <summary>
         /// EnablesGzip for the supplied request

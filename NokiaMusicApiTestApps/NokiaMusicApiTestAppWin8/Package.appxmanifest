@@ -3,7 +3,7 @@
   <Identity Name="653a0571-cdea-4868-834a-7a5e20fb7a12" Publisher="CN=jrea" Version="1.0.0.0" />
   <Properties>
     <DisplayName>Nokia.Music.TestApp</DisplayName>
-    <PublisherDisplayName>Nokia Music</PublisherDisplayName>
+    <PublisherDisplayName>Nokia MixRadio</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Nokia.Music.TestApp.App">
-      <VisualElements DisplayName="Nokia Music API" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Nokia.Music.TestApp" ForegroundText="light" BackgroundColor="#0086d8" ToastCapable="false">
-        <DefaultTile ShowName="allLogos" ShortName="Nokia Music API" WideLogo="Assets\WideLogo.png" />
+      <VisualElements DisplayName="Nokia MixRadio API" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Nokia.Music.TestApp" ForegroundText="light" BackgroundColor="#0086d8" ToastCapable="false">
+        <DefaultTile ShowName="allLogos" ShortName="Nokia MixRadio API" WideLogo="Assets\WideLogo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" />
         <InitialRotationPreference>
           <Rotation Preference="portrait" />

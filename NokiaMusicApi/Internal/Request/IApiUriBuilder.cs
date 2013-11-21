@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Nokia.Music.Commands;
 
 namespace Nokia.Music.Internal.Request
@@ -15,7 +14,12 @@ namespace Nokia.Music.Internal.Request
     /// <summary>
     /// Defines the API URI Builder interface
     /// </summary>
-    internal interface IApiUriBuilder
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    interface IApiUriBuilder
     {
         /// <summary>
         /// Builds an API URI

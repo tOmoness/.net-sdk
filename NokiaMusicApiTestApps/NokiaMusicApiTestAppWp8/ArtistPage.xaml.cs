@@ -89,9 +89,9 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Launches Nokia Music app to an artist view.
+        /// Launches Nokia MixRadio app to an artist view.
         /// </summary>
-        /// <param name="sender">"Show in Nokia Music" button</param>
+        /// <param name="sender">"Show in Nokia MixRadio" button</param>
         /// <param name="e">Event arguments</param>
         private void ShowArtist(object sender, RoutedEventArgs e)
         {
@@ -127,7 +127,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Shows details of a top track (in Nokia Music) or similar artist.
+        /// Shows details of a top track (in Nokia MixRadio) or similar artist.
         /// </summary>
         /// <param name="sender">top tracks or similar artists listbox</param>
         /// <param name="e">Event arguments</param>

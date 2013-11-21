@@ -45,13 +45,13 @@ namespace Nokia.Music.Tasks
                 // No need to URI encode this one
                 this.Launch(
                     new Uri("nokia-music://search/gigs/?term=" + this.SearchTerms),
-                    new Uri("http://music.nokia.com/"));
+                    new Uri("http://www.mixrad.io/"));
             }
             else
             {
                 this.Launch(
                     new Uri("nokia-music://show/gigs/"),
-                    new Uri("http://music.nokia.com/"));
+                    new Uri("http://www.mixrad.io/"));
             }
         }
     }

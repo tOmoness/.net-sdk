@@ -59,7 +59,7 @@ namespace Nokia.Music.Commands
             var queryStringParams = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>(ParamSearchTerm, this.SearchTerm),
-                    new KeyValuePair<string, string>("maxitems", this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
+                    new KeyValuePair<string, string>(ParamMaxItems, this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
                 };
 
             RequestHandler.SendRequestAsync(

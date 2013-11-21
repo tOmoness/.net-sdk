@@ -40,6 +40,9 @@ namespace Nokia.Music.Tests.Types
 
             Assert.IsNotNull(item.AppToAppUri, "Expected App to App URI to be calculated");
             Assert.IsNull(itemWithNullId.AppToAppUri, "Expected App to App URI not to be calculated");
+
+            Assert.IsNotNull(item.WebUri, "Expected Web URI to be calculated");
+            Assert.IsNull(itemWithNullId.WebUri, "Expected Web URI not to be calculated");
         }
 
         [Test]
@@ -83,6 +86,29 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullItem.Thumb320Uri, "Expected a 320x320 thumb");
             Assert.AreEqual(fullItem.Category, Category.Track, "Expected a track");
             Assert.IsNull(fullItem.Sequence, "Expected sequence to be null");
+        }
+
+        [Test]
+        public void TestMovieMetaDataParsing()
+        {
+            var json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_movie_metadata_parse_tests));
+
+            Product product = Product.FromJToken(json);
+
+            // Test a full representation
+            Assert.IsNotNull(product, "Expected a product object");
+            Assert.IsNotNull(product.ActorNames, "Expected Actor Names");
+            Assert.AreEqual(2, product.ActorNames.Count, "Expected Actor Names count");
+            Assert.IsNotNull(product.LyricistsNames, "Expected Lyricists");
+            Assert.AreEqual(1, product.LyricistsNames.Count, "Expected Lyricists");
+            Assert.IsNotNull(product.SingerNames, "Expected singer names");
+            Assert.AreEqual(2, product.SingerNames.Count, "Expected singer names");
+            Assert.IsNotNull(product.MovieDirectorNames, "Expected an Movie director names");
+            Assert.AreEqual(1, product.MovieDirectorNames.Count, "Expected MovieDirectorNames count");
+            Assert.IsNotNull(product.MovieProducerNames, "Expected a Movies producer names");
+            Assert.AreEqual(1, product.MovieProducerNames.Count, "Expected Movie Producer Names count");
+            Assert.IsNotNull(product.MusicDirectorNames, "Expected music director names");
+            Assert.AreEqual(1, product.MusicDirectorNames.Count, "Expected Music Director Names count");
         }
 
         [Test]

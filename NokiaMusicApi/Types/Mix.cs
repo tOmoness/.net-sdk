@@ -20,9 +20,10 @@ namespace Nokia.Music.Types
     public sealed partial class Mix : MusicItem
     {
         internal const string AppToAppPlayUri = "nokia-music://play/mix/?id={0}";
+        internal const string WebPlayUri = "http://www.mixrad.io/mixes/{0}";
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// Gets the app-to-app uri to use to play this item in Nokia Music
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -31,6 +32,24 @@ namespace Nokia.Music.Types
                 if (!string.IsNullOrEmpty(this.Id))
                 {
                     return new Uri(string.Format(AppToAppPlayUri, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the web uri to use to play this item in Nokia Music on the web
+        /// </summary>
+        public override Uri WebUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return new Uri(string.Format(WebPlayUri, this.Id));
                 }
                 else
                 {

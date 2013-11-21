@@ -15,7 +15,12 @@ namespace Nokia.Music.Internal.Request
     /// <summary>
     /// Defines the real Uri Builder
     /// </summary>
-    internal class ApiUriBuilder : IApiUriBuilder
+#if OPEN_INTERNALS
+        public
+#else
+        internal
+#endif
+    class ApiUriBuilder : IApiUriBuilder
     {
         /// <summary>
         /// Builds an API URI

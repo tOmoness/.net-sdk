@@ -40,6 +40,9 @@ namespace Nokia.Music.Tests.Types
 
             Assert.IsNotNull(item.AppToAppUri, "Expected App to App URI to be calculated");
             Assert.IsNull(itemWithNullId.AppToAppUri, "Expected App to App URI not to be calculated");
+
+            Assert.IsNotNull(item.WebUri, "Expected Web URI to be calculated");
+            Assert.IsNull(itemWithNullId.WebUri, "Expected Web URI not to be calculated");
         }
 
         [Test]

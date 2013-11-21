@@ -5,7 +5,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using Newtonsoft.Json.Linq;
 
 namespace Nokia.Music.Types
@@ -36,7 +35,22 @@ namespace Nokia.Music.Types
         /// <value>
         /// The value.
         /// </value>
-        public double Value { get; private set; }
+        public double Value { get; private set; }        
+
+        /// <summary>
+        /// Create a price object with specified parameters
+        /// </summary>
+        /// <param name="value">The price value</param>
+        /// <param name="currency">The currency of the price</param>
+        /// <returns>A Price object from specified parameters</returns>
+        public static Price FromPriceInfo(double value, string currency)
+        {
+            return new Price()
+            {
+                Value = value,
+                Currency = currency
+            };
+        }
 
         /// <summary>
         /// Creates a Price from a JSON Object
