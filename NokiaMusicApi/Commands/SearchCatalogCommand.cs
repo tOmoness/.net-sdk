@@ -14,7 +14,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music.Commands
 {
     /// <summary>
-    /// Searches the Nokia Music Catalog
+    /// Searches the Nokia MixRadio Catalog
     /// </summary>
     /// <typeparam name="TReturnType">The type of the returned object.</typeparam>
     internal abstract class SearchCatalogCommand<TReturnType> : MusicClientCommand<ListResponse<TReturnType>>

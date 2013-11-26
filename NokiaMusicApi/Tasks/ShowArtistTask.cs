@@ -11,7 +11,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia Music Artists
+    /// Provides a simple way to show Nokia MixRadio Artists
     /// </summary>
     public sealed class ShowArtistTask : TaskBase
     {
@@ -59,7 +59,7 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows the Artist Page in Nokia Music
+        /// Shows the Artist Page in Nokia MixRadio
         /// </summary>
         public void Show()
         {

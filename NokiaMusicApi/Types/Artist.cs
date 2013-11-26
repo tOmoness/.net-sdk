@@ -15,12 +15,14 @@ using Nokia.Music.Tasks;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia Music Artist
+    /// Represents a Nokia MixRadio Artist
     /// </summary>
     public partial class Artist : MusicItem
     {
         internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
         internal const string WebShowUri = "http://www.mixrad.io/artists/-/{0}";
+        internal const string AppToAppPlayUriByName = "nokia-music://play/artist/?artist={0}";
+        internal const string WebPlayUriByName = "http://www.mixrad.io/gb/en/mixes/seeded?artists={0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Artist" /> class.
@@ -30,7 +32,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -48,7 +50,25 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to show this item in Nokia Music on the web
+        /// Gets the app-to-app uri to use to play this item in Nokia MixRadio
+        /// </summary>
+        public Uri AppToAppPlayUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Name))
+                {
+                    return new Uri(string.Format(AppToAppPlayUriByName, this.Name));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the web uri to use to show this item in Nokia MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -57,6 +77,24 @@ namespace Nokia.Music.Types
                 if (!string.IsNullOrEmpty(this.Id))
                 {
                     return new Uri(string.Format(WebShowUri, this.Id));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the web uri to use to play this item in Nokia MixRadio on the web
+        /// </summary>
+        public Uri WebPlayUri
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Name))
+                {
+                    return new Uri(string.Format(WebPlayUriByName, this.Name));
                 }
                 else
                 {
@@ -127,7 +165,7 @@ namespace Nokia.Music.Types
 
 #if !PORTABLE
         /// <summary>
-        /// Launches Nokia Music to start a mix for the artist using the PlayMixTask
+        /// Launches Nokia MixRadio to start a mix for the artist using the PlayMixTask
         /// </summary>
         public void PlayMix()
         {
@@ -136,7 +174,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Launches Nokia Music to show details for the artist using the ShowArtistTask
+        /// Launches Nokia MixRadio to show details for the artist using the ShowArtistTask
         /// </summary>
         public void Show()
         {

@@ -24,6 +24,6 @@ namespace Nokia.Music.TestApp
         /// </summary>
         public const string ClientId = null;
         public const string ClientSecret = null;
-        public const string OAuthRedirectUri = "https://account.music.nokia.com/authorize/complete";
+        public const string OAuthRedirectUri = "https://account.mixrad.io/authorize/complete";
     }
 }

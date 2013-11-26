@@ -86,6 +86,7 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullItem.Thumb320Uri, "Expected a 320x320 thumb");
             Assert.AreEqual(fullItem.Category, Category.Track, "Expected a track");
             Assert.IsNull(fullItem.Sequence, "Expected sequence to be null");
+            Assert.IsFalse(fullItem.ParentalAdvisory, "Parental advisors should be false");
         }
 
         [Test]

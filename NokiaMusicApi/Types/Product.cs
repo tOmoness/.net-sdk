@@ -18,7 +18,7 @@ using Nokia.Music.Tasks;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia Music Product, i.e. Album, Single or Track
+    /// Represents a Nokia MixRadio Product, i.e. Album, Single or Track
     /// </summary>
     public sealed partial class Product : MusicItem
     {
@@ -34,7 +34,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -52,7 +52,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to show this item in Nokia Music on the web
+        /// Gets the web uri to use to show this item in Nokia MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -208,6 +208,14 @@ namespace Nokia.Music.Types
         /// Only available in India
         /// </summary>
         public List<string> MusicDirectorNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the item comes with parental advisory.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [parental advisory]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ParentalAdvisory { get; set; }
     
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -247,7 +255,7 @@ namespace Nokia.Music.Types
 
 #if !PORTABLE
         /// <summary>
-        /// Launches Nokia Music to show details about the product using the ShowProductTask
+        /// Launches Nokia MixRadio to show details about the product using the ShowProductTask
         /// </summary>
         public void Show()
         {
@@ -382,6 +390,8 @@ namespace Nokia.Music.Types
                 ParseArray(item, musicDirectorNames, "musicdirectornames");
             }
 
+            var parentalAdvisory = item.Value<bool>("parentaladvisory");
+
             // Create the resulting Product object...
             var product = new Product()
             {
@@ -408,7 +418,8 @@ namespace Nokia.Music.Types
                 SingerNames = singerNames,
                 MovieDirectorNames = movieDirectorNames,
                 MovieProducerNames = movieProducerNames,
-                MusicDirectorNames = musicDirectorNames
+                MusicDirectorNames = musicDirectorNames,
+                ParentalAdvisory = parentalAdvisory
             };
 
             var sequence = item.Value<int>("sequence");

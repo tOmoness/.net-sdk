@@ -18,7 +18,7 @@ namespace Nokia.Music
         /// Initializes a new instance of the <see cref="ApiNotAvailableException" /> class.
         /// </summary>
         public ApiNotAvailableException()
-            : base("The Nokia Music API is not available in the current region")
+            : base("The Nokia MixRadio API is not available in the current region")
         {
         }
     }

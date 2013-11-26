@@ -11,7 +11,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to play a Nokia Music Mix
+    /// Provides a simple way to play a Nokia MixRadio Mix
     /// </summary>
     public sealed class PlayMixTask : TaskBase
     {
@@ -59,7 +59,7 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Plays the Mix in Nokia Music
+        /// Plays the Mix in Nokia MixRadio
         /// </summary>
         public void Show()
         {
@@ -72,8 +72,8 @@ namespace Nokia.Music.Tasks
             else if (!string.IsNullOrEmpty(this._artistName))
             {
                 this.Launch(
-                    new Uri("nokia-music://play/artist/?artist=" + this._artistName.Replace("&", string.Empty)),
-                    new Uri("http://music.nokia.com/r/search/" + this._artistName));
+                    new Uri(string.Format(Artist.AppToAppPlayUriByName, this._artistName.Replace("&", string.Empty))),
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty))));
             }
             else
             {

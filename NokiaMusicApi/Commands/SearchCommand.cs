@@ -14,7 +14,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music.Commands
 {
     /// <summary>
-    /// Searches the Nokia Music Catalog
+    /// Searches the Nokia MixRadio Catalog
     /// </summary>
     internal sealed class SearchCommand : SearchCatalogCommand<MusicItem>
     {

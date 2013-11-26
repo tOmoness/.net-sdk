@@ -12,7 +12,7 @@ using Nokia.Music.Internal;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia Music Catalog Item
+    /// Represents a Nokia MixRadio Catalog Item
     /// </summary>
     public abstract class MusicItem
     {
@@ -25,12 +25,12 @@ namespace Nokia.Music.Types
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
         /// </summary>
         public abstract Uri AppToAppUri { get; }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia Music
+        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
         /// </summary>
         public abstract Uri WebUri { get; }
 

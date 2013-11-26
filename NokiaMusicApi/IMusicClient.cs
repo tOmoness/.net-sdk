@@ -16,7 +16,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music
 {
     /// <summary>
-    /// Defines the Nokia Music API
+    /// Defines the Nokia MixRadio API
     /// </summary>
     public partial interface IMusicClient
     {
@@ -232,7 +232,7 @@ namespace Nokia.Music
         Task<ListResponse<Genre>> GetGenresAsync();
 
         /// <summary>
-        /// Searches Nokia Music
+        /// Searches Nokia MixRadio
         /// </summary>
         /// <param name="searchTerm">Optional search term.</param>
         /// <param name="category">Optional category.</param>

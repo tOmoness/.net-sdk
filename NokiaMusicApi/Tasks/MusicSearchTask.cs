@@ -10,7 +10,7 @@ using System;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia Music Search Results
+    /// Provides a simple way to show Nokia MixRadio Search Results
     /// </summary>
     public sealed class MusicSearchTask : TaskBase
     {
@@ -36,7 +36,7 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows the Search Page in Nokia Music
+        /// Shows the Search Page in Nokia MixRadio
         /// </summary>
         public void Show()
         {

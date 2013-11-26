@@ -92,6 +92,16 @@ namespace Nokia.Music.Commands
             get { return null; }
         }
 
+#if OPEN_INTERNALS
+        /// <summary>
+        /// The HTTP content type for the request, exposed to private API
+        /// </summary>
+        public string RequestContentType
+        {
+            get { return ContentType; }
+        }
+#endif
+
         /// <summary>
         /// Gets the HTTP method used for this request. GET by default
         /// </summary>
@@ -101,6 +111,9 @@ namespace Nokia.Music.Commands
         }
 
 #if OPEN_INTERNALS
+        /// <summary>
+        /// A string form of the HTTP method
+        /// </summary>
         public string Method
         {
             get { return HttpMethod.ToString().ToUpperInvariant(); }
@@ -185,6 +198,13 @@ namespace Nokia.Music.Commands
         {
             return null;
         }
+
+#if OPEN_INTERNALS
+        public string BodyContents
+        {
+            get { return BuildRequestBody(); }
+        }
+#endif
 
         /// <summary>
         /// Appends the uri subpath and parameters specific to this API method

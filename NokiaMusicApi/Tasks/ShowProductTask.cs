@@ -11,7 +11,7 @@ using Nokia.Music.Types;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia Music Products
+    /// Provides a simple way to show Nokia MixRadio Products
     /// </summary>
     public sealed class ShowProductTask : TaskBase
     {
@@ -19,7 +19,7 @@ namespace Nokia.Music.Tasks
         private string _productId = null;
 
         /// <summary>
-        /// Gets or sets the optional App ID for passing through to Nokia Music.
+        /// Gets or sets the optional App ID for passing through to Nokia MixRadio.
         /// </summary>
         /// <value>
         /// The app ID.
@@ -57,7 +57,7 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows the Product Page in Nokia Music
+        /// Shows the Product Page in Nokia MixRadio
         /// </summary>
         public void Show()
         {

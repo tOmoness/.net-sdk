@@ -10,7 +10,7 @@ using System;
 namespace Nokia.Music
 {
     /// <summary>
-    /// Generic Nokia Music Exception.
+    /// Generic Nokia MixRadio Exception.
     /// </summary>
     public class NokiaMusicException : Exception
     {

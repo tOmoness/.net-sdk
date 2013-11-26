@@ -13,7 +13,7 @@ using Nokia.Music.Internal.Request;
 namespace Nokia.Music
 {
     /// <summary>
-    /// The CountryResolver validates a country has availability for the Nokia Music API
+    /// The CountryResolver validates a country has availability for the Nokia MixRadio API
     /// </summary>
     public sealed class CountryResolver : ICountryResolver
     {
@@ -62,7 +62,7 @@ namespace Nokia.Music
         internal IApiRequestHandler RequestHandler { get; private set; }
 
         /// <summary>
-        /// Validates that the Nokia Music API is available for a country
+        /// Validates that the Nokia MixRadio API is available for a country
         /// </summary>
         /// <param name="countryCode">The country code.</param>
         /// <returns>

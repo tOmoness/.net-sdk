@@ -10,7 +10,7 @@ using System;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia Music Gigs
+    /// Provides a simple way to show Nokia MixRadio Gigs
     /// </summary>
     public sealed class ShowGigsTask : TaskBase
     {
@@ -36,7 +36,7 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows Gigs in Nokia Music
+        /// Shows Gigs in Nokia MixRadio
         /// </summary>
         public void Show()
         {

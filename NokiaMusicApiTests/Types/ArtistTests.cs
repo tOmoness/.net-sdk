@@ -35,14 +35,21 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestLinkingProperties()
         {
-            var item = new Artist() { Id = TestId };
-            var itemWithNullId = new Artist();
+            var itemWithId = new Artist() { Id = TestId };
+            var itemWithName = new Artist() { Name = TestName };
+            var itemWithNullProperties = new Artist();
 
-            Assert.IsNotNull(item.AppToAppUri, "Expected App to App URI to be calculated");
-            Assert.IsNull(itemWithNullId.AppToAppUri, "Expected App to App URI not to be calculated");
+            Assert.IsNotNull(itemWithId.AppToAppUri, "Expected App to App URI to be calculated");
+            Assert.IsNull(itemWithNullProperties.AppToAppUri, "Expected App to App URI not to be calculated");
 
-            Assert.IsNotNull(item.WebUri, "Expected Web URI to be calculated");
-            Assert.IsNull(itemWithNullId.WebUri, "Expected Web URI not to be calculated");
+            Assert.IsNotNull(itemWithName.AppToAppPlayUri, "Expected App to App Play URI to be calculated");
+            Assert.IsNull(itemWithNullProperties.AppToAppPlayUri, "Expected App to App Play URI not to be calculated");
+
+            Assert.IsNotNull(itemWithId.WebUri, "Expected Web URI to be calculated");
+            Assert.IsNull(itemWithNullProperties.WebUri, "Expected Web URI not to be calculated");
+
+            Assert.IsNotNull(itemWithName.WebPlayUri, "Expected Web Play URI to be calculated");
+            Assert.IsNull(itemWithNullProperties.WebPlayUri, "Expected Web Play URI not to be calculated");
         }
 
         [Test]

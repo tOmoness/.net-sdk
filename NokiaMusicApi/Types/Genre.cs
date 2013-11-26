@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia Music Genre
+    /// Represents a Nokia MixRadio Genre
     /// </summary>
     public partial class Genre
     {

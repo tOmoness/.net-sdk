@@ -17,6 +17,7 @@ The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD L
  
 ##Releases
 
+- 3.1.3 - Added AppToAppPlayUri and WebPlayUri properties to Artist to enable playback of Artist mixes on the web, also enabling artist mixes on non-Nokia devices via the PlayMixTask. Merged in Win8 compiler directive change from https://github.com/mixradio/wp-api-client/pull/4
 - 3.1.0 - Adding WebUri property to Artist, Product and Mix for web fallback on non-Nokia WP8 devices and linking. Other minor few bug fixes to sorting. Renamed test app to new brand.
 - 3.0.0 - Added PCL project, added user data APIs and OAuth2 support for Wp8/Win8, added sorting for Search and GetArtistProducts, dropped support for Windows Phone 7, removed SearchGenre method (replaced with genreId param in Search method), updated to latest Json.Net
 - 2.4.0 - Added support for .Net 4 projects, added SearchGenre method, fixed PlayMixTask for artists with & in the name, enabled ShowProductTask / Product.Show for Win8 now Nokia Music 1.2 supports product views.

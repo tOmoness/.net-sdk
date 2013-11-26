@@ -23,7 +23,7 @@ namespace Nokia.Music.Types
         internal const string WebPlayUri = "http://www.mixrad.io/mixes/{0}";
 
         /// <summary>
-        /// Gets the app-to-app uri to use to play this item in Nokia Music
+        /// Gets the app-to-app uri to use to play this item in Nokia MixRadio
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -41,7 +41,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to play this item in Nokia Music on the web
+        /// Gets the web uri to use to play this item in Nokia MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -112,7 +112,7 @@ namespace Nokia.Music.Types
 
 #if !PORTABLE
         /// <summary>
-        /// Launches Nokia Music to start playback of the mix using the PlayMixTask
+        /// Launches Nokia MixRadio to start playback of the mix using the PlayMixTask
         /// </summary>
         public void Play()
         {

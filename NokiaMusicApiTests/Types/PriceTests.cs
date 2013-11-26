@@ -1,8 +1,18 @@
-﻿using Nokia.Music.Types;
+﻿// -----------------------------------------------------------------------
+// <copyright file="PriceTests.cs" company="NOKIA">
+// Copyright (c) 2013, Nokia
+// All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using Nokia.Music.Types;
 using NUnit.Framework;
 
 namespace Nokia.Music.Private.Tests.Types
 {
+    /// <summary>
+    /// Price tests
+    /// </summary>
     [TestFixture]
     public class PriceTests
     {

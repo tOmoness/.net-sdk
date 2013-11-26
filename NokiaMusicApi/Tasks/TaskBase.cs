@@ -17,7 +17,7 @@ using Nokia.Music.Internal;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Base class for Nokia Music Tasks
+    /// Base class for Nokia MixRadio Tasks
     /// </summary>
     public class TaskBase
     {
@@ -37,7 +37,7 @@ namespace Nokia.Music.Tasks
 #endif
             if (canLaunch)
             {
-                DebugLogger.Instance.WriteLog("Launching Nokia Music App with " + appToAppUri.ToString());
+                DebugLogger.Instance.WriteLog("Launching Nokia MixRadio App with " + appToAppUri.ToString());
 #pragma warning disable 4014  // Disable as we're launching the app - we don't want to wait
                 Windows.System.Launcher.LaunchUriAsync(appToAppUri);
 #pragma warning restore 4014  // CS4014
@@ -46,7 +46,7 @@ namespace Nokia.Music.Tasks
 #endif
 #if WINDOWS_PHONE
             WebBrowserTask web = new WebBrowserTask();
-            DebugLogger.Instance.WriteLog("Launching Nokia Music Web with " + webFallbackUri.ToString());
+            DebugLogger.Instance.WriteLog("Launching Nokia MixRadio Web with " + webFallbackUri.ToString());
             web.Uri = webFallbackUri;
             web.Show();
 #endif

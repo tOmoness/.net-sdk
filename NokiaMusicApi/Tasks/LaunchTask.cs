@@ -11,12 +11,12 @@ using Nokia.Music.Internal;
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia Music
+    /// Provides a simple way to show Nokia MixRadio
     /// </summary>
     public sealed class LaunchTask : TaskBase
     {
         /// <summary>
-        /// Shows Nokia Music
+        /// Shows Nokia MixRadio
         /// </summary>
         public void Show()
         {
