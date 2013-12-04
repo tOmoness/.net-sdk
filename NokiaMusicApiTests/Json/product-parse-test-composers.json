@@ -1,0 +1,43 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "Album",
+                "name": "Album"
+            },
+            "genres": [
+                {
+                    "id": "Pop",
+                    "name": "Pop"
+                }
+            ],
+            "name": "Zapping EP",
+            "streetreleasedate": "2010-01-01T00:00:00Z",
+            "trackcount": 5,
+            "variousartists": false,
+            "prices": {
+                "permanentdownload": {
+                    "value": 4.99,
+                    "currency": "GBP"
+                }
+            },
+            "thumbnails": {
+                "50x50": "http://4.musicimg.ovi.com/u/1.0/image/154366679/?w=50&q=40",
+                "100x100": "http://4.musicimg.ovi.com/u/1.0/image/154366679/?w=100&q=70",
+                "200x200": "http://4.musicimg.ovi.com/u/1.0/image/154366679/?w=200&q=90",
+                "320x320": "http://4.musicimg.ovi.com/u/1.0/image/154366679/?w=320&q=90"
+            },
+            "creators": {
+                "composers": [
+                    {
+                        "name": "Lopez",
+                        "id": "647234"
+                    }
+                ]
+            },
+            "storeuri": "http://music.nokia.com/gb/r/product/-/-/10190060/",
+            "id": "10190060",
+            "type": "musiccollection"
+        }
+	]
+}

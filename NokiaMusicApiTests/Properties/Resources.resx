@@ -154,6 +154,9 @@
   <data name="product_parse_tests" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\product-parse-tests.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="product_parse_test_composers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\json\product-parse-test-composers.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="radio_groups" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\radio-groups.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -201,5 +204,14 @@
   </data>
   <data name="usereventlist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\usereventlist.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\mix.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="search_album_and_single" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\search-album-and-single.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="search_radiostation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\search-radiostation.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

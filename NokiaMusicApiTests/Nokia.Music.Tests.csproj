@@ -77,6 +77,9 @@
     <Compile Include="..\NokiaMusicApi\Commands\GenresCommand.cs">
       <Link>Source\Commands\GenresCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\MixDetailsCommand.cs">
+      <Link>Source\Commands\MixDetailsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\MixesCommand.cs">
       <Link>Source\Commands\MixesCommand.cs</Link>
     </Compile>
@@ -381,8 +384,10 @@
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\mix.json" />
     <None Include="Json\product-movie-metadata-parse-tests.json" />
     <None Include="Json\get-artist.json" />
+    <None Include="Json\product-parse-test-composers.json" />
     <None Include="Json\usereventlist.json" />
     <None Include="Json\search-suggestions-noresults.json" />
     <None Include="Json\product-parse-tests.json" />
@@ -412,7 +417,12 @@
     <None Include="Json\userevent.json" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\search_radiostation.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_albumandsingle.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(SolutionDir)

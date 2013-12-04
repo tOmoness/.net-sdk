@@ -51,7 +51,7 @@ namespace Nokia.Music.Commands
             this.RequestHandler.SendRequestAsync(
                 this,
                 this.ClientSettings,
-                new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("countrycode", this.CountryCode) },
+                new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("countrycode", this.CountryCode.ToLowerInvariant()) },
                 new JsonResponseCallback(
                 (Response<JObject> rawResult) =>
                 {

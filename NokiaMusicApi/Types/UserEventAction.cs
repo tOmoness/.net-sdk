@@ -33,48 +33,8 @@ namespace Nokia.Music.Types
         SkipNext,
 
         /// <summary>
-        /// Playback started
-        /// </summary>
-        Start,
-
-        /// <summary>
         /// Playback stopped
         /// </summary>
         Stop,
-
-        /// <summary>
-        /// User likes the current track
-        /// </summary>
-        Like,
-
-        /// <summary>
-        /// User reverts a like of the current track
-        /// </summary>
-        Unlike,
-
-        /// <summary>
-        /// User dislikes the current track
-        /// </summary>
-        Dislike,
-
-        /// <summary>
-        /// User reverts a dislike of the current track
-        /// </summary>
-        Undislike,
-
-        /// <summary>
-        /// User performs a navigation in the application
-        /// </summary>
-        NavigateTo,
-
-        /// <summary>
-        /// User shares a mix
-        /// </summary>
-        Share,
-
-        /// <summary>
-        /// User starts a dynamic playsession
-        /// </summary>
-        PlaySession
     }
 }

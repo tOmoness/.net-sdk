@@ -510,6 +510,29 @@ namespace Nokia.Music
         }
 
         /// <summary>
+        /// Gets a mix by id
+        /// </summary>
+        /// <param name="id">The mix id.</param>
+        /// <returns>
+        /// A Mix or an Error
+        /// </returns>
+        public async Task<Mix> GetMixAsync(string id)
+        {
+            var cmd = this.CreateCommand<MixDetailsCommand>();
+            cmd.Id = id;
+
+            var response = await cmd.InvokeAsync();
+            if (response.Error != null)
+            {
+                throw response.Error;
+            }
+            else
+            {
+                return response.Result;
+            }
+        }
+
+        /// <summary>
         /// Gets a track sample uri.
         /// </summary>
         /// <param name="id">The track id.</param>

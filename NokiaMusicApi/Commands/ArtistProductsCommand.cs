@@ -47,9 +47,25 @@ namespace Nokia.Music.Commands
 
             // Build querystring parameters...
             var querystring = this.GetPagingParams();
+
             if (this.Category.HasValue)
             {
-                querystring.Add(new KeyValuePair<string, string>(ParamCategory, this.Category.ToString().ToLowerInvariant()));
+                foreach (var value in Enum.GetValues(typeof(Category)))
+                {
+                    var availableCategory = (Category)value;
+
+                    if (availableCategory == Types.Category.Unknown)
+                    {
+                        continue;
+                    }
+
+                    if ((this.Category & availableCategory) == availableCategory)
+                    {
+                        querystring.Add(new KeyValuePair<string, string>(
+                            ParamCategory,
+                            availableCategory.ToString().ToLowerInvariant()));
+                    }
+                }
             }
 
             if (this.OrderBy.HasValue)

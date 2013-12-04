@@ -135,5 +135,31 @@ namespace Nokia.Music.Tests.Commands
             new MixesCommand { MixGroupId = "test123" }.AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/mixes/groups/test123/", uri.ToString());
         }
+
+        [Test]
+        public async Task EnsureGetMixReturnsDetails()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mix));
+            Mix result = await client.GetMixAsync("35953777");
+            Assert.IsNotNull(result, "Expected a result");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task EnsureGetMixThrowsForNullId()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            Mix result = await client.GetMixAsync(null);
+            Assert.IsNotNull(result, "Expected a result");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ApiCallFailedException))]
+        public async Task EnsureGetMixThrowsForBadId()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            Mix result = await client.GetMixAsync("badid");
+            Assert.IsNotNull(result, "Expected a result");
+        }
     }
 }

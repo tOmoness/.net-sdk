@@ -33,7 +33,7 @@
         </Style>
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1,0,0,0">
-        <Grid Background="#d4198f" VerticalAlignment="Stretch">
+      <Grid Background="#ff2e80" VerticalAlignment="Stretch">
             <!-- Root grid definition -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
@@ -81,7 +81,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBlock Style="{StaticResource AboutHeadText}" TextWrapping="Wrap" Text="The Nokia MixRadio SDK is Copyright (c) 2012-2013, Nokia, All rights reserved."/>
 
-                        <Button Tag="http://nokia.ly/musicapi" Click="OpenWebLink" Template="{StaticResource HeadlessButton}" Margin="0,18" HorizontalAlignment="Stretch">
+                        <Button Tag="http://nokia.ly/musicapi" Click="OpenWebLink" Style="{StaticResource HeadlessButton}" Margin="0,18" HorizontalAlignment="Stretch">
                             <StackPanel>
                                 <TextBlock Text="Take a look at the SDK docs:"
                                    Style="{StaticResource AboutText}"
@@ -91,7 +91,7 @@
                             </StackPanel>
                         </Button>
 
-                        <Button Tag="http://nokia.ly/buildmusicapi" Click="OpenWebLink" Template="{StaticResource HeadlessButton}"  Margin="0,0,0,18" HorizontalAlignment="Stretch">
+                        <Button Tag="http://nokia.ly/buildmusicapi" Click="OpenWebLink" Style="{StaticResource HeadlessButton}" Margin="0,0,0,18" HorizontalAlignment="Stretch">
                             <StackPanel>
                                 <TextBlock Text="The SDK is also demonstrated in our //build/ talk:"
                                    Style="{StaticResource AboutText}"

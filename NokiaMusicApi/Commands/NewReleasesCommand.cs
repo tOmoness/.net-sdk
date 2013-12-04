@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal;
 using Nokia.Music.Internal.Response;
@@ -33,7 +34,7 @@ namespace Nokia.Music.Commands
         /// Appends the uri subpath and parameters specific to this API method
         /// </summary>
         /// <param name="uri">The base uri</param>
-        internal override void AppendUriPath(System.Text.StringBuilder uri)
+        internal override void AppendUriPath(StringBuilder uri)
         {
             string category = null;
 

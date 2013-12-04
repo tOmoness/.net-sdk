@@ -57,9 +57,11 @@
                         <Setter Property="FontWeight" Value="Normal"/>
                     </Style>
 
-                    <ControlTemplate x:Key="HeadlessButton" TargetType="Button">
-                        <ContentPresenter />
-                    </ControlTemplate>
+                    <Style x:Key="HeadlessButton" TargetType="Button">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    </Style>
 
                     <DataTemplate x:Key="Api250x250ItemTemplate">
                         <Grid HorizontalAlignment="Left" Width="250" Height="250">

@@ -42,6 +42,7 @@
     <Compile Include="Commands\ArtistProductsCommand.cs" />
     <Compile Include="Commands\CountryResolverCommand.cs" />
     <Compile Include="Commands\GenresCommand.cs" />
+    <Compile Include="Commands\MixDetailsCommand.cs" />
     <Compile Include="Commands\MixesCommand.cs" />
     <Compile Include="Commands\MixGroupsCommand.cs" />
     <Compile Include="Commands\MusicClientCommand.cs" />

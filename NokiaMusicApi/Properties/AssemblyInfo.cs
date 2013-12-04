@@ -11,8 +11,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Nokia.Music")]
-[assembly: AssemblyVersion("3.1.3.0")]
-[assembly: AssemblyFileVersion("3.1.3.0")]
+[assembly: AssemblyVersion("3.1.4.0")]
+[assembly: AssemblyFileVersion("3.1.4.0")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Nokia")]
 [assembly: AssemblyProduct("Nokia.Music")]

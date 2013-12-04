@@ -6,7 +6,6 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal.Parsing;
 using Nokia.Music.Types;
@@ -56,6 +55,9 @@ namespace Nokia.Music.Commands
                         case Types.Category.Single:
                         case Types.Category.Track:
                             return Product.FromJToken(item);
+
+                        case Types.Category.RadioStation:
+                            return Mix.FromJToken(item);
                     }
                 }
             }

@@ -1,0 +1,212 @@
+{
+    "items": [
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "00s rock",
+            "numbertracks": 156,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Rock_00sRock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/5218.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/5218.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/5218.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/5218.jpg"
+            },
+            "id": "43868321",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "Rock legends",
+            "numbertracks": 141,
+            "parentaladvisory": false,
+            "radiostationid": "GB_Rock_Legends*Rock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/252883.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/252883.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/252883.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/252883.jpg"
+            },
+            "id": "25850725",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "Best of the 90s",
+            "numbertracks": 177,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Decades_Bestofthe90s",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/287785.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/287785.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/287785.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/287785.jpg"
+            },
+            "id": "42478249",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "90s indie",
+            "numbertracks": 177,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Indie_90sIndie",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/250795.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/250795.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/250795.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/250795.jpg"
+            },
+            "id": "40854913",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "Rock workout",
+            "numbertracks": 180,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Fitness_UptempoRock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/5577.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/5577.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/5577.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/5577.jpg"
+            },
+            "id": "30582055",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "Alternative rock",
+            "numbertracks": 180,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Rock_AlternativeRock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/287791.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/287791.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/287791.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/287791.jpg"
+            },
+            "id": "25850727",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "90s indie",
+            "numbertracks": 177,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Decades_90sIndie",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/292744.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/292744.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/292744.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/292744.jpg"
+            },
+            "id": "40854909",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "10km run",
+            "numbertracks": 168,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Shake_Promo*160bpm",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/FGShakes.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/FGShakes.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/FGShakes.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/FGShakes.jpg"
+            },
+            "id": "55878039",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "00s rock",
+            "numbertracks": 156,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Decades_00sRock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/291458.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/291458.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/291458.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/291458.jpg"
+            },
+            "id": "43868331",
+            "type": "radiostation"
+        },
+        {
+            "category": {
+                "id": "RadioStation",
+                "name": "RadioStation"
+            },
+            "description": "",
+            "name": "Top rock",
+            "numbertracks": 58,
+            "parentaladvisory": true,
+            "radiostationid": "GB_Rock_Scrobble_Rock",
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/291090.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/291090.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/291090.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/291090.jpg"
+            },
+            "id": "57739171",
+            "type": "radiostation"
+        }
+    ],
+    "facets": [
+        {
+            "field": "category",
+            "values": [
+                {
+                    "id": "RadioStation",
+                    "name": "RadioStation",
+                    "count": 10
+                }
+            ]
+        }
+    ],
+    "paging": {
+        "total": 10,
+        "startindex": 0,
+        "itemsperpage": 100
+    },
+    "type": "itemlist"
+}

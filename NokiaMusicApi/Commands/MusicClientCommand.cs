@@ -172,7 +172,7 @@ namespace Nokia.Music.Commands
 
         /// <summary>
         /// Gets a value indicating whether the command should throw upon error responses.
-        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in the CountryResolver class for now</remarks>
+        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in some commands for now</remarks>
         /// </summary>
         internal virtual bool ThrowOnError
         {
@@ -188,6 +188,17 @@ namespace Nokia.Music.Commands
         internal virtual bool UseBlankTerritory
         {
             get { return false; }
+        }
+
+        /// <summary>
+        /// Gets domain that this command should be using e.g. domain=music
+        /// </summary>
+        internal virtual string ServiceDomain
+        {
+            get
+            {
+                return "music";
+            }
         }
 
         /// <summary>

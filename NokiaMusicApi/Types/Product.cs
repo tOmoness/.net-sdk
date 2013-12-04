@@ -323,7 +323,9 @@ namespace Nokia.Music.Types
 
             if (item["creators"] != null)
             {
-                JArray jsonArtists = item["creators"].Value<JArray>("performers");
+                JArray jsonArtists = item["creators"].Value<JArray>("performers")
+                                     ?? item["creators"].Value<JArray>("composers");
+
                 if (jsonArtists != null)
                 {
                     List<Artist> list = new List<Artist>();
@@ -408,7 +410,7 @@ namespace Nokia.Music.Types
                 TrackCount = trackCount,
                 Tracks = ExtractTracks(item["tracks"]),
                 Performers = performers,
-                Duration = item.Value<int>("duration"),
+                Duration = item.Value<int?>("duration"),
                 VariousArtists = item.Value<bool>("variousartists"),
                 StreetReleaseDate = item.Value<DateTime>("streetreleasedate"),
                 SellerStatement = item.Value<string>("sellerstatement"),

@@ -27,9 +27,15 @@
                     {
                         "name": "Lady Gaga",
                         "id": "697517"
+                    },
+                ],
+                 "composers": [
+                    {
+                        "name": "Ludwig van Beethoven",
+                        "id": "123456789"
                     }
-                ]
-            },
+				]
+           },
             "thumbnails": {
                 "50x50": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=50&q=40",
                 "100x100": "http://4.musicimg.ovi.com/u/1.0/image/184062278/?w=100&q=70",

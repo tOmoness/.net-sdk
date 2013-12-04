@@ -78,7 +78,8 @@ namespace Nokia.Music.Tests.Types
             Assert.Greater(fullItem.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(fullItem.Id, "Expected an id");
             Assert.IsNotNull(fullItem.Name, "Expected a name");
-            Assert.Greater(fullItem.Performers.Length, 0, "Expected performers");
+            Assert.AreEqual(1, fullItem.Performers.Length, "Expected only one performer");
+            Assert.AreEqual("Lady Gaga", fullItem.Performers[0].Name, "Expected 'Lady Gaga' as only performer");
             Assert.IsNotNull(fullItem.Price, "Expected a price");
             Assert.IsNotNull(fullItem.Thumb50Uri, "Expected a 50x50 thumb");
             Assert.IsNotNull(fullItem.Thumb100Uri, "Expected a 100x100 thumb");
@@ -110,6 +111,22 @@ namespace Nokia.Music.Tests.Types
             Assert.AreEqual(1, product.MovieProducerNames.Count, "Expected Movie Producer Names count");
             Assert.IsNotNull(product.MusicDirectorNames, "Expected music director names");
             Assert.AreEqual(1, product.MusicDirectorNames.Count, "Expected Music Director Names count");
+        }
+
+        [Test]
+        public void TestComposerArtistFallback()
+        {
+            Assert.IsNull(Product.FromJToken(null), "Expected a null return");
+
+            JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_parse_test_composers));
+
+            JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
+
+            // Test a full representation
+            Product fullItem = Product.FromJToken(items[0]) as Product;
+            Assert.IsNotNull(fullItem, "Expected a product object");
+            Assert.AreEqual(1, fullItem.Performers.Length, "Expected single performer");
+            Assert.AreEqual("Lopez", fullItem.Performers[0].Name, "Expected 'Lopez' as only performer");
         }
 
         [Test]
@@ -150,7 +167,7 @@ namespace Nokia.Music.Tests.Types
             Assert.That(album.StreetReleaseDate, Is.EqualTo(new DateTime(2009, 11, 23)));
             Assert.That(album.SellerStatement, Is.EqualTo("Sold by Sony"), "SellerStatement");
             Assert.That(album.TakenFrom, Is.Null);
-            Assert.That(album.Duration, Is.EqualTo(0), "Duration");
+            Assert.That(album.Duration, Is.EqualTo(null), "Duration");
             Assert.That(album.TrackCount, Is.EqualTo(13), "track count");
 
             Assert.That(album.Tracks[0].Category, Is.EqualTo(Category.Track));

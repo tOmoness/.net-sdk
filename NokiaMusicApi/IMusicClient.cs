@@ -133,6 +133,13 @@ namespace Nokia.Music
         Task<Response<Product>> GetProductAsync(string id);
 
         /// <summary>
+        /// Gets a mix by id
+        /// </summary>
+        /// <param name="id">The mix id.</param>
+        /// <returns>A Mix or an Error</returns>
+        Task<Mix> GetMixAsync(string id);
+
+        /// <summary>
         /// Gets a track sample uri.
         /// </summary>
         /// <param name="id">The product id.</param>

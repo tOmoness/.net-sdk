@@ -35,6 +35,20 @@ namespace Nokia.Music.Commands
         public Category? Category { get; set; }
 
         /// <summary>
+        /// Should the URL query string contain a domain? e.g. domain=music
+        /// </summary>
+        internal override string ServiceDomain
+        {
+            get
+            {
+                // Radio is (oddly) not considered part of the music domain, and is therefore not returned by
+                // EAPI searches that specify a domain...
+                bool overrideDomain = this.Category.HasValue && (Types.Category.RadioStation & this.Category) == Types.Category.RadioStation;
+                return overrideDomain ? null : base.ServiceDomain;
+            }
+        }
+
+        /// <summary>
         /// Searches for items
         /// </summary>
         /// <typeparam name="T">The type to return</typeparam>
@@ -74,9 +88,24 @@ namespace Nokia.Music.Commands
                 parameters.Add(new KeyValuePair<string, string>(ParamId, id));
             }
 
-            if (category.HasValue && category.Value != Types.Category.Unknown)
+            if (category.HasValue && category != Types.Category.Unknown)
             {
-                parameters.Add(new KeyValuePair<string, string>(ParamCategory, category.Value.ToString().ToLowerInvariant()));
+                foreach (var value in Enum.GetValues(typeof(Category)))
+                {
+                    var availableCategory = (Category)value;
+
+                    if (availableCategory == Types.Category.Unknown)
+                    {
+                        continue;
+                    }
+
+                    if ((category & availableCategory) == availableCategory)
+                    {
+                        parameters.Add(new KeyValuePair<string, string>(
+                            ParamCategory,
+                            availableCategory.ToString().ToLowerInvariant()));
+                    }
+                }
             }
 
             if (orderBy.HasValue)

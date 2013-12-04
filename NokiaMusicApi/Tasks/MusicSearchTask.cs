@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.Tasks
 {
@@ -42,10 +43,10 @@ namespace Nokia.Music.Tasks
         {
             if (!string.IsNullOrEmpty(this._searchTerms))
             {
-                string encodedSearch = Uri.EscapeDataString(this.SearchTerms);
+                // Fall back to artist mix
                 this.Launch(
                     new Uri("nokia-music://search/anything/?term=" + this._searchTerms),
-                    new Uri("http://music.nokia.com/r/search/" + encodedSearch));
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._searchTerms.Replace("&", string.Empty))));
             }
             else
             {

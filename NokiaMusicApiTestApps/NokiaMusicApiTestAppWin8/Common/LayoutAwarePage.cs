@@ -259,7 +259,14 @@ namespace Nokia.Music.TestApp.Common
             this._layoutAwareControls.Add(control);
 
             // Set the initial visual state of the control
-            VisualStateManager.GoToState(control, DetermineVisualState(ApplicationView.Value), false);
+            try
+            {
+                VisualStateManager.GoToState(control, DetermineVisualState(ApplicationView.Value), false);
+            }
+            catch
+            {
+
+            }
         }
 
         private void WindowSizeChanged(object sender, WindowSizeChangedEventArgs e)

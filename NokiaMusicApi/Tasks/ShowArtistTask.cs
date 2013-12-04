@@ -73,7 +73,7 @@ namespace Nokia.Music.Tasks
             {
                 this.Launch(
                     new Uri("nokia-music://show/artist/?name=" + this._artistName.Replace("&", string.Empty)),
-                    new Uri("http://music.nokia.com/r/search/" + this._artistName));
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty))));
             }
             else
             {

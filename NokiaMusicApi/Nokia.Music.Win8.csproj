@@ -108,6 +108,7 @@
     <Compile Include="Commands\GenresCommand.cs">
     </Compile>
     <Compile Include="CommandsUser\GetAuthTokenCommand.cs" />
+    <Compile Include="Commands\MixDetailsCommand.cs" />
     <Compile Include="Commands\MixesCommand.cs">
     </Compile>
     <Compile Include="Commands\MixGroupsCommand.cs">

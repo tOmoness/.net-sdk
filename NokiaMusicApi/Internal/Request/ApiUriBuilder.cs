@@ -112,7 +112,10 @@ namespace Nokia.Music.Internal.Request
             // Add required parameters
             this.AddAuthorisationParams(url, settings);
 
-            url.AppendFormat("&domain=music");
+            if (!string.IsNullOrEmpty(command.ServiceDomain))
+            {
+                url.AppendFormat("&domain={0}", command.ServiceDomain);
+            }
 
             if (!string.IsNullOrWhiteSpace(settings.Language))
             {
