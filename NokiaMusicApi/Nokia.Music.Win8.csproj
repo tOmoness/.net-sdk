@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Exceptions\ApiNotAvailableException.cs">
     </Compile>
+    <Compile Include="Exceptions\NetworkUnavailableException.cs" />
     <Compile Include="Exceptions\UserAuthRequiredException.cs" />
     <Compile Include="Exceptions\CountryCodeRequiredException.cs">
     </Compile>

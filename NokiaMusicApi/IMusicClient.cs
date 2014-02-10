@@ -254,6 +254,20 @@ namespace Nokia.Music
         Task<ListResponse<MusicItem>> SearchAsync(string searchTerm = null, Category? category = null, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null);
 
         /// <summary>
+        /// Searches for tracks with a Beats per Minute range.
+        /// </summary>
+        /// <param name="minBpm">The minimum BPM.</param>
+        /// <param name="maxBpm">The maximum BPM.</param>
+        /// <param name="genreId">The genre identifier.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="sortOrder">The sort order.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="itemsPerPage">The items per page.</param>
+        /// <param name="requestId">The request identifier.</param>
+        /// <returns>A list of tracks</returns>
+        Task<ListResponse<MusicItem>> SearchBpmAsync(int minBpm, int maxBpm, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null);
+
+        /// <summary>
         /// Gets search suggestions.
         /// </summary>
         /// <param name="searchTerm">The search term.</param>

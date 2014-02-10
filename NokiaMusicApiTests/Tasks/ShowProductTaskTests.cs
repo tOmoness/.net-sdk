@@ -17,14 +17,14 @@ namespace Nokia.Music.Tests.Types
     [TestFixture]
     public class ShowProductTaskTests
     {
-        private const string TestAppId = "AppId";
+        private const string TestClientId = "AppId";
         private const string TestProductId = "8061375";
         
         [Test]
         public void TestAppIdPropertyPersists()
         {
-            ShowProductTask task = new ShowProductTask() { AppId = TestAppId };
-            Assert.AreEqual(TestAppId, task.AppId, "Expected the same ID");
+            ShowProductTask task = new ShowProductTask() { ClientId = TestClientId };
+            Assert.AreEqual(TestClientId, task.ClientId, "Expected the same ID");
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestShowProductGoesAheadWhenItCan()
         {
-            ShowProductTask task = new ShowProductTask() { AppId = TestAppId, ProductId = TestProductId };
+            ShowProductTask task = new ShowProductTask() { ClientId = TestClientId, ProductId = TestProductId };
             task.Show();            
             Assert.Pass();
         }

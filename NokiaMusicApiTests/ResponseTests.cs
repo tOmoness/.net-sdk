@@ -27,6 +27,7 @@ namespace Nokia.Music.Tests
             Assert.AreEqual(requestId, response.RequestId, "Expected the same request Id");
             Assert.IsNull(response.Error, "Expected no error");
             Assert.IsTrue(response.Succeeded, "Expected success");
+            Assert.IsFalse(response.RequestTimedOut, "Expected no timeout");
         }
 
         [Test]

@@ -146,6 +146,9 @@
     <Compile Include="..\NokiaMusicApi\Exceptions\InvalidCountryCodeException.cs">
       <Link>Source\Exceptions\InvalidCountryCodeException.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Exceptions\NetworkUnavailableException.cs">
+      <Link>Source\Exceptions\NetworkUnavailableException.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\NokiaMusicException.cs">
       <Link>Source\Exceptions\NokiaMusicException.cs</Link>
     </Compile>
@@ -320,6 +323,8 @@
     <Compile Include="CommandsUser\GetUserTopArtistsCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserPlayHistoryCommandTests.cs" />
     <Compile Include="CommandsUser\GetAuthTokenCommandTests.cs" />
+    <Compile Include="Commands\MockMusicClientCommand.cs" />
+    <Compile Include="Commands\MusicClientCommandTests.cs" />
     <Compile Include="Commands\ProductTestBase.cs" />
     <Compile Include="Commands\SimilarProductsTests.cs" />
     <Compile Include="Converters\LocationConverterTests.cs" />

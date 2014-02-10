@@ -82,7 +82,15 @@ namespace Nokia.Music
             };
 
             var response = await command.InvokeAsync();
-            return response.Result;
+
+            if (response.Error == null)
+            {
+                return response.Result;
+            }
+            else
+            {
+                throw response.Error;
+            }
         }
 
         /// <summary>

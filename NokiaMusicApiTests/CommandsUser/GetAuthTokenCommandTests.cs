@@ -95,12 +95,13 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
+        [Ignore("Not needed while we only have one public scope")]
         public void EnsureConvertParamsToStringRespectsForHeaderParam()
         {
             var request = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("grant_type", GetAuthTokenCommand.GrantTypeAuthorizationCode),
-                    new KeyValuePair<string, string>("scope", (Scope.ReadUserPlayHistory | Scope.ReadUserTasteProfile).AsStringParam())
+                    new KeyValuePair<string, string>("scope", Scope.ReadUserPlayHistory.AsStringParam())
                 };
 
             var cmd = new GetAuthTokenCommand();

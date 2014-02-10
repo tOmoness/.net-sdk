@@ -64,15 +64,7 @@ namespace Nokia.Music.Commands
                 return (TResult result) =>
                     {
                         this.PostProcessResult(result);
-
-                        if (this.ThrowOnError && result.Error != null)
-                        {
-                            throw result.Error;
-                        }
-                        else
-                        {
-                            this.ClientCallback(result);
-                        }
+                        this.ClientCallback(result);
                     };
             }
         }
@@ -171,6 +163,10 @@ namespace Nokia.Music.Commands
                         {
                             response = new ListResponse<T>(rawResult.StatusCode, new ApiNotAvailableException(), rawResult.ErrorResponseBody, RequestId);
                         }
+                        else if (rawResult.Error as NetworkUnavailableException != null)
+                        {
+                            response = new ListResponse<T>(rawResult.StatusCode, rawResult.Error, rawResult.Error.Message, RequestId);
+                        }
 
                         break;
 
@@ -221,6 +217,10 @@ namespace Nokia.Music.Commands
                         if (this.ClientSettings.CountryCodeBasedOnRegionInfo)
                         {
                             response = new Response<T>(rawResult.StatusCode, new ApiNotAvailableException(), rawResult.ErrorResponseBody, RequestId);
+                        }
+                        else if (rawResult.Error as NetworkUnavailableException != null)
+                        {
+                            response = new Response<T>(rawResult.StatusCode, rawResult.Error, rawResult.Error.Message, RequestId);
                         }
 
                         break;

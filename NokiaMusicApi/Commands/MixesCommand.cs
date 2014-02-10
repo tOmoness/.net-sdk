@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
@@ -25,6 +26,11 @@ namespace Nokia.Music.Commands
         public string ExclusiveTag { get; set; }
 
         /// <summary>
+        ///   Gets or sets the mix group exclusivity tokens.
+        /// </summary>
+        public string[] Exclusivity { get; set; }
+
+        /// <summary>
         ///   Gets or sets the mix group id.
         /// </summary>
         public string MixGroupId { get; set; }
@@ -36,6 +42,29 @@ namespace Nokia.Music.Commands
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
             uri.AppendFormat("mixes/groups/{0}/", this.MixGroupId);
+        }
+
+        /// <summary>
+        /// Builds the querystring parameters
+        /// </summary>
+        /// <returns>The querystring parameters</returns>
+        internal List<KeyValuePair<string, string>> BuildQueryString()
+        {
+            var qs = this.GetPagingParams();
+
+            if (!string.IsNullOrEmpty(this.ExclusiveTag))
+            {
+                qs.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
+            }
+
+            if (this.Exclusivity != null)
+            {
+                qs.AddRange(this.Exclusivity
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Select(x => new KeyValuePair<string, string>(ParamExclusivity, x)));
+            }
+
+            return qs;
         }
 
         /// <summary>
@@ -53,21 +82,6 @@ namespace Nokia.Music.Commands
                 this.ClientSettings,
                 this.BuildQueryString(),
                 new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback)));
-        }
-
-        /// <summary>
-        /// Builds the querystring parameters
-        /// </summary>
-        /// <returns>The querystring parameters</returns>
-        private List<KeyValuePair<string, string>> BuildQueryString()
-        {
-            var qs = this.GetPagingParams();
-            if (!string.IsNullOrEmpty(this.ExclusiveTag))
-            {
-                qs.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
-            }
-
-            return qs;
         }
     }
 }

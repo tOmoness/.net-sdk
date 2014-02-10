@@ -22,7 +22,7 @@ namespace Nokia.Music.Types
     /// </summary>
     public sealed partial class Product : MusicItem
     {
-        internal const string AppToAppShowUri = "nokia-music://show/product/?id={0}";
+        internal const string AppToAppShowUri = "mixradio://show/product/{0}";
         internal const string WebShowUri = "http://www.mixrad.io/product/{0}";
 
         /// <summary>
@@ -216,6 +216,14 @@ namespace Nokia.Music.Types
         ///   <c>true</c> if [parental advisory]; otherwise, <c>false</c>.
         /// </value>
         public bool ParentalAdvisory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Beats per Minute for the track.
+        /// </summary>
+        /// <value>
+        /// The Beats per Minute.
+        /// </value>
+        public int Bpm { get; set; }
     
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -394,6 +402,13 @@ namespace Nokia.Music.Types
 
             var parentalAdvisory = item.Value<bool>("parentaladvisory");
 
+            // Extract bpm... 
+            int bpm = 0;
+            if (item["bpm"] != null)
+            {
+                bpm = item.Value<int>("bpm");
+            }
+
             // Create the resulting Product object...
             var product = new Product()
             {
@@ -421,7 +436,8 @@ namespace Nokia.Music.Types
                 MovieDirectorNames = movieDirectorNames,
                 MovieProducerNames = movieProducerNames,
                 MusicDirectorNames = musicDirectorNames,
-                ParentalAdvisory = parentalAdvisory
+                ParentalAdvisory = parentalAdvisory,
+                Bpm = bpm
             };
 
             var sequence = item.Value<int>("sequence");

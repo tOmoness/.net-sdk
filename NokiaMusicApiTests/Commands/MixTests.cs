@@ -161,5 +161,17 @@ namespace Nokia.Music.Tests.Commands
             Mix result = await client.GetMixAsync("badid");
             Assert.IsNotNull(result, "Expected a result");
         }
+
+        [Test]
+        public void CoverExclusivityParams()
+        {
+            var cmd1 = new MixGroupsCommand();
+            cmd1.Exclusivity = new string[] { "exclusivity" };
+            cmd1.BuildQueryString();
+
+            var cmd2 = new MixesCommand();
+            cmd2.Exclusivity = new string[] { "exclusivity" };
+            cmd2.BuildQueryString();
+        }
     }
 }

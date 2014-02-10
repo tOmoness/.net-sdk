@@ -757,6 +757,37 @@ namespace Nokia.Music
         }
 
         /// <summary>
+        /// Searches for tracks with a Beats per Minute range.
+        /// </summary>
+        /// <param name="minBpm">The minimum BPM.</param>
+        /// <param name="maxBpm">The maximum BPM.</param>
+        /// <param name="genreId">The genre identifier.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="sortOrder">The sort order.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="itemsPerPage">The items per page.</param>
+        /// <param name="requestId">The request identifier.</param>
+        /// <returns>
+        /// A list of tracks
+        /// </returns>
+        public Task<ListResponse<MusicItem>> SearchBpmAsync(int minBpm, int maxBpm, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null)
+        {
+            var cmd = this.CreateCommand<SearchCommand>();
+            cmd.MinBpm = minBpm;
+            cmd.MaxBpm = maxBpm;
+            cmd.Category = Category.Track;
+            cmd.GenreId = genreId;
+            cmd.OrderBy = orderBy;
+            cmd.SortOrder = sortOrder;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+
+            this.SetRequestId(cmd, requestId);
+
+            return cmd.InvokeAsync();
+        }
+
+        /// <summary>
         /// Gets search suggestions.
         /// </summary>
         /// <param name="searchTerm">The search term.</param>
@@ -817,7 +848,7 @@ namespace Nokia.Music
         /// </returns>
         public Task<ListResponse<Mix>> GetMixesAsync(string id)
         {
-            return this.GetMixesAsync(id, null);
+            return this.GetMixesAsync(id, (string)null);
         }
 
         /// <summary>
@@ -845,7 +876,7 @@ namespace Nokia.Music
         /// </returns>
         public Task<ListResponse<Mix>> GetMixesAsync(MixGroup group)
         {
-            return this.GetMixesAsync(group, null);
+            return this.GetMixesAsync(group, (string)null);
         }
 
         /// <summary>
@@ -1153,6 +1184,7 @@ namespace Nokia.Music
             if (!string.IsNullOrEmpty(this._oauthToken.Territory))
             {
                 this.CountryCode = this._oauthToken.Territory;
+                this.CountryCodeBasedOnRegionInfo = false;
             }
         }
 

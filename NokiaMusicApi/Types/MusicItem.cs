@@ -106,7 +106,7 @@ namespace Nokia.Music.Types
                 var thumbAsString = thumbnailsToken.Value<string>(size);
                 try
                 {
-                    thumb = new Uri(thumbAsString);
+                    thumb = new Uri(thumbAsString, UriKind.RelativeOrAbsolute);
                 }
                 catch (FormatException ex)
                 {

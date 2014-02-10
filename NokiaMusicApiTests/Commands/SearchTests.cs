@@ -48,6 +48,20 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
+        public async Task EnsureSearchBpmReturnsItems()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+            ListResponse<MusicItem> result = await client.SearchBpmAsync(120, 130);
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
+
+        [Test]
         public async Task EnsureSearchWithMultipleCategoriesReturnsItemsForValidSearch()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_album_and_single));

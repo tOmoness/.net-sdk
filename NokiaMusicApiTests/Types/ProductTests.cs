@@ -77,6 +77,7 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullItem.Genres, "Expected genres");
             Assert.Greater(fullItem.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(fullItem.Id, "Expected an id");
+            Assert.AreEqual(124, fullItem.Bpm, "Expecged a BPM");
             Assert.IsNotNull(fullItem.Name, "Expected a name");
             Assert.AreEqual(1, fullItem.Performers.Length, "Expected only one performer");
             Assert.AreEqual("Lady Gaga", fullItem.Performers[0].Name, "Expected 'Lady Gaga' as only performer");

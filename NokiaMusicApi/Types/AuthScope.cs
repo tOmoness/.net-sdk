@@ -27,11 +27,6 @@ namespace Nokia.Music.Types
         /// Read user play history
         /// </summary>
         ReadUserPlayHistory = 1,
-
-        /// <summary>
-        /// Read user profile
-        /// </summary>
-        ReadUserTasteProfile = 1 << 1,
     }
 
     /// <summary>

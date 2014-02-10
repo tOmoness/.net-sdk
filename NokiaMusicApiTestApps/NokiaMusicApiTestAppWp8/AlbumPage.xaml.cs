@@ -93,8 +93,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private void ShowProduct(object sender, RoutedEventArgs e)
         {
-            ShowProductTask task = new ShowProductTask();
-            task.ProductId = this._albumId;
+            ShowProductTask task = new ShowProductTask() { ClientId = ApiKeys.ClientId, ProductId = this._albumId };
             task.Show();
         }
 

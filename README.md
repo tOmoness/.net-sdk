@@ -17,6 +17,8 @@ The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD L
  
 ##Releases
 
+- 3.2.0 - Added BPM property to Product object and SearchBpmAsync to find tracks by Beats Per Minute. Fixed exception throwing in CountryResolver.CheckAvailabilityAsync when there is no connection.
+- 3.1.5 - More web fallback improvements
 - 3.1.4 - More web fallback improvements, added GetMixAsync to get details of a mix by id
 - 3.1.3 - Added AppToAppPlayUri and WebPlayUri properties to Artist to enable playback of Artist mixes on the web, also enabling artist mixes on non-Nokia devices via the PlayMixTask. Merged in Win8 compiler directive change from https://github.com/mixradio/wp-api-client/pull/4
 - 3.1.0 - Adding WebUri property to Artist, Product and Mix for web fallback on non-Nokia WP8 devices and linking. Other minor few bug fixes to sorting. Renamed test app to new brand.

@@ -46,6 +46,7 @@
                 "wmamms": "mms://wmstream.music.ovi.com/a1139/l1/1.0/s/clips/mc/musicgb/15381971/14/15381971.wma",
                 "mp3rtmp": "rtmp://stream.music.ovi.com/a1139/l1/mp3:1.0/s/clips/pc/musicgb/15381971/14/15381971.mp3"
             },
+			"bpm": 124.0,
             "id": "15381971",
             "type": "musictrack"
         }

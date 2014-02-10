@@ -35,20 +35,6 @@ namespace Nokia.Music.Commands
         public Category? Category { get; set; }
 
         /// <summary>
-        /// Should the URL query string contain a domain? e.g. domain=music
-        /// </summary>
-        internal override string ServiceDomain
-        {
-            get
-            {
-                // Radio is (oddly) not considered part of the music domain, and is therefore not returned by
-                // EAPI searches that specify a domain...
-                bool overrideDomain = this.Category.HasValue && (Types.Category.RadioStation & this.Category) == Types.Category.RadioStation;
-                return overrideDomain ? null : base.ServiceDomain;
-            }
-        }
-
-        /// <summary>
         /// Searches for items
         /// </summary>
         /// <typeparam name="T">The type to return</typeparam>

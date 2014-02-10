@@ -20,15 +20,26 @@ namespace Nokia.Music.Internal.Authorization
     /// <summary>
     /// Wraps browser interaction for OAuth flows
     /// </summary>
-    internal sealed class OAuthBrowserController
+    internal sealed class OAuthBrowserController : IDisposable
     {
         private WebBrowser _browser = null;
         private ManualResetEventSlim _authWaiter;
 
         // Properties derived by this flow...
         internal string AuthorizationCode { get; private set; }
+        
         internal AuthResultCode ResultCode { get; private set; }
+
         internal bool IsBusy { get; private set; }
+
+        public void Dispose()
+        {
+            if (this._authWaiter != null)
+            {
+                this._authWaiter.Dispose();
+                this._authWaiter = null;
+            }
+        }
 
         /// <summary>
         /// Drives the Authentication process.
@@ -36,9 +47,6 @@ namespace Nokia.Music.Internal.Authorization
         /// <param name="browser">The browser.</param>
         /// <param name="startUri">The start URI.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A boolean indicating the result
-        /// </returns>
         internal void DriveAuthProcess(WebBrowser browser, Uri startUri, CancellationToken? cancellationToken)
         {
             if (this.IsBusy)
@@ -139,6 +147,7 @@ namespace Nokia.Music.Internal.Authorization
                 {
                     this.ResultCode = AuthResultCode.ServerError;
                 }
+
                 this._authWaiter.Set();
             }
         }

@@ -76,7 +76,7 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void InvalidImageUriIsHandledSuccessfully()
         {
-            JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"notauri\" } }");
+            JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http:////\" } }");
             Mix mixFromJson = Mix.FromJToken(json);
 
             Assert.IsNotNull(mixFromJson, "Expected a Mix object");

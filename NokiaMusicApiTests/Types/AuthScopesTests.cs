@@ -22,8 +22,8 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestScopeConversion()
         {
-            Scope scope = Scope.ReadUserPlayHistory | Scope.ReadUserTasteProfile;
-            const string Expected = "read_userplayhistory read_usertasteprofile";
+            Scope scope = Scope.ReadUserPlayHistory;
+            const string Expected = "read_userplayhistory";
 
             Assert.AreEqual(Expected, scope.AsStringParam(), "Expected scopes to be converted to string form correctly");
         }

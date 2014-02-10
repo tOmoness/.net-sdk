@@ -125,6 +125,7 @@
     <Compile Include="Commands\TopArtistsCommand.cs" />
     <Compile Include="Commands\TopProductsCommand.cs" />
     <Compile Include="Converters\LocationConverter.cs" />
+    <Compile Include="Exceptions\NetworkUnavailableException.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Exceptions\ApiNotAvailableException.cs" />
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />

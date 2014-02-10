@@ -77,6 +77,7 @@
     <Compile Include="Exceptions\CountryCodeRequiredException.cs" />
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />
     <Compile Include="Exceptions\InvalidCountryCodeException.cs" />
+    <Compile Include="Exceptions\NetworkUnavailableException.cs" />
     <Compile Include="Exceptions\NokiaMusicException.cs" />
     <Compile Include="ICountryResolver.cs" />
     <Compile Include="IMusicClient.cs" />

@@ -15,25 +15,25 @@ namespace Nokia.Music.Tasks
     /// </summary>
     public sealed class ShowProductTask : TaskBase
     {
-        private string _appId = null;
+        private string _clientId = null;
         private string _productId = null;
 
         /// <summary>
-        /// Gets or sets the optional App ID for passing through to Nokia MixRadio.
+        /// Gets or sets the optional Client ID for passing through to Nokia MixRadio.
         /// </summary>
         /// <value>
-        /// The app ID.
+        /// The client ID.
         /// </value>
-        public string AppId
+        public string ClientId
         {
             get
             {
-                return this._appId;
+                return this._clientId;
             }
 
             set
             {
-                this._appId = value;
+                this._clientId = value;
             }
         }
 
@@ -63,15 +63,15 @@ namespace Nokia.Music.Tasks
         {
             if (!string.IsNullOrEmpty(this._productId))
             {
-                // Append the appId if one has been supplied...
-                string appId = string.Empty;
-                ////if (!string.IsNullOrEmpty(this._appId))
-                ////{
-                ////    appId = "&apikey=" + this._appId;
-                ////}
+                // Append the clientId if one has been supplied...
+                string clientId = string.Empty;
+                if (!string.IsNullOrEmpty(this.ClientId))
+                {
+                    clientId = "?client_id=" + this.ClientId;
+                }
 
                 this.Launch(
-                    new Uri(string.Format(Product.AppToAppShowUri, this._productId) + appId),
+                    new Uri(string.Format(Product.AppToAppShowUri, this._productId) + clientId),
                     new Uri(string.Format(Product.WebShowUri, this._productId)));
             }
             else

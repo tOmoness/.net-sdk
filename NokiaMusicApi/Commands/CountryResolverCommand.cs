@@ -29,21 +29,12 @@ namespace Nokia.Music.Commands
         /// </summary>
         public string CountryCode { get; set; }
 
+        /// <summary>
+        ///     We don't want /gb/ in the url
+        /// </summary>
         internal override bool RequiresCountryCode
         {
             get { return false; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the command should throw upon error responses.
-        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in the CountryResolver class for now</remarks>
-        /// </summary>
-        internal override bool ThrowOnError
-        {
-            get
-            {
-                return true;
-            }
         }
 
         protected override void Execute()

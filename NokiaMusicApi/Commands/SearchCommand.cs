@@ -33,6 +33,22 @@ namespace Nokia.Music.Commands
         public string Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the minimum BPM.
+        /// </summary>
+        /// <value>
+        /// The minimum BPM.
+        /// </value>
+        public int MinBpm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum BPM.
+        /// </summary>
+        /// <value>
+        /// The maximum BPM.
+        /// </value>
+        public int MaxBpm { get; set; }
+
+        /// <summary>
         /// Creates an CatalogItem based on it's category field
         /// </summary>
         /// <param name="item">The JSON item</param>
@@ -70,9 +86,9 @@ namespace Nokia.Music.Commands
         /// </summary>
         protected override void Execute()
         {
-            if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId) && string.IsNullOrEmpty(this.Id))
+            if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId) && string.IsNullOrEmpty(this.Id) && this.MinBpm == 0 && this.MaxBpm == 0)
             {
-                throw new ArgumentNullException("SearchTerm", "A searchTerm, Id or genreId must be supplied");
+                throw new ArgumentNullException("SearchTerm", "A searchTerm, Id, genreId, or BPM must be supplied");
             }
 
             this.InternalSearch<MusicItem>(this.SearchTerm, this.GenreId, this.Id, this.Category, null, null, this.OrderBy, this.SortOrder, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);

@@ -248,6 +248,8 @@ namespace Nokia.Music.Internal.Request
             }
             else
             {
+                error = offlineNotFoundResponse ? new NetworkUnavailableException() : error;
+
                 callback(new Response<T>(statusCode, error, responseBody, requestId));
             }
         }

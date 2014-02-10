@@ -38,6 +38,7 @@ namespace Nokia.Music.Commands
         internal const string ParamOrderBy = "orderby";
         internal const string ParamSortOrder = "sortorder";
         internal const string ParamExclusive = "exclusive";
+        internal const string ParamExclusivity = "excl";
         internal const string ParamGenre = "genre";
         internal const string ParamLocation = "location";
         internal const string ParamMaxDistance = "maxdistance";
@@ -166,15 +167,6 @@ namespace Nokia.Music.Commands
         ///   <c>true</c> if should use a blank querystring.
         /// </value>
         internal virtual bool RequiresEmptyQuerystring
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the command should throw upon error responses.
-        /// <remarks>This will be the default behaviour in the next major version of the API, but is experimental and only used in some commands for now</remarks>
-        /// </summary>
-        internal virtual bool ThrowOnError
         {
             get { return false; }
         }

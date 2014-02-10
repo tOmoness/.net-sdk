@@ -63,6 +63,20 @@ namespace Nokia.Music
         }
 
         /// <summary>
+        /// Gets a value indicating whether the request timed out or not.
+        /// </summary>
+        /// <value>
+        /// False if the request did not time out; otherwise true.
+        /// </value>
+        public bool RequestTimedOut 
+        {
+            get
+            {
+                return this.StatusCode == null;
+            } 
+        }
+
+        /// <summary>
         /// Gets or sets the exception if the call was not successful
         /// </summary>
         public Exception Error { get; protected set; }

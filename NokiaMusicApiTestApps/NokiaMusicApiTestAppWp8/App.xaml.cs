@@ -138,7 +138,7 @@ namespace Nokia.Music.TestApp
             {
                 if (product.Category == Category.Track)
                 {
-                    ShowProductTask task = new ShowProductTask() { ProductId = product.Id };
+                    ShowProductTask task = new ShowProductTask() { ClientId = ApiKeys.ClientId, ProductId = product.Id };
                     task.Show();
                 }
                 else
