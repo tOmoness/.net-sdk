@@ -13,7 +13,7 @@ The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD L
 ##Usage
 
  - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) - or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
- ![Package Manager](http://api.ent.nokia.com/assets/nuget.png)
+ ![Package Manager](http://dev.mixrad.io/assets/nuget-package-install.png)
  
 ##Releases
 
