@@ -1,0 +1,147 @@
+﻿<Page
+    x:Class="SpeakAndMix.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeakAndMix"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="0,13,0,12">
+            <TextBlock x:Name="PageTitle" Text="about" Margin="12,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
+            <Grid Margin="12,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Height="140" Width="140" x:Name="IconGrid" VerticalAlignment="Top">
+                    <Rectangle Fill="#ff2e80" Width="140" Height="140" />
+                    <Image Source="Assets/Logo.png" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill" x:Name="IconImg" />
+                </Grid>
+                <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top">
+                    <TextBlock Text="SPEAK AND MIX" FontFamily="Segoe WP Black" FontWeight="Black" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#ff2e80" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="38" Margin="12,0,0,0" />
+                    <TextBlock Text="Version X.Y" x:Name="Version" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#ff2e80" Margin="12,0,0,0" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <ScrollViewer x:Name="ContentPanel" Grid.Row="1" Margin="0,0,12,0">
+            <StackPanel Orientation="Vertical">
+
+                <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                           TextWrapping="Wrap"
+                           Margin="12,9">
+                    <TextBlock.Text>
+                        This app lets you start listening to MixRadio by asking Cortana to mix some music for you.
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <Button Tag="http://dev.mixrad.io/blog/2014/04/24/Introducing-Cortana-to-MixRadio/"
+                        Click="OpenWebLink"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,9">
+                    <StackPanel>
+                            <TextBlock Text="If you're a developer, you might be interested in the source code and blog about this app at"
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                       TextWrapping="Wrap"
+                                   Margin="0" />
+                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                   Margin="0" TextWrapping="Wrap">
+                                <Underline>http://dev.mixrad.io/blog/2014/04/24/Introducing-Cortana-to-MixRadio/</Underline>
+                            </TextBlock>
+                            
+                    </StackPanel>
+                </Button>
+
+                <Button Tag="https://twitter.com/sr_gb/"
+                        Click="OpenWebLink"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,9">
+                    <StackPanel>
+                        <TextBlock Text="Developed by:"
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Margin="0" />
+                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                   Margin="0">
+                            <Underline>Steve Robbins</Underline>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Click="OpenOtherApps"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,0">
+                    <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Margin="0">
+                            <Underline>My Other Apps</Underline>
+                    </TextBlock>
+                </Button>
+
+                <Button Tag="http://nokia.ly/wpmusicapi"
+                        Click="OpenWebLink"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12">
+                    <StackPanel>
+                        <TextBlock Text="This app was built using the Nokia MixRadio API, which is Copyright (c) 2012-2014, Nokia."
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Margin="0"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="For more information, visit:"
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Margin="0"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                   Margin="0">
+                            <Underline>http://nokia.ly/wpmusicapi</Underline>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Tag="http://nokia.ly/buildmusicapi"
+                        Click="OpenWebLink"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12">
+                    <StackPanel>
+                        <TextBlock Text="Want to learn how to use the Nokia MixRadio API? Watch the //build/ talk:"
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Margin="0"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                   Margin="0">
+                            <Underline>http://nokia.ly/buildmusicapi</Underline>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Tag="http://nokia.ly/musicapp"
+                        Click="OpenWebLink"
+                        Template="{StaticResource HeadlessButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="12">
+                    <StackPanel>
+                        <TextBlock Text="For more information about Nokia MixRadio, visit:"
+                                   Style="{StaticResource PhoneTextSubtleStyle}"
+                                   Margin="0"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                   Margin="0">
+                            <Underline>http://nokia.ly/musicapp</Underline>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
