@@ -1,23 +1,35 @@
 # wp-api-client
 
-This codebase contains the **Nokia MixRadio C# SDK**.
+This codebase contains the **Nokia MixRadio .Net SDK**.
 
-##Overview
-The **Nokia MixRadio C# SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone with [Nokia MixRadio on Nokia Lumia phones](http://nokia.ly/musicapp)
-or your Windows 8 applicaton with [Nokia MixRadio on Windows 8](http://nokia.ly/musicappwin8).
-The API offers two levels of integration; the simplest and quickest to get going is to use the high-level Launcher Tasks, with more advanced integration available to perform searches and get recommendations within your app.
+#Overview
+The **Nokia MixRadio .Net SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [Nokia MixRadio on Nokia Lumia phones](http://nokia.ly/musicapp), your Windows 8 app with [Nokia MixRadio on Windows 8](http://nokia.ly/musicappwin8) or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment - for example using [Xamarin](http://www.xamarin.com/) to target the [Nokia X device family](http://www.nokia.com/global/products/nokia-x/).
 
-##License
-The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/mixradio/wp-api-client/master/LICENSE.txt>.
+The SDK lets you perform searches, get charts and recommendations and user data such as play history within your app. You can link through to the MixRadio apps to give your users a full listening experience.
 
-##Usage
+##Installation
+You need two things to start using the SDK:
 
- - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) - or install with [Package Manager](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
+1. **The SDK itself**
+ - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) or the [Package Manager Visual Studio console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
  ![Package Manager](http://dev.mixrad.io/assets/nuget-package-install.png)
- 
+ - or download the latest source from [GitHub](http://nokia.ly/wpmusicapi).
+2. **Credentials** Visit our [API Registration page](http://nokia.ly/musicapireg) and request your credentials.
+
+##Quick Start
+Impatient to get going? Head over to the [Quick Start guide](http://developer.nokia.com/resources/library/Lumia/nokia-mixradio-api/quick-start.html).
+
+##Source License
+The **Nokia MixRadio .Net SDK** source code is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/mixradio/wp-api-client/master/LICENSE.txt>.
+
+## Terms
+Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.html>
+
 ##Releases
 
-- 3.2.0 - Added BPM property to Product object and SearchBpmAsync to find tracks by Beats Per Minute. Fixed exception throwing in CountryResolver.CheckAvailabilityAsync when there is no connection.
+- 3.3.1 - Terms change from Nokia to Microsoft
+- 3.3.0 - Added GetUserRecentMixes method, replaced SharpGIS.GZipWebClient with PCL HttpClient, added CancellationToken support, moved all app-to-app comms to new mixradio protocol for Windows Phone, added new PlayMeTask to launch PlayMe feature of MixRadio, added MusicBrainzId property for Artists, added Windows Phone 8.1 project, upgraded Windows 8 project to 8.1, added GetAllMixesAsync and GetMixAsync methods
+- 3.2.0 - Added BPM property to Product object and SearchBpmAsync to find tracks by Beats Per Minute
 - 3.1.5 - More web fallback improvements
 - 3.1.4 - More web fallback improvements, added GetMixAsync to get details of a mix by id
 - 3.1.3 - Added AppToAppPlayUri and WebPlayUri properties to Artist to enable playback of Artist mixes on the web, also enabling artist mixes on non-Nokia devices via the PlayMixTask. Merged in Win8 compiler directive change from https://github.com/mixradio/wp-api-client/pull/4
@@ -39,59 +51,56 @@ The **Nokia MixRadio C# SDK** is released under the 3-clause license ("New BSD L
 - 1.0.2 - Initial Release
 
 
-## Launcher Tasks
+## Launcher Tasks {#Launchers}
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
 
 With the high-level Launchers, you can perform the following using the new app-to-app APIs that Nokia MixRadio supports on Windows Phone 8 and Windows 8:
 
-- Launch the Nokia MixRadio app
-- Search for music
-- Show Artist details
-- Show Gigs nearby
-- Show available mixes
-- Show product details
-- Play a mix 
- 
-## API Methods
-With the lower-level API access, you get more control and can perform the following use cases within your app:
+ - Launch the Nokia MixRadio app
+ - Search for music
+ - Show Artist details
+ - Show Gigs nearby
+ - Show available mixes
+ - Show product details
+ - Play a mix 
 
-- Search for content
-- Get top artists
-- Get charts
-- Get new releases
-- Get a list of genres
-- Get albums and tracks by an artist
-- Get artist recommendations
-- Get a list of available mixes
+## Metadata Methods {#Methods}
+Examples of the data you can get in your app:
 
-## New User Data API Methods
-New in v3.x, you can access user data (provided the user authorises your app!):
+ - Search for content
+ - Get top artists
+ - Get charts
+ - Get new releases
+ - Get a list of genres
+ - Get albums and tracks by an artist
+ - Get artist recommendations
+ - Get a list of available mixes
+
+## User Data API Methods
+With version 3 and above, you can access user data (provided the user authorises your app!):
 
 - Read the user's play history
 - Read the user's top artists
+- Read the user's recent mixes
 
 ## Documentation
 The documentation for this component is at <http://nokia.ly/wpmusicapidoc>
 
 ## Dependencies
-
 We're proud to build on the shoulders of the following giants...
 
  - [JSON.Net](http://json.codeplex.com) for JSON parsing
  - [NUnit](http://nunit.org) for unit testing
  - [OpenCover](https://github.com/sawilde/opencover/) and [ReportGenerator](http://reportgenerator.codeplex.com) for unit test coverage
  - [StyleCop](http://stylecop.codeplex.com) for keeping the code in order
- - [SharpGIS.GZipWebClient](https://github.com/dotMorten/SharpGIS.GZipWebClient) for GZIP compression on Windows Phone
  
 The projects make use of [NuGet](http://nuget.org) to install these components at build time.
  
 ## Tools required to develop
-
  - Visual Studio 2012 for Windows Phone 8 / Windows 8 development
 
 ## Contributing
-
-If you want to contribute to the project, check out the [Issues](https://github.com/nokia-entertainment/wp-api-client/issues) tab.
+If you want to contribute to the project, check out the [Issues](https://github.com/mixradio/wp-api-client/issues) tab.
 
 You can:
 
@@ -105,4 +114,7 @@ Feeling like writing some code? Why not take the next step:
  - Send a pull request once you're happy with it
 
 The team will then review the changes, discuss if anything needs to be addressed, and integrate your changes back into the application.
+
+##Feedback
+If you have a suggestion, you can tell us about it on our [MixRadio API UserVoice](https://nokiamixradio.uservoice.com/forums/233741-api)
 
