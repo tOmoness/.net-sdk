@@ -27,7 +27,6 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 
 ##Releases
 
-- 3.3.1 - Terms change from Nokia to Microsoft
 - 3.3.0 - Added GetUserRecentMixes method, replaced SharpGIS.GZipWebClient with PCL HttpClient, added CancellationToken support, moved all app-to-app comms to new mixradio protocol for Windows Phone, added new PlayMeTask to launch PlayMe feature of MixRadio, added MusicBrainzId property for Artists, added Windows Phone 8.1 project, upgraded Windows 8 project to 8.1, added GetAllMixesAsync and GetMixAsync methods
 - 3.2.0 - Added BPM property to Product object and SearchBpmAsync to find tracks by Beats Per Minute
 - 3.1.5 - More web fallback improvements
@@ -51,7 +50,7 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 - 1.0.2 - Initial Release
 
 
-## Launcher Tasks {#Launchers}
+## Launcher Tasks
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
 
 With the high-level Launchers, you can perform the following using the new app-to-app APIs that Nokia MixRadio supports on Windows Phone 8 and Windows 8:
@@ -64,7 +63,7 @@ With the high-level Launchers, you can perform the following using the new app-t
  - Show product details
  - Play a mix 
 
-## Metadata Methods {#Methods}
+## Metadata Methods
 Examples of the data you can get in your app:
 
  - Search for content
