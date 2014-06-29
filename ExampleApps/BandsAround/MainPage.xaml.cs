@@ -155,7 +155,7 @@ namespace BandsAround
             // Sign up for api appId at http://api.developer.nokia.com
             if (client == null)
             {
-                client = new MusicClient(null);
+                client = new MusicClient(Nokia.Music.TestApp.ApiKeys.ClientId);
             }
 
             var res = await client.GetArtistsAroundLocationAsync(Map.Center.Latitude, Map.Center.Longitude, 50, 0, 40);

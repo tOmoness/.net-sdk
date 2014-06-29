@@ -39,6 +39,14 @@ namespace SpeakAndMix
             App.MixRadioClient = new MusicClient(ApiKeys.ClientId);
         }
 
+        public static string Country
+        {
+            get
+            {
+                return MixRadioClient.CountryCode;
+            }
+        }
+
         public static List<Mix> Mixes
         {
             get;
@@ -107,14 +115,14 @@ namespace SpeakAndMix
         public static void LogAnalyticsEvent(string category, string action, string label, int value)
         {
             // Google Analytics SDK not available for WPA81 yet...
-            ////try
-            ////{
-            ////    GoogleAnalytics.EasyTracker.GetTracker().SendEvent(category, action, label, value);
-            ////}
-            ////catch(Exception ex)
-            ////{
-            ////    Debug.WriteLine("LogAnalyticsEvent error: " + ex.ToString());
-            ////}
+            try
+            {
+                GoogleAnalytics.EasyTracker.GetTracker().SendEvent(category, action, label, value);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("LogAnalyticsEvent error: " + ex.ToString());
+            }
         }
 
         /// <summary>

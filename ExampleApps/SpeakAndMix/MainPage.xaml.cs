@@ -83,11 +83,15 @@ namespace SpeakAndMix
                 Uri vcdUri = new Uri(VcdPath);
                 var file = await StorageFile.GetFileFromApplicationUriAsync(vcdUri);
                 await VoiceCommandManager.InstallCommandSetsFromStorageFileAsync(file);
+
+                App.LogAnalyticsEvent("InstallVoiceCommands", "OK", null, 0);
             }
             catch (Exception vcdEx)
             {
                 Debug.WriteLine(vcdEx.ToString());
                 this.StatusText.Text = "sorry, could not register voice commands - " + vcdEx.Message;
+
+                GoogleAnalytics.EasyTracker.GetTracker().SendException("InstallVoiceCommands failed: " + vcdEx.Message, false);
             }
         }
 
@@ -100,10 +104,14 @@ namespace SpeakAndMix
 
                 var text = voiceResult.Text.ToLowerInvariant();
 
+                App.LogAnalyticsEvent("Country", App.Country, null, 0);
+
                 if (text.CompareTo("play me") == 0 || text.CompareTo("my favourites") == 0 || text.CompareTo("my favorites") == 0)
                 {
                     this.SetBusyAnimation(false);
                     this.SetReadyToGoAndExample();
+
+                    App.LogAnalyticsEvent("HandleVoiceCommand", voiceResult.Text + " => PlayMe", null, 0);
 
                     // Start Play Me...
                     await new Nokia.Music.Tasks.PlayMeTask().Show();
@@ -130,6 +138,8 @@ namespace SpeakAndMix
                         int index = rnd.Next(candidates.Count() - 1);
                         var mix = candidates[index];
 
+                        App.LogAnalyticsEvent("HandleVoiceCommand", voiceResult.Text + " => Curated " + mix.Id, null, 0);
+
                         this.SetBusyAnimation(false);
                         this.SetReadyToGoAndExample();
                         await mix.Play();
@@ -143,6 +153,8 @@ namespace SpeakAndMix
 
                         if (artist != null)
                         {
+                            App.LogAnalyticsEvent("HandleVoiceCommand", voiceResult.Text + " => Artist " + artist.Id, null, 0);
+
                             // start the artist mix...
                             await artist.PlayMix();
                         }
@@ -150,9 +162,14 @@ namespace SpeakAndMix
                         {
                             // nothing found
                             this.StatusText.Text = "sorry, could not find any '" + text + "' to play.\r\ntry '" + this.GetExample() + "'";
+                            App.LogAnalyticsEvent("HandleVoiceCommand", voiceResult.Text + " => No matches", null, 0);
                         }
                     }
                 }
+            }
+            else
+            {
+                App.LogAnalyticsEvent("HandleVoiceCommand", "SpeechRecognitionResultStatus==" + voiceResult.Status.ToString(), null, 0);
             }
         }
 
