@@ -44,7 +44,7 @@ namespace MusicExplorer.Models
         private string _id;
         /// <summary>
         /// Genres Id property.
-        /// This property is used in some of Nokia Music API methods.
+        /// This property is used in some of MixRadio API methods.
         /// </summary>
         public string Id
         {

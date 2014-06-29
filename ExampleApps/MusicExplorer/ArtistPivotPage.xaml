@@ -88,7 +88,7 @@
                             <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Transparent"/>
                             <Rectangle Grid.Column="0" Margin="12,0,0,0" HorizontalAlignment="Left" Fill="Black" Width="85" Height="85"></Rectangle>
                             <Image Grid.Column="0" Margin="10,0,0,0" Width="50" Height="50" Stretch="UniformToFill" Source="/Assets/music_explorer_note.png"></Image>
-                            <TextBlock Grid.Column="1" Width="360" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="24" IsHitTestVisible="False"  Text="Show artist in Nokia Music"></TextBlock>
+                            <TextBlock Grid.Column="1" Width="360" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="24" IsHitTestVisible="False"  Text="Show artist in MixRadio"></TextBlock>
                         </Grid>
                     </controls:TiltGrid>
 
@@ -101,7 +101,7 @@
                             <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Transparent"/>
                             <Rectangle Grid.Column="0" Margin="12,0,0,0" HorizontalAlignment="Left" Fill="Black" Width="85" Height="85"></Rectangle>
                             <Image Grid.Column="0" Margin="10,0,0,0" Width="50" Height="50" Stretch="UniformToFill" Source="/Assets/music_explorer_note.png"></Image>
-                            <TextBlock Grid.Column="1" Width="360" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="24" IsHitTestVisible="False"  Text="Play artist mix in Nokia Music"></TextBlock>
+                            <TextBlock Grid.Column="1" Width="360" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="24" IsHitTestVisible="False"  Text="Play artist mix in MixRadio"></TextBlock>
                         </Grid>
                     </controls:TiltGrid>
 

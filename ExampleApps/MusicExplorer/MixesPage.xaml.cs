@@ -36,7 +36,7 @@ namespace MusicExplorer
 
         /// <summary>
         /// Called when a mix is selected. 
-        /// Launches the mix through Nokia Music API.
+        /// Launches the mix through MixRadio API.
         /// </summary>
         /// <param name="sender">MixesList (LongListSelector).</param>
         /// <param name="e">Event arguments.</param>

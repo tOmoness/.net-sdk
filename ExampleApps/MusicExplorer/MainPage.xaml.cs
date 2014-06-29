@@ -83,7 +83,7 @@ namespace MusicExplorer
 
         /// <summary>
         /// Begins the procedure to get current location needed when 
-        /// initializing Nokia Music API.
+        /// initializing MixRadio API.
         /// </summary>
         /// <param name="sender">Geo timer</param>
         /// <param name="e">Event arguments</param>
@@ -103,7 +103,7 @@ namespace MusicExplorer
             ArtistModel selected = (ArtistModel)LocalAudioList.SelectedItem;
             if (selected != null && LocalAudioList.SelectedIndex > 0) // title is in index 0
             {
-                // Artist info cannot be fetched from Nokia Music API until the Id
+                // Artist info cannot be fetched from MixRadio API until the Id
                 // of the artist is known (received from API with artist search).
                 if (selected.Id == null)
                 {
@@ -154,7 +154,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the selected product view.
+        /// Launches MixRadio Application to the selected product view.
         /// </summary>
         /// <param name="sender">LongListSelector - list of new releases</param>
         /// <param name="e">Event arguments</param>
@@ -246,7 +246,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Gets current geocoordinate for use with Nokia Music API.
+        /// Gets current geocoordinate for use with MixRadio API.
         /// </summary>
         private async void GetCurrentCoordinate()
         {
@@ -287,7 +287,7 @@ namespace MusicExplorer
 
         /// <summary>
         /// Translates current location into a two letter ISO country code used
-        /// by Nokia Music API. Makes the inital requests to Nokia Music API.
+        /// by MixRadio API. Makes the inital requests to MixRadio API.
         /// </summary>
         /// <param name="sender">ReverseGeocodeQuery</param>
         /// <param name="e">Event arguments</param>
@@ -308,8 +308,8 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Checks the availability of Nokia Music in a locale.
-        /// Initializes Nokia Music API if it is available.
+        /// Checks the availability of MixRadio in a locale.
+        /// Initializes MixRadio API if it is available.
         /// </summary>
         /// <param name="twoLetterCountryCode">An ISO 3166-2 country code</param>
         private async void InitializeNokiaMusicApi(string twoLetterCountryCode)
@@ -324,7 +324,7 @@ namespace MusicExplorer
                 bool response = await resolver.CheckAvailabilityAsync(twoLetterCountryCode.ToLower());
                 if (!response)
                 {
-                    MessageBox.Show("Sorry, Nokia Music is not available in this locale.");
+                    MessageBox.Show("Sorry, MixRadio is not available in this locale.");
                     twoLetterCountryCode = null;
                 }
             }

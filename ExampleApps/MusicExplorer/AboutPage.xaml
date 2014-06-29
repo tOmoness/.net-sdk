@@ -63,7 +63,7 @@
         <!--ContentPanel - place additional content here-->
         <StackPanel Grid.Row="1" Margin="12,0,12,0">
             <TextBlock x:Name="VersionText" Margin="12,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
-            <TextBlock Margin="12,10,12,0" Text="Music Explorer is a Nokia Developer example application demonstrating the use of Nokia Music API together with standard Windows Phone 8 audio features to create an immersive music experience." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
+            <TextBlock Margin="12,10,12,0" Text="Music Explorer is a Nokia Developer example application demonstrating the use of MixRadio API together with standard Windows Phone 8 audio features to create an immersive music experience." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
             <TextBlock Margin="12,10,12,0" Text="Developed and published by Nokia. All rights reserved." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="12,10,0,0" Text="Learn more at " Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>

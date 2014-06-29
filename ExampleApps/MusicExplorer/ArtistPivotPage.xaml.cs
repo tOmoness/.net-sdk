@@ -96,7 +96,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the selected product view.
+        /// Launches MixRadio Application to the selected product view.
         /// </summary>
         /// <param name="sender">LongListSelector - list of tracks</param>
         /// <param name="e">Event arguments</param>
@@ -111,7 +111,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the selected product view.
+        /// Launches MixRadio Application to the selected product view.
         /// </summary>
         /// <param name="sender">LongListSelector - list of albums</param>
         /// <param name="e">Event arguments</param>
@@ -126,7 +126,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the selected product view.
+        /// Launches MixRadio Application to the selected product view.
         /// </summary>
         /// <param name="sender">LongListSelector - list of singles</param>
         /// <param name="e">Event arguments</param>
@@ -141,7 +141,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the selected artist view.
+        /// Launches MixRadio Application to the selected artist view.
         /// </summary>
         /// <param name="sender">LongListSelector - list of similar artists</param>
         /// <param name="e">Event arguments</param>
@@ -174,9 +174,9 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music Application to the artist view.
+        /// Launches MixRadio Application to the artist view.
         /// </summary>
-        /// <param name="sender">Show artist in Nokia Music button</param>
+        /// <param name="sender">Show artist in MixRadio button</param>
         /// <param name="e">Event arguments</param>
         private void OnShowArtistClick(object sender, RoutedEventArgs e)
         {
@@ -185,9 +185,9 @@ namespace MusicExplorer
 
         /// <summary>
         /// Stops current playback.
-        /// Launches Nokia Music Application to play artist mix.
+        /// Launches MixRadio Application to play artist mix.
         /// </summary>
-        /// <param name="sender">Play artist mix in Nokia Music button</param>
+        /// <param name="sender">Play artist mix in MixRadio button</param>
         /// <param name="e">Event arguments</param>
         private void OnPlayMixClick(object sender, RoutedEventArgs e)
         {

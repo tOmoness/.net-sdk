@@ -30,9 +30,9 @@ using MusicExplorer.Models;
 namespace MusicExplorer
 {
     /// <summary>
-    /// This class represents Nokia Music API to the rest of the application.
-    /// All requests to Nokia Music API are sent by an instance of this class,
-    /// and all the responses from Nokia Music API are handled by this class.
+    /// This class represents MixRadio API to the rest of the application.
+    /// All requests to MixRadio API are sent by an instance of this class,
+    /// and all the responses from MixRadio API are handled by this class.
     /// </summary>
     public class MusicApi
     {
@@ -54,11 +54,11 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Initializes Nokia Music API for further requests. Responses to  
+        /// Initializes MixRadio API for further requests. Responses to  
         /// requests depend on the region - TopArtists are country specific
         /// for example, and genres are localized by the region.
         /// </summary>
-        /// <param name="countryCode">An ISO 3166-2 country code validated by the Nokia Music API CountryResolver</param>
+        /// <param name="countryCode">An ISO 3166-2 country code validated by the MixRadio API CountryResolver</param>
         public void Initialize(string countryCode)
         {
             // Create a music client with correct AppId and Token/AppCode
@@ -96,7 +96,11 @@ namespace MusicExplorer
             {
                 m.Id = response.Result[0].Id;
                 m.Country = CountryCodes.CountryNameFromTwoLetter(response.Result[0].Country);
-                m.Genres = response.Result[0].Genres[0].Name;
+
+                if (response.Result[0].Genres != null)
+                {
+                    m.Genres = response.Result[0].Genres[0].Name;
+                }
                 int itemHeight = Int32.Parse(m.ItemHeight);
 
                 m.Thumb100Uri = response.Result[0].Thumb100Uri;
@@ -215,7 +219,7 @@ namespace MusicExplorer
                         {
                             Name = a.Name,
                             Country = CountryCodes.CountryNameFromTwoLetter(a.Country),
-                            Genres = a.Genres[0].Name,
+                            Genres =  a.Genres == null ? null : a.Genres[0].Name,
                             Thumb100Uri = a.Thumb100Uri,
                             Thumb200Uri = a.Thumb200Uri,
                             Thumb320Uri = a.Thumb320Uri,
@@ -239,7 +243,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves top artists (10 most popular) from Nokia Music API.
+        /// Retrieves top artists (10 most popular) from MixRadio API.
         /// </summary>
         public async void GetTopArtists()
         {
@@ -288,7 +292,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves new releases (10 latest albums) from Nokia Music API.
+        /// Retrieves new releases (10 latest albums) from MixRadio API.
         /// </summary>
         public async void GetNewReleases()
         {
@@ -356,7 +360,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves available genres from Nokia Music API.
+        /// Retrieves available genres from MixRadio API.
         /// </summary>
         public async void GetGenres()
         {
@@ -386,7 +390,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves top artists of a selected genre from Nokia Music API.
+        /// Retrieves top artists of a selected genre from MixRadio API.
         /// </summary>
         /// <param name="id">Id of the genre.</param>
         public async void GetTopArtistsForGenre(string id)
@@ -428,7 +432,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves available mix groups from Nokia Music API.
+        /// Retrieves available mix groups from MixRadio API.
         /// </summary>
         public async void GetMixGroups()
         {
@@ -461,7 +465,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves available mixes in a selected mix group from Nokia Music API.
+        /// Retrieves available mixes in a selected mix group from MixRadio API.
         /// </summary>
         /// <param name="id">Id of the mix group.</param>
         public async void GetMixes(string id)
@@ -511,7 +515,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves 30 products for a selected artist from Nokia Music API.
+        /// Retrieves 30 products for a selected artist from MixRadio API.
         /// </summary>
         /// <param name="id">Id of the artist.</param>
         public async void GetProductsForArtist(string id)
@@ -649,7 +653,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Retrieves similar artists for a selected artist from Nokia Music API.
+        /// Retrieves similar artists for a selected artist from MixRadio API.
         /// </summary>
         /// <param name="id">Id of the artist.</param>
         public async void GetSimilarArtists(string id)
@@ -697,7 +701,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music App to play a selected mix.
+        /// Launches MixRadio App to play a selected mix.
         /// </summary>
         /// <param name="id">Id of the mix.</param>
         public async void LaunchMix(string id)
@@ -713,7 +717,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music App to play a mix for a selected artist.
+        /// Launches MixRadio App to play a mix for a selected artist.
         /// </summary>
         /// <param name="artistName">Name of the artist.</param>
         public async void LaunchArtistMix(string artistName)
@@ -729,7 +733,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music App to show information on a selected product.
+        /// Launches MixRadio App to show information on a selected product.
         /// </summary>
         /// <param name="id">Id of the product.</param>
         public async void LaunchProduct(string id)
@@ -745,7 +749,7 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Launches Nokia Music App to show information on a selected artist.
+        /// Launches MixRadio App to show information on a selected artist.
         /// </summary>
         /// <param name="id">id of the artist.</param>
         public async void LaunchArtist(string id)
@@ -794,11 +798,11 @@ namespace MusicExplorer
         }
 
         /// <summary>
-        /// Shows MessageBox with Nokia Music API error text
+        /// Shows MessageBox with MixRadio API error text
         /// </summary>
         void ShowNokiaMusicApiError()
         {
-            MessageBox.Show("Nokia Music API error. Please ensure that the "
+            MessageBox.Show("MixRadio API error. Please ensure that the "
                           + "device is connected to Internet and restart "
                           + "the application.");
         }

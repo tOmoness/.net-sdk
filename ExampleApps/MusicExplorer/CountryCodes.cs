@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 namespace MusicExplorer
 {
     /// <summary>
-    /// This static class provides country codes to use with Nokia Music API. 
+    /// This static class provides country codes to use with MixRadio API. 
     /// Implementation based on http://en.wikipedia.org/wiki/ISO_3166-1,
-    /// as two letter ISO region codes are used by the Nokia Music API.
+    /// as two letter ISO region codes are used by the MixRadio API.
     /// </summary>
     class CountryCodes
     {

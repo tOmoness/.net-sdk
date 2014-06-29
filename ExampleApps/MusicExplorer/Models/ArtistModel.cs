@@ -180,7 +180,7 @@ namespace MusicExplorer.Models
         private string _id;
         /// <summary>
         /// Artist's Id property.
-        /// This property is used in some Nokia Music API methods.
+        /// This property is used in some MixRadio API methods.
         /// </summary>
         public string Id
         {
