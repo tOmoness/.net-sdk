@@ -1,7 +1,5 @@
 # wp-api-client
 
-[![Build status](https://ci.appveyor.com/api/projects/status/cfdh2bc1cursyab9)](https://ci.appveyor.com/project/srgb/wp-api-client)
-
 This codebase contains the **MixRadio C# SDK**.
 
 #Overview
