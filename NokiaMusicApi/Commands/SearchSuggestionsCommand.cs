@@ -9,14 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Response;
+using Nokia.Music.Internal;
 
 namespace Nokia.Music.Commands
 {
     /// <summary>
-    ///   Gets suggestions for a search term
+    /// Gets suggestions for a search term
     /// </summary>
-    internal sealed class SearchSuggestionsCommand : MusicClientCommand<ListResponse<string>>
+    internal sealed class SearchSuggestionsCommand : JsonMusicClientCommand<ListResponse<string>>
     {
         private const string ArrayNameResults = "results";
 
@@ -46,35 +46,34 @@ namespace Nokia.Music.Commands
             }
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             if (string.IsNullOrEmpty(this.SearchTerm))
             {
                 throw new ArgumentNullException("SearchTerm", "A search term must be supplied");
             }
 
-            var queryStringParams = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>(ParamSearchTerm, this.SearchTerm),
-                    new KeyValuePair<string, string>(ParamMaxItems, this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
-                };
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>(ParamSearchTerm, this.SearchTerm),
+                new KeyValuePair<string, string>(ParamMaxItems, this.ItemsPerPage.ToString(CultureInfo.InvariantCulture))
+            };
+        }
 
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                queryStringParams,
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameResults, ExtractStringFromJToken, this.Callback)));
+        internal override ListResponse<string> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, ArrayNameResults, ExtractStringFromJToken);
         }
 
         /// <summary>
-        /// Extracts a 
+        /// Extracts a
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>Returns the string value</returns>
-        private static string ExtractStringFromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// Returns the string value
+        /// </returns>
+        private static string ExtractStringFromJToken(JToken item, IMusicClientSettings settings)
         {
             return item.Value<string>();
         }

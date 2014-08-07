@@ -22,32 +22,30 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetArtistProductsThrowsExceptionForNullArtistId()
+        public async Task EnsureGetArtistProductsThrowsExceptionForNullArtistId()
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistProductsAsync(nullId).Wait();
+            await client.GetArtistProductsAsync(nullId);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetArtistProductsThrowsExceptionForNullArtist()
+        public async Task EnsureGetArtistProductsThrowsExceptionForNullArtist()
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistProductsAsync(nullArtist).Wait();
+            await client.GetArtistProductsAsync(nullArtist);
         }
 
         [Test]
-        public void EnsureGetArtistProductsReturnsItems()
+        public async Task EnsureGetArtistProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            var task = client.GetArtistProductsAsync(new Artist() { Id = "test" }, Category.Album);
-            task.Wait();
-            this.ValidateProductListResponse(task.Result);
-            task = client.GetArtistProductsAsync("test");
-            task.Wait();
-            this.ValidateProductListResponse(task.Result);
+            var t = await client.GetArtistProductsAsync(new Artist() { Id = "test" }, Category.Album);
+            this.ValidateProductListResponse(t);
+            t = await client.GetArtistProductsAsync("test");
+            this.ValidateProductListResponse(t);
         }
 
         [Test]

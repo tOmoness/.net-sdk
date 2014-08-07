@@ -6,12 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to play a Nokia MixRadio Mix
+    /// Provides a simple way to play a MixRadio Mix
     /// </summary>
     public sealed class PlayMixTask : TaskBase
     {
@@ -59,21 +60,22 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Plays the Mix in Nokia MixRadio
+        /// Plays the Mix in MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             if (!string.IsNullOrEmpty(this._mixId))
             {
-                this.Launch(
+                await this.Launch(
                     new Uri(string.Format(Mix.AppToAppPlayUri, this._mixId)),
-                    new Uri(string.Format(Mix.WebPlayUri, this._mixId)));
+                    new Uri(string.Format(Mix.WebPlayUri, this._mixId))).ConfigureAwait(false);
             }
             else if (!string.IsNullOrEmpty(this._artistName))
             {
-                this.Launch(
+                await this.Launch(
                     new Uri(string.Format(Artist.AppToAppPlayUriByName, this._artistName.Replace("&", string.Empty))),
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty))));
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty)))).ConfigureAwait(false);
             }
             else
             {

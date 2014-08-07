@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Wp8", "NokiaMusicApi\Nokia.Music.Wp8.csproj", "{578A4839-2BF0-40C1-98D7-7A8C1C3EAC2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Tests", "NokiaMusicApiTests\Nokia.Music.Tests.csproj", "{E5470471-A7EB-410A-8676-4B1F70BA1411}"
@@ -18,11 +20,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Win8", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Win8", "NokiaMusicApi\Nokia.Music.Win8.csproj", "{F3BB90F4-9186-40E9-B068-0C69D5098F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Net45", "NokiaMusicApi\Nokia.Music.Net45.csproj", "{125DCED1-248C-4D16-85D8-847CCE8B8923}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.PCL", "NokiaMusicApi\Nokia.Music.PCL.csproj", "{C2925B4D-2347-473B-908F-5CC79BC717A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.Wp81", "NokiaMusicApi\Nokia.Music.Wp81.csproj", "{278550F2-88A9-4A3B-954E-1877B810066C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Nokia.Music.TestApp.Shared", "NokiaMusicApiTestApps\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.shproj", "{B1301B4D-823A-4953-86BA-55A5C8E9A6C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nokia.Music.TestApp.Wp81", "NokiaMusicApiTestApps\NokiaMusicApiTestAppWp81\Nokia.Music.TestApp.Wp81.csproj", "{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		NokiaMusicApiTestApps\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.projitems*{d31e7a39-4c29-4344-b95f-96232913d1f4}*SharedItemsImports = 4
+		NokiaMusicApiTestApps\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.projitems*{c98f5aca-e439-4b5a-8d02-08c2cc48b004}*SharedItemsImports = 4
+		NokiaMusicApiTestApps\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.projitems*{b1301b4d-823a-4953-86ba-55a5c8e9a6c2}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -146,20 +157,6 @@ Global
 		{F3BB90F4-9186-40E9-B068-0C69D5098F3C}.Release|x64.Build.0 = Release|x64
 		{F3BB90F4-9186-40E9-B068-0C69D5098F3C}.Release|x86.ActiveCfg = Release|x86
 		{F3BB90F4-9186-40E9-B068-0C69D5098F3C}.Release|x86.Build.0 = Release|x86
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|Any CPU.Build.0 = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|ARM.ActiveCfg = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|x64.ActiveCfg = Release|Any CPU
-		{125DCED1-248C-4D16-85D8-847CCE8B8923}.Release|x86.ActiveCfg = Release|Any CPU
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -174,6 +171,50 @@ Global
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|x64.ActiveCfg = Release|Any CPU
 		{C2925B4D-2347-473B-908F-5CC79BC717A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|ARM.Build.0 = Debug|ARM
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|x86.ActiveCfg = Debug|x86
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Debug|x86.Build.0 = Debug|x86
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|ARM.ActiveCfg = Release|ARM
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|ARM.Build.0 = Release|ARM
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|x64.ActiveCfg = Release|Any CPU
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|x86.ActiveCfg = Release|x86
+		{278550F2-88A9-4A3B-954E-1877B810066C}.Release|x86.Build.0 = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|ARM.Build.0 = Debug|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|x86.ActiveCfg = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|x86.Build.0 = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Debug|x86.Deploy.0 = Debug|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|ARM.ActiveCfg = Release|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|ARM.Build.0 = Release|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|ARM.Deploy.0 = Release|ARM
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|x64.ActiveCfg = Release|Any CPU
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|x86.ActiveCfg = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|x86.Build.0 = Release|x86
+		{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

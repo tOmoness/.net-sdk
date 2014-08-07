@@ -6,7 +6,6 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Device.Location;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
@@ -53,15 +52,6 @@ namespace Nokia.Music.Tests.Types
             Assert.AreEqual(string.Format(CultureInfo.InvariantCulture, Location.LocationFormat, location.Latitude, location.Longitude), location.ToString(), "Expected format to be the same");
             Assert.IsNotNull(location.GetHashCode(), "Expected a hash code");
             Assert.IsFalse(location.Equals(TestLatitude), "Expected inequality");
-        }
-
-        [Test]
-        public void TestConversion()
-        {
-            Location location = new Location() { Latitude = TestLatitude, Longitude = TestLongitude };
-            GeoCoordinate coord = location.ToGeoCoordinate();
-            Assert.AreEqual(location.Latitude, coord.Latitude, "Expected same Latitude");
-            Assert.AreEqual(location.Longitude, coord.Longitude, "Expected same Longitude");
         }
 
         [Test]

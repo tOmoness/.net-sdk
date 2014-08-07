@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,15 +62,15 @@ namespace Nokia.Music.Tests.Commands
         {
             var cmd = new GetUserPlayHistoryCommand();
 
-            Assert.AreEqual(3, cmd.BuildParams().Count, "Expected only startindex / itemsperpage at default values and target=track");
+            Assert.AreEqual(3, cmd.BuildQueryStringParams().Count, "Expected only startindex / itemsperpage at default values and target=track");
 
             cmd.Action = UserEventAction.Complete;
 
-            Assert.AreEqual(4, cmd.BuildParams().Count, "Expected all 4 params set");
+            Assert.AreEqual(4, cmd.BuildQueryStringParams().Count, "Expected all 4 params set");
         }
 
         [Test]
-        public void EnsureResponseParsedForValidRequest()
+        public async Task EnsureResponseParsedForValidRequest()
         {
             var cmd = new GetUserPlayHistoryCommand()
             {
@@ -79,9 +80,7 @@ namespace Nokia.Music.Tests.Commands
                 UserId = "userid"
             };
 
-            var task = cmd.InvokeAsync();
-            task.Wait();
-            var t = task.Result;
+            var t = await cmd.ExecuteAsync(null);
             Assert.IsNotNull(t.Result, "Expected a result");
             Assert.Greater(t.Result.Count, 0, "Expected results");
             Assert.IsNull(t.Error, "Expected no errors");

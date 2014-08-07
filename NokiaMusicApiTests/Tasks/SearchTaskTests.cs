@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Internal;
 using Nokia.Music.Tasks;
 using NUnit.Framework;
@@ -28,17 +29,17 @@ namespace Nokia.Music.Tests.Types
 
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestSearchTermPropertyIsRequired()
+        public async Task TestSearchTermPropertyIsRequired()
         {
             MusicSearchTask task = new MusicSearchTask();
-            task.Show();
+            await task.Show();
         }
 
         [Test]
-        public void TestSearchGoesAheadWhenItCan()
+        public async Task TestSearchGoesAheadWhenItCan()
         {
             MusicSearchTask task = new MusicSearchTask() { SearchTerms = TestTerm };
-            task.Show();
+            await task.Show();
         }
     }
 }

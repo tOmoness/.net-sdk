@@ -8,6 +8,7 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
@@ -20,12 +21,10 @@ namespace Nokia.Music.Tests.Commands
     public class GenreTests
     {
         [Test]
-        public void EnsureGetGenresReturnsItems()
+        public async Task EnsureGetGenresReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.genres));
-            var task = client.GetGenresAsync();
-            task.Wait();
-            ListResponse<Genre> result = task.Result;
+            var result = await client.GetGenresAsync();
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
@@ -42,12 +41,10 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        public void EnsureGetGenresReturnsErrorForFailedCall()
+        public async Task EnsureGetGenresReturnsErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
-            var task = client.GetGenresAsync();
-            task.Wait();
-            ListResponse<Genre> result = task.Result;
+            var result = await client.GetGenresAsync();
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
@@ -57,12 +54,10 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        public void EnsureGetGenresReturnsAnUnhandledErrorForFailedCall()
+        public async Task EnsureGetGenresReturnsAnUnhandledErrorForFailedCall()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.ConflictServerError("{ \"error\":\"true\"}")));
-            var task = client.GetGenresAsync();
-            task.Wait();
-            ListResponse<Genre> result = task.Result;
+            var result = await client.GetGenresAsync();
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");

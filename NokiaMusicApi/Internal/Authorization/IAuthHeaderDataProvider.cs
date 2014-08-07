@@ -5,17 +5,19 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 namespace Nokia.Music.Internal.Authorization
 {
     /// <summary>
     /// Allows a client to specify settings required to build an OAuth2 request
     /// </summary>
-    internal interface IAuthHeaderDataProvider
+    internal interface IAuthHeaderDataProvider : IUserIdProvider
     {
         /// <summary>
         /// Gets the user token.
         /// </summary>
         /// <returns>The user token for authenticating against the REST API</returns>
-        string GetUserToken();
+        Task<string> GetUserTokenAsync();
     }
 }

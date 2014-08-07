@@ -7,6 +7,7 @@
 
 using System;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 
 namespace Nokia.Music.Types
 {
@@ -78,8 +79,11 @@ namespace Nokia.Music.Types
         /// Creates a MixGroup from a JSON Object
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>A MixGroup object</returns>
-        internal static MixGroup FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// A MixGroup object
+        /// </returns>
+        internal static MixGroup FromJToken(JToken item, IMusicClientSettings settings)
         {
             return new MixGroup()
             {

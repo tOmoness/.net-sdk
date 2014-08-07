@@ -5,20 +5,21 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Internal;
+
 namespace Nokia.Music.Tests.Commands
 {
-    using Nokia.Music.Commands;
-    using Nokia.Music.Tests.Internal;
-
-    internal class MockMusicClientCommand : MusicClientCommand<Response<object>>
+    internal class MockMusicClientCommand : RawMusicClientCommand<Response<string>>
     {
         internal MockMusicClientCommand()
         {
             this.ClientSettings = new MockMusicClientSettings("a", "gb", "en");
         }
 
-        protected override void Execute()
+        internal override Response<string> HandleRawResponse(Response<string> rawResponse)
         {
+            return rawResponse;
         }
     }
 }

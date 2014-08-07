@@ -22,29 +22,29 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetSimilarArtistsThrowsExceptionForNullArtistId()
+        public async Task EnsureGetSimilarArtistsThrowsExceptionForNullArtistId()
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
-            client.GetSimilarArtistsAsync(nullId).Wait();
+            await client.GetSimilarArtistsAsync(nullId);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetSimilarArtistsThrowsExceptionForNullArtist()
+        public async Task EnsureGetSimilarArtistsThrowsExceptionForNullArtist()
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
-            client.GetSimilarArtistsAsync(nullArtist).Wait();
+            await client.GetSimilarArtistsAsync(nullArtist);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetSimilarArtistsAsyncThrowsExceptionForNullArtist()
+        public async Task EnsureGetSimilarArtistsAsyncThrowsExceptionForNullArtist()
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
-            client.GetSimilarArtistsAsync(nullArtist).Wait();
+            await client.GetSimilarArtistsAsync(nullArtist);
         }
 
         [Test]

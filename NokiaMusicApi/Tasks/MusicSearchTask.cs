@@ -6,12 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia MixRadio Search Results
+    /// Provides a simple way to show MixRadio Search Results
     /// </summary>
     public sealed class MusicSearchTask : TaskBase
     {
@@ -37,16 +38,22 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows the Search Page in Nokia MixRadio
+        /// Shows the Search Page in MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             if (!string.IsNullOrEmpty(this._searchTerms))
             {
+#if WINDOWS_APP
+                var appUri = new Uri("nokia-music://search/anything/?term=" + this._searchTerms);
+#else
+                var appUri = new Uri("mixradio://search/anything/" + this._searchTerms);
+#endif
                 // Fall back to artist mix
-                this.Launch(
-                    new Uri("nokia-music://search/anything/?term=" + this._searchTerms),
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._searchTerms.Replace("&", string.Empty))));
+                await this.Launch(
+                    appUri,
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._searchTerms.Replace("&", string.Empty)))).ConfigureAwait(false);
             }
             else
             {

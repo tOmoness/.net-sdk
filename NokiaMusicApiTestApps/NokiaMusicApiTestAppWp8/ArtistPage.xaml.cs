@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ArtistPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 using Nokia.Music;
 using Nokia.Music.Commands;
 using Nokia.Music.Tasks;
@@ -28,6 +29,7 @@ namespace Nokia.Music.TestApp
     public partial class ArtistPage : PhoneApplicationPage
     {
         private string _artistId;
+        private string _musicBrainzId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArtistPage" /> class.
@@ -69,6 +71,13 @@ namespace Nokia.Music.TestApp
 
             this._artistId = NavigationContext.QueryString[App.IdParam];
 
+            if (NavigationContext.QueryString.ContainsKey(App.MbIdParam))
+            {
+                this._musicBrainzId = NavigationContext.QueryString[App.MbIdParam];
+            }
+
+            MusicBrainzButton.Visibility = string.IsNullOrEmpty(this._musicBrainzId) ? Visibility.Collapsed : Visibility.Visible;
+
             this.ArtistName.Text = HttpUtility.UrlDecode(NavigationContext.QueryString[App.NameParam]);
             this.ApplicationTitle.Text = this.ArtistName.Text.ToUpperInvariant();
             string thumb = NavigationContext.QueryString[App.ThumbParam];
@@ -89,15 +98,32 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Launches Nokia MixRadio app to an artist view.
+        /// Launches MixRadio app to an artist view.
         /// </summary>
-        /// <param name="sender">"Show in Nokia MixRadio" button</param>
+        /// <param name="sender">"Show in MixRadio" button</param>
         /// <param name="e">Event arguments</param>
-        private void ShowArtist(object sender, RoutedEventArgs e)
+        private async void ShowArtist(object sender, RoutedEventArgs e)
         {
-            ShowArtistTask task = new ShowArtistTask();
-            task.ArtistId = this._artistId;
-            task.Show();
+            await new ShowArtistTask
+            {
+                ArtistId = this._artistId
+            }.Show();
+        }
+
+        /// <summary>
+        /// Shows the artist on MusicBrainz.
+        /// </summary>
+        /// <param name="sender">"Show in MsicBrainz" button</param>
+        /// <param name="e">Event arguments</param>
+        private void ShowMusicBrainz(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this._musicBrainzId))
+            {
+                new WebBrowserTask
+                {
+                    Uri = new Uri(string.Format("http://musicbrainz.org/artist/{0}", this._musicBrainzId))
+                }.Show();
+            }
         }
 
         /// <summary>
@@ -127,16 +153,16 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Shows details of a top track (in Nokia MixRadio) or similar artist.
+        /// Shows details of a top track (in MixRadio) or similar artist.
         /// </summary>
         /// <param name="sender">top tracks or similar artists listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;
             if (list != null)
             {
-                (App.Current as App).RouteItemClick(list.SelectedItem);
+                await(App.Current as App).RouteItemClick(list.SelectedItem);
             }
         }
     }

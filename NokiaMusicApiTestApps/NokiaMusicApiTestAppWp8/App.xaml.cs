@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="App.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -11,6 +11,7 @@
 using System;
 using System.IO.IsolatedStorage;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,6 +42,11 @@ namespace Nokia.Music.TestApp
         /// Constant for thumb parameter.
         /// </summary>
         public const string ThumbParam = "thumb";
+
+        /// <summary>
+        /// Constant for MusicBrainzId parameter.
+        /// </summary>
+        public const string MbIdParam = "mbid";
 
         private const string SettingCountryCode = "countrycode";
 
@@ -118,7 +124,7 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>A boolean indicating if we rooted the object successfully</returns>
-        public bool RouteItemClick(object item)
+        public async Task<bool> RouteItemClick(object item)
         {
             Artist artist = item as Artist;
             if (artist != null)
@@ -129,7 +135,18 @@ namespace Nokia.Music.TestApp
                     thumb = HttpUtility.UrlEncode(artist.Thumb200Uri.ToString());
                 }
 
-                this.RootFrame.Navigate(new Uri("/ArtistPage.xaml?" + App.IdParam + "=" + artist.Id + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(artist.Name) + "&" + App.ThumbParam + "=" + thumb, UriKind.Relative));
+                string musicbrainzId = string.Empty;
+                if (!string.IsNullOrEmpty(artist.MusicBrainzId))
+                {
+                    musicbrainzId = "&" + App.MbIdParam + "=" + artist.MusicBrainzId;
+                }
+
+                this.RootFrame.Navigate(new Uri(
+                        "/ArtistPage.xaml?" + App.IdParam + "=" + artist.Id
+                                      + "&" + App.NameParam + "=" + HttpUtility.UrlEncode(artist.Name)
+                                      + "&" + App.ThumbParam + "=" + thumb
+                                      + musicbrainzId,
+                                      UriKind.Relative));
                 return true;
             }
 
@@ -139,7 +156,7 @@ namespace Nokia.Music.TestApp
                 if (product.Category == Category.Track)
                 {
                     ShowProductTask task = new ShowProductTask() { ClientId = ApiKeys.ClientId, ProductId = product.Id };
-                    task.Show();
+                    await task.Show();
                 }
                 else
                 {
@@ -172,8 +189,7 @@ namespace Nokia.Music.TestApp
             Mix mix = item as Mix;
             if (mix != null)
             {
-                PlayMixTask mixPlayer = new PlayMixTask() { MixId = mix.Id };
-                mixPlayer.Show();
+                await mix.Play();
                 return true;
             }
 

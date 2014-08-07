@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AlbumPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -87,14 +87,14 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Launches Nokia MixRadio app to an album view.
+        /// Launches MixRadio app to an album view.
         /// </summary>
-        /// <param name="sender">"Show in Nokia MixRadio" button</param>
+        /// <param name="sender">"Show in MixRadio" button</param>
         /// <param name="e">Event arguments</param>
-        private void ShowProduct(object sender, RoutedEventArgs e)
+        private async void ShowProduct(object sender, RoutedEventArgs e)
         {
             ShowProductTask task = new ShowProductTask() { ClientId = ApiKeys.ClientId, ProductId = this._albumId };
-            task.Show();
+            await task.Show();
         }
 
         /// <summary>
@@ -124,16 +124,16 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Shows details of an album track (in Nokia MixRadio) or similar album.
+        /// Shows details of an album track (in MixRadio) or similar album.
         /// </summary>
         /// <param name="sender">tracks or similar albums listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;
             if (list != null)
             {
-                (App.Current as App).RouteItemClick(list.SelectedItem);
+                await(App.Current as App).RouteItemClick(list.SelectedItem);
             }
         }
     }

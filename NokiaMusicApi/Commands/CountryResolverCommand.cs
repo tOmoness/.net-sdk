@@ -6,6 +6,8 @@
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal;
 using Nokia.Music.Internal.Request;
@@ -16,7 +18,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Defines the country resolver request
     /// </summary>
-    internal class CountryResolverCommand : MusicClientCommand<Response<bool>>
+    internal class CountryResolverCommand : JsonMusicClientCommand<Response<bool>>
     {
         public CountryResolverCommand(string appId, IApiRequestHandler handler)
         {
@@ -37,59 +39,48 @@ namespace Nokia.Music.Commands
             get { return false; }
         }
 
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("countrycode", this.CountryCode.ToLowerInvariant()) },
-                new JsonResponseCallback(
-                (Response<JObject> rawResult) =>
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("countrycode", this.CountryCode.ToLowerInvariant())
+            };
+        }
+
+        internal override Response<bool> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            // Parse the result if we got one...
+            if (rawResponse.Succeeded && rawResponse.StatusCode.HasValue)
+            {
+                switch (rawResponse.StatusCode.Value)
                 {
-                    Response<bool> response = null;
-
-                    // Parse the result if we got one...
-                    if (rawResult.StatusCode != null)
-                    {
-                        switch (rawResult.StatusCode.Value)
+                    case HttpStatusCode.OK:
+                        if (rawResponse.Result != null)
                         {
-                            case HttpStatusCode.OK:
-                                if (rawResult.Result != null)
-                                {
-                                    JArray items = rawResult.Result.Value<JArray>(MusicClientCommand.ArrayNameItems);
-                                    if (items != null && items.Count == 1)
-                                    {
-                                        response = new Response<bool>(rawResult.StatusCode, true, RequestId);
-                                    }
-                                }
-
-                                break;
-
-                            case HttpStatusCode.NotFound:
-                                if (rawResult.Result != null)
-                                {
-                                    response = new Response<bool>(rawResult.StatusCode, false, RequestId);
-                                }
-
-                                break;
-
-                            case HttpStatusCode.Forbidden:
-                                response = new Response<bool>(rawResult.StatusCode, new InvalidApiCredentialsException(), null, RequestId);
-                                break;
+                            JArray items = rawResponse.Result.Value<JArray>(MusicClientCommand.ArrayNameItems);
+                            if (items != null && items.Count == 1)
+                            {
+                                return new Response<bool>(rawResponse.StatusCode, true, RequestId);
+                            }
                         }
-                    }
 
-                    // If the API return an expected result, set an error...
-                    if (response == null)
-                    {
-                        response = new Response<bool>(rawResult.StatusCode, new ApiCallFailedException(), null, RequestId);
-                    }
+                        break;
 
-                    if (Callback != null)
-                    {
-                        Callback(response);
-                    }
-                }));
+                    case HttpStatusCode.NotFound:
+                        if (rawResponse.Result != null)
+                        {
+                            return new Response<bool>(rawResponse.StatusCode, false, RequestId);
+                        }
+
+                        break;
+
+                    case HttpStatusCode.Forbidden:
+                        return new Response<bool>(rawResponse.StatusCode, new InvalidApiCredentialsException(), null, RequestId);
+                }
+            }
+
+            // If the API return an expected result, set an error...
+            return this.ItemErrorResponseHandler<bool>(rawResponse);
         }
 
         /// <summary>
@@ -122,6 +113,22 @@ namespace Nokia.Music.Commands
             public string Language
             {
                 get { return null; }
+            }
+
+            public string ApiBaseUrl
+            {
+                get
+                {
+                    return MusicClientCommand.DefaultBaseApiUri;
+                }
+            }
+
+            public string SecureApiBaseUrl
+            {
+                get
+                {
+                    return MusicClientCommand.DefaultSecureBaseApiUri;
+                }
             }
         }
     }

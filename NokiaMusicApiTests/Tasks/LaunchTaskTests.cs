@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Internal;
 using Nokia.Music.Tasks;
 using NUnit.Framework;
@@ -18,10 +19,10 @@ namespace Nokia.Music.Tests.Types
     public class LaunchTaskTests
     {
         [Test]
-        public void TestLaunchTaskGoesAhead()
+        public async Task TestLaunchTaskGoesAhead()
         {
             LaunchTask task = new LaunchTask();
-            task.Show();
+            await task.Show();
         }
     }
 }

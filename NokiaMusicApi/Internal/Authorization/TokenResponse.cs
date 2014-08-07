@@ -78,8 +78,11 @@ namespace Nokia.Music.Internal.Authorization
         /// Deserializes from JSON
         /// </summary>
         /// <param name="item">The json</param>
-        /// <returns>An AccessToken instance</returns>
-        internal static TokenResponse FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// An AccessToken instance
+        /// </returns>
+        internal static TokenResponse FromJToken(JToken item, IMusicClientSettings settings)
         {
             return JsonConvert.DeserializeObject<TokenResponse>(item.ToString());
         }

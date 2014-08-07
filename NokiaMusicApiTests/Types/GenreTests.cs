@@ -48,7 +48,7 @@ namespace Nokia.Music.Tests.Types
         {
             Genre genre = new Genre() { Id = "Metal", Name = "Metal" };
             JObject json = JObject.Parse("{\"id\":\"Metal\",\"name\":\"Metal\"}");
-            Genre genreFromJson = Genre.FromJToken(json) as Genre;
+            Genre genreFromJson = Genre.FromJToken(json, null) as Genre;
 
             Assert.IsNotNull(genreFromJson, "Expected a genre object");
 

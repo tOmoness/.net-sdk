@@ -6,9 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Internal.Parsing;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Internal.Response;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -16,7 +14,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     ///   Gets a specific product.
     /// </summary>
-    internal class ProductCommand : MusicClientCommand<Response<Product>>
+    internal class ProductCommand : JsonMusicClientCommand<Response<Product>>
     {
         /// <summary>
         /// Gets or sets the product id.
@@ -32,24 +30,17 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            uri.AppendFormat("products/{0}/", this.ProductId);
-        }
-
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
-        {
             if (string.IsNullOrEmpty(this.ProductId))
             {
                 throw new ArgumentNullException("ProductId", "A product ID must be supplied");
             }
 
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                null,
-                new JsonResponseCallback(rawResult => this.ItemResponseHandler<Product>(rawResult, Product.FromJToken, this.Callback)));
+            uri.AppendFormat("products/{0}/", this.ProductId);
+        }
+
+        internal override Response<Product> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ItemResponseHandler(rawResponse, Product.FromJToken);
         }
     }
 }

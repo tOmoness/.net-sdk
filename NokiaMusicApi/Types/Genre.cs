@@ -7,11 +7,12 @@
 
 using System;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia MixRadio Genre
+    /// Represents a MixRadio Genre
     /// </summary>
     public partial class Genre
     {
@@ -78,8 +79,11 @@ namespace Nokia.Music.Types
         /// Creates a Genre from a JSON Object
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>A Genre object</returns>
-        internal static Genre FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// A Genre object
+        /// </returns>
+        internal static Genre FromJToken(JToken item, IMusicClientSettings settings)
         {
             return new Genre()
             {

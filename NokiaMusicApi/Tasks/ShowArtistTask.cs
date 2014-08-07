@@ -6,12 +6,13 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia MixRadio Artists
+    /// Provides a simple way to show MixRadio Artists
     /// </summary>
     public sealed class ShowArtistTask : TaskBase
     {
@@ -59,21 +60,22 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows the Artist Page in Nokia MixRadio
+        /// Shows the Artist Page in MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             if (!string.IsNullOrEmpty(this._artistId))
             {
-                this.Launch(
+                await this.Launch(
                     new Uri(string.Format(Artist.AppToAppShowUri, this._artistId)),
-                    new Uri(string.Format(Artist.WebShowUri, this._artistId)));
+                    new Uri(string.Format(Artist.WebShowUri, this._artistId))).ConfigureAwait(false);
             }
             else if (!string.IsNullOrEmpty(this._artistName))
             {
-                this.Launch(
-                    new Uri("nokia-music://show/artist/?name=" + this._artistName.Replace("&", string.Empty)),
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty))));
+                await this.Launch(
+                    new Uri(string.Format(Artist.AppToAppShowUriByName, this._artistName.Replace("&", string.Empty))),
+                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty)))).ConfigureAwait(false);
             }
             else
             {

@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Nokia.Music.Internal.Authorization
 {
@@ -29,10 +30,10 @@ namespace Nokia.Music.Internal.Authorization
         /// Creates the headers.
         /// </summary>
         /// <returns>A Dictionary of headers</returns>
-        internal Dictionary<string, string> CreateHeaders()
+        internal async Task<Dictionary<string, string>> CreateHeadersAsync()
         {
             var headers = new Dictionary<string, string>();
-            headers.Add("Authorization", string.Format("Bearer {0}", this._authHeaderData.GetUserToken()));
+            headers.Add("Authorization", string.Format("Bearer {0}", await this._authHeaderData.GetUserTokenAsync()));
             return headers;
         }
     }

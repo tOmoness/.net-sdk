@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -19,12 +21,14 @@ namespace Nokia.Music.Commands
         /// </summary>
         public string GenreId { get; set; }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
-            this.InternalSearch(null, this.GenreId, null, Types.Category.Artist, null, null, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            return this.BuildQueryStringParams(null, this.GenreId, null, Types.Category.Artist, null, null, null, null, this.StartIndex, this.ItemsPerPage);
+        }
+
+        internal override ListResponse<Artist> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Artist.FromJToken);
         }
     }
 }

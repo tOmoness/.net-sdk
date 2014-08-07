@@ -6,10 +6,8 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
-using Nokia.Music.Internal.Response;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -17,7 +15,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Command to get user playback history
     /// </summary>
-    internal class GetUserPlayHistoryCommand : SecureMusicClientCommand<ListResponse<UserEvent>>
+    internal class GetUserPlayHistoryCommand : JsonMusicClientCommand<ListResponse<UserEvent>>
     {
         /// <summary>
         /// Gets or sets the action type to filter results by.
@@ -70,11 +68,7 @@ namespace Nokia.Music.Commands
             }
         }
 
-        /// <summary>
-        /// Builds the querystring params.
-        /// </summary>
-        /// <returns>A list of key/value pairs</returns>
-        internal List<KeyValuePair<string, string>> BuildParams()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             var parameters = this.GetPagingParams();
 
@@ -91,17 +85,9 @@ namespace Nokia.Music.Commands
             return parameters;
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override ListResponse<UserEvent> HandleRawResponse(Response<JObject> rawResponse)
         {
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                this.BuildParams(),
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, UserEvent.FromJToken, this.Callback)),
-                this.OAuth2.CreateHeaders());
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, UserEvent.FromJToken);
         }
     }
 }

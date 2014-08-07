@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ShowListPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -55,7 +55,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Initialized the page and makes a request to Nokia MixRadio API 
+        /// Initialized the page and makes a request to MixRadio API 
         /// based on provided method call parameter.
         /// </summary>
         /// <param name="e">Event arguments</param>
@@ -136,6 +136,11 @@ namespace Nokia.Music.TestApp
                         this.ResponseHandler(await App.ApiClient.GetUserTopArtistsAsync());
                         break;
 
+                    case MethodCall.GetUserRecentMixes:
+                        this.PageTitle.Text = "recent mixes";
+                        this.ResponseHandler(await App.ApiClient.GetUserRecentMixesAsync(10));
+                        break;
+
                     default:
                         MessageBox.Show("Unhandled method " + this._method.ToString());
                         return;
@@ -146,8 +151,8 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Populates list box with search results.
         /// </summary>
-        /// <param name="response">Search results from Nokia MixRadio API</param>
-        /// <typeparam name="T">Any MusicItem from Nokia MixRadio API</typeparam>
+        /// <param name="response">Search results from MixRadio API</param>
+        /// <typeparam name="T">Any MusicItem from MixRadio API</typeparam>
         private void ResponseHandler<T>(ListResponse<T> response)
         {
             Dispatcher.BeginInvoke(async () =>
@@ -202,13 +207,13 @@ namespace Nokia.Music.TestApp
 
         /// <summary>
         /// Shows details of a product/artist/genre/mix group.
-        /// Tracks and mixes will be shown in Nokia MixRadio app.
+        /// Tracks and mixes will be shown in MixRadio app.
         /// </summary>
         /// <param name="sender">Results listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
-            (App.Current as App).RouteItemClick(this.Results.SelectedItem);
+            await(App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
         }
 

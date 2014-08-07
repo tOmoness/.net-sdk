@@ -7,7 +7,6 @@
 using System;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
 using NUnit.Framework;
 

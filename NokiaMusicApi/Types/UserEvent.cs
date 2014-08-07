@@ -7,6 +7,7 @@
 
 using System;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 using Nokia.Music.Internal.Parsing;
 
 namespace Nokia.Music.Types
@@ -100,8 +101,11 @@ namespace Nokia.Music.Types
         /// Creates a UserEvent from a JSON Object
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>A UserEvent object</returns>
-        internal static UserEvent FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// A UserEvent object
+        /// </returns>
+        internal static UserEvent FromJToken(JToken item, IMusicClientSettings settings)
         {
             return new UserEvent
             {
@@ -110,9 +114,9 @@ namespace Nokia.Music.Types
                 ClientVersion = item.Value<string>("clientversion"),
                 DateTime = item.Value<DateTime>("datetime"),
                 Location = Location.FromJToken(item["location"]),
-                Mix = Mix.FromJToken(item["mix"]),
+                Mix = Mix.FromJToken(item["mix"], settings),
                 Offset = item.Value<int>("offset"),
-                Product = Product.FromJToken(item["product"]),
+                Product = Product.FromJToken(item["product"], settings),
                 Target = ParseHelper.ParseEnumOrDefault<UserEventTarget>(item.Value<string>("target")),
                 ClientType = ParseHelper.ParseEnumOrDefault<UserEventClientType>(item.Value<string>("clienttype"))
             };

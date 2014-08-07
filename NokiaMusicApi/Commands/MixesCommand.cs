@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -16,7 +15,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     ///   Gets the Mixes available in a group
     /// </summary>
-    internal sealed class MixesCommand : MusicClientCommand<ListResponse<Mix>>
+    internal sealed class MixesCommand : JsonMusicClientCommand<ListResponse<Mix>>
     {
         private const string ArrayNameRadioStations = "radiostations";
 
@@ -41,47 +40,49 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            uri.AppendFormat("mixes/groups/{0}/", this.MixGroupId);
+            if (!string.IsNullOrEmpty(this.MixGroupId))
+            {
+                // Get mixes in a group
+                uri.AppendFormat("mixes/groups/{0}/", this.MixGroupId);
+            }
+            else
+            {
+                // Get all mixes
+                uri.Append("mixes/stations/");
+            }
         }
 
-        /// <summary>
-        /// Builds the querystring parameters
-        /// </summary>
-        /// <returns>The querystring parameters</returns>
-        internal List<KeyValuePair<string, string>> BuildQueryString()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
-            var qs = this.GetPagingParams();
+            var parameters = this.GetPagingParams();
 
             if (!string.IsNullOrEmpty(this.ExclusiveTag))
             {
-                qs.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
+                parameters.Add(new KeyValuePair<string, string>(ParamExclusive, this.ExclusiveTag));
             }
 
             if (this.Exclusivity != null)
             {
-                qs.AddRange(this.Exclusivity
+                parameters.AddRange(this.Exclusivity
                     .Where(x => !string.IsNullOrEmpty(x))
                     .Select(x => new KeyValuePair<string, string>(ParamExclusivity, x)));
             }
 
-            return qs;
+            return parameters;
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override ListResponse<Mix> HandleRawResponse(Response<Newtonsoft.Json.Linq.JObject> rawResponse)
         {
-            if (string.IsNullOrEmpty(this.MixGroupId))
+            if (!string.IsNullOrEmpty(this.MixGroupId))
             {
-                throw new ArgumentNullException("MixGroupId", "A group id must be supplied");
+                // mixes in a group
+                return this.ListItemResponseHandler(rawResponse, ArrayNameRadioStations, Mix.FromJToken);
             }
-
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                this.BuildQueryString(),
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameRadioStations, Mix.FromJToken, this.Callback)));
+            else
+            {
+                // all mixes
+                return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Mix.FromJToken);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="NokiaMusicAuthPage.xaml.cs" company="Nokia">
-// Copyright © 2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -79,7 +79,8 @@ namespace Nokia.Music.TestApp
                 }
                 else
                 {
-                    message = "User auth successful!";
+                    // no message required
+                    message = null;
                 }
             }
             catch (OperationCanceledException)
@@ -90,8 +91,11 @@ namespace Nokia.Music.TestApp
             {
                 message = "User auth failed: " + ex.Message;
             }
-            
-            MessageBox.Show(message);
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message);
+            }
 
             this.AuthBrowser.Visibility = Visibility.Collapsed;
             this.FinalStep.Visibility = Visibility.Visible;

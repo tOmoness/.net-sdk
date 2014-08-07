@@ -8,34 +8,23 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
-
-using Nokia.Music.Commands;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal.Authorization;
-using Nokia.Music.Internal.Parsing;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Internal.Response;
-using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
 {
     /// <summary>
     /// Gets a bearer token from the API
     /// </summary>
-    internal class GetAuthTokenCommand : SecureMusicClientCommand<Response<TokenResponse>>
+    internal class GetAuthTokenCommand : JsonMusicClientCommand<Response<TokenResponse>>
     {
         internal const string GrantTypeAuthorizationCode = "authorization_code";
         internal const string GrantTypeRefreshToken = "refresh_token";
 
         protected readonly string Nonce = Guid.NewGuid().ToString();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetAuthTokenCommand"/> class.
-        /// </summary>
-        public GetAuthTokenCommand()
-            : base()
-        {
-        }
 
         /// <summary>
         /// Gets or sets the authorization code.
@@ -200,33 +189,27 @@ namespace Nokia.Music.Commands
             return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(this.ClientId + ":" + this.ClientSecret));
         }
 
-        /// <summary>
-        /// Posts the process result.
-        /// </summary>
-        /// <param name="result">The result.</param>
-        internal override void PostProcessResult(Response<TokenResponse> result)
+        internal override Task<Dictionary<string, string>> BuildRequestHeadersAsync()
         {
-            if (result.Result != null)
+            var requestHeaders = new Dictionary<string, string>
             {
-                // Set an explicit expiry datetime and allow a bit of buffer when we do it (1 minute)...
-                result.Result.ExpiresUtc = this.RequestHandler.ServerTimeUtc.AddSeconds(result.Result.ExpiresIn - 60);
-            }
+                { "Authorization", this.ConstructAuthHeader() }
+            };
+
+            return Task.FromResult(requestHeaders);
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override Response<TokenResponse> HandleRawResponse(Response<JObject> rawResponse)
         {
-            var requestHeader = new Dictionary<string, string> { { "Authorization", this.ConstructAuthHeader() } };
+            var response = this.ItemResponseHandler(rawResponse, TokenResponse.FromJToken);
 
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                null,
-                new JsonResponseCallback(
-                    response => this.ItemResponseHandler(response, TokenResponse.FromJToken, this.Callback)),
-                requestHeader);
+            if (response.Result != null)
+            {
+                // Set an explicit expiry datetime and allow a bit of buffer when we do it (1 minute)...
+                response.Result.ExpiresUtc = this.RequestHandler.ServerTimeUtc.AddSeconds(response.Result.ExpiresIn - 60);
+            }
+
+            return response;
         }
     }
 }

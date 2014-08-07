@@ -34,19 +34,19 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureExceptionIsThrownIfNullProductId()
+        public async Task EnsureExceptionIsThrownIfNullProductId()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetSimilarProductsAsync(string.Empty).Wait();
+            await client.GetSimilarProductsAsync(string.Empty);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureExceptionIsThrownIfNullProduct()
+        public async Task EnsureExceptionIsThrownIfNullProduct()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Product nullProduct = null;
-            client.GetSimilarProductsAsync(nullProduct).Wait();
+            await client.GetSimilarProductsAsync(nullProduct);
         }
 
         [Test]

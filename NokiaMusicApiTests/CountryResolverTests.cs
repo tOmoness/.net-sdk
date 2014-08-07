@@ -4,7 +4,12 @@
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+
+using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Request;
 using Nokia.Music.Tests.Internal;
@@ -93,6 +98,25 @@ namespace Nokia.Music.Tests
             Assert.AreEqual("test1", mockHandler.LastUsedSettings.ClientId);
             Assert.AreEqual(null, mockHandler.LastUsedSettings.CountryCode);
             Assert.AreEqual(false, mockHandler.LastUsedSettings.CountryCodeBasedOnRegionInfo);
+            Assert.AreEqual(MusicClientCommand.DefaultBaseApiUri, mockHandler.LastUsedSettings.ApiBaseUrl);
+            Assert.AreEqual(MusicClientCommand.DefaultSecureBaseApiUri, mockHandler.LastUsedSettings.SecureApiBaseUrl);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ApiCallFailedException))]
+        public async Task EnsureCountryWithoutItemsRaisesApiCallFailedException()
+        {
+            MockApiRequestHandler mockHandler = new MockApiRequestHandler(System.Text.Encoding.UTF8.GetBytes("{ \"items\": [] }"));
+            ICountryResolver client = new CountryResolver("test1", mockHandler);
+            bool result = await client.CheckAvailabilityAsync("xx");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ApiCallFailedException))]
+        public async Task EnsureCountryResolverWithInvalidContentTypeRaisesApiCallFailedException()
+        {
+            ICountryResolver client = new CountryResolver("test1", new MockApiRequestHandler(FakeResponse.Success(null, null)));
+            bool result = await client.CheckAvailabilityAsync("xx");
         }
 
         [Test]

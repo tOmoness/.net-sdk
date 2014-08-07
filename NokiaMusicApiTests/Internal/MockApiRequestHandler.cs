@@ -7,6 +7,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
 using Nokia.Music.Internal.Request;
@@ -96,16 +98,41 @@ namespace Nokia.Music.Tests
         /// </summary>
         /// <typeparam name="T">The type of response</typeparam>
         /// <param name="command">The command to call.</param>
+        /// <param name="settings">The music client settings.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>A response for the API request.</returns>
+        public async Task<Response<T>> SendRequestAsync<T>(
+                         MusicClientCommand<T> command,
+                         IMusicClientSettings settings,
+                         CancellationToken? cancellationToken)
+        {
+            return await this.SendRequestAsync(
+                command,
+                settings,
+                command.BuildQueryStringParams(),
+                command.HandleRawData,
+                await command.BuildRequestHeadersAsync(),
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Makes the API request
+        /// </summary>
+        /// <typeparam name="T">The type of response</typeparam>
+        /// <param name="command">The command to call.</param>
         /// <param name="settings">The app id.</param>
         /// <param name="querystring">The querystring params.</param>
-        /// <param name="callback">The callback to hit when done.</param>
+        /// <param name="rawDataHandler">The convertion handler for the data received.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
-        public void SendRequestAsync<T>(
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>A response</returns>
+        public Task<Response<T>> SendRequestAsync<T>(
                                      MusicClientCommand command,
                                      IMusicClientSettings settings,
                                      List<KeyValuePair<string, string>> querystring,
-                                     IResponseCallback<T> callback,
-                                     Dictionary<string, string> requestHeaders = null)
+                                     Func<string, T> rawDataHandler,
+                                     Dictionary<string, string> requestHeaders,
+                                     CancellationToken? cancellationToken)
         {
             this._lastSettings = settings;
             this._queryString = querystring;
@@ -121,8 +148,10 @@ namespace Nokia.Music.Tests
             {
                 command.SetAdditionalResponseInfo(this._responseInfo);
             }
-            
-            this.NextFakeResponse.DoCallback<T>(callback);
+
+            var response = this.NextFakeResponse.GetResponseOf<T>();
+
+            return Task.FromResult(response);
         }
     }
 }

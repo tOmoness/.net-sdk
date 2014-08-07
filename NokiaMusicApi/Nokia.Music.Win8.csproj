@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -16,13 +16,16 @@
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetFrameworkVersion />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_APP;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Nokia.Music.Win8.XML</DocumentationFile>
@@ -31,7 +34,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Nokia.Music.Win8.XML</DocumentationFile>
@@ -100,6 +103,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CommandsUser\GetUserPlayHistoryCommand.cs" />
+    <Compile Include="CommandsUser\GetUserRecentMixesCommand.cs" />
     <Compile Include="CommandsUser\GetUserTopArtistsCommand.cs" />
     <Compile Include="Commands\ArtistProductsCommand.cs">
     </Compile>
@@ -108,6 +112,7 @@
     <Compile Include="Commands\GenresCommand.cs">
     </Compile>
     <Compile Include="CommandsUser\GetAuthTokenCommand.cs" />
+    <Compile Include="Commands\JsonMusicClientCommand.cs" />
     <Compile Include="Commands\MixDetailsCommand.cs" />
     <Compile Include="Commands\MixesCommand.cs">
     </Compile>
@@ -115,12 +120,13 @@
     </Compile>
     <Compile Include="Commands\MusicClientCommand.cs">
     </Compile>
-    <Compile Include="Commands\MusicClientCommand{TResult}.cs">
-    </Compile>
+    <Compile Include="Commands\MusicClientCommand{TIntermediate,TResult}.cs" />
+    <Compile Include="Commands\MusicClientCommand{TIntermediate}.cs" />
     <Compile Include="Commands\NewReleasesCommand.cs">
     </Compile>
     <Compile Include="Commands\ProductCommand.cs">
     </Compile>
+    <Compile Include="Commands\RawMusicClientCommand.cs" />
     <Compile Include="Commands\SearchArtistsCommand.cs">
     </Compile>
     <Compile Include="Commands\SearchCatalogCommand.cs">
@@ -129,7 +135,6 @@
     </Compile>
     <Compile Include="Commands\SearchSuggestionsCommand.cs">
     </Compile>
-    <Compile Include="CommandsUser\SecureMusicClientCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs">
     </Compile>
     <Compile Include="Commands\SimilarProductsCommand.cs">
@@ -140,13 +145,16 @@
     </Compile>
     <Compile Include="CountryResolver.cs">
     </Compile>
+    <Compile Include="Exceptions\ApiCallCancelledException.cs" />
     <Compile Include="Exceptions\ApiCallFailedException.cs">
     </Compile>
     <Compile Include="Exceptions\ApiCredentialsRequiredException.cs">
     </Compile>
     <Compile Include="Exceptions\ApiNotAvailableException.cs">
     </Compile>
+    <Compile Include="Exceptions\NetworkLimitedException.cs" />
     <Compile Include="Exceptions\NetworkUnavailableException.cs" />
+    <Compile Include="Exceptions\SendFailureException.cs" />
     <Compile Include="Exceptions\UserAuthRequiredException.cs" />
     <Compile Include="Exceptions\CountryCodeRequiredException.cs">
     </Compile>
@@ -160,14 +168,14 @@
     </Compile>
     <Compile Include="IMusicClient.cs">
     </Compile>
+    <Compile Include="Internal\ArtistImageUriWriter.cs" />
     <Compile Include="Internal\Authorization\IAuthHeaderDataProvider.cs" />
+    <Compile Include="Internal\Authorization\IUserIdProvider.cs" />
     <Compile Include="Internal\Authorization\OAuth2.cs" />
     <Compile Include="Internal\Authorization\OAuthHeaderDataProvider.cs" />
     <Compile Include="Internal\Authorization\OAuthResultParser.cs" />
     <Compile Include="Internal\Authorization\OAuthUserFlow.cs" />
     <Compile Include="Internal\Authorization\TokenResponse.cs" />
-    <Compile Include="Internal\Compression\GzipHandlerWin8.cs" />
-    <Compile Include="Internal\Compression\IGzipHandler.cs" />
     <Compile Include="Internal\DebugLogger.cs">
     </Compile>
     <Compile Include="Internal\EncryptionHelper.cs" />
@@ -183,27 +191,18 @@
     </Compile>
     <Compile Include="Internal\Request\ApiRequestHandler.cs">
     </Compile>
-    <Compile Include="Internal\Request\ApiRequestHandlerFactory.cs" />
     <Compile Include="Internal\Request\ApiUriBuilder.cs">
     </Compile>
-    <Compile Include="Internal\Request\HttpMethod.cs">
-    </Compile>
+    <Compile Include="Internal\Request\GzippedContent.cs" />
+    <Compile Include="Internal\Request\HttpClientRequestProxy.cs" />
     <Compile Include="Internal\Request\IApiRequestHandler.cs">
     </Compile>
     <Compile Include="Internal\Request\IApiUriBuilder.cs">
     </Compile>
-    <Compile Include="Internal\Request\TimedRequest.cs">
-    </Compile>
-    <Compile Include="Internal\Response\IResponseCallback.cs">
-    </Compile>
-    <Compile Include="Internal\Response\JsonResponseCallback.cs">
-    </Compile>
-    <Compile Include="Internal\Response\RawResponseCallback.cs" />
+    <Compile Include="Internal\Request\IHttpClientRequestProxy.cs" />
     <Compile Include="Internal\Response\ResponseInfo.cs">
     </Compile>
     <Compile Include="Internal\StorageHelper.cs" />
-    <Compile Include="Internal\StreamExtensions.cs">
-    </Compile>
     <Compile Include="ListResponse{T}.cs">
     </Compile>
     <Compile Include="MusicClient.cs">
@@ -229,6 +228,9 @@
     <Compile Include="Types\AuthResultCode.cs" />
     <Compile Include="Types\Category.cs">
     </Compile>
+    <Compile Include="Types\Seed.cs" />
+    <Compile Include="Types\SeedCollection.cs" />
+    <Compile Include="Types\SeedType.cs" />
     <Compile Include="Types\UserEventClientType.cs" />
     <Compile Include="Types\Genre.cs">
     </Compile>
@@ -257,11 +259,12 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
-    <VisualStudioVersion>11.0</VisualStudioVersion>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
@@ -273,7 +276,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>

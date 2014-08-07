@@ -1,0 +1,96 @@
+﻿<Application
+    x:Class="Nokia.Music.TestApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Nokia.Music.TestApp">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="HeadlessButton" TargetType="Button">
+                <ContentPresenter />
+            </ControlTemplate>
+
+            <Thickness x:Key="PhoneHorizontalMargin">0,0</Thickness>
+            <Thickness x:Key="PhoneVerticalMargin">0,12</Thickness>
+            <Thickness x:Key="PhoneMargin">12</Thickness>
+
+            <Style x:Key="PhoneTextBlockBase" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}" />
+                <Setter Property="FontSize" Value="{StaticResource ContentControlFontSize}" />
+                <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+                <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+            </Style>
+            <Style x:Key="PhoneTextNormalStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}" />
+            <Style x:Key="PhoneTextSubtleStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="Foreground" Value="DarkGray" />
+            </Style>
+            <Style x:Key="PhoneTextTitle1Style" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}" />
+                <Setter Property="FontSize" Value="{StaticResource TextStyleExtraExtraLargeFontSize}" />
+            </Style>
+            <Style x:Key="PhoneTextLargeStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}" />
+                <Setter Property="FontSize" Value="{StaticResource TextStyleExtraLargePlusFontSize}" />
+            </Style>
+            <Style x:Key="PhoneTextSmallStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontSize" Value="{StaticResource TextStyleLargeFontSize}" />
+                <Setter Property="Foreground" Value="#666666" />
+            </Style>
+            <Style x:Key="PhoneTextExtraLargeStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}" />
+                <Setter Property="FontSize" Value="{StaticResource TextStyleExtraLargePlusFontSize}" />
+            </Style>
+
+            <Style x:Key="AboutText" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+
+            <Style x:Key="AboutHeadText" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
+            <Style x:Key="AboutSmallText" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextBlockBase}">
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+
+            <!-- Converts an MusicItem type into whether an image should be shown -->
+            <local:ImageVisibilityConverter x:Key="ImageVisibilityConverter" />
+
+            <!-- Data template of list item used throughout application -->
+            <DataTemplate x:Key="ApiListItem">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" MinHeight="75">
+                    <Grid Width="100" Height="100" VerticalAlignment="Top" Margin="0,0,12,12" Visibility="{Binding Converter={StaticResource ImageVisibilityConverter}}">
+                        <Image Source="/Assets/music200.png" Width="100" Height="100" Stretch="Uniform" VerticalAlignment="Top" />
+                        <Image Source="{Binding Thumb320Uri}" Width="100" Height="100" Stretch="Uniform" VerticalAlignment="Top" Tag="{Binding}" />
+                      <Image Source="{Binding Product.Thumb320Uri}" Width="100" Height="100" Stretch="Uniform" VerticalAlignment="Top" Tag="{Binding}" />
+                    </Grid>
+
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextLargeStyle}" Margin="0" />
+                            <TextBlock Text="{Binding Product.Name}" Style="{StaticResource PhoneTextLargeStyle}" Margin="0" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="{Binding Performers[0].Name}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
+                            <TextBlock Text="{Binding Product.Performers[0].Name}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
+                        </Grid>
+                        <Grid>
+                            <Grid>
+                                <TextBlock Text="{Binding TakenFrom.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
+                                <TextBlock Text="{Binding Product.TakenFrom.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
+                            </Grid>
+                            <TextBlock Text="{Binding Origin.Name}" Style="{StaticResource PhoneTextSmallStyle}" Margin="0" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

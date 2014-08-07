@@ -7,8 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Internal.Response;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -32,21 +31,17 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            uri.AppendFormat("creators/{0}/products/", this.ArtistId);
-        }
-
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
-        {
             if (string.IsNullOrEmpty(this.ArtistId))
             {
                 throw new ArgumentNullException("ArtistId", "An artist ID must be supplied");
             }
 
-            // Build querystring parameters...
-            var querystring = this.GetPagingParams();
+            uri.AppendFormat("creators/{0}/products/", this.ArtistId);
+        }
+
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
+        {
+            var parameters = this.GetPagingParams();
 
             if (this.Category.HasValue)
             {
@@ -61,7 +56,7 @@ namespace Nokia.Music.Commands
 
                     if ((this.Category & availableCategory) == availableCategory)
                     {
-                        querystring.Add(new KeyValuePair<string, string>(
+                        parameters.Add(new KeyValuePair<string, string>(
                             ParamCategory,
                             availableCategory.ToString().ToLowerInvariant()));
                     }
@@ -70,19 +65,20 @@ namespace Nokia.Music.Commands
 
             if (this.OrderBy.HasValue)
             {
-                querystring.Add(new KeyValuePair<string, string>(ParamOrderBy, this.OrderBy.ToString().ToLowerInvariant()));
+                parameters.Add(new KeyValuePair<string, string>(ParamOrderBy, this.OrderBy.ToString().ToLowerInvariant()));
             }
 
             if (this.SortOrder.HasValue)
             {
-                querystring.Add(new KeyValuePair<string, string>(ParamSortOrder, this.SortOrder.ToString().ToLowerInvariant()));
+                parameters.Add(new KeyValuePair<string, string>(ParamSortOrder, this.SortOrder.ToString().ToLowerInvariant()));
             }
 
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                querystring,
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Product.FromJToken, this.Callback)));
+            return parameters;
+        }
+
+        internal override ListResponse<Product> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Product.FromJToken);
         }
     }
 }

@@ -6,14 +6,16 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 using Nokia.Music.Internal.Parsing;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
 {
     /// <summary>
-    /// Searches the Nokia MixRadio Catalog
+    /// Searches the MixRadio Catalog
     /// </summary>
     internal sealed class SearchCommand : SearchCatalogCommand<MusicItem>
     {
@@ -52,9 +54,14 @@ namespace Nokia.Music.Commands
         /// Creates an CatalogItem based on it's category field
         /// </summary>
         /// <param name="item">The JSON item</param>
-        /// <returns>An CatalogItem</returns>
-        /// <remarks>Internal for testing purposes</remarks>
-        internal static MusicItem CreateCatalogItemBasedOnCategory(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// An CatalogItem
+        /// </returns>
+        /// <remarks>
+        /// Internal for testing purposes
+        /// </remarks>
+        internal static MusicItem CreateCatalogItemBasedOnCategory(JToken item, IMusicClientSettings settings = null)
         {
             if (item != null)
             {
@@ -65,15 +72,15 @@ namespace Nokia.Music.Commands
                     switch (itemCategory)
                     {
                         case Types.Category.Artist:
-                            return Artist.FromJToken(item);
+                            return Artist.FromJToken(item, settings);
 
                         case Types.Category.Album:
                         case Types.Category.Single:
                         case Types.Category.Track:
-                            return Product.FromJToken(item);
+                            return Product.FromJToken(item, settings);
 
                         case Types.Category.RadioStation:
-                            return Mix.FromJToken(item);
+                            return Mix.FromJToken(item, settings);
                     }
                 }
             }
@@ -81,17 +88,19 @@ namespace Nokia.Music.Commands
             return null;
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             if (string.IsNullOrEmpty(this.SearchTerm) && string.IsNullOrEmpty(this.GenreId) && string.IsNullOrEmpty(this.Id) && this.MinBpm == 0 && this.MaxBpm == 0)
             {
                 throw new ArgumentNullException("SearchTerm", "A searchTerm, Id, genreId, or BPM must be supplied");
             }
 
-            this.InternalSearch<MusicItem>(this.SearchTerm, this.GenreId, this.Id, this.Category, null, null, this.OrderBy, this.SortOrder, this.StartIndex, this.ItemsPerPage, SearchCommand.CreateCatalogItemBasedOnCategory, this.Callback);
+            return this.BuildQueryStringParams(this.SearchTerm, this.GenreId, this.Id, this.Category, null, null, this.OrderBy, this.SortOrder, this.StartIndex, this.ItemsPerPage);
+        }
+
+        internal override ListResponse<MusicItem> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, SearchCommand.CreateCatalogItemBasedOnCategory);
         }
     }
 }

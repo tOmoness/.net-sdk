@@ -7,8 +7,6 @@
 
 namespace Nokia.Music
 {
-    using System;
-
     /// <summary>
     /// Exception when attempting to call the API without a working network.
     /// </summary>

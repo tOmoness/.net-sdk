@@ -5,18 +5,38 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
-using Nokia.Music.Internal.Request;
 
 namespace Nokia.Music.Tests.Internal
 {
-    internal class MockApiCommand : MusicClientCommand
+    internal class MockApiCommand : JsonMusicClientCommand<Response<JObject>>
     {
+        private readonly string _body;
+        private readonly HttpMethod _httpMethod;
+        private bool _gzipRequest;
+
+        public MockApiCommand(string body = "", HttpMethod httpMethod = null, bool gzipRequest = false)
+        {
+            this._body = body;
+            this._httpMethod = httpMethod ?? HttpMethod.Post;
+            this._gzipRequest = gzipRequest;
+        }
+
         internal override HttpMethod HttpMethod
         {
             get
             {
-                return HttpMethod.Post;
+                return this._httpMethod;
+            }
+        }
+
+        internal override bool GzipRequestBody
+        {
+            get 
+            { 
+                return this._gzipRequest;
             }
         }
 
@@ -28,13 +48,14 @@ namespace Nokia.Music.Tests.Internal
             }
         }
 
-        internal override string BuildRequestBody()
+        internal override Response<JObject> HandleRawResponse(Response<JObject> rawResponse)
         {
-            return string.Empty;
+            return rawResponse;
         }
 
-        protected override void Execute()
+        internal override string BuildRequestBody()
         {
+            return this._body;
         }
     }
 }

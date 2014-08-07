@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
-using Nokia.Music.Internal.Compression;
 using Nokia.Music.Internal.Request;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
@@ -73,16 +72,16 @@ namespace Nokia.Music.Tests
         public void EnsureCreateCatalogItemBasedOnCategoryReturnsNullForUnknownCategory()
         {
             // Ensure null gives a null...
-            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(null), "Expected a null response");
+            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(null, null), "Expected a null response");
 
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.category_parse_tests));
             JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
 
             // Ensure JSON without a category gives a null...
-            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(items[2]), "Expected a null response");
+            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(items[2], null), "Expected a null response");
 
             // Ensure JSON with a category we don't handle gives a null...
-            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(items[3]), "Expected a null response");
+            Assert.IsNull(SearchCommand.CreateCatalogItemBasedOnCategory(items[3], null), "Expected a null response");
         }
 
         [Test]
@@ -137,6 +136,24 @@ namespace Nokia.Music.Tests
         }
 
         [Test]
+        public async Task EnsureInvalidContentTypeRaisesResponseWithApiCallFailedException()
+        {
+            MusicClient client = new MusicClient("badkey", "us", new MockApiRequestHandler(FakeResponse.Success(Resources.single_product, null)));
+            Response<Product> response = await client.GetProductAsync("test");
+            Assert.IsNotNull(response.Error, "Expected an Error");
+            Assert.AreEqual(typeof(ApiCallFailedException), response.Error.GetType(), "Expected an ApiCallFailedException");
+        }
+
+        [Test]
+        public async Task EnsureInvalidContentTypeRaisesListResponseWithApiCallFailedException()
+        {
+            MusicClient client = new MusicClient("badkey", "us", new MockApiRequestHandler(FakeResponse.Success(Resources.search_all, null)));
+            ListResponse<MusicItem> response = await client.SearchAsync("test");
+            Assert.IsNotNull(response.Error, "Expected an Error");
+            Assert.AreEqual(typeof(ApiCallFailedException), response.Error.GetType(), "Expected an ApiCallFailedException");
+        }
+
+        [Test]
         public async Task EnsureInvalidApiCredentialsExceptionThrownWhenServerGives403ForItemMethods()
         {
             MusicClient client = new MusicClient("badkey", "us", new MockApiRequestHandler(FakeResponse.Forbidden()));
@@ -146,52 +163,39 @@ namespace Nokia.Music.Tests
         }
 
         [Test]
-        public void ServerTimeGivesCurrentTimeIfNotUpdatedFromServer()
+        public async Task EnsureInvalidApiCredentialsExceptionThrownWhenServerGives403ForItemMethods2()
         {
-            this.RunServerTimeOffsetTest(null, 0);
+            MusicClient client = new MusicClient("badkey", "us", new MockApiRequestHandler(FakeResponse.Forbidden()));
+            Response<Product> response = await client.GetProductAsync("test");
+            Assert.IsNotNull(response.Error, "Expected an Error");
+            Assert.AreEqual(typeof(InvalidApiCredentialsException), response.Error.GetType(), "Expected an InvalidApiCredentialsException");
         }
 
-        [Test]
-        public void ServerTimeGivesCurrentTimeIfBadHeadersReceived()
+        public void ServerTimeGivesCurrentTimeIfNoHeadersReceived()
         {
-            this.RunServerTimeOffsetTest(new WebHeaderCollection { { "NotADate", "asdasdasdasd" } }, 0);
-        }
-
-        [Test]
-        public void ServerTimeIsNullIfNotParsable()
-        {
-            this.RunServerTimeOffsetTest(new WebHeaderCollection { { "Date", "NotADate" } }, 0);
+            this.RunServerTimeOffsetTest(null, null, 0);
         }
 
         [Test]
         public void ServerTimeAdjustmentGivesCurrentTimeWithNoAgeOffset()
         {
-            this.RunServerTimeOffsetTest(new WebHeaderCollection { { "Date", DateTime.UtcNow.ToString("R") } }, 0);
+            this.RunServerTimeOffsetTest(DateTimeOffset.Now, null, 0);
         }
 
         [Test]
         public void ServerTimeAdjustmentGivesCurrentTimeWithAgeOffset()
         {
-            this.RunServerTimeOffsetTest(new WebHeaderCollection { { "Date", DateTime.UtcNow.ToString("R") }, { "Age", "2000" } }, 2000);
+            this.RunServerTimeOffsetTest(DateTimeOffset.Now, TimeSpan.FromSeconds(2000), 2000);
         }
 
-        [Test]
-        public void ServerTimeAdjustmentInvalidAge()
+        private void RunServerTimeOffsetTest(DateTimeOffset? date, TimeSpan? age, int offset)
         {
-            this.RunServerTimeOffsetTest(new WebHeaderCollection { { "Date", DateTime.UtcNow.ToString("R") }, { "Age", "kkkk" } }, 0);
-        }
-
-        private void RunServerTimeOffsetTest(WebHeaderCollection headers, int offset)
-        {
-            MusicClient client = new MusicClient("key", "us", new ApiRequestHandler(new ApiUriBuilder(), new GzipHandlerWp()));
+            var client = new MusicClient("key", "us", new ApiRequestHandler(new ApiUriBuilder()));
 
             DateTime time = DateTime.UtcNow;
             DateTime offsetTime = time.AddSeconds(offset);
 
-            if (headers != null)
-            {
-                (client.RequestHandler as ApiRequestHandler).DeriveServerTimeOffset(headers);
-            }
+            ((ApiRequestHandler)client.RequestHandler).DeriveServerTimeOffset(date, age);
 
             var oneSecBeforeStart = offsetTime.AddSeconds(-1);
             var clockTime = client.ServerTimeUtc;

@@ -8,6 +8,7 @@
 using System;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 using Nokia.Music.Types;
 using NUnit.Framework;
 
@@ -16,6 +17,13 @@ namespace Nokia.Music.Tests.Commands
     [TestFixture]
     public class MusicClientCommandTests
     {
+        [Test]
+        public void EnsureGzipRequestBodyFalseBYDefault()
+        {
+            var command = new MockMusicClientCommand();
+            Assert.IsFalse(command.GzipRequestBody, "Expected GzipRequestBody false by default");
+        }
+
         #region Public Methods and Operators
 
         [Test]
@@ -28,20 +36,12 @@ namespace Nokia.Music.Tests.Commands
                 string.Empty, 
                 Guid.NewGuid());
 
-            bool callbackCompleted = false;
+            var response = command.ItemResponseHandler(
+                unavailableResponse,
+                (item, settings) => item);
 
-            command.ItemResponseHandler(
-                unavailableResponse, 
-                item => item, 
-                response =>
-                    {
-                        callbackCompleted = true;
-
-                        Assert.That(!response.Succeeded);
-                        Assert.That(response.Error, Is.InstanceOf<NetworkUnavailableException>());
-                    });
-
-            Assert.That(callbackCompleted);
+            Assert.That(!response.Succeeded);
+            Assert.That(response.Error, Is.InstanceOf<NetworkUnavailableException>());
         }
 
         [Test]
@@ -54,22 +54,34 @@ namespace Nokia.Music.Tests.Commands
                 string.Empty, 
                 Guid.NewGuid());
 
-            bool callbackCompleted = false;
-
-            command.ListItemResponseHandler(
+            var response = command.ListItemResponseHandler(
                 unavailableResponse, 
-                "items", 
-                item => item, 
-                response =>
-                    {
-                        callbackCompleted = true;
+                "items",
+                (item, settings) => item);
 
-                        Assert.That(!response.Succeeded);
-                        Assert.That(response.Error, Is.InstanceOf<NetworkUnavailableException>());
-                        Assert.That(response.Error.Message, Is.EqualTo("This is a message."));
-                    });
+            Assert.That(!response.Succeeded);
+            Assert.That(response.Error, Is.InstanceOf<NetworkUnavailableException>());
+            Assert.That(response.Error.Message, Is.EqualTo("This is a message."));
+        }
 
-            Assert.That(callbackCompleted);
+        [Test]
+        public void NetworkLimitedIsPassedThroughForLists()
+        {
+            var command = new MockMusicClientCommand();
+            var unavailableResponse = new Response<JObject>(
+                HttpStatusCode.NotFound,
+                new NetworkLimitedException("This is a message."),
+                string.Empty,
+                Guid.NewGuid());
+
+            var response = command.ListItemResponseHandler(
+                unavailableResponse,
+                "items",
+                (item, settings) => item);
+
+            Assert.That(!response.Succeeded);
+            Assert.That(response.Error, Is.InstanceOf<NetworkLimitedException>());
+            Assert.That(response.Error.Message, Is.EqualTo("This is a message."));
         }
 
         [Test]
@@ -83,21 +95,13 @@ namespace Nokia.Music.Tests.Commands
                 (JObject)mix,
                 Guid.NewGuid());
 
-            bool callbackCompleted = false;
-
-            command.ListItemResponseHandler(
+            var response = command.ListItemResponseHandler(
                 availableResponse,
                 "items",
-                item => item,
-                response =>
-                {
-                    callbackCompleted = true;
+                (item, settings) => item);
 
-                    Assert.That(response.Succeeded);
-                    Assert.That(response.Error, Is.Not.InstanceOf<NetworkUnavailableException>());
-                });
-
-            Assert.That(callbackCompleted);
+            Assert.That(response.Succeeded);
+            Assert.That(response.Error, Is.Not.InstanceOf<NetworkUnavailableException>());
         }
 
         #endregion

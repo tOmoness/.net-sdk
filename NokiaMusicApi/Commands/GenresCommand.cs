@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Internal.Response;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -13,7 +13,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Gets the available genres
     /// </summary>
-    internal sealed class GenresCommand : MusicClientCommand<ListResponse<Genre>>
+    internal sealed class GenresCommand : JsonMusicClientCommand<ListResponse<Genre>>
     {
         /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
@@ -24,16 +24,9 @@ namespace Nokia.Music.Commands
             uri.AppendFormat("genres/");
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override ListResponse<Genre> HandleRawResponse(Response<JObject> rawResponse)
         {
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                null,
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Genre.FromJToken, Callback)));
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Genre.FromJToken);
         }
     }
 }

@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Properties;
@@ -64,14 +65,14 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestJsonParsing()
         {
-            Assert.IsNull(Product.FromJToken(null), "Expected a null return");
+            Assert.IsNull(Product.FromJToken(null, null), "Expected a null return");
 
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_parse_tests));
 
             JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
 
             // Test a full representation
-            Product fullItem = Product.FromJToken(items[0]) as Product;
+            Product fullItem = Product.FromJToken(items[0], null) as Product;
             Assert.IsNotNull(fullItem, "Expected a product object");
             Assert.IsNotNull(fullItem.TakenFrom, "Expected an album");
             Assert.IsNotNull(fullItem.Genres, "Expected genres");
@@ -96,61 +97,59 @@ namespace Nokia.Music.Tests.Types
         {
             var json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_movie_metadata_parse_tests));
 
-            Product product = Product.FromJToken(json);
+            Product product = Product.FromJToken(json, null);
 
             // Test a full representation
             Assert.IsNotNull(product, "Expected a product object");
+
             Assert.IsNotNull(product.ActorNames, "Expected Actor Names");
             Assert.AreEqual(2, product.ActorNames.Count, "Expected Actor Names count");
+            Assert.AreEqual("Aamir Khan", product.ActorNames[0]);
+            Assert.AreEqual("Juhi Chawla", product.ActorNames[1]);
+
             Assert.IsNotNull(product.LyricistsNames, "Expected Lyricists");
             Assert.AreEqual(1, product.LyricistsNames.Count, "Expected Lyricists");
+            Assert.AreEqual("Majrooh Sultanpuri", product.LyricistsNames[0]);
+
             Assert.IsNotNull(product.SingerNames, "Expected singer names");
             Assert.AreEqual(2, product.SingerNames.Count, "Expected singer names");
+            Assert.AreEqual("Udit Narayan", product.SingerNames[0]);
+            Assert.AreEqual("Alka Yagnik", product.SingerNames[1]);
+
             Assert.IsNotNull(product.MovieDirectorNames, "Expected an Movie director names");
             Assert.AreEqual(1, product.MovieDirectorNames.Count, "Expected MovieDirectorNames count");
+            Assert.AreEqual("Mansoor Khan", product.MovieDirectorNames[0]);
+
             Assert.IsNotNull(product.MovieProducerNames, "Expected a Movies producer names");
             Assert.AreEqual(1, product.MovieProducerNames.Count, "Expected Movie Producer Names count");
+            Assert.AreEqual("Nasir Hussain", product.MovieProducerNames[0]);
+
             Assert.IsNotNull(product.MusicDirectorNames, "Expected music director names");
             Assert.AreEqual(1, product.MusicDirectorNames.Count, "Expected Music Director Names count");
+            Assert.AreEqual("Anand-Milind", product.MusicDirectorNames[0]);
         }
 
         [Test]
         public void TestComposerArtistFallback()
         {
-            Assert.IsNull(Product.FromJToken(null), "Expected a null return");
+            Assert.IsNull(Product.FromJToken(null, null), "Expected a null return");
 
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.product_parse_test_composers));
 
             JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
 
             // Test a full representation
-            Product fullItem = Product.FromJToken(items[0]) as Product;
+            Product fullItem = Product.FromJToken(items[0], null) as Product;
             Assert.IsNotNull(fullItem, "Expected a product object");
             Assert.AreEqual(1, fullItem.Performers.Length, "Expected single performer");
             Assert.AreEqual("Lopez", fullItem.Performers[0].Name, "Expected 'Lopez' as only performer");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestIdPropertyIsRequiredForShow()
-        {
-            Product product = new Product();
-            product.Show();
-        }
-
-        [Test]
-        public void TestShowGoesAheadWhenItCan()
-        {
-            Product product = new Product() { Id = TestId };
-            product.Show();
-            Assert.Pass();
-        }
-
-        [Test]
         public void AlbumFromJTokenParsesSuccessfully()
         {
             var json = JObject.Parse(Encoding.UTF8.GetString(Resources.single_product));
-            Product album = Product.FromJToken(json);
+            Product album = Product.FromJToken(json, null);
 
             Assert.That(album, Is.Not.Null, "Album");
             Assert.That(album.Category, Is.EqualTo(Category.Album));

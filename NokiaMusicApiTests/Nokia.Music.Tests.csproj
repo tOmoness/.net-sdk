@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNIT_TESTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -32,7 +32,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;UNIT_TESTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -40,9 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -52,6 +52,15 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Device" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -62,11 +71,11 @@
     <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserPlayHistoryCommand.cs">
       <Link>Source\CommandsUser\GetUserPlayHistoryCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserRecentMixesCommand.cs">
+      <Link>Source\CommandsUser\GetUserRecentMixesCommand.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserTopArtistsCommand.cs">
       <Link>Source\CommandsUser\GetUserTopArtistsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\CommandsUser\SecureMusicClientCommand.cs">
-      <Link>Source\CommandsUser\SecureMusicClientCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\ArtistProductsCommand.cs">
       <Link>Source\Commands\ArtistProductsCommand.cs</Link>
@@ -76,6 +85,9 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\GenresCommand.cs">
       <Link>Source\Commands\GenresCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\JsonMusicClientCommand.cs">
+      <Link>Source\Commands\JsonMusicClientCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\MixDetailsCommand.cs">
       <Link>Source\Commands\MixDetailsCommand.cs</Link>
@@ -89,14 +101,20 @@
     <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand.cs">
       <Link>Source\Commands\MusicClientCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TResult}.cs">
-      <Link>Source\Commands\MusicClientCommand{TReturnType}.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TIntermediate,TResult}.cs">
+      <Link>Source\Commands\MusicClientCommand{TIntermediate,TResult}.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TIntermediate}.cs">
+      <Link>Source\Commands\MusicClientCommand{TIntermediate}.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\NewReleasesCommand.cs">
       <Link>Source\Commands\NewReleasesCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\ProductCommand.cs">
       <Link>Source\Commands\ProductCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\RawMusicClientCommand.cs">
+      <Link>Source\Commands\RawMusicClientCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\SearchArtistsCommand.cs">
       <Link>Source\Commands\SearchArtistsCommand.cs</Link>
@@ -128,6 +146,9 @@
     <Compile Include="..\NokiaMusicApi\CountryResolver.cs">
       <Link>Source\CountryResolver.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Exceptions\ApiCallCancelledException.cs">
+      <Link>Source\Exceptions\ApiCallCancelledException.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\ApiCallFailedException.cs">
       <Link>Source\Exceptions\ApiCallFailedException.cs</Link>
     </Compile>
@@ -146,11 +167,17 @@
     <Compile Include="..\NokiaMusicApi\Exceptions\InvalidCountryCodeException.cs">
       <Link>Source\Exceptions\InvalidCountryCodeException.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Exceptions\NetworkLimitedException.cs">
+      <Link>Source\Exceptions\NetworkLimitedException.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\NetworkUnavailableException.cs">
       <Link>Source\Exceptions\NetworkUnavailableException.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Exceptions\NokiaMusicException.cs">
       <Link>Source\Exceptions\NokiaMusicException.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Exceptions\SendFailureException.cs">
+      <Link>Source\Exceptions\SendFailureException.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\ICountryResolver.cs">
       <Link>Source\ICountryResolver.cs</Link>
@@ -158,8 +185,14 @@
     <Compile Include="..\NokiaMusicApi\IMusicClient.cs">
       <Link>Source\IMusicClient.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\ArtistImageUriWriter.cs">
+      <Link>Source\Internal\ArtistImageUriWriter.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\IAuthHeaderDataProvider.cs">
       <Link>Source\Internal\Authorization\IAuthHeaderDataProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\IUserIdProvider.cs">
+      <Link>Source\Internal\Authorization\IUserIdProvider.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuth2.cs">
       <Link>Source\Internal\Authorization\OAuth2.cs</Link>
@@ -169,12 +202,6 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\TokenResponse.cs">
       <Link>Source\Internal\Authorization\TokenResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\GzipHandlerWp.cs">
-      <Link>Source\Internal\Compression\GzipHandlerWp.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Compression\IGzipHandler.cs">
-      <Link>Source\Internal\Compression\IGzipHandler.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\DebugLogger.cs">
       <Link>Source\Internal\DebugLogger.cs</Link>
@@ -197,14 +224,14 @@
     <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandler.cs">
       <Link>Source\Internal\Request\ApiRequestHandler.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandlerFactory.cs">
-      <Link>Source\Internal\Request\ApiRequestHandlerFactory.cs</Link>
-    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Request\ApiUriBuilder.cs">
       <Link>Source\Internal\Request\ApiUriBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\HttpMethod.cs">
-      <Link>Source\Internal\Request\HttpMethod.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\GzippedContent.cs">
+      <Link>Source\Internal\Request\GzippedContent.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\HttpClientRequestProxy.cs">
+      <Link>Source\Internal\Request\HttpClientRequestProxy.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Request\IApiRequestHandler.cs">
       <Link>Source\Internal\Request\IApiRequestHandler.cs</Link>
@@ -212,23 +239,14 @@
     <Compile Include="..\NokiaMusicApi\Internal\Request\IApiUriBuilder.cs">
       <Link>Source\Internal\Request\IApiUriBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\TimedRequest.cs">
-      <Link>Source\Internal\Request\TimedRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Response\IResponseCallback.cs">
-      <Link>Source\Internal\Response\IResponseCallback.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Response\JsonResponseCallback.cs">
-      <Link>Source\Internal\Response\JsonResponseCallback.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Request\IHttpClientRequestProxy.cs">
+      <Link>Source\Internal\Request\IHttpClientRequestProxy.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Response\ResponseInfo.cs">
       <Link>Source\Internal\Response\ResponseInfo.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\StorageHelper.cs">
       <Link>Source\Internal\StorageHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\StreamExtensions.cs">
-      <Link>Source\Internal\StreamExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\ListResponse{T}.cs">
       <Link>Source\ListResponse{T}.cs</Link>
@@ -305,6 +323,15 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\Seed.cs">
+      <Link>Source\Types\Seed.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\SeedCollection.cs">
+      <Link>Source\Types\SeedCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\SeedType.cs">
+      <Link>Source\Types\SeedType.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\SortOrder.cs">
       <Link>Source\Types\SortOrder.cs</Link>
     </Compile>
@@ -320,6 +347,7 @@
     <Compile Include="..\NokiaMusicApi\Types\UserEventTarget.cs">
       <Link>Source\Types\UserEventTarget.cs</Link>
     </Compile>
+    <Compile Include="CommandsUser\GetUserRecentMixesCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserTopArtistsCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserPlayHistoryCommandTests.cs" />
     <Compile Include="CommandsUser\GetAuthTokenCommandTests.cs" />
@@ -329,13 +357,15 @@
     <Compile Include="Commands\SimilarProductsTests.cs" />
     <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="Commands\GetProductTests.cs" />
+    <Compile Include="Internal\ArtistImageUriWriterTests.cs" />
+    <Compile Include="Internal\GzippedContentTests.cs" />
+    <Compile Include="Internal\MockHttpClientRequestProxy.cs" />
     <Compile Include="ListResponseTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
     <Compile Include="Internal\FakeAuthHeaderProvider.cs" />
     <Compile Include="Internal\StorageHelperTests.cs" />
     <Compile Include="Internal\OAuthTests.cs" />
     <Compile Include="Internal\TokenResponseTests.cs" />
-    <Compile Include="Internal\JsonResponseCallbackTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
     <Compile Include="Commands\SearchSuggestionsTests.cs" />
@@ -373,7 +403,10 @@
     <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
     <Compile Include="Types\AuthResultCodeTests.cs" />
+    <Compile Include="Types\LauncherIntegrationTests.cs" />
+    <Compile Include="Types\LocationExtensionTests.cs" />
     <Compile Include="Types\PriceTests.cs" />
+    <Compile Include="Types\SeedTests.cs" />
     <Compile Include="Types\TypeExtensionsTests.cs" />
     <Compile Include="Types\AuthScopesTests.cs" />
     <Compile Include="Types\UserEventTests.cs" />
@@ -384,11 +417,13 @@
     <Compile Include="Types\GenreTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Json\allmixes.json" />
     <None Include="Json\artist-parse-tests.json" />
     <None Include="Json\artist-products.json" />
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\user-recent-mixes.json" />
     <None Include="Json\mix.json" />
     <None Include="Json\product-movie-metadata-parse-tests.json" />
     <None Include="Json\get-artist.json" />
@@ -441,15 +476,20 @@ rem RunTests.bat</PostBuildEvent>
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>
     <StyleCopMSBuildMessageMissing>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. Ensure that the package is present and then restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessageMissing>
     <StyleCopMSBuildMessagePresent>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessagePresent>
     <StyleCopMSBuildMessageRestore>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. To fix this, restore the package and then restart the build. If you are using an IDE (e.g. Visual Studio), you may need to reload the project before restarting the build. Note that regular NuGet package restore (during build) does not work with this package because the package needs to be present before the project is loaded. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the project is built.</StyleCopMSBuildMessageRestore>
-    <StyleCopMSBuildMessageRestored>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build. Note that when using regular NuGet package restore (during build) the package will not be available for the initial build because the package needs to be present before the project is loaded. If package restore executes successfully in the intitial build then the package will be available for subsequent builds. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the initial build.</StyleCopMSBuildMessageRestored>
+    <StyleCopMSBuildMessageRestored>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build. Note that when using regular NuGet package restore (during build) the package will not be available for the initial build because the package needs to be present before the project is loaded. If package restore executes successfully in the initial build then the package will be available for subsequent builds. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the initial build.</StyleCopMSBuildMessageRestored>
   </PropertyGroup>
   <Target Name="StyleCopMSBuildTargetsNotFound">
     <Warning Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageMissing)" />

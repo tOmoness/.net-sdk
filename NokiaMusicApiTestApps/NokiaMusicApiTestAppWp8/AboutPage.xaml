@@ -1,6 +1,6 @@
 ﻿<!--
- Copyright © 2012-2013 Nokia Corporation. All rights reserved.
- Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+ Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+ Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
  Other product and company names mentioned herein may be trademarks
  or trade names of their respective owners. 
  See LICENSE.TXT for license information.
@@ -31,7 +31,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock x:Name="PageTitle" Text="about" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -45,13 +45,13 @@
                     </Grid.ColumnDefinitions>
                     <Image Source="/Resources/AppTileMedium.png" Grid.Column="0" VerticalAlignment="Top" Stretch="UniformToFill" Width="140" Height="140" />
                     <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Stretch">
-                        <TextBlock Text="NOKIA MIXRADIO SDK EXPLORER" FontFamily="Segoe WP Black" FontSize="37" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#0087D8" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="48" Width="280" Margin="12,0,0,0" />
+                        <TextBlock Text="MIXRADIO SDK EXPLORER" FontFamily="Segoe WP Black" FontSize="37" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#0087D8" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="48" Width="280" Margin="12,0,0,0" />
                     </StackPanel>
                 </Grid>
 
-                <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Grid.Column="1" TextWrapping="Wrap" Text="The Nokia MixRadio SDK is Copyright (c) 2012-2013, Nokia, All rights reserved."/>
+                <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Grid.Column="1" TextWrapping="Wrap" Text="The MixRadio SDK is Copyright (c) 2012-2014, Microsoft Mobile, All rights reserved."/>
 
-                <Button Tag="http://nokia.ly/musicapi" Content="SDK docs: http://nokia.ly/musicapi" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="20" Margin="-9,0,0,0" BorderThickness="0" Click="OpenHelpDocs"  />
+                <Button Tag="http://dev.mixrad.io" Content="SDK docs: http://dev.mixrad.io" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="20" Margin="-9,0,0,0" BorderThickness="0" Click="OpenHelpDocs"  />
 
                 <TextBlock Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap" Margin="12,12,12,24">
                     <TextBlock.Text>
@@ -70,7 +70,7 @@
                 </TextBlock>
                 <TextBlock Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap" Margin="12,0,12,12">
                     <TextBlock.Text>
-                        Neither the name of the Nokia nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+                        Neither the name of Microsoft Mobile nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
                     </TextBlock.Text>
                 </TextBlock>
                 <TextBlock Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap">
@@ -80,7 +80,7 @@
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Margin="12,36,0,24" TextWrapping="Wrap">
-                    <Run>The Nokia MixRadio SDK uses the awesome JSON.Net...</Run>
+                    <Run>The MixRadio SDK uses the awesome JSON.Net...</Run>
                     <!--<Hyperlink>http://json.codeplex.com/</Hyperlink>-->
                 </TextBlock>
 

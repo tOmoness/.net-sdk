@@ -32,13 +32,14 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="requestId">The request id</param>
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
 #if OPEN_INTERNALS
         public
 #else
         internal
 #endif
-        Response(HttpStatusCode? statusCode, Guid requestId)
-            : this(statusCode, null, null, requestId)
+        Response(HttpStatusCode? statusCode, Guid requestId, bool? foundMixRadioHeader = null)
+            : this(statusCode, null, null, requestId, foundMixRadioHeader)
         {
         }
 
@@ -49,17 +50,19 @@ namespace Nokia.Music
         /// <param name="error">The error.</param>
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
 #if OPEN_INTERNALS
         public
 #else
         internal
 #endif
-        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
+        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId, bool? foundMixRadioHeader = null)
         {
             this.StatusCode = statusCode;
             this.Error = error;
             this.ErrorResponseBody = responseBody;
             this.RequestId = requestId;
+            this.FoundMixRadioHeader = foundMixRadioHeader;
         }
 
         /// <summary>
@@ -106,5 +109,14 @@ namespace Nokia.Music
         /// Gets or sets the HTTP Status code
         /// </summary>
         public HttpStatusCode? StatusCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the response had the X-MixRadio header set
+        /// </summary>
+#if OPEN_INTERNALS
+        public bool? FoundMixRadioHeader { get; set; }
+#else
+        internal bool? FoundMixRadioHeader { get; set; }
+#endif
     }
 }

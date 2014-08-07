@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Internal;
 using Nokia.Music.Tasks;
 using NUnit.Framework;
@@ -36,17 +37,17 @@ namespace Nokia.Music.Tests.Types
 
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestProductIdPropertyIsRequiredForShow()
+        public async Task TestProductIdPropertyIsRequiredForShow()
         {
             ShowProductTask task = new ShowProductTask();
-            task.Show();
+            await task.Show();
         }
 
         [Test]
-        public void TestShowProductGoesAheadWhenItCan()
+        public async Task TestShowProductGoesAheadWhenItCan()
         {
             ShowProductTask task = new ShowProductTask() { ClientId = TestClientId, ProductId = TestProductId };
-            task.Show();            
+            await task.Show();            
             Assert.Pass();
         }
     }

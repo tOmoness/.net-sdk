@@ -7,8 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
-using Nokia.Music.Internal.Response;
 
 namespace Nokia.Music.Internal.Request
 {
@@ -45,14 +46,16 @@ namespace Nokia.Music.Internal.Request
         /// <param name="command">The command to call.</param>
         /// <param name="settings">The music client settings.</param>
         /// <param name="queryParams">The queryString parameters.</param>
-        /// <param name="callback">The callback to hit when done.</param>
+        /// <param name="rawDataHandler">The convertion handler for the data received.</param>
         /// <param name="requestHeaders">HTTP headers to add to the request</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when no callback is specified</exception>
-        void SendRequestAsync<T>(
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>A response for the API request.</returns>
+        Task<Response<T>> SendRequestAsync<T>(
                               MusicClientCommand command,
                               IMusicClientSettings settings,
                               List<KeyValuePair<string, string>> queryParams,
-                              IResponseCallback<T> callback,
-                              Dictionary<string, string> requestHeaders = null);
+                              Func<string, T> rawDataHandler,
+                              Dictionary<string, string> requestHeaders,
+                              CancellationToken? cancellationToken);
     }
 }

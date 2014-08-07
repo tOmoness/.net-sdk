@@ -6,21 +6,26 @@
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Internal;
+using System.Threading.Tasks;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia MixRadio
+    /// Provides a simple way to show MixRadio
     /// </summary>
     public sealed class LaunchTask : TaskBase
     {
         /// <summary>
-        /// Shows Nokia MixRadio
+        /// Shows MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
-            this.Launch(new Uri("nokia-music://"), new Uri("http://www.mixrad.io/"));
+#if WINDOWS_APP
+            await this.Launch(new Uri("nokia-music://"), new Uri("http://www.mixrad.io/")).ConfigureAwait(false);
+#else
+            await this.Launch(new Uri("mixradio://"), new Uri("http://www.mixrad.io/")).ConfigureAwait(false);
+#endif
         }
     }
 }

@@ -23,10 +23,10 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void EnsureGetNewReleasesThrowsExceptionForUnsupportedCategory()
+        public async Task EnsureGetNewReleasesThrowsExceptionForUnsupportedCategory()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleasesAsync(Category.Unknown).Wait();
+            await client.GetNewReleasesAsync(Category.Unknown);
         }
 
         [Test]
@@ -64,28 +64,28 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void EnsureGetNewReleasesForGenreThrowsExceptionForUnsupportedCategory()
+        public async Task EnsureGetNewReleasesForGenreThrowsExceptionForUnsupportedCategory()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            client.GetNewReleasesForGenreAsync("rock", Category.Unknown).Wait();
+            await client.GetNewReleasesForGenreAsync("rock", Category.Unknown);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetNewReleasesForGenreThrowsExceptionForNullGenre()
+        public async Task EnsureGetNewReleasesForGenreThrowsExceptionForNullGenre()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
-            client.GetNewReleasesForGenreAsync(nullGenre, Category.Album).Wait();
+            await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetNewReleasesForGenreThrowsExceptionForNullGenreId()
+        public async Task EnsureGetNewReleasesForGenreThrowsExceptionForNullGenreId()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             string nullGenreId = null;
-            client.GetNewReleasesForGenreAsync(nullGenreId, Category.Album).Wait();
+            await client.GetNewReleasesForGenreAsync(nullGenreId, Category.Album);
         }
 
         [Test]
@@ -98,11 +98,11 @@ namespace Nokia.Music.Tests.Commands
         
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetNewReleasesForGenreAsyncThrowsExceptionForNullGenre()
+        public async Task EnsureGetNewReleasesForGenreAsyncThrowsExceptionForNullGenre()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
-            client.GetNewReleasesForGenreAsync(nullGenre, Category.Album).Wait();
+            await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
         }
 
         [Test]

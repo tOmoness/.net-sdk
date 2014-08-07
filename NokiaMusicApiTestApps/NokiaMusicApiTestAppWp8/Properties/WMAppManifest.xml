@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{36c9690a-7033-4475-894c-6874f8e2ff9f}" Title="Nokia MixRadio SDK Explorer" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="Nokia.Music.TestApp author" Description="Nokia MixRadio SDK Test App" Publisher="Nokia.Music.TestApp" PublisherID="{09da29f1-3a64-4da2-9328-2be9c027ae17}">
+  <App xmlns="" ProductID="{36c9690a-7033-4475-894c-6874f8e2ff9f}" Title="MIXRADIO SDK EXPLORER" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="Nokia.Music.TestApp author" Description="MixRadio SDK Test App" Publisher="Nokia.Music.TestApp" PublisherID="{09da29f1-3a64-4da2-9328-2be9c027ae17}">
     <IconPath IsRelative="true" IsResource="false">Resources\AppTileSmall.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -19,7 +19,7 @@
           <SmallImageURI IsRelative="true" IsResource="false">Resources\AppTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Resources\AppTileMedium.png</BackgroundImageURI>
-          <Title>Nokia MixRadio SDK Explorer</Title>
+          <Title>MixRadio SDK Explorer</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

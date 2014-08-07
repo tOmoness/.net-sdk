@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Nokia.Music.Tests.Commands
         {
             var cmd = new GetAuthTokenCommand();
 
-            Assert.AreEqual(MusicClientCommand.DefaultSecureBaseApiUri, cmd.BaseApiUri, "Expected the right value");
+            Assert.AreEqual(MusicClientCommand.DefaultBaseApiUri, cmd.BaseApiUri, "Expected the right value");
             Assert.AreEqual(MusicClientCommand.ContentTypeFormPost, cmd.ContentType, "Expected the right value");
             Assert.AreEqual(false, cmd.RequiresCountryCode, "Expected the right value");
             Assert.AreEqual(true, cmd.RequiresEmptyQuerystring, "Expected the right value");
@@ -131,7 +132,7 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        public void EnsureResponseParsedForValidAuthCodeRequest()
+        public async Task EnsureResponseParsedForValidAuthCodeRequest()
         {
             var cmd = new GetAuthTokenCommand()
             {
@@ -143,9 +144,7 @@ namespace Nokia.Music.Tests.Commands
                 ClientSettings = new MockMusicClientSettings("test", "gb", null)
             };
 
-            var task = cmd.InvokeAsync();
-            task.Wait();
-            Response<TokenResponse> t = task.Result;
+            var t = await cmd.ExecuteAsync(null);
             Assert.IsNotNull(t.Result, "Expected a result");
             Assert.IsNotNullOrEmpty(t.Result.AccessToken, "Expected an access token");
             Assert.IsTrue(t.Result.ExpiresIn > 0, "Expected expires > 0");
@@ -155,7 +154,7 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        public void EnsureResponseParsedForValidRefreshTokenRequest()
+        public async Task EnsureResponseParsedForValidRefreshTokenRequest()
         {
             var cmd = new GetAuthTokenCommand()
             {
@@ -167,9 +166,7 @@ namespace Nokia.Music.Tests.Commands
                 ClientSettings = new MockMusicClientSettings("test", "gb", null)
             };
 
-            var task = cmd.InvokeAsync();
-            task.Wait();
-            Response<TokenResponse> t = task.Result;
+            var t = await cmd.ExecuteAsync(null);
             Assert.IsNotNull(t.Result, "Expected a result");
             Assert.IsNotNullOrEmpty(t.Result.AccessToken, "Expected an access token");
             Assert.IsTrue(t.Result.ExpiresIn > 0, "Expected expires > 0");
@@ -179,7 +176,7 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        public void EnsureExceptionGivenForBadApiCredentials()
+        public async Task EnsureExceptionGivenForBadApiCredentials()
         {
             var cmd = new GetAuthTokenCommand()
             {
@@ -191,9 +188,7 @@ namespace Nokia.Music.Tests.Commands
                 ClientSettings = new MockMusicClientSettings(null, "test", null)
             };
 
-            var task = cmd.InvokeAsync();
-            task.Wait();
-            Response<TokenResponse> t = task.Result;
+            var t = await cmd.ExecuteAsync(null);
             Assert.IsNull(t.Result, "Expected no result");
             Assert.IsNotNull(t.Error, "Expected an error");
             Assert.AreNotEqual(typeof(InvalidApiCredentialsException), t.Error.GetType());

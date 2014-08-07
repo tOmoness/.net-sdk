@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="MainPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -10,6 +10,7 @@
 
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
@@ -77,11 +78,11 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">Search Task button</param>
         /// <param name="e">Event arguments</param>
-        private void ShowSearchTask(object sender, RoutedEventArgs e)
+        private async void ShowSearchTask(object sender, RoutedEventArgs e)
         {
             MusicSearchTask task = new MusicSearchTask();
             task.SearchTerms = "Muse";
-            task.Show();
+            await task.Show();
         }
 
         /// <summary>
@@ -89,11 +90,11 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">Show Artist Task button</param>
         /// <param name="e">Event arguments</param>
-        private void ShowArtistTask(object sender, RoutedEventArgs e)
+        private async void ShowArtistTask(object sender, RoutedEventArgs e)
         {
             ShowArtistTask task = new ShowArtistTask();
             task.ArtistName = "Lady Gaga";
-            task.Show();
+            await task.Show();
         }
 
         /// <summary>
@@ -101,11 +102,11 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">Play Mix Task button</param>
         /// <param name="e">Event arguments</param>
-        private void PlayMixTask(object sender, RoutedEventArgs e)
+        private async void PlayMixTask(object sender, RoutedEventArgs e)
         {
             PlayMixTask task = new PlayMixTask();
             task.ArtistName = "Coldplay";
-            task.Show();
+            await task.Show();
         }
 
         /// <summary>
@@ -113,10 +114,9 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">Show Gigs Task button</param>
         /// <param name="e">Event arguments</param>
-        private void ShowGigsTask(object sender, RoutedEventArgs e)
+        private async void ShowGigsTask(object sender, RoutedEventArgs e)
         {
-            ShowGigsTask task = new ShowGigsTask();
-            task.Show();
+            await new ShowGigsTask().Show();
         }
 
         /// <summary>
@@ -124,11 +124,14 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">Search Gigs Task button</param>
         /// <param name="e">Event arguments</param>
-        private void SearchGigsTask(object sender, RoutedEventArgs e)
+        private async void SearchGigsTask(object sender, RoutedEventArgs e)
         {
-            ShowGigsTask task = new ShowGigsTask();
-            task.SearchTerms = "New York";
-            task.Show();
+            await new ShowGigsTask { SearchTerms = "New York" }.Show();
+        }
+
+        private async void PlayMeTask(object sender, RoutedEventArgs e)
+        {
+            await new PlayMeTask().Show();
         }
 
         /// <summary>
@@ -149,11 +152,11 @@ namespace Nokia.Music.TestApp
                 bool available = await resolver.CheckAvailabilityAsync(countryCode);
                 if (available)
                 {
-                    message = "Hooray! Nokia MixRadio is available in " + RegionInfo.CurrentRegion.DisplayName + "!";
+                    message = "Hooray! MixRadio is available in " + RegionInfo.CurrentRegion.DisplayName + "!";
                 }
                 else
                 {
-                    message = "Sorry, Nokia MixRadio is not available in your region - you won't be able to use the API features.";
+                    message = "Sorry, MixRadio is not available in your region - you won't be able to use the API features.";
                     countryCode = null;
                 }
             }
@@ -343,6 +346,11 @@ namespace Nokia.Music.TestApp
         private void UserChart(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetUserTopArtists, UriKind.Relative));
+        }
+
+        private void UserRecentMixes(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ShowListPage.xaml?" + ShowListPage.MethodParam + "=" + MethodCall.GetUserRecentMixes, UriKind.Relative));
         }
     }
 }

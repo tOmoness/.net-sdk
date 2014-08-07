@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -37,11 +38,7 @@ namespace Nokia.Music.Commands
         /// </value>
         public int MaxDistance { get; set; }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        /// <exception cref="System.ArgumentNullException">SearchTerm;A searchTerm must be supplied</exception>
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             if (string.IsNullOrEmpty(this.SearchTerm) && (this.Location == null || (this.Location.Latitude == 0 && this.Location.Longitude == 0)))
             {
@@ -61,7 +58,12 @@ namespace Nokia.Music.Commands
                 maxdistance = this.MaxDistance.ToString();
             }
 
-            this.InternalSearch(this.SearchTerm, null, null, Types.Category.Artist, location, maxdistance, null, null, this.StartIndex, this.ItemsPerPage, Artist.FromJToken, this.Callback);
+            return this.BuildQueryStringParams(this.SearchTerm, null, null, Types.Category.Artist, location, maxdistance, null, null, this.StartIndex, this.ItemsPerPage);
+        }
+
+        internal override ListResponse<Artist> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Artist.FromJToken);
         }
     }
 }

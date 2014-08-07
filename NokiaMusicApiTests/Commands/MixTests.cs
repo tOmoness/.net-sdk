@@ -56,20 +56,20 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetMixesThrowsExceptionForNullGroupId()
+        public async Task EnsureGetMixesThrowsExceptionForNullGroupId()
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixesAsync(nullId).Wait();
+            await client.GetMixesAsync(nullId);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetMixesThrowsExceptionForNullGroup()
+        public async Task EnsureGetMixesThrowsExceptionForNullGroup()
         {
             MixGroup nullGroup = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-            client.GetMixesAsync(nullGroup).Wait();
+            await client.GetMixesAsync(nullGroup);
         }
 
         [Test]
@@ -77,6 +77,20 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
             ListResponse<Mix> result = await client.GetMixesAsync(new MixGroup() { Id = "test" });
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
+        }
+
+        [Test]
+        public async Task EnsureGetAllMixesReturnsItems()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.allmixes));
+            ListResponse<Mix> result = await client.GetAllMixesAsync();
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
@@ -167,11 +181,11 @@ namespace Nokia.Music.Tests.Commands
         {
             var cmd1 = new MixGroupsCommand();
             cmd1.Exclusivity = new string[] { "exclusivity" };
-            cmd1.BuildQueryString();
+            cmd1.BuildQueryStringParams();
 
             var cmd2 = new MixesCommand();
             cmd2.Exclusivity = new string[] { "exclusivity" };
-            cmd2.BuildQueryString();
+            cmd2.BuildQueryStringParams();
         }
     }
 }

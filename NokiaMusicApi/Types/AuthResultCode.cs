@@ -59,5 +59,10 @@ namespace Nokia.Music.Types
         /// A silent refresh from an existing token was not possible as there is no cached token
         /// </summary>
         NoCachedToken = 8,
+
+        /// <summary>
+        /// The authorise process is in progress (Windows Phone 8.1 only)
+        /// </summary>
+        InProgress = 9,
     }
 }

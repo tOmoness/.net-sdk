@@ -1,0 +1,153 @@
+{
+    "items": [
+        {
+            "description": "",
+            "name": "Most played charts",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/54160800.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/54160800.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/54160800.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/54160800.jpg"
+            },
+            "id": "33270526",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played pop",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/534569.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/534569.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/534569.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/534569.jpg"
+            },
+            "id": "33270536",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played hip hop",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/639143.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/639143.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/639143.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/639143.jpg"
+            },
+            "id": "33270544",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played dance",
+            "numbertracks": 50,
+            "parentaladvisory": false,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/201526.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/201526.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/201526.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/201526.jpg"
+            },
+            "id": "33270542",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played R&B",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/372556.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/372556.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/372556.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/372556.jpg"
+            },
+            "id": "56294435",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played new releases",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/11465599.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/11465599.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/11465599.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/11465599.jpg"
+            },
+            "id": "33270524",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "00s #1s",
+            "numbertracks": 174,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/1194.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/1194.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/1194.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/1194.jpg"
+            },
+            "id": "24015118",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played rock",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/11128833.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/11128833.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/11128833.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/11128833.jpg"
+            },
+            "id": "33270538",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Gym workout",
+            "numbertracks": 93,
+            "parentaladvisory": false,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/287787.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/287787.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/287787.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/287787.jpg"
+            },
+            "id": "59413093",
+            "type": "radiostation"
+        },
+        {
+            "description": "",
+            "name": "Most played indie",
+            "numbertracks": 50,
+            "parentaladvisory": true,
+            "thumbnails": {
+                "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/349229.jpg",
+                "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/349229.jpg",
+                "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/349229.jpg",
+                "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/349229.jpg"
+            },
+            "id": "39076257",
+            "type": "radiostation"
+        }
+    ],
+    "paging": {
+        "total": 475,
+        "startindex": 0,
+        "itemsperpage": 10
+    },
+    "skipsallowed": {
+        "periodinhours": 1,
+        "maxskips": 6
+    }
+}

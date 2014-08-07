@@ -9,9 +9,7 @@ using System;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 using Nokia.Music.Internal.Response;
-using Nokia.Music.Tests.Properties;
 
 namespace Nokia.Music.Tests.Internal
 {
@@ -37,7 +35,7 @@ namespace Nokia.Music.Tests.Internal
 
         public static FakeResponse Success(byte[] successResponse, string contentType)
         {
-            return new FakeResponse(new Response<JObject>(HttpStatusCode.OK, contentType, JObject.Parse(Encoding.UTF8.GetString(successResponse)), Guid.Empty));
+            return new FakeResponse(new Response<JObject>(HttpStatusCode.OK, contentType, successResponse != null ? JObject.Parse(Encoding.UTF8.GetString(successResponse)) : null, Guid.Empty));
         }
 
         public static FakeResponse RawSuccess(string successResponse)
@@ -71,7 +69,7 @@ namespace Nokia.Music.Tests.Internal
         }
 
         public static FakeResponse InternalServerError(string response = null)
-        {           
+        {
             return new FakeResponse(new Response<JObject>(HttpStatusCode.InternalServerError, (JObject)null, Guid.Empty));
         }
 
@@ -94,11 +92,10 @@ namespace Nokia.Music.Tests.Internal
         /// Performs the callback specified with the previously queued up response
         /// </summary>
         /// <typeparam name="T">The type of response</typeparam>
-        /// <param name="callback">The callback action</param>
-        public void DoCallback<T>(IResponseCallback<T> callback)
+        /// <returns>A response</returns>
+        public Response<T> GetResponseOf<T>()
         {
-            var resp = this._response as Response<T>;
-            callback.Callback(resp);
+            return this._response as Response<T>;
         }
     }
 }

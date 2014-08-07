@@ -22,13 +22,14 @@ namespace Nokia.Music
         /// <param name="statusCode">The status code.</param>
         /// <param name="result">The result.</param>
         /// <param name="requestId">The request id</param>
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
 #if OPEN_INTERNALS
         public
 #else
         internal
 #endif
-        Response(HttpStatusCode? statusCode, T result, Guid requestId)
-            : this(statusCode, null, result, requestId)
+        Response(HttpStatusCode? statusCode, T result, Guid requestId, bool? foundMixRadioHeader = null)
+            : this(statusCode, null, result, requestId, foundMixRadioHeader)
         {
         }
 
@@ -39,13 +40,14 @@ namespace Nokia.Music
         /// <param name="contentType">The response Content Type.</param>
         /// <param name="result">The result.</param>
         /// <param name="requestId">The request id</param>
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
 #if OPEN_INTERNALS
         public
 #else
         internal
 #endif
-        Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId)
-            : base(statusCode, requestId)
+        Response(HttpStatusCode? statusCode, string contentType, T result, Guid requestId, bool? foundMixRadioHeader = null)
+            : base(statusCode, requestId, foundMixRadioHeader)
         {
             this.ContentType = contentType;
             this.Result = result;
@@ -58,13 +60,14 @@ namespace Nokia.Music
         /// <param name="error">The error.</param>
         /// <param name="responseBody">The response body.</param>
         /// <param name="requestId">The request id.</param>
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
 #if OPEN_INTERNALS
         public
 #else
         internal
 #endif 
-        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId)
-            : base(statusCode, error, responseBody, requestId)
+        Response(HttpStatusCode? statusCode, Exception error, string responseBody, Guid requestId, bool? foundMixRadioHeader = null)
+            : base(statusCode, error, responseBody, requestId, foundMixRadioHeader)
         {
         }
 

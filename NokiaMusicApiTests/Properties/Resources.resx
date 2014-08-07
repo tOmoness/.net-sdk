@@ -214,4 +214,10 @@
   <data name="search_radiostation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Json\search-radiostation.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="user_recent_mixes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\user-recent-mixes.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="allmixes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Json\allmixes.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

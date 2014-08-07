@@ -19,24 +19,24 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureThatADefaultZeroValueIsTreatedAsNull()
+        public async Task EnsureThatADefaultZeroValueIsTreatedAsNull()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocationAsync(0, 0).Wait();
+            await client.GetArtistsAroundLocationAsync(0, 0);
         }
 
         [Test]
-        public void EnsureGetArtistsAroundLocationAcceptsZeroLatitude()
+        public async Task EnsureGetArtistsAroundLocationAcceptsZeroLatitude()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocationAsync(0, -2.59239).Wait();
+            await client.GetArtistsAroundLocationAsync(0, -2.59239);
         }
 
         [Test]
-        public void EnsureGetArtistsAroundLocationAcceptsZeroLongitude()
+        public async Task EnsureGetArtistsAroundLocationAcceptsZeroLongitude()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.GetArtistsAroundLocationAsync(51.45534, 0).Wait();
+            await client.GetArtistsAroundLocationAsync(51.45534, 0);
         }
 
         [Test]

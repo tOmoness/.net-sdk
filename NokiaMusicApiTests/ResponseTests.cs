@@ -7,6 +7,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Nokia.Music.Commands;
+using Nokia.Music.Tests.Commands;
 using Nokia.Music.Types;
 using NUnit.Framework;
 
@@ -129,6 +131,176 @@ namespace Nokia.Music.Tests
             Assert.IsNotNull(r.StatusCode, "Expected something");
             Assert.AreEqual(r.StatusCode.Value, HttpStatusCode.OK, "Expected OK");
             Assert.IsFalse(r.Succeeded, "Error means failure");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseWithGenericException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new Exception(), "ThisIsTheResponseBody", new Guid());
+            Response response = command.ErrorResponseHandler(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseOfWithGenericException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new Exception(), "ThisIsTheResponseBody", new Guid());
+            Response<object> response = command.ItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToListErrorResponseOfWithGenericException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new Exception(), "ThisIsTheResponseBody", new Guid());
+            ListResponse<object> response = command.ListItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseWithNokiaMusicException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            Response response = command.ErrorResponseHandler(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual("ThisIsTheResponseBody", response.ErrorResponseBody, "Expected the same error response body");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.AreSame(r.Error, response.Error, "Expected the same exception");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseOfWithNokiaMusicException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            Response<object> response = command.ItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual("ThisIsTheResponseBody", response.ErrorResponseBody, "Expected the same error response body");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.AreSame(r.Error, response.Error, "Expected the same exception");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToListErrorResponseOfWithNokiaMusicException()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            ListResponse<object> response = command.ListItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.StatusCode, "Expected no status code");
+            Assert.AreEqual("ThisIsTheResponseBody", response.ErrorResponseBody, "Expected the same error response body");
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.AreSame(r.Error, response.Error, "Expected the same exception");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseWithMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid());
+            Response response = command.ErrorResponseHandler(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<ApiCallFailedException>(response.Error, "Expected a ApiCallFailedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseOfWithMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid());
+            Response<object> response = command.ItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<ApiCallFailedException>(response.Error, "Expected a ApiCallFailedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToListErrorResponseOfWithMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid());
+            ListResponse<object> response = command.ListItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<ApiCallFailedException>(response.Error, "Expected a ApiCallFailedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseWithMissingMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid(), false);
+            Response response = command.ErrorResponseHandler(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NetworkLimitedException>(response.Error, "Expected a NetworkLimitedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+        }
+
+        [Test]
+        public void ValidateToErrorResponseOfWithMissingMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid(), false);
+            Response<object> response = command.ItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NetworkLimitedException>(response.Error, "Expected a NetworkLimitedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
+        }
+
+        [Test]
+        public void ValidateToListErrorResponseOfWithMissingMixRadioHeader()
+        {
+            var command = new MockMusicClientCommand();
+            Response r = new Response(HttpStatusCode.OK, new Guid(), false);
+            ListResponse<object> response = command.ListItemErrorResponseHandler<object>(r);
+            Assert.IsNotNull(response, "Expected a new Response");
+            Assert.IsNull(response.ErrorResponseBody);
+            Assert.IsNotNull(response.Error, "Expected an exception");
+            Assert.IsInstanceOf<NetworkLimitedException>(response.Error, "Expected a NetworkLimitedException");
+            Assert.IsFalse(response.Succeeded, "Expected failure");
+            Assert.IsNull(response.Result, "Expected no result");
         }
     }
 }

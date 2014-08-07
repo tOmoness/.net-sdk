@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Internal;
 using Nokia.Music.Tasks;
 using NUnit.Framework;
@@ -27,13 +28,13 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
-        public void TestShowArtistGoesAheadWhenItCan()
+        public async Task TestShowArtistGoesAheadWhenItCan()
         {
             ShowGigsTask task1 = new ShowGigsTask() { SearchTerms = TestTerm };
-            task1.Show();
+            await task1.Show();
 
             ShowGigsTask task2 = new ShowGigsTask();
-            task2.Show();
+            await task2.Show();
             
             Assert.Pass();
         }

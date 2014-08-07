@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>Bin\Debug\Nokia.Music.Wp8.xml</DocumentationFile>
   </PropertyGroup>
@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>Bin\Release\Nokia.Music.Wp8.xml</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -102,30 +102,41 @@
     <DocumentationFile>Bin\ARM\Release\Nokia.Music.Wp8.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommandsUser\GetUserRecentMixesCommand.cs" />
     <Compile Include="CommandsUser\GetUserTopArtistsCommand.cs" />
     <Compile Include="CommandsUser\GetUserPlayHistoryCommand.cs" />
     <Compile Include="Commands\ArtistProductsCommand.cs" />
     <Compile Include="Commands\CountryResolverCommand.cs" />
     <Compile Include="CommandsUser\GetAuthTokenCommand.cs" />
+    <Compile Include="Commands\JsonMusicClientCommand.cs" />
     <Compile Include="Commands\MixDetailsCommand.cs" />
+    <Compile Include="Commands\MusicClientCommand{TIntermediate,TResult}.cs" />
+    <Compile Include="Commands\MusicClientCommand{TIntermediate}.cs" />
     <Compile Include="Commands\ProductCommand.cs" />
+    <Compile Include="Commands\RawMusicClientCommand.cs" />
     <Compile Include="Commands\SearchSuggestionsCommand.cs" />
     <Compile Include="Commands\SearchCatalogCommand.cs" />
     <Compile Include="Commands\GenresCommand.cs" />
     <Compile Include="Commands\MixesCommand.cs" />
     <Compile Include="Commands\MixGroupsCommand.cs" />
     <Compile Include="Commands\MusicClientCommand.cs" />
-    <Compile Include="Commands\MusicClientCommand{TResult}.cs" />
     <Compile Include="Commands\NewReleasesCommand.cs" />
     <Compile Include="Commands\SearchArtistsCommand.cs" />
     <Compile Include="Commands\SearchCommand.cs" />
-    <Compile Include="CommandsUser\SecureMusicClientCommand.cs" />
     <Compile Include="Commands\SimilarArtistsCommand.cs" />
     <Compile Include="Commands\SimilarProductsCommand.cs" />
     <Compile Include="Commands\TopArtistsCommand.cs" />
     <Compile Include="Commands\TopProductsCommand.cs" />
     <Compile Include="Converters\LocationConverter.cs" />
+    <Compile Include="Exceptions\ApiCallCancelledException.cs" />
+    <Compile Include="Exceptions\NetworkLimitedException.cs" />
     <Compile Include="Exceptions\NetworkUnavailableException.cs" />
+    <Compile Include="Exceptions\SendFailureException.cs" />
+    <Compile Include="Internal\ArtistImageUriWriter.cs" />
+    <Compile Include="Internal\Authorization\IUserIdProvider.cs" />
+    <Compile Include="Internal\Request\GzippedContent.cs" />
+    <Compile Include="Internal\Request\HttpClientRequestProxy.cs" />
+    <Compile Include="Internal\Request\IHttpClientRequestProxy.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Exceptions\ApiNotAvailableException.cs" />
     <Compile Include="Exceptions\InvalidApiCredentialsException.cs" />
@@ -134,14 +145,13 @@
     <Compile Include="Internal\Authorization\OAuthResultParser.cs" />
     <Compile Include="Internal\Authorization\OAuthUserFlow.cs" />
     <Compile Include="Internal\StorageHelper.cs" />
+    <Compile Include="Tasks\PlayMeTask.cs" />
     <Compile Include="Types\AuthResultCode.cs" />
     <Compile Include="Internal\Authorization\OAuthBrowserController.cs" />
     <Compile Include="Types\AuthScope.cs" />
     <Compile Include="IMusicClient.cs" />
     <Compile Include="Internal\Authorization\IAuthHeaderDataProvider.cs" />
     <Compile Include="Internal\Authorization\OAuth2.cs" />
-    <Compile Include="Internal\Compression\GzipHandlerWp.cs" />
-    <Compile Include="Internal\Compression\IGzipHandler.cs" />
     <Compile Include="Internal\DebugLogger.cs" />
     <Compile Include="Internal\IMusicClientSettings.cs" />
     <Compile Include="Internal\Parsing\ArrayJsonProcessor.cs" />
@@ -149,17 +159,10 @@
     <Compile Include="Internal\Parsing\NamedItemListJsonProcessor.cs" />
     <Compile Include="Internal\Parsing\ParseHelper.cs" />
     <Compile Include="Internal\Request\ApiRequestHandler.cs" />
-    <Compile Include="Internal\Request\ApiRequestHandlerFactory.cs" />
     <Compile Include="Internal\Request\ApiUriBuilder.cs" />
-    <Compile Include="Internal\Request\HttpMethod.cs" />
     <Compile Include="Internal\Request\IApiRequestHandler.cs" />
     <Compile Include="Internal\Request\IApiUriBuilder.cs" />
-    <Compile Include="Internal\Request\TimedRequest.cs" />
-    <Compile Include="Internal\Response\IResponseCallback.cs" />
-    <Compile Include="Internal\Response\JsonResponseCallback.cs" />
-    <Compile Include="Internal\Response\RawResponseCallback.cs" />
     <Compile Include="Internal\Response\ResponseInfo.cs" />
-    <Compile Include="Internal\StreamExtensions.cs" />
     <Compile Include="Internal\Authorization\TokenResponse.cs" />
     <Compile Include="ListResponse{T}.cs" />
     <Compile Include="MusicClient.cs" />
@@ -191,6 +194,11 @@
     <Compile Include="Types\Mix.cs" />
     <Compile Include="Types\Product.cs" />
     <Compile Include="Types\Genre.cs" />
+    <Compile Include="Types\Seed.cs" />
+    <Compile Include="Types\SeedCollection.cs" />
+    <Compile Include="Types\SeedType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\SortOrder.cs" />
     <Compile Include="Types\UserEvent.cs" />
     <Compile Include="Types\UserEventAction.cs" />
@@ -204,18 +212,31 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SharpGIS.GZipWebClient, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="System.IO.Compression, Version=3.9.73.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpGIS.GZipWebClient.1.4.0.0\lib\wp71\SharpGIS.GZipWebClient.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bcl.Compression.3.9.73\lib\wp8\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -223,4 +244,27 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
+  <PropertyGroup>
+    <StyleCopMSBuildMessageMissing>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. Ensure that the package is present and then restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessageMissing>
+    <StyleCopMSBuildMessagePresent>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessagePresent>
+    <StyleCopMSBuildMessageRestore>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. To fix this, restore the package and then restart the build. If you are using an IDE (e.g. Visual Studio), you may need to reload the project before restarting the build. Note that regular NuGet package restore (during build) does not work with this package because the package needs to be present before the project is loaded. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the project is built.</StyleCopMSBuildMessageRestore>
+    <StyleCopMSBuildMessageRestored>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build. Note that when using regular NuGet package restore (during build) the package will not be available for the initial build because the package needs to be present before the project is loaded. If package restore executes successfully in the initial build then the package will be available for subsequent builds. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the initial build.</StyleCopMSBuildMessageRestored>
+  </PropertyGroup>
+  <Target Name="StyleCopMSBuildTargetsNotFound">
+    <Warning Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageMissing)" />
+    <Warning Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessagePresent)" />
+    <Warning Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageRestore)" />
+    <Warning Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageRestored)" />
+    <Error Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageMissing)" />
+    <Error Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessagePresent)" />
+    <Error Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageRestore)" />
+    <Error Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageRestored)" />
+  </Target>
+  <PropertyGroup>
+    <PrepareForBuildDependsOn Condition="!Exists('$(StyleCopMSBuildTargetsFile)')">StyleCopMSBuildTargetsNotFound;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
+  </PropertyGroup>
 </Project>

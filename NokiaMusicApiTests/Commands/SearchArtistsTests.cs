@@ -20,10 +20,10 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureSearchArtistsThrowsExceptionForNullSearchTerm()
+        public async Task EnsureSearchArtistsThrowsExceptionForNullSearchTerm()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-            client.SearchArtistsAsync(null).Wait();
+            await client.SearchArtistsAsync(null);
         }
 
         [Test]
@@ -150,20 +150,20 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopArtistsForGenreThrowsExceptionForNullGenreId()
+        public async Task EnsureGetTopArtistsForGenreThrowsExceptionForNullGenreId()
         {
             string nullId = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenreAsync(nullId).Wait();
+            await client.GetTopArtistsForGenreAsync(nullId);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetTopArtistsForGenreThrowsExceptionForNullGenre()
+        public async Task EnsureGetTopArtistsForGenreThrowsExceptionForNullGenre()
         {
             Genre nullGenre = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-            client.GetTopArtistsForGenreAsync(nullGenre).Wait();
+            await client.GetTopArtistsForGenreAsync(nullGenre);
         }
 
         [Test]

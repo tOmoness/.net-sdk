@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="SearchPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -82,7 +82,7 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Request auto completion data from Nokia MixRadio API.
+        /// Request auto completion data from MixRadio API.
         /// </summary>
         /// <param name="sender">AutoCompleteBox object</param>
         /// <param name="e">Event arguments</param>
@@ -167,8 +167,8 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Populates list box with search results.
         /// </summary>
-        /// <param name="response">Search results from Nokia MixRadio API</param>
-        /// <typeparam name="T">Any MusicItem from Nokia MixRadio API</typeparam>
+        /// <param name="response">Search results from MixRadio API</param>
+        /// <typeparam name="T">Any MusicItem from MixRadio API</typeparam>
         private void ResponseHandler<T>(ListResponse<T> response)
         {
             Dispatcher.BeginInvoke(() =>
@@ -192,13 +192,13 @@ namespace Nokia.Music.TestApp
 
         /// <summary>
         /// Shows details of a product or artist.
-        /// Tracks will be shown in Nokia MixRadio app.
+        /// Tracks will be shown in MixRadio app.
         /// </summary>
         /// <param name="sender">Results listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
-            (App.Current as App).RouteItemClick(this.Results.SelectedItem);
+            await(App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
         }
     }

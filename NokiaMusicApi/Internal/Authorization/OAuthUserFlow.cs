@@ -93,32 +93,48 @@ namespace Nokia.Music.Internal.Authorization
                 this._browserController = new OAuthBrowserController();
             }
 
-            CancellationToken token = (cancellationToken != null && cancellationToken.HasValue) ? cancellationToken.Value : CancellationToken.None;
+            CancellationToken token = cancellationToken ?? CancellationToken.None;
 
-            await Task.Run(() => { this._browserController.DriveAuthProcess(browser, startUri, token); }, token);
+            await Task.Run(() => this._browserController.DriveAuthProcess(browser, startUri, token), token);
             return await this.ConvertAuthPermissionParamsAndFinalise(this._browserController.ResultCode != AuthResultCode.Cancelled, token);
         }
 #endif
 
-#if NETFX_CORE
+#if WINDOWS_APP
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
         /// </summary>
         /// <param name="oauthCompletedUri">The OAuth completed URI.</param>
         /// <param name="secureBaseApiUri">The secure base API URI.</param>
         /// <param name="scopes">The scopes requested.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// An AuthResultCode value indicating the result
         /// </returns>
-        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri oauthCompletedUri, string secureBaseApiUri, Scope scopes)
+        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri oauthCompletedUri, string secureBaseApiUri, Scope scopes, CancellationToken? cancellationToken = null)
         {
             this._secureBaseApiUri = secureBaseApiUri;
-            
+
             var brokerResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, this.ConstructAuthorizeUri(scopes), oauthCompletedUri);
             return await this.ConvertAuthPermissionParams(brokerResult);
         }
 
 #endif
+
+#if WINDOWS_PHONE_APP
+        /// <summary>
+        /// Authenticates a user to enable the user data APIs.
+        /// </summary>
+        /// <param name="oauthCompletedUri">The OAuth completed URI.</param>
+        /// <param name="secureBaseApiUri">The secure base API URI.</param>
+        /// <param name="scopes">The scopes requested.</param>
+        public void AuthenticateUserAndContinue(Uri oauthCompletedUri, string secureBaseApiUri, Scope scopes)
+        {
+            this._secureBaseApiUri = secureBaseApiUri;
+            WebAuthenticationBroker.AuthenticateAndContinue(this.ConstructAuthorizeUri(scopes), oauthCompletedUri);
+        }
+#endif
+
         /// <summary>
         /// Constructs the URI for the authorize resource
         /// </summary>
@@ -221,15 +237,15 @@ namespace Nokia.Music.Internal.Authorization
         /// <param name="authorizationCode">The authorization code.</param>
         /// <param name="refreshToken">The refresh token.</param>
         /// <param name="resultCode">The result code for the process so far.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// Whether the token was retrieved
         /// </returns>
-        internal async Task<Response<AuthResultCode>> ObtainToken(string authorizationCode, string refreshToken, AuthResultCode resultCode)
+        internal async Task<Response<AuthResultCode>> ObtainToken(string authorizationCode, string refreshToken, AuthResultCode resultCode, CancellationToken? cancellationToken = null)
         {
             // Next get a token, for now just return whether we got the authorization code...
             if (!string.IsNullOrEmpty(authorizationCode) || !string.IsNullOrEmpty(refreshToken))
             {
-                ManualResetEventSlim waiter = new ManualResetEventSlim();
                 Response<AuthResultCode> result = null;
 
                 this.TokenCallInProgress = true;
@@ -242,7 +258,7 @@ namespace Nokia.Music.Internal.Authorization
 
                 try
                 {
-                    var tokenResponse = await this._tokenCommand.InvokeAsync();
+                    var tokenResponse = await this._tokenCommand.ExecuteAsync(cancellationToken);
                     if (tokenResponse.Result != null)
                     {
                         result = new Response<AuthResultCode>(null, AuthResultCode.Success, Guid.Empty);

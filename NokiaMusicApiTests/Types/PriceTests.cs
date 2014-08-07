@@ -8,7 +8,7 @@
 using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Private.Tests.Types
+namespace Nokia.Music.Tests.Types
 {
     /// <summary>
     /// Price tests

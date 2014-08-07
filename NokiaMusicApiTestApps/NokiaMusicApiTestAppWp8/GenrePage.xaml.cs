@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="GenrePage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -152,16 +152,16 @@ namespace Nokia.Music.TestApp
         }
 
         /// <summary>
-        /// Shows details of a top track (in Nokia MixRadio) or similar Genre.
+        /// Shows details of a top track (in MixRadio) or similar Genre.
         /// </summary>
         /// <param name="sender">top tracks or similar Genres listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;
             if (list != null)
             {
-                (App.Current as App).RouteItemClick(list.SelectedItem);
+                await(App.Current as App).RouteItemClick(list.SelectedItem);
             }
         }
     }

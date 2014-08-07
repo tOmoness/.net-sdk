@@ -6,7 +6,10 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Tests.Properties;
 using Nokia.Music.Types;
 using NUnit.Framework;
 
@@ -61,12 +64,12 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestJsonParsing()
         {
-            Assert.IsNull(Mix.FromJToken(null), "Expected a null return");
+            Assert.IsNull(Mix.FromJToken(null, null), "Expected a null return");
 
             Mix mix = new Mix() { Id = "1234", Name = "Metal", ParentalAdvisory = true };
             JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/200x200/1182.jpg\" } }");
 
-            Mix fromJson = Mix.FromJToken(json) as Mix;
+            Mix fromJson = Mix.FromJToken(json, null) as Mix;
 
             Assert.IsNotNull(fromJson, "Expected a Mix object");
 
@@ -77,7 +80,7 @@ namespace Nokia.Music.Tests.Types
         public void InvalidImageUriIsHandledSuccessfully()
         {
             JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http:////\" } }");
-            Mix mixFromJson = Mix.FromJToken(json);
+            Mix mixFromJson = Mix.FromJToken(json, null);
 
             Assert.IsNotNull(mixFromJson, "Expected a Mix object");
 
@@ -86,19 +89,28 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestMixIdPropertyIsRequiredForPlay()
+#pragma warning disable 1998  // Disable async warnings for test code
+        public async Task TestSeedCollectionScenarios()
         {
-            Mix mix = new Mix();
-            mix.Play();
-        }
+            var settings = new Nokia.Music.Tests.Internal.MockMusicClientSettings("clientid", "gb", "en");
 
-        [Test]
-        public void TestPlayMixGoesAheadWhenItCan()
-        {
-            Mix mix = new Mix() { Id = "1234" };
-            mix.Play();
-            Assert.Pass();
+            JObject recentMixes = JObject.Parse(Encoding.UTF8.GetString(Resources.user_recent_mixes));
+
+            foreach (JToken mixJson in recentMixes.Value<JArray>("items"))
+            {
+                var mix = Mix.FromJToken(mixJson, settings);
+#if !PORTABLE
+                try
+                {
+                    await mix.Play();
+                }
+                catch
+                {
+                    // on non-WP - including NUnit, PlayMeTask is not supported yet so we ignore the exception
+                }
+#endif
+            }
         }
+#pragma warning restore 1998
     }
 }

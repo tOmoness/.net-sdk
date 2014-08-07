@@ -19,22 +19,22 @@ namespace Nokia.Music.Internal.Parsing
         /// </summary>
         /// <typeparam name="T">The enum type</typeparam>
         /// <param name="value">The response value</param>
+        /// <param name="defaultValue">The default value to return if unable to parse</param>
         /// <returns>The matching value or the default value which should be unknown or none</returns>
-        internal static T ParseEnumOrDefault<T>(string value)
+        internal static T ParseEnumOrDefault<T>(string value, T defaultValue = default(T))
+            where T : struct
         {
-            if (value == null)
+            if (value != null)
             {
-                return default(T);
+                T result;
+
+                if (Enum.TryParse(value, true, out result))
+                {
+                    return result;
+                }
             }
 
-            try
-            {
-                return (T)Enum.Parse(typeof(T), value, true);
-            }
-            catch
-            {
-                return default(T);
-            }
+            return defaultValue;
         }
 
         /// <summary>

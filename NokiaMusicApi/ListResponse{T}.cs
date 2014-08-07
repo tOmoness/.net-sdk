@@ -27,8 +27,9 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The items per page asked for.</param>
         /// <param name="totalResults">The total results available.</param>
         /// <param name="requestId">The request id.</param>
-        internal ListResponse(HttpStatusCode? statusCode, List<T> result, int? startIndex, int? itemsPerPage, int? totalResults, Guid requestId)
-            : base(statusCode, result, requestId)
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
+        internal ListResponse(HttpStatusCode? statusCode, List<T> result, int? startIndex, int? itemsPerPage, int? totalResults, Guid requestId, bool? foundMixRadioHeader = null)
+            : base(statusCode, result, requestId, foundMixRadioHeader)
         {
             this.StartIndex = startIndex;
             this.ItemsPerPage = itemsPerPage;
@@ -42,8 +43,9 @@ namespace Nokia.Music
         /// <param name="error">The error.</param>
         /// <param name="errorResponseBody">The response body</param>
         /// <param name="requestId">The request id.</param>
-        internal ListResponse(HttpStatusCode? statusCode, Exception error, string errorResponseBody, Guid requestId)
-            : base(statusCode, error, errorResponseBody, requestId)
+        /// <param name="foundMixRadioHeader">The X-Mix-Radio header state.</param>
+        internal ListResponse(HttpStatusCode? statusCode, Exception error, string errorResponseBody, Guid requestId, bool? foundMixRadioHeader = null)
+            : base(statusCode, error, errorResponseBody, requestId, foundMixRadioHeader)
         {
         }
 

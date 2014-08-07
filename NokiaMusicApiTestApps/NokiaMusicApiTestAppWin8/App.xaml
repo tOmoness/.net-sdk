@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="Common/StandardStyles.xaml"/>
                 
                 <ResourceDictionary>
-                    <x:String x:Key="AppName">Nokia Music SDK Explorer</x:String>
+                    <x:String x:Key="AppName">MixRadio SDK Explorer</x:String>
 
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="Black" />
 

@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia MixRadio Price
+    /// Represents a MixRadio Price
     /// </summary>
     public sealed class Price
     {

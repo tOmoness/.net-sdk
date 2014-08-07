@@ -1,7 +1,6 @@
-﻿<common:LayoutAwarePage
+﻿<Page
     x:Name="pageRoot"
     x:Class="Nokia.Music.TestApp.ShowListPage"
-    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Nokia.Music.TestApp"
@@ -14,8 +13,7 @@
 
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
-            x:Name="itemsViewSource"
-            Source="{Binding Items}"/>
+            x:Name="itemsViewSource" />
     </Page.Resources>
 
     <!--
@@ -116,4 +114,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</common:LayoutAwarePage>
+</Page>

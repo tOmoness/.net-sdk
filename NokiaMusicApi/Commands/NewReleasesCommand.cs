@@ -8,8 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
@@ -18,7 +19,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Gets a list of new releases
     /// </summary>
-    internal sealed class NewReleasesCommand : MusicClientCommand<ListResponse<Product>>
+    internal sealed class NewReleasesCommand : JsonMusicClientCommand<ListResponse<Product>>
     {
         /// <summary>
         /// Gets or sets the category - only Album and Track lists are available.
@@ -59,16 +60,14 @@ namespace Nokia.Music.Commands
             }
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                this.GetPagingParams(),
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, ArrayNameItems, Product.FromJToken, Callback)));
+            return this.GetPagingParams();
+        }
+
+        internal override ListResponse<Product> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Product.FromJToken);
         }
     }
 }

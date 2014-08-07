@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="LibraryRecommendations.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Nokia Corporation. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
 // Other product and company names mentioned herein may be trademarks
 // or trade names of their respective owners. 
 // See LICENSE.TXT for license information.
@@ -76,7 +76,7 @@ namespace Nokia.Music.TestApp
         /// <summary>
         /// Reads local media for artists, which are then ordered based on
         /// the number of tracks and play count of their tracks. Begins
-        /// further processing to find recommendations using Nokia MixRadio API.
+        /// further processing to find recommendations using MixRadio API.
         /// </summary>
         private void FindTopArtists()
         {
@@ -134,7 +134,7 @@ namespace Nokia.Music.TestApp
 
         /// <summary>
         /// Works through the top artist list, trying to find the artist in
-        /// the Nokia MixRadio API, recommending similar artists from there
+        /// the MixRadio API, recommending similar artists from there
         /// and then checking if the user has the artist in their library already!
         /// <remarks>It gets a bit gnarly in here!</remarks>
         /// </summary>
@@ -244,9 +244,9 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <param name="sender">recommended artists listbox</param>
         /// <param name="e">Event arguments</param>
-        private void ShowItem(object sender, SelectionChangedEventArgs e)
+        private async void ShowItem(object sender, SelectionChangedEventArgs e)
         {
-            (App.Current as App).RouteItemClick(this.Results.SelectedItem);
+            await(App.Current as App).RouteItemClick(this.Results.SelectedItem);
             this.Results.SelectedIndex = -1;
         }
 

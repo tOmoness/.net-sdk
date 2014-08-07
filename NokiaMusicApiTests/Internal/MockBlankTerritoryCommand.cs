@@ -6,7 +6,6 @@
 // -----------------------------------------------------------------------
 
 using Nokia.Music.Commands;
-using Nokia.Music.Internal;
 
 namespace Nokia.Music.Tests.Internal
 {
@@ -21,10 +20,6 @@ namespace Nokia.Music.Tests.Internal
             {
                 return true;
             }
-        }
-
-        protected override void Execute()
-        {
         }
     }
 }

@@ -8,8 +8,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if !PORTABLE
+using System.Threading.Tasks;
+#endif
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
+using Nokia.Music.Internal;
 using Nokia.Music.Internal.Parsing;
 #if !PORTABLE
 using Nokia.Music.Tasks;
@@ -18,11 +22,15 @@ using Nokia.Music.Tasks;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia MixRadio Product, i.e. Album, Single or Track
+    /// Represents a MixRadio Product, i.e. Album, Single or Track
     /// </summary>
     public sealed partial class Product : MusicItem
     {
+#if WINDOWS_APP
+        internal const string AppToAppShowUri = "nokia-music://show/product/?id={0}";
+#else
         internal const string AppToAppShowUri = "mixradio://show/product/{0}";
+#endif
         internal const string WebShowUri = "http://www.mixrad.io/product/{0}";
 
         /// <summary>
@@ -34,7 +42,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
+        /// Gets the app-to-app uri to use to show this item in MixRadio
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -52,7 +60,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to show this item in Nokia MixRadio on the web
+        /// Gets the web uri to use to show this item in MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -263,12 +271,13 @@ namespace Nokia.Music.Types
 
 #if !PORTABLE
         /// <summary>
-        /// Launches Nokia MixRadio to show details about the product using the ShowProductTask
+        /// Launches MixRadio to show details about the product using the ShowProductTask
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             ShowProductTask task = new ShowProductTask() { ProductId = this.Id };
-            task.Show();
+            await task.Show().ConfigureAwait(false);
         }
 
 #endif
@@ -276,8 +285,11 @@ namespace Nokia.Music.Types
         /// Creates a Product from a JSON Object
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>A Product object</returns>
-        internal static Product FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// A Product object
+        /// </returns>
+        internal static Product FromJToken(JToken item, IMusicClientSettings settings)
         {
             if (item == null)
             {
@@ -300,7 +312,7 @@ namespace Nokia.Music.Types
                 List<Genre> list = new List<Genre>();
                 foreach (JToken jsonGenre in jsonGenres)
                 {
-                    list.Add((Genre)Genre.FromJToken(jsonGenre));
+                    list.Add((Genre)Genre.FromJToken(jsonGenre, settings));
                 }
 
                 genres = list.ToArray();
@@ -311,7 +323,7 @@ namespace Nokia.Music.Types
             JToken jsonTakenFrom = item["takenfrom"];
             if (jsonTakenFrom != null)
             {
-                takenFrom = (Product)FromJToken(jsonTakenFrom);
+                takenFrom = (Product)FromJToken(jsonTakenFrom, settings);
             }
 
             // Extract price...
@@ -339,7 +351,7 @@ namespace Nokia.Music.Types
                     List<Artist> list = new List<Artist>();
                     foreach (JToken jsonArtist in jsonArtists)
                     {
-                        list.Add((Artist)Artist.FromJToken(jsonArtist));
+                        list.Add((Artist)Artist.FromJToken(jsonArtist, settings));
                     }
 
                     performers = list.ToArray();
@@ -395,7 +407,7 @@ namespace Nokia.Music.Types
             }
 
             var musicDirectorNames = new List<string>();
-            if (item["moviedirectornames"] != null)
+            if (item["musicdirectornames"] != null)
             {
                 ParseArray(item, musicDirectorNames, "musicdirectornames");
             }
@@ -423,7 +435,7 @@ namespace Nokia.Music.Types
                 TakenFrom = takenFrom,
                 Price = price,
                 TrackCount = trackCount,
-                Tracks = ExtractTracks(item["tracks"]),
+                Tracks = ExtractTracks(item["tracks"], settings),
                 Performers = performers,
                 Duration = item.Value<int?>("duration"),
                 VariousArtists = item.Value<bool>("variousartists"),
@@ -463,14 +475,17 @@ namespace Nokia.Music.Types
         /// Extracts the tracks from the json.
         /// </summary>
         /// <param name="tracksToken">The tracks token.</param>
-        /// <returns>A list of tracks</returns>
-        private static List<Product> ExtractTracks(JToken tracksToken)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// A list of tracks
+        /// </returns>
+        private static List<Product> ExtractTracks(JToken tracksToken, IMusicClientSettings settings)
         {
             List<Product> tracks = null;
 
             if (tracksToken != null)
             {
-                tracks = new ArrayJsonProcessor().ParseList(tracksToken, MusicClientCommand.ArrayNameItems, FromJToken);
+                tracks = new ArrayJsonProcessor().ParseList(tracksToken, MusicClientCommand.ArrayNameItems, FromJToken, settings);
             }
 
             return tracks;

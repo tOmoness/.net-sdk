@@ -18,14 +18,16 @@ using Nokia.Music.Internal;
 #if SUPPORTS_OAUTH
 using Nokia.Music.Internal.Authorization;
 #endif
-using Nokia.Music.Internal.Compression;
 using Nokia.Music.Internal.Request;
 using Nokia.Music.Types;
+#if WINDOWS_PHONE_APP
+using Windows.Security.Authentication.Web;
+#endif
 
 namespace Nokia.Music
 {
     /// <summary>
-    /// The Nokia MixRadio API client
+    /// The MixRadio API client
     /// </summary>
     public sealed partial class MusicClient : IMusicClientSettings, IMusicClient
     {
@@ -41,6 +43,14 @@ namespace Nokia.Music
 #endif
 
         /// <summary>
+        /// Initializes the <see cref="MusicClient"/> class.
+        /// </summary>
+        static MusicClient()
+        {
+            MusicClient.RequestTimeout = 30000;
+        }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="MusicClient" /> class,
         ///   using the RegionInfo settings to locate the user.
         /// </summary>
@@ -50,7 +60,7 @@ namespace Nokia.Music
                 clientId,
                 RegionInfo.CurrentRegion.TwoLetterISORegionName.ToLower(),
                 null,
-                ApiRequestHandlerFactory.Create())
+                new ApiRequestHandler(new ApiUriBuilder()))
         {
             this.CountryCodeBasedOnRegionInfo = true;
         }
@@ -61,7 +71,7 @@ namespace Nokia.Music
         /// <param name="clientId">The Application Client ID obtained during registration</param>
         /// <param name="countryCode"> The country code. </param>
         public MusicClient(string clientId, string countryCode)
-            : this(clientId, countryCode, null, ApiRequestHandlerFactory.Create())
+            : this(clientId, countryCode, null, new ApiRequestHandler(new ApiUriBuilder()))
         {
         }
 
@@ -72,7 +82,7 @@ namespace Nokia.Music
         /// <param name="countryCode"> The country code. </param>
         /// <param name="language"> The language code. </param>
         public MusicClient(string clientId, string countryCode, string language)
-            : this(clientId, countryCode, language, ApiRequestHandlerFactory.Create())
+            : this(clientId, countryCode, language, new ApiRequestHandler(new ApiUriBuilder()))
         {
         }
 
@@ -121,8 +131,8 @@ namespace Nokia.Music
                 throw new ApiCredentialsRequiredException();
             }
 
-            this.BaseApiUri = MusicClientCommand.DefaultBaseApiUri;
-            this.SecureBaseApiUri = MusicClientCommand.DefaultSecureBaseApiUri;
+            this.ApiBaseUrl = MusicClientCommand.DefaultBaseApiUri;
+            this.SecureApiBaseUrl = MusicClientCommand.DefaultSecureBaseApiUri;
 
             this.ClientId = clientId;
             this.Language = language;
@@ -146,8 +156,8 @@ namespace Nokia.Music
         /// </value>
         public static int RequestTimeout
         {
-            get { return TimedRequest.RequestTimeout; }
-            set { TimedRequest.RequestTimeout = value; }
+            get;
+            set;
         }
 
         #region IMusicClientSettings Members
@@ -184,6 +194,22 @@ namespace Nokia.Music
         /// </value>
         public string Language { get; private set; }
 
+        /// <summary>
+        /// Gets the language code.
+        /// </summary>
+        /// <value>
+        /// The language code.
+        /// </value>
+        public string ApiBaseUrl { get; private set; }
+
+        /// <summary>
+        /// Gets the language code.
+        /// </summary>
+        /// <value>
+        /// The language code.
+        /// </value>
+        public string SecureApiBaseUrl { get; private set; }
+
         #endregion
 
         /// <summary>
@@ -215,6 +241,8 @@ namespace Nokia.Music
             }
         }
 
+#endif
+#if SUPPORTS_USER_OAUTH
         /// <summary>
         /// Gets a value indicating whether the user token is active.
         /// </summary>
@@ -238,16 +266,6 @@ namespace Nokia.Music
         /// </value>
         internal IApiRequestHandler RequestHandler { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the base API uri
-        /// </summary>
-        internal string BaseApiUri { get; set; }
-
-        /// <summary>
-        /// Gets or sets the secure base API uri
-        /// </summary>
-        internal string SecureBaseApiUri { get; set; }
-
 #if SUPPORTS_OAUTH
         /// <summary>
         /// Gets or sets the auth header data provider.
@@ -256,13 +274,9 @@ namespace Nokia.Music
         /// The auth header data provider.
         /// </value>
         internal IAuthHeaderDataProvider AuthHeaderDataProvider { get; set; }
-
-        /// <summary>
-        /// Gets or sets the UserId
-        /// </summary>
-        internal string UserId { get; set; }
 #endif
         #region IMusicClient Members
+
         /// <summary>
         /// Searches for an Artist
         /// </summary>
@@ -270,10 +284,11 @@ namespace Nokia.Music
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="requestId">Id of the request.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> SearchArtistsAsync(string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null)
+        public async Task<ListResponse<Artist>> SearchArtistsAsync(string searchTerm, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchArtistsCommand>();
             cmd.SearchTerm = searchTerm;
@@ -282,7 +297,7 @@ namespace Nokia.Music
 
             this.SetRequestId(cmd, requestId);
 
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -291,10 +306,11 @@ namespace Nokia.Music
         /// <param name="searchTerm">The search term.</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="requestId">Id of the request.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing search suggestions
         /// </returns>
-        public Task<ListResponse<string>> GetArtistSearchSuggestionsAsync(string searchTerm, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, Guid? requestId = null)
+        public async Task<ListResponse<string>> GetArtistSearchSuggestionsAsync(string searchTerm, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, Guid? requestId = null, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchSuggestionsCommand>();
             cmd.SearchTerm = searchTerm;
@@ -303,7 +319,7 @@ namespace Nokia.Music
 
             this.SetRequestId(cmd, requestId);
 
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -314,17 +330,18 @@ namespace Nokia.Music
         /// <param name="maxdistance">The max distance (in KM) around the location to search</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetArtistsAroundLocationAsync(double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetArtistsAroundLocationAsync(double latitude, double longitude, int maxdistance = 10, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchArtistsCommand>();
             cmd.Location = new Location() { Latitude = latitude, Longitude = longitude };
             cmd.MaxDistance = maxdistance;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -332,15 +349,16 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetTopArtistsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetTopArtistsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<TopArtistsCommand>();
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -349,10 +367,11 @@ namespace Nokia.Music
         /// <param name="id">The genre to get results for.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -363,7 +382,7 @@ namespace Nokia.Music
             cmd.GenreId = id;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -372,29 +391,31 @@ namespace Nokia.Music
         /// <param name="genre">The genre to get results for.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (genre == null)
             {
                 throw new ArgumentNullException("genre", "genre cannot be null");
             }
 
-            return this.GetTopArtistsForGenreAsync(genre.Id, startIndex, itemsPerPage);
+            return await this.GetTopArtistsForGenreAsync(genre.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets an artist by id
         /// </summary>
         /// <param name="id">The artist id.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A Response containing a Artist or an Error</returns>
-        public async Task<Response<Artist>> GetArtistAsync(string id)
+        public async Task<Response<Artist>> GetArtistAsync(string id, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchCommand>();
             cmd.Id = id;
-            ListResponse<MusicItem> result = await cmd.InvokeAsync();
+            ListResponse<MusicItem> result = await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
 
             // Convert this list response to an artist
             if (result.Result != null && result.Count == 1 && result[0] as Artist != null)
@@ -417,16 +438,17 @@ namespace Nokia.Music
         /// <param name="id">The artist id.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetSimilarArtistsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetSimilarArtistsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SimilarArtistsCommand>();
             cmd.ArtistId = id;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -435,17 +457,18 @@ namespace Nokia.Music
         /// <param name="artist">The artist.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Artists or an Error
         /// </returns>
-        public Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (artist == null)
             {
                 throw new ArgumentNullException("artist", "Artist cannot be null");
             }
 
-            return this.GetSimilarArtistsAsync(artist.Id, startIndex, itemsPerPage);
+            return await this.GetSimilarArtistsAsync(artist.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -457,10 +480,11 @@ namespace Nokia.Music
         /// <param name="sortOrder">The sort order of the items.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetArtistProductsAsync(string id, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetArtistProductsAsync(string id, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<ArtistProductsCommand>();
             cmd.ArtistId = id;
@@ -469,7 +493,7 @@ namespace Nokia.Music
             cmd.SortOrder = sortOrder;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -481,47 +505,50 @@ namespace Nokia.Music
         /// <param name="sortOrder">The sort order of the items.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
         /// <exception cref="System.ArgumentNullException">artist;Artist cannot be null</exception>
-        public Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (artist == null)
             {
                 throw new ArgumentNullException("artist", "Artist cannot be null");
             }
 
-            return this.GetArtistProductsAsync(artist.Id, category, orderBy, sortOrder, startIndex, itemsPerPage);
+            return await this.GetArtistProductsAsync(artist.Id, category, orderBy, sortOrder, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets products by id.
         /// </summary>
         /// <param name="id">The product id.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A Response containing a Product or an Error
         /// </returns>
-        public Task<Response<Product>> GetProductAsync(string id)
+        public async Task<Response<Product>> GetProductAsync(string id, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<ProductCommand>();
             cmd.ProductId = id;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets a mix by id
         /// </summary>
         /// <param name="id">The mix id.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A Mix or an Error
         /// </returns>
-        public async Task<Mix> GetMixAsync(string id)
+        public async Task<Mix> GetMixAsync(string id, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<MixDetailsCommand>();
             cmd.Id = id;
 
-            var response = await cmd.InvokeAsync();
+            var response = await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
             if (response.Error != null)
             {
                 throw response.Error;
@@ -548,9 +575,9 @@ namespace Nokia.Music
             }
 
 #if OPEN_INTERNALS
-            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&token={3}", this.BaseApiUri, this.CountryCode, id, this.ClientId), UriKind.Absolute);
+            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&token={3}", this.ApiBaseUrl, this.CountryCode, id, this.ClientId), UriKind.Absolute);
 #else
-            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&client_id={3}", this.BaseApiUri, this.CountryCode, id, this.ClientId), UriKind.Absolute);
+            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&client_id={3}", this.ApiBaseUrl, this.CountryCode, id, this.ClientId), UriKind.Absolute);
 #endif
         }
 
@@ -560,14 +587,15 @@ namespace Nokia.Music
         /// <param name="id">The product id.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Products or an Error</returns>
-        public Task<ListResponse<Product>> GetSimilarProductsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetSimilarProductsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SimilarProductsCommand>();
             cmd.ProductId = id;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -576,15 +604,16 @@ namespace Nokia.Music
         /// <param name="product">The product.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Products or an Error</returns>
-        public Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (product == null)
             {
                 throw new ArgumentNullException("product", "Product cannot be null");
             }
 
-            return this.GetSimilarProductsAsync(product.Id, startIndex, itemsPerPage);
+            return await this.GetSimilarProductsAsync(product.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -593,16 +622,17 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track charts are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetTopProductsAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetTopProductsAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<TopProductsCommand>();
             cmd.Category = category;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -612,11 +642,12 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track charts are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
         /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
-        public Task<ListResponse<Product>> GetTopProductsForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetTopProductsForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -628,7 +659,7 @@ namespace Nokia.Music
             cmd.GenreId = id;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -638,17 +669,18 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track charts are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (genre == null)
             {
                 throw new ArgumentNullException("genre", "genre cannot be null");
             }
 
-            return this.GetTopProductsForGenreAsync(genre.Id, category, startIndex, itemsPerPage);
+            return await this.GetTopProductsForGenreAsync(genre.Id, category, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -657,16 +689,17 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track lists are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetNewReleasesAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetNewReleasesAsync(Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<NewReleasesCommand>();
             cmd.Category = category;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -676,11 +709,12 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track lists are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
         /// <exception cref="System.ArgumentNullException">genre;genre cannot be null</exception>
-        public Task<ListResponse<Product>> GetNewReleasesForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetNewReleasesForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -692,7 +726,7 @@ namespace Nokia.Music
             cmd.GenreId = id;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -702,33 +736,35 @@ namespace Nokia.Music
         /// <param name="category">The category - only Album and Track lists are available.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
-        public Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (genre == null)
             {
                 throw new ArgumentNullException("genre", "genre cannot be null");
             }
 
-            return this.GetNewReleasesForGenreAsync(genre.Id, category, startIndex, itemsPerPage);
+            return await this.GetNewReleasesForGenreAsync(genre.Id, category, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets the available genres
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Genres or an Error
         /// </returns>
-        public Task<ListResponse<Genre>> GetGenresAsync()
+        public async Task<ListResponse<Genre>> GetGenresAsync(CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<GenresCommand>();
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Searches Nokia MixRadio
+        /// Searches MixRadio
         /// </summary>
         /// <param name="searchTerm">Optional search term.</param>
         /// <param name="category">Optional category.</param>
@@ -738,9 +774,10 @@ namespace Nokia.Music
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="requestId">Id of the request.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <remarks>A searchTerm or genreId should be supplied</remarks>
         /// <returns>A ListResponse containing MusicItems or an Error</returns>
-        public Task<ListResponse<MusicItem>> SearchAsync(string searchTerm = null, Category? category = null, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null)
+        public async Task<ListResponse<MusicItem>> SearchAsync(string searchTerm = null, Category? category = null, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchCommand>();
             cmd.SearchTerm = searchTerm;
@@ -753,7 +790,7 @@ namespace Nokia.Music
 
             this.SetRequestId(cmd, requestId);
 
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -767,10 +804,11 @@ namespace Nokia.Music
         /// <param name="startIndex">The start index.</param>
         /// <param name="itemsPerPage">The items per page.</param>
         /// <param name="requestId">The request identifier.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A list of tracks
         /// </returns>
-        public Task<ListResponse<MusicItem>> SearchBpmAsync(int minBpm, int maxBpm, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null)
+        public async Task<ListResponse<MusicItem>> SearchBpmAsync(int minBpm, int maxBpm, string genreId = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, Guid? requestId = null, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchCommand>();
             cmd.MinBpm = minBpm;
@@ -784,7 +822,7 @@ namespace Nokia.Music
 
             this.SetRequestId(cmd, requestId);
 
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -793,10 +831,11 @@ namespace Nokia.Music
         /// <param name="searchTerm">The search term.</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="requestId">Id of the request.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing search suggestions
         /// </returns>
-        public Task<ListResponse<string>> GetSearchSuggestionsAsync(string searchTerm, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, Guid? requestId = null)
+        public async Task<ListResponse<string>> GetSearchSuggestionsAsync(string searchTerm, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, Guid? requestId = null, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<SearchSuggestionsCommand>();
             cmd.SearchTerm = searchTerm;
@@ -805,7 +844,7 @@ namespace Nokia.Music
 
             this.SetRequestId(cmd, requestId);
 
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -813,12 +852,13 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing MixGroups or an Error
         /// </returns>
-        public Task<ListResponse<MixGroup>> GetMixGroupsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<MixGroup>> GetMixGroupsAsync(int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
-            return this.GetMixGroupsAsync(string.Empty, startIndex, itemsPerPage);
+            return await this.GetMixGroupsAsync(string.Empty, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -827,28 +867,30 @@ namespace Nokia.Music
         /// <param name="exclusiveTag">The exclusive tag.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing MixGroups or an Error
         /// </returns>
-        public Task<ListResponse<MixGroup>> GetMixGroupsAsync(string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<MixGroup>> GetMixGroupsAsync(string exclusiveTag, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<MixGroupsCommand>();
             cmd.ExclusiveTag = exclusiveTag;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
+        /// <param name="cancellationToken">An optional CancellationToken</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixesAsync(string id)
+        public async Task<ListResponse<Mix>> GetMixesAsync(string id, CancellationToken? cancellationToken = null)
         {
-            return this.GetMixesAsync(id, (string)null);
+            return await this.GetMixesAsync(id, (string)null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -856,27 +898,34 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="id">The mix group id.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag)
+        public async Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, CancellationToken? cancellationToken = null)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException("id", "A group id must be supplied");
+            }
+
             var cmd = this.CreateCommand<MixesCommand>();
             cmd.MixGroupId = id;
             cmd.ExclusiveTag = exclusiveTag;
-            return cmd.InvokeAsync();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="group">The mix group.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixesAsync(MixGroup group)
+        public async Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, CancellationToken? cancellationToken = null)
         {
-            return this.GetMixesAsync(group, (string)null);
+            return await this.GetMixesAsync(group, (string)null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -884,17 +933,37 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="group">The mix group.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag)
+        public async Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag, CancellationToken? cancellationToken = null)
         {
             if (group == null)
             {
                 throw new ArgumentNullException("group", "group cannot be null");
             }
 
-            return this.GetMixesAsync(group.Id, exclusiveTag);
+            return await this.GetMixesAsync(group.Id, exclusiveTag).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Gets all Mixes available, regardless of grouping
+        /// </summary>
+        /// <param name="exclusiveTag">The optional exclusivity tag.</param>
+        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
+        /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <returns>
+        /// A ListResponse containing Mixes or an Error
+        /// </returns>
+        public async Task<ListResponse<Mix>> GetAllMixesAsync(string exclusiveTag = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
+        {
+            var cmd = this.CreateCommand<MixesCommand>();
+            cmd.ExclusiveTag = exclusiveTag;
+            cmd.StartIndex = startIndex;
+            cmd.ItemsPerPage = itemsPerPage;
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
 #if SUPPORTS_USER_OAUTH
@@ -924,13 +993,14 @@ namespace Nokia.Music
         /// <param name="clientSecret">The client secret obtained during app registration</param>
         /// <param name="scopes">The scopes requested.</param>
         /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// An AuthResultCode value indicating the result
         /// </returns>
         /// <remarks>
         /// Sorry, this method is messy due to the platform differences!
         /// </remarks>
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri)
+        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri, CancellationToken? cancellationToken = null)
         {
             if (string.IsNullOrEmpty(oauthRedirectUri))
             {
@@ -949,23 +1019,60 @@ namespace Nokia.Music
             }
 
             // See if we have a cached token...
-            AuthResultCode cachedResult = await this.AuthenticateUserAsync(clientSecret);
+            AuthResultCode cachedResult = await this.AuthenticateUserAsync(clientSecret, cancellationToken).ConfigureAwait(false);
             if (cachedResult == AuthResultCode.Success)
             {
                 return cachedResult;
             }
 
             var cmd = this.CreateCommand<GetAuthTokenCommand>();
-            this.SetupSecureCommand(cmd);
+
+            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
 
             this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
 
+#if WINDOWS_PHONE_APP
+            this._oauthFlowController.AuthenticateUserAndContinue(new Uri(oauthRedirectUri), this.SecureApiBaseUrl, scopes);
+            return AuthResultCode.InProgress;
+#else
 #if WINDOWS_PHONE
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(this.SecureBaseApiUri, scopes, browser, cancellationToken);
-#elif NETFX_CORE
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(new Uri(oauthRedirectUri), this.SecureBaseApiUri, scopes);
+            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(this.SecureApiBaseUrl, scopes, browser, cancellationToken).ConfigureAwait(false);
+#elif WINDOWS_APP
+            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(new Uri(oauthRedirectUri), this.SecureApiBaseUrl, scopes, cancellationToken).ConfigureAwait(false);
 #endif
-            await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret);
+            await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
+            this._oauthFlowController = null;
+
+            if (response.Error != null)
+            {
+                throw response.Error;
+            }
+            else
+            {
+                return response.Result;
+            }
+#endif
+        }
+
+#if WINDOWS_PHONE_APP
+        /// <summary>
+        /// Completes the authenticate user call.
+        /// </summary>
+        /// <param name="clientSecret">The client secret obtained during app registration</param>
+        /// <param name="result">The result received through LaunchActivatedEventArgs.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <returns>
+        /// An AuthResultCode indicating the result
+        /// </returns>
+        /// <remarks>This method is for Windows Phone 8.1 use</remarks>
+        public async Task<AuthResultCode> CompleteAuthenticateUserAsync(string clientSecret, WebAuthenticationResult result, CancellationToken? cancellationToken = null)
+        {
+            var cmd = this.CreateCommand<GetAuthTokenCommand>();
+            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
+            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
+
+            Response<AuthResultCode> response = await this._oauthFlowController.ConvertAuthPermissionParams(result);
+            await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
             this._oauthFlowController = null;
 
             if (response.Error != null)
@@ -977,29 +1084,32 @@ namespace Nokia.Music
                 return response.Result;
             }
         }
+#endif
 
         /// <summary>
         /// Gets a value indicating whether a user token is cached and the silent version of AuthenticateUserAsync can be used.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// <c>true</c> if a user token is cached; otherwise, <c>false</c>.
         /// </returns>
-        public async Task<bool> IsUserTokenCached()
+        public async Task<bool> IsUserTokenCached(CancellationToken? cancellationToken = null)
         {
-            return await StorageHelper.FileExistsAsync(TokenCacheFile);
+            return await StorageHelper.FileExistsAsync(TokenCacheFile).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Attempts a silent authentication a user to enable the user data APIs using a cached access token.
         /// </summary>
         /// <param name="clientSecret">The client secret obtained during app registration</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// An AuthResultCode indicating the result
         /// </returns>
         /// <remarks>
         /// This overload of AuthenticateUserAsync can only be used once the user has gone through the OAuth flow and given permission to access their data.
         /// </remarks>
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret)
+        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, CancellationToken? cancellationToken = null)
         {
             if (this.IsUserAuthenticated)
             {
@@ -1007,10 +1117,11 @@ namespace Nokia.Music
             }
 
             var cmd = this.CreateCommand<GetAuthTokenCommand>();
-            this.SetupSecureCommand(cmd);
+
+            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
 
             // Attempt to load a cached token...
-            string cachedToken = await StorageHelper.ReadTextAsync(TokenCacheFile);
+            string cachedToken = await StorageHelper.ReadTextAsync(TokenCacheFile).ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(cachedToken))
             {
@@ -1021,7 +1132,7 @@ namespace Nokia.Music
                 string decodedJson = cachedToken;
 #endif
 
-                this._oauthToken = TokenResponse.FromJToken(JToken.Parse(decodedJson));
+                this._oauthToken = TokenResponse.FromJToken(JToken.Parse(decodedJson), this);
                 this.ExtractTokenProperties();
 
                 // Check expiry...
@@ -1034,15 +1145,15 @@ namespace Nokia.Music
 
                     // expired -> need to Refresh and cache
                     this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
-                    Response<AuthResultCode> response = await this._oauthFlowController.ObtainToken(null, this._oauthToken.RefreshToken, AuthResultCode.Unknown);
+                    Response<AuthResultCode> response = await this._oauthFlowController.ObtainToken(null, this._oauthToken.RefreshToken, AuthResultCode.Unknown, cancellationToken).ConfigureAwait(false);
                     if (response.Result == AuthResultCode.Success && this._oauthFlowController.TokenResponse != null)
                     {
-                        await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret);
+                        await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
                     }
                     else
                     {
                         // Failed to refresh the token - remove the cached token in case it's causing problems...
-                        await StorageHelper.DeleteFileAsync(TokenCacheFile);
+                        await StorageHelper.DeleteFileAsync(TokenCacheFile).ConfigureAwait(false);
                         response = new Response<AuthResultCode>(null, AuthResultCode.FailedToRefresh, Guid.Empty);
                     }
 
@@ -1069,18 +1180,18 @@ namespace Nokia.Music
         /// <summary>
         /// Deletes any cached authentication token.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// An async task
         /// </returns>
-        public async Task DeleteAuthenticationTokenAsync()
+        public async Task DeleteAuthenticationTokenAsync(CancellationToken? cancellationToken = null)
         {
             this._oauthToken = null;
             this.AuthHeaderDataProvider = null;
-            this.UserId = null;
 
-            if (await StorageHelper.FileExistsAsync(TokenCacheFile))
+            if (await StorageHelper.FileExistsAsync(TokenCacheFile).ConfigureAwait(false))
             {
-                await StorageHelper.DeleteFileAsync(TokenCacheFile);
+                await StorageHelper.DeleteFileAsync(TokenCacheFile).ConfigureAwait(false);
             }
         }
 
@@ -1090,9 +1201,10 @@ namespace Nokia.Music
         /// <param name="action">Type of the action.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="itemsPerPage">The items per page.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A list of play history events</returns>
         /// <remarks>Requires the ReadUserPlayHistory scope</remarks>
-        public Task<ListResponse<UserEvent>> GetUserPlayHistoryAsync(UserEventAction? action = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage)
+        public async Task<ListResponse<UserEvent>> GetUserPlayHistoryAsync(UserEventAction? action = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (!this.IsUserAuthenticated)
             {
@@ -1104,8 +1216,8 @@ namespace Nokia.Music
                 cmd.Action = action;
                 cmd.StartIndex = startIndex;
                 cmd.ItemsPerPage = itemsPerPage;
-                this.SetupSecureCommand(cmd);
-                return cmd.InvokeAsync();
+                await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
+                return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -1115,13 +1227,14 @@ namespace Nokia.Music
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         /// <param name="itemsPerPage">The items per page.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A list of artists
         /// </returns>
         /// <remarks>
         /// Charts are available for the last week
         /// </remarks>
-        public Task<ListResponse<Artist>> GetUserTopArtistsAsync(DateTime? startDate = null, DateTime? endDate = null, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage)
+        public async Task<ListResponse<Artist>> GetUserTopArtistsAsync(DateTime? startDate = null, DateTime? endDate = null, int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, CancellationToken? cancellationToken = null)
         {
             if (!this.IsUserAuthenticated)
             {
@@ -1141,8 +1254,35 @@ namespace Nokia.Music
                 }
 
                 cmd.ItemsPerPage = itemsPerPage;
-                this.SetupSecureCommand(cmd);
-                return cmd.InvokeAsync();
+                await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
+                return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of recent mixes played by the user
+        /// </summary>
+        /// <param name="itemsPerPage">The items per page.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <returns>
+        /// A list of mixes
+        /// </returns>
+        /// <remarks>
+        /// Charts are available for the last week
+        /// </remarks>
+        public async Task<ListResponse<Mix>> GetUserRecentMixesAsync(int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, CancellationToken? cancellationToken = null)
+        {
+            if (!this.IsUserAuthenticated)
+            {
+                throw new UserAuthRequiredException();
+            }
+            else
+            {
+                var cmd = this.CreateCommand<GetUserRecentMixesCommand>();
+
+                cmd.ItemsPerPage = itemsPerPage;
+                await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
+                return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -1151,10 +1291,11 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="token">The token.</param>
         /// <param name="clientSecret">The client secret.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A Task for async execution
         /// </returns>
-        private async Task StoreOAuthToken(TokenResponse token, string clientSecret)
+        private async Task StoreOAuthToken(TokenResponse token, string clientSecret, CancellationToken? cancellationToken = null)
         {
             if (this._oauthFlowController.TokenResponse != null)
             {
@@ -1169,7 +1310,7 @@ namespace Nokia.Music
                 string content = token.ToJToken().ToString();
 #endif
                 // store results in isostorage
-                await StorageHelper.WriteTextAsync(TokenCacheFile, content);
+                await StorageHelper.WriteTextAsync(TokenCacheFile, content).ConfigureAwait(false);
             }
         }
 
@@ -1178,8 +1319,7 @@ namespace Nokia.Music
         /// </summary>
         private void ExtractTokenProperties()
         {
-            this.AuthHeaderDataProvider = new OAuthHeaderDataProvider(this._oauthToken.AccessToken);
-            this.UserId = this._oauthToken.UserId.ToString("D");
+            this.AuthHeaderDataProvider = new OAuthHeaderDataProvider(this._oauthToken.AccessToken, this._oauthToken.UserId.ToString("D"));
 
             if (!string.IsNullOrEmpty(this._oauthToken.Territory))
             {
@@ -1202,7 +1342,7 @@ namespace Nokia.Music
             {
                 ClientSettings = this,
                 RequestHandler = this.RequestHandler,
-                BaseApiUri = this.BaseApiUri
+                BaseApiUri = this.ApiBaseUrl
             };
         }
 
@@ -1210,14 +1350,21 @@ namespace Nokia.Music
         /// <summary>
         /// Adds settings required for building a secure command
         /// </summary>
-        /// <typeparam name="TResponse">The type of the command.</typeparam>
+        /// <typeparam name="TIntermediate">The type of the intermediate object.</typeparam>
+        /// <typeparam name="TResult">The type of the returned object.</typeparam>
         /// <param name="command">The command </param>
-        private void SetupSecureCommand<TResponse>(SecureMusicClientCommand<TResponse> command)
-            where TResponse : Response
+        /// <param name="requiresOauth">If true add oAuth headers.  If false does not add oAuth headers</param>
+        /// <returns>A task</returns>
+        private async Task SetupSecureCommandAsync<TIntermediate, TResult>(MusicClientCommand<TIntermediate, TResult> command, bool requiresOauth = true)
+            where TResult : Response
         {
-            command.OAuth2 = new OAuth2(this.AuthHeaderDataProvider);
-            command.SecureApiBaseUri = this.SecureBaseApiUri;
-            command.UserId = this.UserId;
+            if (requiresOauth && this.AuthHeaderDataProvider != null)
+            {
+                command.UserId = await this.AuthHeaderDataProvider.GetUserIdAsync().ConfigureAwait(false);
+                command.OAuth2 = new OAuth2(this.AuthHeaderDataProvider);
+            }
+
+            command.BaseApiUri = this.SecureApiBaseUrl;
         }
 
 #endif

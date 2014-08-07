@@ -30,7 +30,7 @@ namespace Nokia.Music.Tests
 
             JToken json = token.ToJToken();
 
-            TokenResponse rehydrated = TokenResponse.FromJToken(json);
+            TokenResponse rehydrated = TokenResponse.FromJToken(json, null);
 
             Assert.AreEqual(token.AccessToken, rehydrated.AccessToken, "Expected AccessToken to match");
             Assert.AreEqual(token.ExpiresIn, rehydrated.ExpiresIn, "Expected ExpiresIn to match");

@@ -33,7 +33,6 @@ namespace Nokia.Music.Tests.Types
             UserEvent e = new UserEvent()
             {
                 Action = UserEventAction.Complete,
-                Client = TestClient,
                 ClientVersion = TestClientVersion,
                 DateTime = this.when,
                 Location = this.where,
@@ -51,7 +50,6 @@ namespace Nokia.Music.Tests.Types
             UserEvent e = this.MakeUserEvent();
 
             Assert.AreEqual(UserEventAction.Complete, e.Action, "Expected the property to persist");
-            Assert.AreEqual(TestClient, e.Client, "Expected the property to persist");
             Assert.AreEqual(TestClientVersion, e.ClientVersion, "Expected the property to persist");
             Assert.AreEqual(this.when, e.DateTime, "Expected the property to persist");
             Assert.AreEqual(this.where, e.Location, "Expected the property to persist");
@@ -66,12 +64,11 @@ namespace Nokia.Music.Tests.Types
         {
             UserEvent e = this.MakeUserEvent();
             JObject json = JObject.Parse(Encoding.UTF8.GetString(Resources.userevent));
-            UserEvent eventFromJson = UserEvent.FromJToken(json) as UserEvent;
+            UserEvent eventFromJson = UserEvent.FromJToken(json, null) as UserEvent;
 
             Assert.IsNotNull(eventFromJson, "Expected a event object");
 
             Assert.AreEqual(eventFromJson.Action, e.Action, "Expected the property to persist");
-            Assert.AreEqual(eventFromJson.Client, e.Client, "Expected the property to persist");
             Assert.AreEqual(eventFromJson.ClientVersion, e.ClientVersion, "Expected the property to persist");
             Assert.AreEqual(eventFromJson.DateTime, e.DateTime, "Expected the property to persist");
             Assert.IsTrue(eventFromJson.Location.Equals(e.Location), "Expected the property to persist");

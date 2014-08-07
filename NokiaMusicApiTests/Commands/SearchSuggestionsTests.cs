@@ -20,10 +20,10 @@ namespace Nokia.Music.Tests.Commands
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EnsureGetSearchSuggestionsThrowsExceptionForNullSearchTerm()
+        public async Task EnsureGetSearchSuggestionsThrowsExceptionForNullSearchTerm()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_suggestions));
-            client.GetSearchSuggestionsAsync(null).Wait();
+            await client.GetSearchSuggestionsAsync(null);
         }
 
         [Test]

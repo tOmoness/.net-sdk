@@ -6,10 +6,8 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
-using Nokia.Music.Internal.Response;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -17,7 +15,7 @@ namespace Nokia.Music.Commands
     /// <summary>
     /// Command to get user artist chart for the last week
     /// </summary>
-    internal class GetUserTopArtistsCommand : SecureMusicClientCommand<ListResponse<Artist>>
+    internal class GetUserTopArtistsCommand : JsonMusicClientCommand<ListResponse<Artist>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetUserTopArtistsCommand"/> class.
@@ -75,11 +73,7 @@ namespace Nokia.Music.Commands
             }
         }
 
-        /// <summary>
-        /// Builds the querystring params.
-        /// </summary>
-        /// <returns>A list of key/value pairs</returns>
-        internal List<KeyValuePair<string, string>> BuildParams()
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             var parameters = this.GetPagingParams();
 
@@ -98,20 +92,13 @@ namespace Nokia.Music.Commands
 
             parameters.Add(new KeyValuePair<string, string>("startdate", this.StartDate.ToString("yyyy-MM-dd")));
             parameters.Add(new KeyValuePair<string, string>("enddate", this.EndDate.ToString("yyyy-MM-dd")));
+         
             return parameters;
         }
 
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
+        internal override ListResponse<Artist> HandleRawResponse(Response<JObject> rawResponse)
         {
-            RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                this.BuildParams(),
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler(rawResult, MusicClientCommand.ArrayNameItems, Artist.FromJToken, this.Callback)),
-                this.OAuth2.CreateHeaders());
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Artist.FromJToken);
         }
     }
 }

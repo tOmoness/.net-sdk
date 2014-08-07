@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
 using Nokia.Music.Internal.Request;
@@ -19,36 +20,35 @@ namespace Nokia.Music.Tests
     public class StorageHelperTests
     {
         [Test]
-        public void EnsureFileOperationsWork()
+        public async Task EnsureFileOperationsWork()
         {
             const string FileName = "file.txt";
 
             // In case of previous failures...
-            StorageHelper.DeleteFileAsync(FileName).Wait();
+            await StorageHelper.DeleteFileAsync(FileName);
 
-            Assert.IsFalse(StorageHelper.FileExistsAsync(FileName).Result, "Expected file not to exist");
+            Assert.IsFalse(await StorageHelper.FileExistsAsync(FileName), "Expected file not to exist");
 
             string content = DateTime.Now.ToString();
 
-            StorageHelper.WriteTextAsync(FileName, content).Wait();
+            await StorageHelper.WriteTextAsync(FileName, content);
 
-            Assert.IsTrue(StorageHelper.FileExistsAsync(FileName).Result, "Expected file to exist");
+            Assert.IsTrue(await StorageHelper.FileExistsAsync(FileName), "Expected file to exist");
 
-            var t = StorageHelper.ReadTextAsync(FileName);
-            t.Wait();
+            var t = await StorageHelper.ReadTextAsync(FileName);
+            
+            Assert.AreEqual(content, t, "Expected text to match");
 
-            Assert.AreEqual(content, t.Result, "Expected text to match");
+            await StorageHelper.DeleteFileAsync(FileName);
 
-            StorageHelper.DeleteFileAsync(FileName).Wait();
-
-            Assert.IsFalse(StorageHelper.FileExistsAsync(FileName).Result, "Expected file not to exist");
+            Assert.IsFalse(await StorageHelper.FileExistsAsync(FileName), "Expected file not to exist");
         }
 
         [Test]
-        public void EnsureErrorCasesAreCaught()
+        public async Task EnsureErrorCasesAreCaught()
         {
-            Assert.IsFalse(StorageHelper.FileExistsAsync(null).Result, "Expected file not to exist");
-            Assert.IsNullOrEmpty(StorageHelper.ReadTextAsync(null).Result, "Expected null result");
+            Assert.IsFalse(await StorageHelper.FileExistsAsync(null), "Expected file not to exist");
+            Assert.IsNullOrEmpty(await StorageHelper.ReadTextAsync(null), "Expected null result");
         }
     }
 }

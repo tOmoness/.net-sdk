@@ -6,11 +6,12 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia MixRadio Gigs
+    /// Provides a simple way to show MixRadio Gigs
     /// </summary>
     public sealed class ShowGigsTask : TaskBase
     {
@@ -36,22 +37,23 @@ namespace Nokia.Music.Tasks
         }
 
         /// <summary>
-        /// Shows Gigs in Nokia MixRadio
+        /// Shows Gigs in MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             if (!string.IsNullOrEmpty(this._searchTerms))
             {
                 // No need to URI encode this one
-                this.Launch(
-                    new Uri("nokia-music://search/gigs/?term=" + this.SearchTerms),
-                    new Uri("http://www.mixrad.io/"));
+                await this.Launch(
+                    new Uri("mixradio://search/gigs/" + this.SearchTerms),
+                    new Uri("http://www.mixrad.io/")).ConfigureAwait(false);
             }
             else
             {
-                this.Launch(
-                    new Uri("nokia-music://show/gigs/"),
-                    new Uri("http://www.mixrad.io/"));
+                await this.Launch(
+                    new Uri("mixradio://show/gigs/"),
+                    new Uri("http://www.mixrad.io/")).ConfigureAwait(false);
             }
         }
     }

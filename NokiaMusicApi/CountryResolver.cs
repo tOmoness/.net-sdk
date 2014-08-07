@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Request;
@@ -13,7 +14,7 @@ using Nokia.Music.Internal.Request;
 namespace Nokia.Music
 {
     /// <summary>
-    /// The CountryResolver validates a country has availability for the Nokia MixRadio API
+    /// The CountryResolver validates a country has availability for the MixRadio API
     /// </summary>
     public sealed class CountryResolver : ICountryResolver
     {
@@ -22,7 +23,7 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="clientId">The Application Client ID obtained during registration</param>
         public CountryResolver(string clientId)
-            : this(clientId, ApiRequestHandlerFactory.Create())
+            : this(clientId, new ApiRequestHandler(new ApiUriBuilder()))
         {
         }
 
@@ -62,13 +63,14 @@ namespace Nokia.Music
         internal IApiRequestHandler RequestHandler { get; private set; }
 
         /// <summary>
-        /// Validates that the Nokia MixRadio API is available for a country
+        /// Validates that the MixRadio API is available for a country
         /// </summary>
         /// <param name="countryCode">The country code.</param>
+        /// <param name="cancellationToken">An optional CancellationToken</param>
         /// <returns>
         /// A Response containing whether the API is available or not
         /// </returns>
-        public async Task<bool> CheckAvailabilityAsync(string countryCode)
+        public async Task<bool> CheckAvailabilityAsync(string countryCode, CancellationToken? cancellationToken = null)
         {
             if (!this.ValidateCountryCode(countryCode))
             {
@@ -81,7 +83,7 @@ namespace Nokia.Music
                 RequestId = new Guid()
             };
 
-            var response = await command.InvokeAsync();
+            var response = await command.ExecuteAsync(cancellationToken);
 
             if (response.Error == null)
             {

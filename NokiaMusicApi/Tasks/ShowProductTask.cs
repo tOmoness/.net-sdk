@@ -6,37 +6,16 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Tasks
 {
     /// <summary>
-    /// Provides a simple way to show Nokia MixRadio Products
+    /// Provides a simple way to show MixRadio Products
     /// </summary>
     public sealed class ShowProductTask : TaskBase
     {
-        private string _clientId = null;
-        private string _productId = null;
-
-        /// <summary>
-        /// Gets or sets the optional Client ID for passing through to Nokia MixRadio.
-        /// </summary>
-        /// <value>
-        /// The client ID.
-        /// </value>
-        public string ClientId
-        {
-            get
-            {
-                return this._clientId;
-            }
-
-            set
-            {
-                this._clientId = value;
-            }
-        }
-
         /// <summary>
         /// Gets or sets the Product ID.
         /// </summary>
@@ -45,34 +24,21 @@ namespace Nokia.Music.Tasks
         /// </value>
         public string ProductId
         {
-            get
-            {
-                return this._productId;
-            }
-
-            set
-            {
-                this._productId = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>
-        /// Shows the Product Page in Nokia MixRadio
+        /// Shows the Product Page in MixRadio
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
-            if (!string.IsNullOrEmpty(this._productId))
+            if (!string.IsNullOrEmpty(this.ProductId))
             {
-                // Append the clientId if one has been supplied...
-                string clientId = string.Empty;
-                if (!string.IsNullOrEmpty(this.ClientId))
-                {
-                    clientId = "?client_id=" + this.ClientId;
-                }
-
-                this.Launch(
-                    new Uri(string.Format(Product.AppToAppShowUri, this._productId) + clientId),
-                    new Uri(string.Format(Product.WebShowUri, this._productId)));
+                await this.Launch(
+                    new Uri(string.Format(Product.AppToAppShowUri, this.ProductId)),
+                    new Uri(string.Format(Product.WebShowUri, this.ProductId))).ConfigureAwait(false);
             }
             else
             {

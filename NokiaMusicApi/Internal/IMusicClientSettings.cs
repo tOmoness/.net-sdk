@@ -11,11 +11,11 @@ namespace Nokia.Music.Internal
     /// Defines the MusicClient Settings
     /// </summary>
 #if OPEN_INTERNALS
-        public
+public
 #else
-        internal
+internal
 #endif
-    interface IMusicClientSettings
+ interface IMusicClientSettings
     {
         /// <summary>
         /// Gets the app client id.
@@ -48,5 +48,21 @@ namespace Nokia.Music.Internal
         /// The language code.
         /// </value>
         string Language { get; }
+
+        /// <summary>
+        /// Gets the base url for non-secure api requests
+        /// </summary>
+        /// <value>
+        /// The API base URL.
+        /// </value>
+        string ApiBaseUrl { get; }
+
+        /// <summary>
+        /// Gets the base url for secure api requests
+        /// </summary>
+        /// <value>
+        /// The secure API base URL.
+        /// </value>
+        string SecureApiBaseUrl { get; }
     }
 }

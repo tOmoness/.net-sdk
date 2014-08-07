@@ -1,0 +1,168 @@
+{
+  "paging": {
+    "itemsperpage": 10,
+    "startindex": 0,
+    "total": 7
+  },
+  "type": "playsessions",
+  "items": [
+    {
+      "type": "playsession",
+      "territory": "gb",
+      "seeds": [
+        {
+          "id": "287777",
+          "name": "Foo Fighters",
+          "type": "musicartist"
+        },
+        {
+          "id": "287758",
+          "name": "Green Day",
+          "type": "musicartist"
+        }
+      ],
+      "datetime": "2014-03-03T22:00:00.000+0000"
+    },
+    {
+      "type": "playsession",
+      "territory": "gb",
+      "seeds": [
+        {
+          "name": "Foo Fighters",
+          "type": "musicartist"
+        },
+        {
+          "name": "Green Day",
+          "type": "musicartist"
+        }
+      ],
+      "datetime": "2014-03-03T22:00:00.000+0000"
+    },
+    {
+      "type": "playsession",
+      "territory": "gb",
+      "seeds": [
+        {
+          "id": "287777",
+          "type": "musicartist"
+        },
+        {
+          "id": "287758",
+          "type": "musicartist"
+        }
+      ],
+      "datetime": "2014-03-03T22:00:00.000+0000"
+    },
+    {
+      "type": "playsession",
+      "territory": "gb",
+      "seeds": [
+        {
+          "id": "seeduserid",
+          "type": "user"
+        }
+      ],
+      "datetime": "2014-03-01T10:00:00.000+0000"
+    },
+    {
+      "datetime": "2014-02-28T10:00:00.000+0000",
+      "numbertracks": 99,
+      "name": "Walking on sunshine",
+      "parentaladvisory": false,
+      "type": "playsession",
+      "thumbnails": {
+        "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/1494.jpg",
+        "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/1494.jpg",
+        "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/1494.jpg",
+        "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/1494.jpg"
+      },
+      "seeds": [
+        {
+          "id": "46404928",
+          "type": "mix"
+        }
+	  ],
+      "id": "46404928",
+      "description": "",
+      "territory": "gb"
+    },
+    {
+      "datetime": "2014-02-27T10:00:00.000+0000",
+      "numbertracks": 171,
+      "name": "Ones to watch 2014",
+      "parentaladvisory": true,
+      "type": "playsession",
+      "thumbnails": {
+        "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/OnesToWatch.jpg",
+        "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/OnesToWatch.jpg",
+        "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/OnesToWatch.jpg",
+        "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/OnesToWatch.jpg"
+      },
+      "seeds": [
+        {
+          "id": "55517505",
+          "type": "mix"
+        }
+	  ],
+      "id": "55517505",
+      "description": "",
+      "territory": "gb"
+    },
+    {
+      "type": "playsession",
+      "territory": "gb",
+      "seeds": [
+        {
+          "id": "372350",
+          "name": "Adele",
+          "type": "musicartist"
+        }
+      ],
+      "datetime": "2014-02-26T10:00:00.000+0000"
+    },
+    {
+      "datetime": "2014-02-25T10:00:00.000+0000",
+      "numbertracks": 69,
+      "name": "Ready for the weekend",
+      "parentaladvisory": false,
+      "type": "playsession",
+      "thumbnails": {
+        "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/287787.jpg",
+        "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/287787.jpg",
+        "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/287787.jpg",
+        "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/287787.jpg"
+      },
+      "seeds": [
+        {
+          "id": "59413073",
+          "type": "mix"
+        }
+	  ],
+      "id": "59413073",
+      "description": "",
+      "territory": "gb"
+    },
+    {
+      "datetime": "2014-02-24T10:00:00.000+0000",
+      "numbertracks": 180,
+      "name": "Happy songs",
+      "parentaladvisory": true,
+      "type": "playsession",
+      "thumbnails": {
+        "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/1125001.jpg",
+        "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/1125001.jpg",
+        "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/1125001.jpg",
+        "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/1125001.jpg"
+      },
+      "seeds": [
+        {
+          "id": "57739185",
+          "type": "mix"
+        }
+	  ],
+      "id": "57739185",
+      "description": "",
+      "territory": "gb"
+    }
+  ]
+}

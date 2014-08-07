@@ -7,7 +7,11 @@
 
 using System;
 using System.Collections.Generic;
+#if !PORTABLE
+using System.Threading.Tasks;
+#endif
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Internal;
 #if !PORTABLE
 using Nokia.Music.Tasks;
 #endif
@@ -15,13 +19,21 @@ using Nokia.Music.Tasks;
 namespace Nokia.Music.Types
 {
     /// <summary>
-    /// Represents a Nokia MixRadio Artist
+    /// Represents a MixRadio Artist
     /// </summary>
     public partial class Artist : MusicItem
     {
+        // For now, the Win8 MixRadio app only supports the old nokia-music protocol.
+#if WINDOWS_APP
         internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
-        internal const string WebShowUri = "http://www.mixrad.io/artists/-/{0}";
         internal const string AppToAppPlayUriByName = "nokia-music://play/artist/?artist={0}";
+        internal const string AppToAppShowUriByName = "nokia-music://show/artist/?name={0}";
+#else
+        internal const string AppToAppShowUri = "mixradio://show/artist/{0}";
+        internal const string AppToAppPlayUriByName = "mixradio://play/artist/name/{0}";
+        internal const string AppToAppShowUriByName = "mixradio://show/artist/name/{0}";
+#endif
+        internal const string WebShowUri = "http://www.mixrad.io/artists/-/{0}";
         internal const string WebPlayUriByName = "http://www.mixrad.io/gb/en/mixes/seeded?artists={0}";
 
         /// <summary>
@@ -32,7 +44,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to show this item in Nokia MixRadio
+        /// Gets the app-to-app uri to use to show this item in MixRadio
         /// </summary>
         public override Uri AppToAppUri
         {
@@ -50,7 +62,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the app-to-app uri to use to play this item in Nokia MixRadio
+        /// Gets the app-to-app uri to use to play this item in MixRadio
         /// </summary>
         public Uri AppToAppPlayUri
         {
@@ -68,7 +80,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to show this item in Nokia MixRadio on the web
+        /// Gets the web uri to use to show this item in MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -86,7 +98,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to play this item in Nokia MixRadio on the web
+        /// Gets the web uri to use to play this item in MixRadio on the web
         /// </summary>
         public Uri WebPlayUri
         {
@@ -118,6 +130,14 @@ namespace Nokia.Music.Types
         /// The artist's genres.
         /// </value>
         public Genre[] Genres { get; set; }
+
+        /// <summary>
+        /// Gets or sets the MusicBrainz ID.
+        /// </summary>
+        /// <value>
+        /// The artist MusicBrainz ID if known.
+        /// </value>
+        public string MusicBrainzId { get; set; }
 
         /// <summary>
         /// Gets or sets the artist's origin location where available.
@@ -165,21 +185,23 @@ namespace Nokia.Music.Types
 
 #if !PORTABLE
         /// <summary>
-        /// Launches Nokia MixRadio to start a mix for the artist using the PlayMixTask
+        /// Launches MixRadio to start a mix for the artist using the PlayMixTask
         /// </summary>
-        public void PlayMix()
+        /// <returns>An async task to await</returns>
+        public async Task PlayMix()
         {
             PlayMixTask task = new PlayMixTask() { ArtistName = this.Name };
-            task.Show();
+            await task.Show().ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Launches Nokia MixRadio to show details for the artist using the ShowArtistTask
+        /// Launches MixRadio to show details for the artist using the ShowArtistTask
         /// </summary>
-        public void Show()
+        /// <returns>An async task to await</returns>
+        public async Task Show()
         {
             ShowArtistTask task = new ShowArtistTask() { ArtistId = this.Id };
-            task.Show();
+            await task.Show().ConfigureAwait(false);
         }
 
 #endif
@@ -187,8 +209,11 @@ namespace Nokia.Music.Types
         /// Creates an Artist from a JSON Object
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>An Artist object</returns>
-        internal static Artist FromJToken(JToken item)
+        /// <param name="settings">The settings.</param>
+        /// <returns>
+        /// An Artist object
+        /// </returns>
+        internal static Artist FromJToken(JToken item, IMusicClientSettings settings)
         {
             // Extract thumbnails...
             Uri square50 = null;
@@ -203,7 +228,8 @@ namespace Nokia.Music.Types
                     Id = item.Value<string>("id"),
                     Name = item.Value<string>("name"),
                     Country = GetCountry(item),
-                    Genres = GetGenres(item),
+                    Genres = GetGenres(item, settings),
+                    MusicBrainzId = item.Value<string>("mbid"),
                     Origin = GetOrigin(item),
                     Thumb50Uri = square50,
                     Thumb100Uri = square100,
@@ -236,7 +262,7 @@ namespace Nokia.Music.Types
             return origin;
         }
 
-        private static Genre[] GetGenres(JToken item)
+        private static Genre[] GetGenres(JToken item, IMusicClientSettings settings)
         {
             // Extract genres...
             Genre[] genres = null;
@@ -247,7 +273,7 @@ namespace Nokia.Music.Types
                 var list = new List<Genre>();
                 foreach (JToken jsonGenre in jsonGenres)
                 {
-                    list.Add(Genre.FromJToken(jsonGenre));
+                    list.Add(Genre.FromJToken(jsonGenre, settings));
                 }
 
                 genres = list.ToArray();

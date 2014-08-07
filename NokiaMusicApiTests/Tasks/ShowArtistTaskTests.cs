@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Threading.Tasks;
 using Nokia.Music.Internal;
 using Nokia.Music.Tasks;
 using NUnit.Framework;
@@ -36,29 +37,29 @@ namespace Nokia.Music.Tests.Types
 
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestArtistIdOrNamePropertyIsRequiredForShow()
+        public async Task TestArtistIdOrNamePropertyIsRequiredForShow()
         {
             ShowArtistTask task = new ShowArtistTask();
-            task.Show();
+            await task.Show();
         }
 
         [Test]
-        public void TestShowArtistGoesAheadWhenItCan()
+        public async Task TestShowArtistGoesAheadWhenItCan()
         {
             ShowArtistTask task1 = new ShowArtistTask() { ArtistId = TestArtistId };
-            task1.Show();
+            await task1.Show();
 
             ShowArtistTask task2 = new ShowArtistTask() { ArtistName = TestArtistName };
-            task2.Show();
+            await task2.Show();
             
             Assert.Pass();
         }
 
         [Test]
-        public void TestPlayArtistMixGoesAheadWhenItCan()
+        public async Task TestPlayArtistMixGoesAheadWhenItCan()
         {
             PlayMixTask task2 = new PlayMixTask() { ArtistName = TestArtistName };
-            task2.Show();
+            await task2.Show();
 
             Assert.Pass();
         }

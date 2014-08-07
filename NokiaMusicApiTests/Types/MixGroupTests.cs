@@ -51,7 +51,7 @@ namespace Nokia.Music.Tests.Types
         {
             MixGroup group = new MixGroup() { Id = "1234", Name = "Metal" };
             JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\"}");
-            MixGroup fromJson = MixGroup.FromJToken(json) as MixGroup;
+            MixGroup fromJson = MixGroup.FromJToken(json, null) as MixGroup;
 
             Assert.IsNotNull(fromJson, "Expected a MixGroup object");
 

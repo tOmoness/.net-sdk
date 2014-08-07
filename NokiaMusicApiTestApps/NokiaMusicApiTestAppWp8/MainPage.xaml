@@ -1,6 +1,6 @@
 ﻿<!--
- Copyright © 2012-2013 Nokia Corporation. All rights reserved.
- Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
+ Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
+ Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
  Other product and company names mentioned herein may be trademarks
  or trade names of their respective owners. 
  See LICENSE.TXT for license information.
@@ -32,14 +32,14 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,0">
-            <TextBlock x:Name="ApplicationTitle" Text="NOKIA MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="MIXRADIO SDK EXPLORER" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <controls:Pivot Grid.Row="1" Margin="0,-17,0,0">
             <controls:PivotItem Header="launchers">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Launchers are a simple way to integrate with Nokia MixRadio with only a few lines of code and no need to sign up for full API access." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Margin="12,0,0,12" />
+                        <TextBlock Text="Launchers are a simple way to integrate with MixRadio with only a few lines of code and no need to sign up for full API access." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Margin="12,0,0,12" />
                         <TextBlock Text="On non-Nokia Windows Phone 8.x devices, we provide a web version where possible." Style="{StaticResource PhoneTextSmallStyle}" TextWrapping="Wrap" Margin="12,0,0,24" />
 
                         <TextBlock Text="Try the SearchTask to search for 'Muse'" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
@@ -56,6 +56,9 @@
 
                         <TextBlock Text="Try the ShowGigs to search for 'New York' gigs" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
                         <Button Content="Search Gigs Task" Click="SearchGigsTask" />
+
+                        <TextBlock Text="Try the PlayMeTask" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
+                        <Button Content="Play Me Task" Click="PlayMeTask" />
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
@@ -64,7 +67,7 @@
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" x:Name="NotValidatedPanel">
-                            <TextBlock Text="Like all music stores, we license content from record labels and availability of content varies per country. The SDK lets you check if we're available in your country - the easiest way to do this is to use the Phone Region settings." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
+                            <TextBlock Text="Like all music providers, we license content from record labels and availability of content varies per country. The SDK lets you check if we're available in your country - the easiest way to do this is to use the Phone Region settings." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
                             <StackPanel Orientation="Horizontal" Margin="0,9,0,0">
                                 <TextBlock Foreground="{StaticResource PhoneAccentBrush}" Text="Phone Region:" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
                                 <TextBlock Foreground="{StaticResource PhoneAccentBrush}" Text="" Margin="-6,0,0,0" x:Name="PhoneRegionCode" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
@@ -115,11 +118,12 @@
                             <Button x:Name="AuthUserButton" Content="Login and ask permission" Click="UserAuth"/>
                         </StackPanel>
                         <TextBlock Text="Find out more about the OAuth flow that enables access to user data." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
-                        <Button Content="OAuth2 Flow Documentation" Click="ShowAuthUserDocs" Tag="http://bit.ly/nokiamusicauth" />
+                        <Button Content="OAuth2 Flow Documentation" Click="ShowAuthUserDocs" Tag="http://dev.mixrad.io/doc/rest/Authorization.html" />
                         <StackPanel Orientation="Vertical" x:Name="AuthedPanel">
                             <TextBlock Text="Try out the play history APIs" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
                             <Button x:Name="UserPlayHistoryButton" Content="Show User Play History" Click="UserPlayHistory" />
                             <Button x:Name="UserChartButton" Content="Show User Top Artists" Click="UserChart" />
+                            <Button x:Name="UserMixesButton" Content="Show User Recent Mixes" Click="UserRecentMixes" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

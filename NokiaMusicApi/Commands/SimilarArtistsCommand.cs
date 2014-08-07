@@ -7,11 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Internal.Response;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -35,24 +31,22 @@ namespace Nokia.Music.Commands
         /// <param name="uri">The base uri</param>
         internal override void AppendUriPath(System.Text.StringBuilder uri)
         {
-            uri.AppendFormat("creators/{0}/similar/", this.ArtistId);
-        }
-
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        protected override void Execute()
-        {
             if (string.IsNullOrEmpty(this.ArtistId))
             {
                 throw new ArgumentNullException("ArtistId", "An artist ID must be supplied");
             }
 
-            this.RequestHandler.SendRequestAsync(
-                this,
-                this.ClientSettings,
-                this.GetPagingParams(),
-                new JsonResponseCallback(rawResult => this.ListItemResponseHandler<Artist>(rawResult, ArrayNameItems, Artist.FromJToken, Callback)));
+            uri.AppendFormat("creators/{0}/similar/", this.ArtistId);
+        }
+
+        internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
+        {
+            return this.GetPagingParams();
+        }
+
+        internal override ListResponse<Artist> HandleRawResponse(Response<JObject> rawResponse)
+        {
+            return this.ListItemResponseHandler(rawResponse, MusicClientCommand.ArrayNameItems, Artist.FromJToken);
         }
     }
 }

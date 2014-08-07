@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Tests.Properties;
@@ -76,7 +77,7 @@ namespace Nokia.Music.Tests.Types
             JArray items = json.Value<JArray>(MusicClientCommand.ArrayNameItems);
             
             // Test a full artist representation
-            Artist fullArtist = Artist.FromJToken(items[0]) as Artist;
+            Artist fullArtist = Artist.FromJToken(items[0], null) as Artist;
             Assert.IsNotNull(fullArtist, "Expected an artist object");
             Assert.IsNotNull(fullArtist.Country, "Expected a country");
             Assert.IsNotNull(fullArtist.Genres, "Expected genres");
@@ -85,6 +86,7 @@ namespace Nokia.Music.Tests.Types
             Assert.Greater(fullArtist.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(fullArtist.Id, "Expected an id");
             Assert.IsNotNull(fullArtist.Name, "Expected a name");
+            Assert.IsNotNull(fullArtist.MusicBrainzId, "Expected a MusicBrainz id");
             Assert.IsNotNull(fullArtist.Thumb50Uri, "Expected a 50x50 thumb");
             Assert.IsNotNull(fullArtist.Thumb100Uri, "Expected a 100x100 thumb");
             Assert.IsNotNull(fullArtist.Thumb200Uri, "Expected a 200x200 thumb");
@@ -92,45 +94,13 @@ namespace Nokia.Music.Tests.Types
 
             // Test an unknown country representation
             JToken unknownCountryJson = items[1];
-            Artist unknownCountryArtist = Artist.FromJToken(items[1]) as Artist;
+            Artist unknownCountryArtist = Artist.FromJToken(items[1], null) as Artist;
             Assert.IsNotNull(unknownCountryArtist, "Expected an artist object");
             Assert.IsNull(unknownCountryArtist.Country, "Expected no country");
             Assert.IsNotNull(unknownCountryArtist.Genres, "Expected genres");
             Assert.Greater(unknownCountryArtist.Genres.Length, 0, "Expected genres");
             Assert.IsNotNull(unknownCountryArtist.Id, "Expected an id");
             Assert.IsNotNull(unknownCountryArtist.Name, "Expected a name");
-        }
-
-        [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestAristNamePropertyIsRequiredForPlayMix()
-        {
-            Artist artist = new Artist();
-            artist.PlayMix();
-        }
-
-        [Test]
-        public void TestPlayMixGoesAheadWhenItCan()
-        {
-            Artist artist = new Artist() { Name = TestName };
-            artist.PlayMix();
-            Assert.Pass();
-        }
-
-        [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestAristNamePropertyIsRequiredForShow()
-        {
-            Artist artist = new Artist();
-            artist.Show();
-        }
-
-        [Test]
-        public void TestShowGoesAheadWhenItCan()
-        {
-            Artist artist = new Artist() { Id = TestId };
-            artist.Show();
-            Assert.Pass();
         }
     }
 }

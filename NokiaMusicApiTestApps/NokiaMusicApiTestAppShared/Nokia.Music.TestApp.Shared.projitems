@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b1301b4d-823a-4953-86ba-55a5c8e9a6c2</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Nokia.Music.TestApp</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\ApiKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\ShowListParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AboutPanel.xaml.cs">
+      <DependentUpon>AboutPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DetailPage.xaml.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)GroupedItems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImageVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShowListPage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)AboutPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
