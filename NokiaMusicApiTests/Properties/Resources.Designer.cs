@@ -153,6 +153,16 @@ namespace Nokia.Music.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] languages {
+            get {
+                object obj = ResourceManager.GetObject("languages", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] mix {
             get {
                 object obj = ResourceManager.GetObject("mix", resourceCulture);

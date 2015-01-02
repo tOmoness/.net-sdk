@@ -29,6 +29,7 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 
 ##Releases
 
+- 3.5.0 - Added user methods to PCL library to allow usage from Xamarin projects.
 - 3.4.0 - Added user authentication methods to Windows Phone 8.1 library, converted Win8 test app to a Universal app and added Windows Phone 8.1 test app
 - 3.3.0 - Added GetUserRecentMixes method, replaced SharpGIS.GZipWebClient with PCL HttpClient, added CancellationToken support, moved all app-to-app comms to new mixradio protocol for Windows Phone, added new PlayMeTask to launch PlayMe feature of MixRadio, added MusicBrainzId property for Artists, added Windows Phone 8.1 project, upgraded Windows 8 project to 8.1, added GetAllMixesAsync and GetMixAsync methods
 - 3.2.0 - Added BPM property to Product object and SearchBpmAsync to find tracks by Beats Per Minute

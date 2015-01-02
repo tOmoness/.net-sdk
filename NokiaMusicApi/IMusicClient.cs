@@ -375,6 +375,13 @@ namespace Nokia.Music
         /// </returns>
         Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag, CancellationToken? cancellationToken = null);
 
+        /// <summary>
+        /// Gets all languages
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <returns>A ListResponse containing the available languages</returns>
+        Task<ListResponse<Language>> GetLanguagesAsync(CancellationToken? cancellationToken = null);
+
 #if SUPPORTS_USER_OAUTH
 #if WINDOWS_PHONE
         /// <summary>
@@ -388,8 +395,8 @@ namespace Nokia.Music
         /// An AuthResultCode indicating the result
         /// </returns>
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null);
-#endif
 
+#endif
 #if NETFX_CORE
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
@@ -402,8 +409,9 @@ namespace Nokia.Music
         /// An AuthResultCode indicating the result
         /// </returns>
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri, CancellationToken? cancellationToken = null);
-#endif
 
+#endif
+#if !PORTABLE
         /// <summary>
         /// Attempts to authenticate a user to enable the user data APIs using a cached access token.
         /// </summary>
@@ -414,8 +422,9 @@ namespace Nokia.Music
         /// </returns>
         /// <remarks>This overload of AuthenticateUserAsync can only be used once the user has gone through the OAuth flow and given permission to access their data</remarks>
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, CancellationToken? cancellationToken = null);
-#if WINDOWS_PHONE_APP
 
+#endif
+#if WINDOWS_PHONE_APP
         /// <summary>
         /// Completes the authenticate user call.
         /// </summary>
@@ -429,8 +438,9 @@ namespace Nokia.Music
         /// This method is for Windows Phone 8.1 use
         /// </remarks>
         Task<AuthResultCode> CompleteAuthenticateUserAsync(string clientSecret, WebAuthenticationResult result, CancellationToken? cancellationToken = null);
+
 #endif
-        
+#if !PORTABLE
         /// <summary>
         /// Deletes any cached authentication token.
         /// </summary>
@@ -438,6 +448,20 @@ namespace Nokia.Music
         /// <returns>An async task</returns>
         Task DeleteAuthenticationTokenAsync(CancellationToken? cancellationToken = null);
 
+#endif
+#if PORTABLE
+        /// <summary>
+        /// For PCL apps (for example, Xamarin), allow the authentication
+        /// to be undertaken separately within the consuming app for now
+        /// </summary>
+        /// <param name="accessToken">The OAuth2 access_token</param>
+        /// <param name="expiresIn">When the token expires</param>
+        /// <param name="refreshToken">The OAuth2 refresh_token</param>
+        /// <param name="userId">The user id</param>
+        /// <param name="territory">The user's territory</param>
+        void SetAuthenticationTokenDetails(string accessToken, int expiresIn, string refreshToken, string userId, string territory);
+
+#endif
         /// <summary>
         /// Gets the user play history.
         /// </summary>

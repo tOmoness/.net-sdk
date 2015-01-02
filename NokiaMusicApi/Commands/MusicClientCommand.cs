@@ -30,12 +30,14 @@ namespace Nokia.Music.Commands
 #endif
  abstract class MusicClientCommand
     {
-        internal const string DefaultBaseApiUri = "http://api.ent.nokia.com/1.x/";
-        internal const string DefaultSecureBaseApiUri = "https://sapi.ent.nokia.com/1.x/";
+        internal const string DefaultBaseApiUri = "http://api.mixrad.io/";
+        internal const string DefaultSecureBaseApiUri = "https://sapi.mixrad.io/";
+        internal const string DefaultApiVersion = "1.x/";
         internal const string ArrayNameItems = "items";
 
         internal const string ContentTypeFormPost = "application/x-www-form-urlencoded";
         internal const string ContentTypeApiResponseStart = "application/vnd.nokia.ent";
+        internal const string ContentTypeMixRadioApiResponseStart = "application/vnd.mixradio";
         internal const string ContentTypeJson = "application/json";
 
         internal const string ParamId = "id";
@@ -54,6 +56,7 @@ namespace Nokia.Music.Commands
         internal const string PagingTotal = "total";
 
         private string _baseApiUri = DefaultBaseApiUri;
+        private string _baseApiVersion = DefaultApiVersion;
         private Guid _requestId = Guid.Empty;
 
         /// <summary>
@@ -142,6 +145,22 @@ namespace Nokia.Music.Commands
                 if (!string.IsNullOrEmpty(value))
                 {
                     this._baseApiUri = value;
+                }
+            }
+        }
+
+        internal virtual string BaseApiVersion
+        {
+            get
+            {
+                return this._baseApiVersion;
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this._baseApiVersion = value;
                 }
             }
         }
@@ -272,7 +291,7 @@ namespace Nokia.Music.Commands
 #else
         internal
 #endif
- virtual void SetAdditionalResponseInfo(ResponseInfo responseInfo)
+virtual void SetAdditionalResponseInfo(ResponseInfo responseInfo)
         {
             // Does nothing by default
         }

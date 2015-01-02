@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -15,6 +15,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>823cb370</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,8 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,10 +55,12 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
@@ -88,6 +90,9 @@
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\JsonMusicClientCommand.cs">
       <Link>Source\Commands\JsonMusicClientCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Commands\LanguagesCommand.cs">
+      <Link>Source\Commands\LanguagesCommand.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Commands\MixDetailsCommand.cs">
       <Link>Source\Commands\MixDetailsCommand.cs</Link>
@@ -200,6 +205,9 @@
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthResultParser.cs">
       <Link>Source\Internal\Authorization\OAuthResultParser.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthUserFlow.cs">
+      <Link>Source\Internal\Authorization\OAuthUserFlow.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\TokenResponse.cs">
       <Link>Source\Internal\Authorization\TokenResponse.cs</Link>
     </Compile>
@@ -290,8 +298,11 @@
     <Compile Include="..\NokiaMusicApi\Types\AuthResultCode.cs">
       <Link>Source\Types\AuthResultCode.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\AuthScope.cs">
-      <Link>Source\Types\AuthScope.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Types\Language.cs">
+      <Link>Source\Types\Language.cs</Link>
+    </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\Scope.cs">
+      <Link>Source\Types\Scope.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Category.cs">
       <Link>Source\Types\Category.cs</Link>
@@ -323,6 +334,9 @@
     <Compile Include="..\NokiaMusicApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\ScopeExtensions.cs">
+      <Link>Source\Types\ScopeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Seed.cs">
       <Link>Source\Types\Seed.cs</Link>
     </Compile>
@@ -351,6 +365,7 @@
     <Compile Include="CommandsUser\GetUserTopArtistsCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserPlayHistoryCommandTests.cs" />
     <Compile Include="CommandsUser\GetAuthTokenCommandTests.cs" />
+    <Compile Include="Commands\LanguagesTests.cs" />
     <Compile Include="Commands\MockMusicClientCommand.cs" />
     <Compile Include="Commands\MusicClientCommandTests.cs" />
     <Compile Include="Commands\ProductTestBase.cs" />
@@ -360,6 +375,7 @@
     <Compile Include="Internal\ArtistImageUriWriterTests.cs" />
     <Compile Include="Internal\GzippedContentTests.cs" />
     <Compile Include="Internal\MockHttpClientRequestProxy.cs" />
+    <Compile Include="Internal\OAuthFlowTests.cs" />
     <Compile Include="ListResponseTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
     <Compile Include="Internal\FakeAuthHeaderProvider.cs" />
@@ -408,7 +424,7 @@
     <Compile Include="Types\PriceTests.cs" />
     <Compile Include="Types\SeedTests.cs" />
     <Compile Include="Types\TypeExtensionsTests.cs" />
-    <Compile Include="Types\AuthScopesTests.cs" />
+    <Compile Include="Types\ScopesTests.cs" />
     <Compile Include="Types\UserEventTests.cs" />
     <Compile Include="Types\LocationTests.cs" />
     <Compile Include="Types\MixGroupTests.cs" />
@@ -423,6 +439,7 @@
     <None Include="Json\bad-result.json" />
     <None Include="Json\artist-similar.json" />
     <None Include="Json\category-parse-tests.json" />
+    <None Include="Json\languages.json" />
     <None Include="Json\user-recent-mixes.json" />
     <None Include="Json\mix.json" />
     <None Include="Json\product-movie-metadata-parse-tests.json" />
@@ -458,10 +475,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\search_radiostation.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\search_albumandsingle.txt" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -476,11 +490,6 @@ rem RunTests.bat</PostBuildEvent>
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
@@ -504,4 +513,11 @@ rem RunTests.bat</PostBuildEvent>
   <PropertyGroup>
     <PrepareForBuildDependsOn Condition="!Exists('$(StyleCopMSBuildTargetsFile)')">StyleCopMSBuildTargetsNotFound;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
   </PropertyGroup>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
 </Project>

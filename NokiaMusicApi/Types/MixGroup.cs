@@ -14,13 +14,25 @@ namespace Nokia.Music.Types
     /// <summary>
     /// Represents a mix group
     /// </summary>
-    public sealed class MixGroup
+    public sealed partial class MixGroup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MixGroup" /> class.
         /// </summary>
         public MixGroup()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixGroup" /> class with
+        /// parameters.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="name">The name.</param>
+        public MixGroup(string id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
         }
 
         /// <summary>

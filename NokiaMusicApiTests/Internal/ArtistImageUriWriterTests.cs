@@ -23,27 +23,19 @@ namespace Nokia.Music.Tests.Internal
         }
 
         [Test]
-        public void BuildArtistNameUrl()
-        {
-            var artistName = "Pink Floyd";
-            var result = new ArtistImageUriWriter(ArtistImageUriWriterTests.Settings).BuildForName(artistName, 320);
-            Assert.AreEqual("http://www.testme.com/gb/creators/images/320x320/random/?domain=music&client_id=ClientId&lang=en&name=Pink%20Floyd", result.AbsoluteUri);
-        }
-
-        [Test]
         public void BuildArtistIdUrl()
         {
             var artistId = "12354";
             var result = new ArtistImageUriWriter(ArtistImageUriWriterTests.Settings).BuildForId(artistId, 200, 200);
-            Assert.AreEqual("http://www.testme.com/gb/creators/images/200x200/random/?domain=music&client_id=ClientId&lang=en&id=12354", result.AbsoluteUri);
+            Assert.AreEqual("http://www.testme.com/1.x/gb/creators/images/200x200/random/?domain=music&client_id=ClientId&lang=en&id=12354", result.AbsoluteUri);
         }
 
         [Test]
-        public void BuildArtistNameUrlWidthSize()
+        public void BuildArtistNameUrl()
         {
-            var artistName = "Pink Floyd";
-            var result = new ArtistImageUriWriter(ArtistImageUriWriterTests.Settings).BuildForName(artistName, 200);
-            Assert.AreEqual("http://www.testme.com/gb/creators/images/200x200/random/?domain=music&client_id=ClientId&lang=en&name=Pink%20Floyd", result.AbsoluteUri);
+            var artistName = "Muse";
+            var result = new ArtistImageUriWriter(ArtistImageUriWriterTests.Settings).BuildForName(artistName, 200, 200);
+            Assert.AreEqual("http://www.testme.com/1.x/gb/creators/images/200x200/random/?domain=music&client_id=ClientId&lang=en&name=Muse", result.AbsoluteUri);
         }
 
         [Test]

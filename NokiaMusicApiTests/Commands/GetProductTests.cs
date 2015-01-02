@@ -83,8 +83,8 @@ namespace Nokia.Music.Tests.Commands
         [Test]
         public void EnsureGetTrackSampleUriIsBuiltCorrectly()
         {
-            IMusicClient client = new MusicClient("test", "gb", (IApiRequestHandler)null);
-            Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/products/1234/sample/?domain=music&client_id=test", client.GetTrackSampleUri("1234").ToString());
+            IMusicClient client = new MusicClient("test", "gb");
+            Assert.AreEqual("http://api.mixrad.io/1.x/gb/products/1234/sample/?domain=music&client_id=test", client.GetTrackSampleUri("1234").ToString());
         }
     }
 }

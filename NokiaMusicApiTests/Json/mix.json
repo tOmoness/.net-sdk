@@ -7,11 +7,13 @@
   "parentaladvisory": true,
   "numbertracks": 50,
   "name": "Soitetuimmat uutuudet",
-  "thumbnails": {
-    "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/42188831.jpg",
-    "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/42188831.jpg",
-    "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/42188831.jpg",
-    "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/42188831.jpg"
-  },
+    "thumbnails": {
+        "50x50": "http://asset.ent.nokia.com/asset/artists/50x50/42188831.jpg",
+        "100x100": "http://asset.ent.nokia.com/asset/artists/100x100/42188831.jpg",
+        "200x200": "http://asset.ent.nokia.com/asset/artists/200x200/42188831.jpg",
+        "320x320": "http://asset.ent.nokia.com/asset/artists/320x320/42188831.jpg",
+        "640x640": "http://asset.ent.nokia.com/asset/artists/640x640/42188831.jpg"
+    },
+  "description" :  "A Radio station",
   "type": "radiostation"
 }

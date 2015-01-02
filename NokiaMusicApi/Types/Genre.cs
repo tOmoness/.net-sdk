@@ -6,6 +6,8 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal;
 
@@ -38,6 +40,14 @@ namespace Nokia.Music.Types
         /// The genre name.
         /// </value>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated languages.
+        /// </summary>
+        /// <value>
+        /// The associated languages.
+        /// </value>
+        public List<string> Languages { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -85,10 +95,13 @@ namespace Nokia.Music.Types
         /// </returns>
         internal static Genre FromJToken(JToken item, IMusicClientSettings settings)
         {
+            var languages = item.Value<JArray>("lang");
+
             return new Genre()
             {
                 Id = item.Value<string>("id"),
-                Name = item.Value<string>("name")
+                Name = item.Value<string>("name"),
+                Languages = languages == null ? new List<string>() : languages.Select(x => x.Value<string>()).ToList()
             };
         }
     }

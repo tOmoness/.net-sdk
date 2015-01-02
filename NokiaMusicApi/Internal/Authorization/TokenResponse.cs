@@ -6,8 +6,10 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Nokia.Music.Types;
 
 namespace Nokia.Music.Internal.Authorization
 {
@@ -75,6 +77,13 @@ namespace Nokia.Music.Internal.Authorization
         public Guid UserId { get; set; }
 
         /// <summary>
+        /// Gets or sets the yielded scopes from the response
+        /// </summary>
+        [JsonProperty("scope")]
+        [JsonConverter(typeof(ScopeJsonConverter))]
+        public Scope Scopes { get; set; }
+
+        /// <summary>
         /// Deserializes from JSON
         /// </summary>
         /// <param name="item">The json</param>
@@ -88,12 +97,57 @@ namespace Nokia.Music.Internal.Authorization
         }
 
         /// <summary>
+        /// Sets an explicit expiry datetime and allow a bit of buffer when we do it (1 minute)...
+        /// </summary>
+        /// <param name="serverTimeUtc">The current server time</param>
+        internal void UpdateExpiresUtc(DateTime serverTimeUtc)
+        {
+            this.ExpiresUtc = serverTimeUtc.AddSeconds(this.ExpiresIn - 60);
+        }
+
+        /// <summary>
         /// Converts this object to a JSON representation
         /// </summary>
         /// <returns>JSON representation</returns>
         internal JToken ToJToken()
         {
             return JToken.Parse(JsonConvert.SerializeObject(this));
+        }
+
+        internal class ScopeJsonConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+                return objectType == typeof(Scope);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                var array = serializer.Deserialize(reader) as JArray;
+
+                if (array == null)
+                {
+                    // Scope could not be parsed
+                    return Scope.None;
+                }
+
+                string scopeList = string.Join(",", array.Select(x => x.Value<string>().Replace("_", string.Empty)));
+
+                Scope output;
+                if (!Enum.TryParse(scopeList, true, out output))
+                {
+                    output = Scope.None;
+                }
+
+                return output;
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                var scope = (Scope)value;
+                var serialisedScopes = scope.AsStringParams().ToArray<object>();
+                serializer.Serialize(writer, new JArray(serialisedScopes));
+            }
         }
     }
 }

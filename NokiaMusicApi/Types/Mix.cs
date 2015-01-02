@@ -102,6 +102,14 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
+        /// Gets or sets the description text for the mix.
+        /// </summary>
+        /// <value>
+        /// A description of the mix, if present.
+        /// </value>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the mix has a parental advisory warning.
         /// </summary>
         /// <value>
@@ -224,8 +232,16 @@ namespace Nokia.Music.Types
             Uri square100 = null;
             Uri square200 = null;
             Uri square320 = null;
+            Uri square640 = null;
 
-            MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
+            var thumbnailsToken = item["thumbnails"];
+
+            MusicItem.ExtractThumbs(thumbnailsToken, out square50, out square100, out square200, out square320);
+
+            if (thumbnailsToken != null)
+            {
+                square640 = Mix.ExtractThumb(thumbnailsToken, "640x640");
+            }
 
             var seeds = item["seeds"];
             SeedCollection seedCollection = null;
@@ -244,6 +260,8 @@ namespace Nokia.Music.Types
             }
 
             var name = item.Value<string>("name");
+
+            var description = item.Value<string>("description");
 
             if (seedCollection != null && seedCollection.Count > 0)
             {
@@ -269,6 +287,11 @@ namespace Nokia.Music.Types
                         square320 = new Uri(string.Format(PlayMeThumbUri, 320));
                     }
 
+                    if (square640 == null)
+                    {
+                        square640 = new Uri(string.Format(PlayMeThumbUri, 640));
+                    }
+
                     if (string.IsNullOrEmpty(name))
                     {
                         name = "Play Me";
@@ -282,14 +305,10 @@ namespace Nokia.Music.Types
                     {
                         // Derive a name
                         var names = artistSeeds.Select(s => s.Name).Where(s => !string.IsNullOrEmpty(s)).ToArray();
-                        if (names.Length > 0)
-                        {
-                            name = string.Join(", ", names);
-                        }
-                        else
-                        {
-                            name = "Artist Mix";
-                        }
+
+                        name = names.Length > 0
+                                ? string.Join(", ", names)
+                                : "Artist Mix";
                     }
 
                     // Derive a thumbnail image
@@ -317,6 +336,11 @@ namespace Nokia.Music.Types
                         {
                             square320 = builder.BuildForId(idSeed.Id, 320);
                         }
+
+                        if (square640 == null)
+                        {
+                            square640 = builder.BuildForId(idSeed.Id, 640);
+                        }
                     }
                 }
             }
@@ -330,7 +354,9 @@ namespace Nokia.Music.Types
                 Thumb50Uri = square50,
                 Thumb100Uri = square100,
                 Thumb200Uri = square200,
-                Thumb320Uri = square320
+                Thumb320Uri = square320,
+                Thumb640Uri = square640,
+                Description = description,
             };
         }
     }

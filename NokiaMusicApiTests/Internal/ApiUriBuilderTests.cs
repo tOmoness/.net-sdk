@@ -35,7 +35,7 @@ namespace Nokia.Music.Tests
 
             // Check API Key is required...
             Assert.Throws(typeof(ApiCredentialsRequiredException), new TestDelegate(() => { builder.BuildUri(new CountryResolverCommand(ClientId, null), new MockMusicClientSettings(null, null, null), null); }));
-            
+
             // Check Country Code is required...
             Assert.Throws(typeof(CountryCodeRequiredException), new TestDelegate(() => { builder.BuildUri(new SearchCommand(), new MockMusicClientSettings(ClientId, null, null), null); }));
         }
@@ -66,9 +66,21 @@ namespace Nokia.Music.Tests
         }
 
         [Test]
+        public void EnsureSpecificApiVersionCommandsUsesCorrectVersion()
+        {
+            MockApiCommand cmd = new MockApiCommand() { BaseApiVersion = "2.x/" };
+            IMusicClientSettings settings = new MockMusicClientSettings(ClientId, Country, null);
+
+            IApiUriBuilder builder = new ApiUriBuilder();
+            Uri uri = builder.BuildUri(cmd, settings, null);
+
+            Assert.IsTrue(uri.ToString().Contains("2.x/"), "Expected the correct version to be included in the URI");
+        }
+
+        [Test]
         public void EnsureFullUriCanBeBuilt()
         {
-            Uri expected = new Uri("http://api.ent.nokia.com/1.x/gb/?client_id=test_clientid&domain=music&lang=en&q=test&q2=test2");
+            Uri expected = new Uri("http://api.mixrad.io/1.x/gb/?client_id=test_clientid&domain=music&lang=en&q=test&q2=test2");
             Uri result = new ApiUriBuilder().BuildUri(new SearchCommand(), new MockMusicClientSettings(ClientId, Country, Language), new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("q", "test"), new KeyValuePair<string, string>("q2", "test2") });
             Assert.AreEqual(expected, result);
         }
@@ -76,15 +88,15 @@ namespace Nokia.Music.Tests
         [Test]
         public void ValidateOverriddenBaseUri()
         {
-            Uri expected = new Uri("http://api.ent.nokia.com/2.0/gb/mixes/groups/test123/?client_id=test_clientid&domain=music&lang=en&id=testQs");
-            Uri result = new ApiUriBuilder().BuildUri(new MixesCommand() { BaseApiUri = "http://api.ent.nokia.com/2.0/", MixGroupId = "test123" }, new MockMusicClientSettings(ClientId, Country, Language), new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("id", "testQs") });
+            Uri expected = new Uri("http://api2.ent.nokia.com/1.x/gb/mixes/groups/test123/?client_id=test_clientid&domain=music&lang=en&id=testQs");
+            Uri result = new ApiUriBuilder().BuildUri(new MixesCommand() { BaseApiUri = "http://api2.ent.nokia.com/", MixGroupId = "test123" }, new MockMusicClientSettings(ClientId, Country, Language), new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("id", "testQs") });
             Assert.AreEqual(expected, result);
         }
 
         [Test]
         public void QueryStringCanAcceptNullValues()
         {
-            Uri expected = new Uri("http://api.ent.nokia.com/1.x/gb/?client_id=test_clientid&domain=music&lang=en&q=&q2=");
+            Uri expected = new Uri("http://api.mixrad.io/1.x/gb/?client_id=test_clientid&domain=music&lang=en&q=&q2=");
             Uri result = new ApiUriBuilder().BuildUri(new SearchCommand(), new MockMusicClientSettings(ClientId, Country, Language), new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("q", null), new KeyValuePair<string, string>("q2", null) });
             Assert.AreEqual(expected, result);
         }

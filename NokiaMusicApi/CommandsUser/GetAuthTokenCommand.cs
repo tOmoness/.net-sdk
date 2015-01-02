@@ -205,8 +205,8 @@ namespace Nokia.Music.Commands
 
             if (response.Result != null)
             {
-                // Set an explicit expiry datetime and allow a bit of buffer when we do it (1 minute)...
-                response.Result.ExpiresUtc = this.RequestHandler.ServerTimeUtc.AddSeconds(response.Result.ExpiresIn - 60);
+                // Set an explicit expiry datetime...
+                response.Result.UpdateExpiresUtc(this.RequestHandler.ServerTimeUtc);
             }
 
             return response;

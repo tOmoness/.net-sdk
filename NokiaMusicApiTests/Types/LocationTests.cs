@@ -59,6 +59,9 @@ namespace Nokia.Music.Tests.Types
         {
             Assert.IsNull(Location.FromJToken(null), "Expected a null return");
 
+            var badLocation = JObject.Parse("{\"location\": null }");
+            Assert.IsNull(Location.FromJToken(badLocation["location"]), "Expected a null return");
+
             Location location = new Location()
             {
                 Latitude = TestLatitude,

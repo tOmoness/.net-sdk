@@ -51,12 +51,13 @@ namespace Nokia.Music.Internal
             return this.CreateUri(string.Format("&name={0}", encodedName), width, height);
         }
 
+        // TODO: replace with ArtistImageCommand to remove uri builder string below
         private Uri CreateUri(string selector, int? width, int? height)
         {
 #if OPEN_INTERNALS
-            const string ImageUri = "{0}{1}/creators/images/{2}/random/?domain=music&token={3}&lang={4}{5}";
+            const string ImageUri = "{0}1.x/{1}/creators/images/{2}/random/?domain=music&token={3}&lang={4}{5}";
 #else
-            const string ImageUri = "{0}{1}/creators/images/{2}/random/?domain=music&client_id={3}&lang={4}{5}";
+            const string ImageUri = "{0}1.x/{1}/creators/images/{2}/random/?domain=music&client_id={3}&lang={4}{5}";
 #endif
             return new Uri(string.Format(ImageUri, this._settings.ApiBaseUrl, this._settings.CountryCode, this.GetSize(width, height), this._settings.ClientId, this._settings.Language, selector), UriKind.Absolute);
         }

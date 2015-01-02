@@ -51,6 +51,7 @@ namespace Nokia.Music.Internal.Request
             var url = new StringBuilder();
 
             url.Append(command.BaseApiUri);
+            url.Append(command.BaseApiVersion);
             this.AddCountryCode(url, command, settings.CountryCode);
             command.AppendUriPath(url);
 

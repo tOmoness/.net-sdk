@@ -223,6 +223,13 @@ namespace Nokia.Music.Types
 
             MusicItem.ExtractThumbs(item["thumbnails"], out square50, out square100, out square200, out square320);
 
+            // Derive 640 thumb
+            Uri square640 = null;
+            if (square320 != null)
+            {
+                square640 = new Uri(square320.ToString().Replace("320x320", "640x640"));
+            }
+
             return new Artist()
                 {
                     Id = item.Value<string>("id"),
@@ -234,7 +241,8 @@ namespace Nokia.Music.Types
                     Thumb50Uri = square50,
                     Thumb100Uri = square100,
                     Thumb200Uri = square200,
-                    Thumb320Uri = square320
+                    Thumb320Uri = square320,
+                    Thumb640Uri = square640
                 };
         }
 

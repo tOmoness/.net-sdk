@@ -145,7 +145,8 @@ namespace Nokia.Music.Internal.Request
                                     new ApiCallFailedException(response.StatusCode),
                                     new KeyValuePair<string, string>("uri", uri.ToString()),
                                     new KeyValuePair<string, string>("errorResponseBody", responseBody),
-                                    new KeyValuePair<string, string>("statusCode", statusCode.ToString()));
+                                    new KeyValuePair<string, string>("statusCode", statusCode.ToString()),
+                                    new KeyValuePair<string, string>("mixRadioHeaderFound", mixRadioHeaderFound.HasValue ? mixRadioHeaderFound.ToString() : "unknown"));
                             }
 
                             T responseItem = rawDataHandler(responseBody);
@@ -188,7 +189,8 @@ namespace Nokia.Music.Internal.Request
                     DebugLogger.Instance.WriteException(
                         new ApiCallFailedException(statusCode),
                         new KeyValuePair<string, string>("uri", uri.ToString()),
-                    new KeyValuePair<string, string>("statusCode", statusCode.HasValue ? statusCode.ToString() : "Timeout"));
+                        new KeyValuePair<string, string>("statusCode", statusCode.HasValue ? statusCode.ToString() : "Timeout"),
+                        new KeyValuePair<string, string>("mixRadioHeaderFound", mixRadioHeaderFound.HasValue ? mixRadioHeaderFound.ToString() : "unknown"));
 
                     return PrepareResponse(default(T), statusCode, null, ex, null, command.RequestId, uri, mixRadioHeaderFound);
                 }

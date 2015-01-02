@@ -65,5 +65,14 @@ namespace Nokia.Music.Tests.Types
             new MixGroupsCommand().AppendUriPath(uri);
             Assert.AreEqual("http://api.ent.nokia.com/1.x/gb/mixes/groups/", uri.ToString());
         }
+
+        [Test]
+        public void TestParamConstructor()
+        {
+            MixGroup group = new MixGroup("1234", "Metal");
+
+            Assert.AreEqual("1234", group.Id);
+            Assert.AreEqual("Metal", group.Name);
+        }
     }
 }

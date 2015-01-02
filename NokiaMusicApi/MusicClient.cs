@@ -34,12 +34,14 @@ namespace Nokia.Music
         internal const int DefaultItemsPerPage = 10;
         internal const int DefaultSmallItemsPerPage = 3;
         internal const int DefaultStartIndex = 0;
-        internal const string DefaultOAuthRedirectUri = "https://account.music.nokia.com/authorize/complete";
+        internal const string DefaultOAuthRedirectUri = "https://account.mixrad.io/authorize/complete";
 
 #if SUPPORTS_USER_OAUTH
         internal const string TokenCacheFile = "NokiaMusicOAuthToken.json";
-        private OAuthUserFlow _oauthFlowController = null;
         private TokenResponse _oauthToken = null;
+#if !PORTABLE
+        private OAuthUserFlow _oauthFlowController = null;
+#endif
 #endif
 
         /// <summary>
@@ -146,6 +148,8 @@ namespace Nokia.Music
             {
                 throw new InvalidCountryCodeException();
             }
+
+            this.CurrentMusicClientSettings = this;
         }
 
         /// <summary>
@@ -276,6 +280,11 @@ namespace Nokia.Music
         internal IAuthHeaderDataProvider AuthHeaderDataProvider { get; set; }
 #endif
         #region IMusicClient Members
+
+        /// <summary>
+        /// Gets or sets the latest MusicClientSettings
+        /// </summary>
+        private IMusicClientSettings CurrentMusicClientSettings { get; set; }
 
         /// <summary>
         /// Searches for an Artist
@@ -575,9 +584,9 @@ namespace Nokia.Music
             }
 
 #if OPEN_INTERNALS
-            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&token={3}", this.ApiBaseUrl, this.CountryCode, id, this.ClientId), UriKind.Absolute);
+            return new Uri(string.Format("{0}{1}{2}/products/{3}/sample/?domain=music&token={4}", this.ApiBaseUrl, MusicClientCommand.DefaultApiVersion, this.CountryCode, id, this.ClientId), UriKind.Absolute);
 #else
-            return new Uri(string.Format("{0}{1}/products/{2}/sample/?domain=music&client_id={3}", this.ApiBaseUrl, this.CountryCode, id, this.ClientId), UriKind.Absolute);
+            return new Uri(string.Format("{0}{1}{2}/products/{3}/sample/?domain=music&client_id={4}", this.ApiBaseUrl, MusicClientCommand.DefaultApiVersion, this.CountryCode, id, this.ClientId), UriKind.Absolute);
 #endif
         }
 
@@ -966,7 +975,18 @@ namespace Nokia.Music
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
-#if SUPPORTS_USER_OAUTH
+        /// <summary>
+        /// Gets all languages
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <returns>A ListResponse containing the available languages</returns>
+        public async Task<ListResponse<Language>> GetLanguagesAsync(CancellationToken? cancellationToken = null)
+        {
+            var cmd = this.CreateCommand<LanguagesCommand>();
+            return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+#if SUPPORTS_USER_OAUTH && !PORTABLE
 #if WINDOWS_PHONE
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
@@ -1029,16 +1049,16 @@ namespace Nokia.Music
 
             await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
 
-            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
+            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
 
 #if WINDOWS_PHONE_APP
-            this._oauthFlowController.AuthenticateUserAndContinue(new Uri(oauthRedirectUri), this.SecureApiBaseUrl, scopes);
+            this._oauthFlowController.AuthenticateUserAndContinue(new Uri(oauthRedirectUri), scopes);
             return AuthResultCode.InProgress;
 #else
 #if WINDOWS_PHONE
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(this.SecureApiBaseUrl, scopes, browser, cancellationToken).ConfigureAwait(false);
+            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(scopes, browser, cancellationToken).ConfigureAwait(false);
 #elif WINDOWS_APP
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(new Uri(oauthRedirectUri), this.SecureApiBaseUrl, scopes, cancellationToken).ConfigureAwait(false);
+            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(new Uri(oauthRedirectUri), scopes, cancellationToken).ConfigureAwait(false);
 #endif
             await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
             this._oauthFlowController = null;
@@ -1069,7 +1089,7 @@ namespace Nokia.Music
         {
             var cmd = this.CreateCommand<GetAuthTokenCommand>();
             await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
-            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
+            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
 
             Response<AuthResultCode> response = await this._oauthFlowController.ConvertAuthPermissionParams(result);
             await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
@@ -1144,7 +1164,7 @@ namespace Nokia.Music
                     }
 
                     // expired -> need to Refresh and cache
-                    this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, cmd);
+                    this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
                     Response<AuthResultCode> response = await this._oauthFlowController.ObtainToken(null, this._oauthToken.RefreshToken, AuthResultCode.Unknown, cancellationToken).ConfigureAwait(false);
                     if (response.Result == AuthResultCode.Success && this._oauthFlowController.TokenResponse != null)
                     {
@@ -1195,6 +1215,34 @@ namespace Nokia.Music
             }
         }
 
+#endif
+#if SUPPORTS_USER_OAUTH && PORTABLE
+        /// <summary>
+        /// For PCL apps (for example, Xamarin), allow the authentication
+        /// to be undertaken separately within the consuming app for now
+        /// </summary>
+        /// <param name="accessToken">The OAuth2 access_token</param>
+        /// <param name="expiresIn">When the token expires</param>
+        /// <param name="refreshToken">The OAuth2 refresh_token</param>
+        /// <param name="userId">The user id</param>
+        /// <param name="territory">The user's territory</param>
+        public void SetAuthenticationTokenDetails(string accessToken, int expiresIn, string refreshToken, string userId, string territory)
+        {
+            this._oauthToken = new TokenResponse
+            {
+                AccessToken = accessToken,
+                ExpiresIn = expiresIn,
+                RefreshToken = refreshToken,
+                UserId = Guid.Parse(userId),
+                Territory = territory
+            };
+
+            this._oauthToken.UpdateExpiresUtc(this.ServerTimeUtc);
+            this.ExtractTokenProperties();
+        }
+
+#endif
+#if SUPPORTS_USER_OAUTH
         /// <summary>
         /// Gets the user play history.
         /// </summary>
@@ -1286,6 +1334,8 @@ namespace Nokia.Music
             }
         }
 
+#endif
+#if SUPPORTS_USER_OAUTH && !PORTABLE
         /// <summary>
         /// Stores the OAuth token.
         /// </summary>
@@ -1314,6 +1364,8 @@ namespace Nokia.Music
             }
         }
 
+#endif
+#if SUPPORTS_USER_OAUTH
         /// <summary>
         /// Extracts OAuth token properties.
         /// </summary>
@@ -1340,7 +1392,7 @@ namespace Nokia.Music
         {
             return new TCommand
             {
-                ClientSettings = this,
+                ClientSettings = this.CurrentMusicClientSettings,
                 RequestHandler = this.RequestHandler,
                 BaseApiUri = this.ApiBaseUrl
             };

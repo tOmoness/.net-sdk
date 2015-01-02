@@ -91,6 +91,7 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullArtist.Thumb100Uri, "Expected a 100x100 thumb");
             Assert.IsNotNull(fullArtist.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullArtist.Thumb320Uri, "Expected a 320x320 thumb");
+            Assert.IsNotNull(fullArtist.Thumb640Uri, "Expected a 640x640 thumb");
 
             // Test an unknown country representation
             JToken unknownCountryJson = items[1];

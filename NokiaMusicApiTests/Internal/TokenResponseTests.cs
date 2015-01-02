@@ -6,9 +6,9 @@
 // -----------------------------------------------------------------------
 
 using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal.Authorization;
+using Nokia.Music.Types;
 using NUnit.Framework;
 
 namespace Nokia.Music.Tests
@@ -37,6 +37,14 @@ namespace Nokia.Music.Tests
             Assert.AreEqual(token.RefreshToken, rehydrated.RefreshToken, "Expected RefreshToken to match");
             Assert.AreEqual(token.Territory, rehydrated.Territory, "Expected Territory to match");
             Assert.AreEqual(token.UserId, rehydrated.UserId, "Expected UserId to match");
+        }
+
+        [Test]
+        public void ScopeJsonConverterCanConvertScope()
+        {
+            var converter = new TokenResponse.ScopeJsonConverter();
+
+            Assert.IsTrue(converter.CanConvert(typeof(Scope)));
         }
     }
 }

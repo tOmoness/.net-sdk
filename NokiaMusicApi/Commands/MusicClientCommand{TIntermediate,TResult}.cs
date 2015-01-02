@@ -69,6 +69,7 @@ namespace Nokia.Music.Commands
             return rawResult.Result != null &&
                    rawResult.ContentType != null &&
                    (rawResult.ContentType.StartsWith(MusicClientCommand.ContentTypeApiResponseStart, StringComparison.OrdinalIgnoreCase)
+                   || rawResult.ContentType.StartsWith(MusicClientCommand.ContentTypeMixRadioApiResponseStart, StringComparison.OrdinalIgnoreCase)
                    || rawResult.ContentType.StartsWith(MusicClientCommand.ContentTypeJson, StringComparison.OrdinalIgnoreCase));
         }
 

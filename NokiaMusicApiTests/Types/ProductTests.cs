@@ -87,6 +87,7 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullItem.Thumb100Uri, "Expected a 100x100 thumb");
             Assert.IsNotNull(fullItem.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullItem.Thumb320Uri, "Expected a 320x320 thumb");
+            Assert.IsNotNull(fullItem.Thumb640Uri, "Expected a 640x640 thumb");
             Assert.AreEqual(fullItem.Category, Category.Track, "Expected a track");
             Assert.IsNull(fullItem.Sequence, "Expected sequence to be null");
             Assert.IsFalse(fullItem.ParentalAdvisory, "Parental advisors should be false");
@@ -160,6 +161,8 @@ namespace Nokia.Music.Tests.Types
             Assert.That(album.Thumb100Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=100&q=70"), "Thumb100Uri");
             Assert.That(album.Thumb200Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=200&q=90"), "Thumb200Uri");
             Assert.That(album.Thumb50Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=50&q=40"), "Thumb50Uri");
+            Assert.That(album.Thumb320Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=320&q=90"), "Thumb320Uri");
+            Assert.That(album.Thumb640Uri.AbsoluteUri, Is.EqualTo("http://4.musicimg.ovi.com/u/1.0/image/252983708/?w=640&q=90"), "Thumb640Uri");
             Assert.That(album.Id, Is.EqualTo("31189154"), "Product.Id");
             Assert.That(album.Name, Is.EqualTo("Rated R"), "Product.Name");
             Assert.That(album.VariousArtists, Is.EqualTo(true), "VariousArtists");

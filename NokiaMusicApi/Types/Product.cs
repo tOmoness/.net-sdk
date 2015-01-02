@@ -232,7 +232,7 @@ namespace Nokia.Music.Types
         /// The Beats per Minute.
         /// </value>
         public int Bpm { get; set; }
-    
+
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
@@ -421,6 +421,13 @@ namespace Nokia.Music.Types
                 bpm = item.Value<int>("bpm");
             }
 
+            // Derive 640 thumb
+            Uri square640 = null;
+            if (square320 != null)
+            {
+                square640 = new Uri(square320.ToString().Replace("w=320", "w=640"));
+            }
+
             // Create the resulting Product object...
             var product = new Product()
             {
@@ -430,6 +437,7 @@ namespace Nokia.Music.Types
                 Thumb100Uri = square100,
                 Thumb200Uri = square200,
                 Thumb320Uri = square320,
+                Thumb640Uri = square640,
                 Category = category,
                 Genres = genres,
                 TakenFrom = takenFrom,
@@ -461,7 +469,7 @@ namespace Nokia.Music.Types
             return product;
         }
 
-        private static void ParseArray(JToken item, List<string> addToList,  string jsonField)
+        private static void ParseArray(JToken item, List<string> addToList, string jsonField)
         {
             var jsonActorNames = item.Value<JArray>(jsonField);
 

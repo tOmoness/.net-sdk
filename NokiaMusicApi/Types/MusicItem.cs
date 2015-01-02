@@ -75,6 +75,14 @@ namespace Nokia.Music.Types
         public Uri Thumb320Uri { get; set; }
 
         /// <summary>
+        /// Gets or sets the 640x640 thumbnail URI.
+        /// </summary>
+        /// <value>
+        /// The 640x640 thumbnail URI.
+        /// </value>
+        public Uri Thumb640Uri { get; set; }
+
+        /// <summary>
         /// Extracts the thumbnails from JSON.
         /// </summary>
         /// <param name="thumbnailsToken">The thumbnails token.</param>
@@ -98,7 +106,13 @@ namespace Nokia.Music.Types
             }
         }
 
-        private static Uri ExtractThumb(JToken thumbnailsToken, string size)
+        /// <summary>
+        ///    Extracts a thumb.
+        /// </summary>
+        /// <param name="thumbnailsToken">A json token with the list of thumbs</param>
+        /// <param name="size">The desired size. There are defined values, see API documenntation.</param>
+        /// <returns>The uri to the thumbnail</returns>
+        protected static Uri ExtractThumb(JToken thumbnailsToken, string size)
         {
             Uri thumb = null;
             if (thumbnailsToken[size] != null)

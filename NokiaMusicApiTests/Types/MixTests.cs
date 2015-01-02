@@ -89,6 +89,30 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
+        public void ExtraImageUriIsHandledSuccessfully()
+        {
+            JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http:////\", \"640x640\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\" } }");
+            Mix mixFromJson = Mix.FromJToken(json, null);
+
+            Assert.IsNotNull(mixFromJson, "Expected a Mix object");
+
+            Assert.AreEqual("http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg", mixFromJson.Thumb640Uri.AbsoluteUri, "Expected the thumb100 to be parsed");
+            Assert.IsNull(mixFromJson.Thumb200Uri, "Expected the thumb200 invalid url to be handled correctly");
+        }
+
+        [Test]
+        public void DescriptionHandledSuccessfully()
+        {
+            JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"description\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http:////\", \"640x640\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\" } }");
+            Mix mixFromJson = Mix.FromJToken(json, null);
+
+            Assert.IsNotNull(mixFromJson, "Expected a Mix object");
+
+            Assert.AreEqual("Metal", mixFromJson.Description, "Expected the description to be parsed");
+            Assert.IsNull(mixFromJson.Thumb200Uri, "Expected the thumb200 invalid url to be handled correctly");
+        }
+
+        [Test]
 #pragma warning disable 1998  // Disable async warnings for test code
         public async Task TestSeedCollectionScenarios()
         {

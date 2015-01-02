@@ -60,7 +60,7 @@ namespace Nokia.Music.Tests
         {
             IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder());
 
-            var command = new CountryResolverCommand("test", null) { BaseApiUri = "http://music.nokia.com/gb/en/badurl" };
+            var command = new CountryResolverCommand("test", null) { BaseApiUri = "http://mixrad.io/gb/en/badurl" };
 
             var result = await handler.SendRequestAsync(
                 command,
@@ -82,7 +82,7 @@ namespace Nokia.Music.Tests
         {
             IApiRequestHandler handler = new ApiRequestHandler(new ApiUriBuilder());
 
-            var command = new MockMusicClientCommand() { BaseApiUri = "http://music.nokia.com/gb/en/badurl" };
+            var command = new MockMusicClientCommand() { BaseApiUri = "http://mixrad.io/gb/en/badurl" };
 
             var result = await handler.SendRequestAsync(
                 command,

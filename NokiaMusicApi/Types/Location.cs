@@ -96,7 +96,7 @@ namespace Nokia.Music.Types
         /// <returns>A Location object</returns>
         internal static Location FromJToken(JToken item)
         {
-            if (item == null)
+            if (item == null || item.Type == JTokenType.Null)
             {
                 return null;
             }

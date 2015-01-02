@@ -38,7 +38,7 @@ namespace Nokia.Music.Internal.Request
         /// <summary>
         /// Determines whether the HTTP content has a valid length in bytes.
         /// </summary>
-        /// <param name="length">The length in bytes of the HHTP content.</param>
+        /// <param name="length">The length in bytes of the HTTP content.</param>
         /// <returns>
         /// Returns <see cref="T:System.Boolean" />.true if <paramref name="length" /> is a valid length; otherwise, false.
         /// </returns>
