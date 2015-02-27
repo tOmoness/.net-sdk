@@ -15,8 +15,10 @@ using System.Threading.Tasks;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal.Authorization;
 using Nokia.Music.Internal.Request;
+using Nokia.Music.Tests.Auth;
 using Nokia.Music.Tests.Internal;
 using Nokia.Music.Tests.Properties;
+using Nokia.Music.Tests.Types;
 using Nokia.Music.Types;
 using NUnit.Framework;
 
@@ -66,6 +68,29 @@ namespace Nokia.Music.Tests.Commands
             Assert.IsNotNull(t.Result, "Expected a result");
             Assert.Greater(t.Result.Count, 0, "Expected results");
             Assert.IsNull(t.Error, "Expected no errors");
+        }
+
+        [Test]
+        [ExpectedException(typeof(UserAuthRequiredException))]
+        public async Task EnsureAuthRequiredExceptionThrownForUnAuthedClient()
+        {
+            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.NotFound()));
+            var result = await client.GetUserRecentMixesAsync();
+        }
+
+        [Test]
+        public async Task EnsureNormalCallWorksAsExpected()
+        {
+            var client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.user_recent_mixes));
+            client.SetAuthenticationToken(AuthTokenTests.GetTestAuthToken());
+            var result = await client.GetUserRecentMixesAsync();
+            Assert.IsNotNull(result, "Expected a result");
+            Assert.IsNotNull(result.StatusCode, "Expected a status code");
+            Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode.Value, "Expected a 200 response");
+            Assert.IsNotNull(result.Result, "Expected a list of results");
+            Assert.IsNull(result.Error, "Expected no error");
+            Assert.Greater(result.Result.Count, 0, "Expected more than 0 results");
         }
     }
 }

@@ -76,7 +76,9 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
+#pragma warning disable 0618  // Disable this for tests
             await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
+#pragma warning restore 0618
         }
 
         [Test]
@@ -92,7 +94,9 @@ namespace Nokia.Music.Tests.Commands
         public async Task EnsureGetNewReleasesForGenreReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+#pragma warning disable 0618  // Disable this for tests
             this.ValidateNewReleasesResponse(await client.GetNewReleasesForGenreAsync(new Genre() { Id = "rock" }, Category.Album));
+#pragma warning restore 0618
             this.ValidateNewReleasesResponse(await client.GetNewReleasesForGenreAsync("rock", Category.Album));
         }
         
@@ -102,7 +106,9 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
+#pragma warning disable 0618  // Disable this for tests
             await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
+#pragma warning restore 0618
         }
 
         [Test]

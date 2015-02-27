@@ -42,5 +42,11 @@ namespace Nokia.Music.Internal.Authorization
         {
             return this._userIdTask;
         }
+
+        public Task InvalidateUserTokenAsync()
+        {
+            // public implementation does nothing
+            return Task.FromResult(0);
+        }
     }
 }

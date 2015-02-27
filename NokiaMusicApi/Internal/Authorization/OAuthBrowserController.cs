@@ -115,7 +115,8 @@ namespace Nokia.Music.Internal.Authorization
                 AuthResultCode result = AuthResultCode.Unknown;
                 string authorizationCode = null;
 
-                if (OAuthResultParser.ParseQuerystringForCompletedFlags(query, out result, out authorizationCode))
+                OAuthResultParser.ParseQuerystringForCompletedFlags(query, out result, out authorizationCode);
+                if (result != AuthResultCode.Unknown)
                 {
                     if (result == AuthResultCode.Success)
                     {

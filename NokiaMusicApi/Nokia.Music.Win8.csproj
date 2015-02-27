@@ -174,7 +174,7 @@
     <Compile Include="Internal\Authorization\IUserIdProvider.cs" />
     <Compile Include="Internal\Authorization\OAuth2.cs" />
     <Compile Include="Internal\Authorization\OAuthHeaderDataProvider.cs" />
-    <Compile Include="Internal\Authorization\OAuthResultParser.cs" />
+    <Compile Include="OAuthResultParser.cs" />
     <Compile Include="Internal\Authorization\OAuthUserFlow.cs" />
     <Compile Include="Internal\Authorization\TokenResponse.cs" />
     <Compile Include="Internal\DebugLogger.cs">
@@ -227,6 +227,7 @@
     <Compile Include="Types\Artist.cs">
     </Compile>
     <Compile Include="Types\AuthResultCode.cs" />
+    <Compile Include="Types\AuthToken.cs" />
     <Compile Include="Types\Category.cs">
     </Compile>
     <Compile Include="Types\Language.cs" />

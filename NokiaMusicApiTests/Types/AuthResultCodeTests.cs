@@ -33,7 +33,7 @@ namespace Nokia.Music.Tests.Types
             string authorizationCode = null;
             AuthResultCode resultCode = AuthResultCode.Success;
 
-            Assert.AreEqual(false, OAuthResultParser.ParseQuerystringForCompletedFlags(null, out resultCode, out authorizationCode), "Expected a false result");
+            OAuthResultParser.ParseQuerystringForCompletedFlags(null, out resultCode, out authorizationCode);
             Assert.AreEqual(AuthResultCode.Unknown, resultCode, "Expected the result code reset");
             Assert.IsNullOrEmpty(authorizationCode, "Expected a null authorization code");
         }
@@ -44,7 +44,7 @@ namespace Nokia.Music.Tests.Types
             string authorizationCode = null;
             AuthResultCode resultCode = AuthResultCode.Success;
 
-            Assert.AreEqual(false, OAuthResultParser.ParseQuerystringForCompletedFlags("?expectingnullresult=true", out resultCode, out authorizationCode), "Expected a false result");
+            OAuthResultParser.ParseQuerystringForCompletedFlags("?expectingnullresult=true", out resultCode, out authorizationCode);
             Assert.AreEqual(AuthResultCode.Unknown, resultCode, "Expected the result code reset");
             Assert.IsNullOrEmpty(authorizationCode, "Expected a null authorization code");
         }
@@ -56,7 +56,7 @@ namespace Nokia.Music.Tests.Types
             string authorizationCode = null;
             AuthResultCode resultCode = AuthResultCode.Unknown;
 
-            Assert.AreEqual(true, OAuthResultParser.ParseQuerystringForCompletedFlags("?code=" + authCode, out resultCode, out authorizationCode), "Expected a true result");
+            OAuthResultParser.ParseQuerystringForCompletedFlags("?code=" + authCode, out resultCode, out authorizationCode);
             Assert.AreEqual(AuthResultCode.Success, resultCode, "Expected the result code to be set");
             Assert.AreEqual(authCode, authorizationCode, "Expected the authorization code back");
         }
@@ -67,7 +67,7 @@ namespace Nokia.Music.Tests.Types
             string authorizationCode = null;
             AuthResultCode resultCode = AuthResultCode.Unknown;
 
-            Assert.AreEqual(true, OAuthResultParser.ParseQuerystringForCompletedFlags("?error=access_denied&error_description=denied", out resultCode, out authorizationCode), "Expected a true result");
+            OAuthResultParser.ParseQuerystringForCompletedFlags("?error=access_denied&error_description=denied", out resultCode, out authorizationCode);
             Assert.AreEqual(AuthResultCode.AccessDenied, resultCode, "Expected the result code to be set");
             Assert.IsNullOrEmpty(authorizationCode, "Expected a null authorization code");
         }

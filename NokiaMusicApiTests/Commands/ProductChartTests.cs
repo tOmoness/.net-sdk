@@ -62,7 +62,9 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Genre nullGenre = null;
+#pragma warning disable 0618  // Disable this for tests
             await client.GetTopProductsForGenreAsync(nullGenre, Category.Album);
+#pragma warning restore 0618
         }
 
         [Test]
@@ -78,7 +80,9 @@ namespace Nokia.Music.Tests.Commands
         public async Task EnsureGetTopProductsForGenreReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
+#pragma warning disable 0618  // Disable this for tests
             this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync(new Genre() { Id = "rock" }, Category.Album));
+#pragma warning restore 0618
             this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync("rock", Category.Album));
         }
 

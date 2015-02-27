@@ -32,7 +32,7 @@ namespace Nokia.Music.Internal.Authorization
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets or sets when the token expires.
+        /// Gets or sets when the token expires - this is derived from ExpiresIn.
         /// </summary>
         /// <value>
         /// The seconds until the token expires.
@@ -41,7 +41,7 @@ namespace Nokia.Music.Internal.Authorization
         public DateTime ExpiresUtc { get; set; }
 
         /// <summary>
-        /// Gets or sets when the token expires - this is derived from ExpiresIn.
+        /// Gets or sets when the token expires.
         /// </summary>
         /// <value>
         /// The expires date time.

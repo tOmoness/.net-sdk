@@ -26,14 +26,17 @@ namespace Nokia.Music.Types
         // For now, the Win8 MixRadio app only supports the old nokia-music protocol.
 #if WINDOWS_APP
         internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
+        internal const string AppToAppPlayUriById = "nokia-music://play/artist/?id={0}";
         internal const string AppToAppPlayUriByName = "nokia-music://play/artist/?artist={0}";
+        internal const string AppToAppShowUriById = "nokia-music://show/artist/?id={0}";
         internal const string AppToAppShowUriByName = "nokia-music://show/artist/?name={0}";
 #else
-        internal const string AppToAppShowUri = "mixradio://show/artist/{0}";
+        internal const string AppToAppPlayUriById = "mixradio://play/artist/{0}";
         internal const string AppToAppPlayUriByName = "mixradio://play/artist/name/{0}";
+        internal const string AppToAppShowUriById = "mixradio://show/artist/{0}";
         internal const string AppToAppShowUriByName = "mixradio://show/artist/name/{0}";
 #endif
-        internal const string WebShowUri = "http://www.mixrad.io/artists/-/{0}";
+        internal const string WebShowUriById = "http://www.mixrad.io/artists/-/{0}";
         internal const string WebPlayUriByName = "http://www.mixrad.io/gb/en/mixes/seeded?artists={0}";
 
         /// <summary>
@@ -52,7 +55,11 @@ namespace Nokia.Music.Types
             {
                 if (!string.IsNullOrEmpty(this.Id))
                 {
-                    return new Uri(string.Format(AppToAppShowUri, this.Id));
+                    return new Uri(string.Format(AppToAppShowUriById, this.Id));
+                }
+                else if (!string.IsNullOrEmpty(this.Name))
+                {
+                    return new Uri(string.Format(AppToAppShowUriByName, this.Name.Replace("&", string.Empty)));
                 }
                 else
                 {
@@ -68,9 +75,13 @@ namespace Nokia.Music.Types
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.Name))
+                if (!string.IsNullOrEmpty(this.Id))
                 {
-                    return new Uri(string.Format(AppToAppPlayUriByName, this.Name));
+                    return new Uri(string.Format(AppToAppPlayUriById, this.Id));
+                }
+                else if (!string.IsNullOrEmpty(this.Name))
+                {
+                    return new Uri(string.Format(AppToAppPlayUriByName, this.Name.Replace("&", string.Empty)));
                 }
                 else
                 {
@@ -80,7 +91,7 @@ namespace Nokia.Music.Types
         }
 
         /// <summary>
-        /// Gets the web uri to use to show this item in MixRadio on the web
+        /// Gets the web uri to use to show this artist in MixRadio on the web
         /// </summary>
         public override Uri WebUri
         {
@@ -88,23 +99,9 @@ namespace Nokia.Music.Types
             {
                 if (!string.IsNullOrEmpty(this.Id))
                 {
-                    return new Uri(string.Format(WebShowUri, this.Id));
+                    return new Uri(string.Format(WebShowUriById, this.Id));
                 }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the web uri to use to play this item in MixRadio on the web
-        /// </summary>
-        public Uri WebPlayUri
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(this.Name))
+                else if (!string.IsNullOrEmpty(this.Name))
                 {
                     return new Uri(string.Format(WebPlayUriByName, this.Name));
                 }
@@ -146,6 +143,14 @@ namespace Nokia.Music.Types
         /// The origin.
         /// </value>
         public Location Origin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PlayCount if available
+        /// </summary>
+        /// <value>
+        /// The PlayCount if available
+        /// </value>
+        public int PlayCount { get; set; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -230,6 +235,9 @@ namespace Nokia.Music.Types
                 square640 = new Uri(square320.ToString().Replace("320x320", "640x640"));
             }
 
+            var count = item["count"];
+            var playCount = (count != null && count.Type != JTokenType.Null) ? count.Value<int>() : 0;
+
             return new Artist()
                 {
                     Id = item.Value<string>("id"),
@@ -242,7 +250,8 @@ namespace Nokia.Music.Types
                     Thumb100Uri = square100,
                     Thumb200Uri = square200,
                     Thumb320Uri = square320,
-                    Thumb640Uri = square640
+                    Thumb640Uri = square640,
+                    PlayCount = playCount
                 };
         }
 

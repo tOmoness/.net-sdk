@@ -163,14 +163,18 @@ namespace Nokia.Music.Tests.Commands
         {
             Genre nullGenre = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+#pragma warning disable 0618  // Disable this for tests
             await client.GetTopArtistsForGenreAsync(nullGenre);
+#pragma warning restore 0618
         }
 
         [Test]
         public async Task EnsureGetTopArtistsForGenreReturnsArtists()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
+#pragma warning disable 0618  // Disable this for tests
             ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync(new Genre() { Id = "rock" });
+#pragma warning restore 0618
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");

@@ -36,5 +36,11 @@ namespace Nokia.Music.Internal.Authorization
             headers.Add("Authorization", string.Format("Bearer {0}", await this._authHeaderData.GetUserTokenAsync()));
             return headers;
         }
+
+        internal Task InvalidateUserTokenAsync()
+        {
+            // public implementation does nothing
+            return Task.FromResult(0);
+        }
     }
 }

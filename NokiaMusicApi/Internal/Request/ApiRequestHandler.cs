@@ -229,6 +229,24 @@ namespace Nokia.Music.Internal.Request
         }
 
         /// <summary>
+        /// Creates an implementation of the abstract class HttpMessageHandler for use by the HttpClient.
+        /// </summary>
+        /// <param name="followHttpRedirects">If true, clients should automatically follow HTTP redirects; if false this will not be done.</param>
+        /// <returns>An implementation of the HttpMessageHandler suitable for the current platform.</returns>
+        protected virtual HttpMessageHandler CreateHandler(bool followHttpRedirects)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+
+            handler.AllowAutoRedirect = followHttpRedirects;
+
+            return handler;
+        }
+
+        /// <summary>
         /// Builds and gzips the request body if required
         /// </summary>
         /// <param name="command">The command</param>
@@ -307,29 +325,6 @@ namespace Nokia.Music.Internal.Request
             }
 
             return new Response<T>(statusCode, error, responseBody, requestId, mixRadioHeaderFound);
-        }
-
-        /// <summary>
-        /// Creates an implementation of the abstract class HttpMessageHandler for use by the HttpClient.
-        /// </summary>
-        /// <param name="followHttpRedirects">If true, clients should automatically follow HTTP redirects; if false this will not be done.</param>
-        /// <returns>An implementation of the HttpMessageHandler suitable for the current platform.</returns>
-#if OPEN_INTERNALS
-        protected virtual
-#else
-        private
-#endif
- HttpMessageHandler CreateHandler(bool followHttpRedirects)
-        {
-            HttpClientHandler handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
-            {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-
-            handler.AllowAutoRedirect = followHttpRedirects;
-
-            return handler;
         }
 
         private void AddRequestHeaders(HttpRequestMessage request, Dictionary<string, string> requestHeaders, IMusicClientSettings settings)

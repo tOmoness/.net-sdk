@@ -65,21 +65,14 @@ namespace Nokia.Music.Tasks
         /// <returns>An async task to await</returns>
         public async Task Show()
         {
-            if (!string.IsNullOrEmpty(this._artistId))
+            if (string.IsNullOrEmpty(this._artistId) && string.IsNullOrEmpty(this._artistName))
             {
-                await this.Launch(
-                    new Uri(string.Format(Artist.AppToAppShowUri, this._artistId)),
-                    new Uri(string.Format(Artist.WebShowUri, this._artistId))).ConfigureAwait(false);
-            }
-            else if (!string.IsNullOrEmpty(this._artistName))
-            {
-                await this.Launch(
-                    new Uri(string.Format(Artist.AppToAppShowUriByName, this._artistName.Replace("&", string.Empty))),
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty)))).ConfigureAwait(false);
+                throw new InvalidOperationException("Please set an artist ID or name before calling Show()");
             }
             else
             {
-                throw new InvalidOperationException("Please set an artist ID or name before calling Show()");
+                var artist = new Artist { Id = this._artistId, Name = this._artistName };
+                await this.Launch(artist.AppToAppUri, artist.WebUri).ConfigureAwait(false);
             }
         }
     }

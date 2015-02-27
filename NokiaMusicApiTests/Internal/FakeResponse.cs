@@ -53,6 +53,11 @@ namespace Nokia.Music.Tests.Internal
             return new FakeResponse(new Response<JObject>(HttpStatusCode.Unauthorized, (JObject)null, Guid.Empty));
         }
 
+        public static FakeResponse RawUnauthorized()
+        {
+            return new FakeResponse(new Response<string>(HttpStatusCode.Unauthorized, (string)null, Guid.Empty, true));
+        }
+
         public static FakeResponse Forbidden()
         {
             return new FakeResponse(new Response<JObject>(HttpStatusCode.Forbidden, (JObject)null, Guid.Empty));

@@ -15,14 +15,14 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>823cb370</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>ce7bfbb2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNIT_TESTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNIT_TESTS;SUPPORTS_USER_OAUTH;SUPPORTS_OAUTH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -33,7 +33,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNIT_TESTS</DefineConstants>
+    <DefineConstants>TRACE;UNIT_TESTS;SUPPORTS_USER_OAUTH;SUPPORTS_OAUTH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -184,6 +185,9 @@
     <Compile Include="..\NokiaMusicApi\Exceptions\SendFailureException.cs">
       <Link>Source\Exceptions\SendFailureException.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Exceptions\UserAuthRequiredException.cs">
+      <Link>Source\Exceptions\UserAuthRequiredException.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\ICountryResolver.cs">
       <Link>Source\ICountryResolver.cs</Link>
     </Compile>
@@ -202,11 +206,11 @@
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuth2.cs">
       <Link>Source\Internal\Authorization\OAuth2.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthResultParser.cs">
-      <Link>Source\Internal\Authorization\OAuthResultParser.cs</Link>
+    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthHeaderDataProvider.cs">
+      <Link>Source\Internal\Authorization\OAuthHeaderDataProvider.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthUserFlow.cs">
-      <Link>Source\Internal\Authorization\OAuthUserFlow.cs</Link>
+    <Compile Include="..\NokiaMusicApi\OAuthResultParser.cs">
+      <Link>Source\OAuthResultParser.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\Internal\Authorization\TokenResponse.cs">
       <Link>Source\Internal\Authorization\TokenResponse.cs</Link>
@@ -298,6 +302,9 @@
     <Compile Include="..\NokiaMusicApi\Types\AuthResultCode.cs">
       <Link>Source\Types\AuthResultCode.cs</Link>
     </Compile>
+    <Compile Include="..\NokiaMusicApi\Types\AuthToken.cs">
+      <Link>Source\Types\AuthToken.cs</Link>
+    </Compile>
     <Compile Include="..\NokiaMusicApi\Types\Language.cs">
       <Link>Source\Types\Language.cs</Link>
     </Compile>
@@ -361,6 +368,8 @@
     <Compile Include="..\NokiaMusicApi\Types\UserEventTarget.cs">
       <Link>Source\Types\UserEventTarget.cs</Link>
     </Compile>
+    <Compile Include="Auth\OAuthTests.cs" />
+    <Compile Include="Auth\UserAuthTests.cs" />
     <Compile Include="CommandsUser\GetUserRecentMixesCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserTopArtistsCommandTests.cs" />
     <Compile Include="CommandsUser\GetUserPlayHistoryCommandTests.cs" />
@@ -375,12 +384,10 @@
     <Compile Include="Internal\ArtistImageUriWriterTests.cs" />
     <Compile Include="Internal\GzippedContentTests.cs" />
     <Compile Include="Internal\MockHttpClientRequestProxy.cs" />
-    <Compile Include="Internal\OAuthFlowTests.cs" />
     <Compile Include="ListResponseTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
     <Compile Include="Internal\FakeAuthHeaderProvider.cs" />
     <Compile Include="Internal\StorageHelperTests.cs" />
-    <Compile Include="Internal\OAuthTests.cs" />
     <Compile Include="Internal\TokenResponseTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
@@ -419,6 +426,7 @@
     <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
     <Compile Include="Types\AuthResultCodeTests.cs" />
+    <Compile Include="Types\AuthTokenTests.cs" />
     <Compile Include="Types\LauncherIntegrationTests.cs" />
     <Compile Include="Types\LocationExtensionTests.cs" />
     <Compile Include="Types\PriceTests.cs" />

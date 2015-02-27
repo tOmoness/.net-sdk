@@ -81,6 +81,7 @@ namespace Nokia.Music.TestApp
             if (App.ApiClient != null)
             {
                 userLoggedIn = App.ApiClient.IsUserAuthenticated;
+#pragma warning disable 0618  // Disable this for now
                 if (!userLoggedIn && await App.ApiClient.IsUserTokenCached())
                 {
                     try
@@ -94,6 +95,7 @@ namespace Nokia.Music.TestApp
                     }
                 }
             }
+#pragma warning restore 0618
 
             this.SetAuthPanelVisibility();
         }
@@ -106,7 +108,9 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
+#pragma warning disable 0618  // Disable this for now
                 var result = await App.ApiClient.CompleteAuthenticateUserAsync(ApiKeys.ClientSecret, webAuthenticationResult);
+#pragma warning restore 0618
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();
@@ -312,7 +316,9 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
+#pragma warning disable 0618  // Disable this for now
                 var result = await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, ApiKeys.OAuthRedirectUri);
+#pragma warning restore 0618
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();

@@ -9,6 +9,9 @@ using System;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Internal;
+using Nokia.Music.Internal.Authorization;
+using Nokia.Music.Internal.Request;
+using Nokia.Music.Tests.Internal;
 using Nokia.Music.Types;
 using NUnit.Framework;
 
@@ -102,6 +105,18 @@ namespace Nokia.Music.Tests.Commands
 
             Assert.That(response.Succeeded);
             Assert.That(response.Error, Is.Not.InstanceOf<NetworkUnavailableException>());
+        }
+
+        [Test]
+        public async System.Threading.Tasks.Task UnauthorizedResponseDoesNothingInDefaultImplementation()
+        {
+            var command = new MockMusicClientCommand
+            {
+                OAuth2 = new OAuth2(new FakeAuthHeaderProvider()),
+                RequestHandler = new MockApiRequestHandler(FakeResponse.RawUnauthorized()),
+            };
+
+            await command.ExecuteAsync(null);
         }
 
         #endregion

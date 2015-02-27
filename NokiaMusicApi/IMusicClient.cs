@@ -83,6 +83,7 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Artists or an Error</returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Artists or an Error</returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -137,6 +139,7 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Products or an Error</returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -182,6 +185,7 @@ namespace Nokia.Music
         /// <param name="itemsPerPage">The number of items to fetch.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Products or an Error</returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -218,6 +222,7 @@ namespace Nokia.Music
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -254,6 +259,7 @@ namespace Nokia.Music
         /// <returns>
         /// A ListResponse containing Products or an Error
         /// </returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -362,6 +368,7 @@ namespace Nokia.Music
         /// <param name="group">The mix group.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Mixes or an Error</returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, CancellationToken? cancellationToken = null);
         
         /// <summary>
@@ -373,6 +380,7 @@ namespace Nokia.Music
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
+        [Obsolete("This type-overloaded version will be removed in the next major version")]
         Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -394,6 +402,7 @@ namespace Nokia.Music
         /// <returns>
         /// An AuthResultCode indicating the result
         /// </returns>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null);
 
 #endif
@@ -408,10 +417,11 @@ namespace Nokia.Music
         /// <returns>
         /// An AuthResultCode indicating the result
         /// </returns>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri, CancellationToken? cancellationToken = null);
 
 #endif
-#if !PORTABLE
+#if (WINDOWS_PHONE || NETFX_CORE)
         /// <summary>
         /// Attempts to authenticate a user to enable the user data APIs using a cached access token.
         /// </summary>
@@ -421,6 +431,7 @@ namespace Nokia.Music
         /// An AuthResultCode indicating the result
         /// </returns>
         /// <remarks>This overload of AuthenticateUserAsync can only be used once the user has gone through the OAuth flow and given permission to access their data</remarks>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, CancellationToken? cancellationToken = null);
 
 #endif
@@ -437,31 +448,57 @@ namespace Nokia.Music
         /// <remarks>
         /// This method is for Windows Phone 8.1 use
         /// </remarks>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         Task<AuthResultCode> CompleteAuthenticateUserAsync(string clientSecret, WebAuthenticationResult result, CancellationToken? cancellationToken = null);
 
 #endif
-#if !PORTABLE
+#if (WINDOWS_PHONE || NETFX_CORE)
         /// <summary>
         /// Deletes any cached authentication token.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>An async task</returns>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         Task DeleteAuthenticationTokenAsync(CancellationToken? cancellationToken = null);
 
 #endif
-#if PORTABLE
-        /// <summary>
-        /// For PCL apps (for example, Xamarin), allow the authentication
-        /// to be undertaken separately within the consuming app for now
-        /// </summary>
-        /// <param name="accessToken">The OAuth2 access_token</param>
-        /// <param name="expiresIn">When the token expires</param>
-        /// <param name="refreshToken">The OAuth2 refresh_token</param>
-        /// <param name="userId">The user id</param>
-        /// <param name="territory">The user's territory</param>
-        void SetAuthenticationTokenDetails(string accessToken, int expiresIn, string refreshToken, string userId, string territory);
-
 #endif
+        /// <summary>
+        /// Gets an authentication URI for a given scope
+        /// </summary>
+        /// <param name="scopes">The scopes.</param>
+        /// <returns>An authentication URI</returns>
+        Uri GetAuthenticationUri(Scope scopes);
+
+        /// <summary>
+        /// Attempts to get an authentication token from an auth code.
+        /// </summary>
+        /// <param name="clientSecret">The client secret.</param>
+        /// <param name="authCode">The authentication code obtained from a call to GetAuthenticationUri.</param>
+        /// <param name="cancellationToken">An optional cancellation token.</param>
+        /// <returns>An authentication token</returns>
+        Task<AuthToken> GetAuthenticationTokenAsync(string clientSecret, string authCode, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Set the authentication token details from storage
+        /// or auth mechanisms within the consuming app
+        /// </summary>
+        /// <param name="authToken">The AuthToken</param>
+        void SetAuthenticationToken(AuthToken authToken);
+
+        /// <summary>
+        /// Attempts to refresh an access token.
+        /// </summary>
+        /// <param name="clientSecret">The client secret obtained during app registration</param>
+        /// <param name="cancellationToken">An optional cancellation token.</param>
+        /// <returns>
+        /// An AuthResultCode indicating the result
+        /// </returns>
+        /// <remarks>
+        /// This method should be called after SetAuthenticationTokenDetails if the IsUserTokenActive property returns false
+        /// </remarks>
+        Task<AuthToken> RefreshAuthenticationTokenAsync(string clientSecret, CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Gets the user play history.
         /// </summary>
@@ -492,6 +529,5 @@ namespace Nokia.Music
         /// <returns>A list of mixes</returns>
         /// <remarks>Charts are available for the last week</remarks>
         Task<ListResponse<Mix>> GetUserRecentMixesAsync(int itemsPerPage = MusicClient.DefaultSmallItemsPerPage, CancellationToken? cancellationToken = null);
-#endif
     }
 }

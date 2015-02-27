@@ -35,7 +35,9 @@ namespace Nokia.Music.Tests.Commands
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
+#pragma warning disable 0618  // Disable this for tests
             await client.GetSimilarArtistsAsync(nullArtist);
+#pragma warning restore 0618
         }
 
         [Test]
@@ -44,14 +46,18 @@ namespace Nokia.Music.Tests.Commands
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
+#pragma warning disable 0618  // Disable this for tests
             await client.GetSimilarArtistsAsync(nullArtist);
+#pragma warning restore 0618
         }
 
         [Test]
         public async Task EnsureGetSimilarArtistsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.artist_similar));
+#pragma warning disable 0618  // Disable this for tests
             ListResponse<Artist> result = await client.GetSimilarArtistsAsync(new Artist() { Id = "test" });
+#pragma warning restore 0618
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");

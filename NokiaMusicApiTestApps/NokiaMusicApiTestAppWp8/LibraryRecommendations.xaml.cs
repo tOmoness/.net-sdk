@@ -174,7 +174,7 @@ namespace Nokia.Music.TestApp
                             return;
                         }
 
-                        var similarResponse = await App.ApiClient.GetSimilarArtistsAsync(artist, 0, 5);
+                        var similarResponse = await App.ApiClient.GetSimilarArtistsAsync(artist.Id, 0, 5);
                         if (similarResponse.Result != null)
                         {
                             Debug.WriteLine(string.Format("Got {0} recommendations for {1}", similarResponse.Result.Count, artist.Name));

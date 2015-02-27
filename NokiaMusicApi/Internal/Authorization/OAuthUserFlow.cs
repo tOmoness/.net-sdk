@@ -80,16 +80,14 @@ namespace Nokia.Music.Internal.Authorization
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
         /// </summary>
-        /// <param name="scopes">The scopes requested.</param>
+        /// <param name="startUri">The auth uri.</param>
         /// <param name="browser">The browser control to use to drive authentication.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>
         /// An async task
         /// </returns>
-        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null)
+        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri startUri, WebBrowser browser, CancellationToken? cancellationToken = null)
         {
-            Uri startUri = this.ConstructAuthorizeUri(scopes);
-
             if (this._browserController == null)
             {
                 this._browserController = new OAuthBrowserController();
@@ -106,43 +104,19 @@ namespace Nokia.Music.Internal.Authorization
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
         /// </summary>
+        /// <param name="startUri">The auth uri.</param>
         /// <param name="oauthCompletedUri">The OAuth completed URI.</param>
-        /// <param name="scopes">The scopes requested.</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// An AuthResultCode value indicating the result
         /// </returns>
-        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri oauthCompletedUri, Scope scopes, CancellationToken? cancellationToken = null)
+        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri startUri, Uri oauthCompletedUri, CancellationToken? cancellationToken = null)
         {
-            var brokerResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, this.ConstructAuthorizeUri(scopes), oauthCompletedUri);
+            var brokerResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, startUri, oauthCompletedUri);
             return await this.ConvertAuthPermissionParams(brokerResult);
         }
 
 #endif
-
-#if WINDOWS_PHONE_APP
-        /// <summary>
-        /// Authenticates a user to enable the user data APIs.
-        /// </summary>
-        /// <param name="oauthCompletedUri">The OAuth completed URI.</param>
-        /// <param name="scopes">The scopes requested.</param>
-        public void AuthenticateUserAndContinue(Uri oauthCompletedUri, Scope scopes)
-        {
-            WebAuthenticationBroker.AuthenticateAndContinue(this.ConstructAuthorizeUri(scopes), oauthCompletedUri);
-        }
-#endif
-
-        /// <summary>
-        /// Constructs the URI for the authorize resource
-        /// </summary>
-        /// <param name="scopes">The requested scopes</param>
-        /// <returns>A URI to start the OAuth flow</returns>
-        internal Uri ConstructAuthorizeUri(Scope scopes)
-        {
-            var uri = new Uri(string.Format("{0}authorize/?response_type=code&client_id={1}&scope={2}", this._secureBaseApiUri, Uri.EscapeDataString(this._clientId), scopes.AsStringParam().Replace(" ", "+")));
-            DebugLogger.Instance.WriteLog("ConstructAuthorizeUri {0}", uri);
-            return uri;
-        }
 
 #if WINDOWS_PHONE
         /// <summary>
@@ -194,7 +168,8 @@ namespace Nokia.Music.Internal.Authorization
                         AuthResultCode resultCode = AuthResultCode.Unknown;
                         string authorizationCode = null;
 
-                        if (OAuthResultParser.ParseQuerystringForCompletedFlags(authResult.ResponseData, out resultCode, out authorizationCode))
+                        OAuthResultParser.ParseQuerystringForCompletedFlags(authResult.ResponseData, out resultCode, out authorizationCode);
+                        if (resultCode != AuthResultCode.Unknown)
                         {
                             // Move on to obtain a token
                             return await this.ObtainToken(authorizationCode, null, resultCode);
@@ -229,7 +204,7 @@ namespace Nokia.Music.Internal.Authorization
             return new Response<AuthResultCode>(null, AuthResultCode.Cancelled, Guid.Empty);
         }
 #endif
-#if WINDOWS_APP || WINDOWS_PHONE || WINDOWS_PHONE_APP
+#if WINDOWS_APP || WINDOWS_PHONE || WINDOWS_PHONE_APP || PORTABLE
 
         /// <summary>
         /// Finalises authorisation to obtain a token

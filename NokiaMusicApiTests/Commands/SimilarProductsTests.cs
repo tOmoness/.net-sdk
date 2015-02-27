@@ -23,12 +23,16 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             this.ValidateProductListResponse(await client.GetSimilarProductsAsync("test"));
+#pragma warning disable 0618  // Disable this for tests
             this.ValidateProductListResponse(await client.GetSimilarProductsAsync(new Product() { Id = "test" }));
+#pragma warning restore 0618
 
             var task = client.GetSimilarProductsAsync("test");
             this.ValidateProductListResponse(task.Result);
 
+#pragma warning disable 0618  // Disable this for tests
             var productTask = client.GetSimilarProductsAsync(new Product() { Id = "test" });
+#pragma warning restore 0618
             this.ValidateProductListResponse(productTask.Result);
         }
 
@@ -46,7 +50,9 @@ namespace Nokia.Music.Tests.Commands
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
             Product nullProduct = null;
+#pragma warning disable 0618  // Disable this for tests
             await client.GetSimilarProductsAsync(nullProduct);
+#pragma warning restore 0618
         }
 
         [Test]

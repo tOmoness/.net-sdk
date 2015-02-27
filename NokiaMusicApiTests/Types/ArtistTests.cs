@@ -49,8 +49,8 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(itemWithId.WebUri, "Expected Web URI to be calculated");
             Assert.IsNull(itemWithNullProperties.WebUri, "Expected Web URI not to be calculated");
 
-            Assert.IsNotNull(itemWithName.WebPlayUri, "Expected Web Play URI to be calculated");
-            Assert.IsNull(itemWithNullProperties.WebPlayUri, "Expected Web Play URI not to be calculated");
+            Assert.IsNotNull(itemWithName.WebUri, "Expected Web Play URI to be calculated");
+            Assert.IsNull(itemWithNullProperties.WebUri, "Expected Web Play URI not to be calculated");
         }
 
         [Test]
@@ -92,6 +92,7 @@ namespace Nokia.Music.Tests.Types
             Assert.IsNotNull(fullArtist.Thumb200Uri, "Expected a 200x200 thumb");
             Assert.IsNotNull(fullArtist.Thumb320Uri, "Expected a 320x320 thumb");
             Assert.IsNotNull(fullArtist.Thumb640Uri, "Expected a 640x640 thumb");
+            Assert.Greater(fullArtist.PlayCount, 0, "Expected a play count");
 
             // Test an unknown country representation
             JToken unknownCountryJson = items[1];

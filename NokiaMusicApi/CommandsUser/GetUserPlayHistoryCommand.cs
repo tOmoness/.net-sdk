@@ -71,11 +71,7 @@ namespace Nokia.Music.Commands
         internal override List<KeyValuePair<string, string>> BuildQueryStringParams()
         {
             var parameters = this.GetPagingParams();
-
-            if (this.Action != null && this.Action.HasValue && this.Action.Value != UserEventAction.Unknown)
-            {
-                parameters.Add(new KeyValuePair<string, string>("action", this.Action.Value.ToString().ToLowerInvariant()));
-            }
+            this.AddActionParameters(parameters);
 
             if (this.Target != UserEventTarget.Unknown)
             {
@@ -83,6 +79,36 @@ namespace Nokia.Music.Commands
             }
 
             return parameters;
+        }
+        
+        /// <summary>
+        /// Adds all the action parameters as the Enum is a flag
+        /// </summary>
+        /// <param name="queryParams">The parameters</param>
+        internal void AddActionParameters(List<KeyValuePair<string, string>> queryParams)
+        {
+            if (this.Action != null && this.Action.HasValue && this.Action.Value != UserEventAction.Unknown)
+            {
+                // We need to get all possible actions and then check if the requested action contains it
+                Type type = typeof(UserEventAction);
+#if NETFX_CORE || UNIT_TESTS || PORTABLE || SILVERLIGHT || WINDOWS_PHONE
+                var allActions = (UserEventAction[])Enum.GetValues(type);
+#else
+                IEnumerable<FieldInfo> fields = type.GetFields().Where(field => field.IsLiteral);
+                var allActions = fields.Select(field => field.GetValue(type)).Select(value => (UserEventAction)value);
+#endif
+
+                foreach (UserEventAction action in allActions)
+                {
+                    if (action != UserEventAction.Unknown)
+                    {
+                        if ((this.Action.Value & action) == action)
+                        {
+                            queryParams.Add(new KeyValuePair<string, string>("action", action.ToString().ToLowerInvariant()));
+                        }
+                    }
+                }
+            }
         }
 
         internal override ListResponse<UserEvent> HandleRawResponse(Response<JObject> rawResponse)

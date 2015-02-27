@@ -262,6 +262,12 @@ namespace Nokia.Music.Commands
 
             var response = this.HandleRawResponse(rawResponse);
 
+            if (this.OAuth2 != null && (rawResponse.FoundMixRadioHeader ?? false) && response.StatusCode.HasValue && response.StatusCode.Value == HttpStatusCode.Unauthorized)
+            {
+                // if we receive a 401 from the service when executing a secure command, tell the client the token is no longer valid
+                await this.OAuth2.InvalidateUserTokenAsync();
+            }
+
             return response;
         }
 

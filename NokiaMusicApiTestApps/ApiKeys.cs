@@ -11,12 +11,12 @@ namespace Nokia.Music.TestApp
     /// Class to hold the developer API keys
     /// </summary>
     /// <remarks>
-    /// Register for your application keys at http://nokia.ly/musicapireg
+    /// Register for your application keys at https://account.mixrad.io/developer
     /// You will receive a "Client Id" and "Client Secret" for each application, set the values below
     /// If you are using the User APIs on Windows 8, you will need to set your OAuthRedirectUri
     /// - if you have not edited the default Uri, then leave as the default below
     /// </remarks>
-    /// <seealso cref="http://nokia.ly/musicapireg"/>
+    /// <seealso cref="https://account.mixrad.io/developer"/>
     internal static class ApiKeys
     {
         /// <summary>

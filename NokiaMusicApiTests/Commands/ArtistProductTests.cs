@@ -35,14 +35,18 @@ namespace Nokia.Music.Tests.Commands
         {
             Artist nullArtist = null;
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
+#pragma warning disable 0618  // Disable this for tests
             await client.GetArtistProductsAsync(nullArtist);
+#pragma warning restore 0618
         }
 
         [Test]
         public async Task EnsureGetArtistProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
+#pragma warning disable 0618  // Disable this for tests
             var t = await client.GetArtistProductsAsync(new Artist() { Id = "test" }, Category.Album);
+#pragma warning restore 0618
             this.ValidateProductListResponse(t);
             t = await client.GetArtistProductsAsync("test");
             this.ValidateProductListResponse(t);

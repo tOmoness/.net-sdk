@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="653a0571-cdea-4868-834a-7a5e20fb7a12" Publisher="CN=jrea" Version="1.1.0.0" />
+  <Identity Name="653a0571-cdea-4868-834a-7a5e20fb7a12" Publisher="CN=mixradio_temp" Version="1.1.0.0" />
   <Properties>
     <DisplayName>Nokia.Music.TestApp</DisplayName>
     <PublisherDisplayName>MixRadio</PublisherDisplayName>

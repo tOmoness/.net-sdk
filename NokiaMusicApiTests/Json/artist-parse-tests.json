@@ -31,7 +31,8 @@
 				"50x50":"http://assets.ent.nokia.com/p/d/music_image/50x50/559688.jpg"
 			},
 			"id": "559688",
-			"type": "musicartist"
+			"type": "musicartist",
+            "count":  10
 		},
 		{
 			"category": {

@@ -18,8 +18,15 @@ namespace Nokia.Music.Tests.Types
     [TestFixture]
     public class PlayMixTaskTests
     {
-        private const string TestMixId = "18523926";
+        private const string TestId = "18523926";
         private const string TestArtistName = "Muse";
+
+        [Test]
+        public void TestArtistIdPropertyPersists()
+        {
+            PlayMixTask task = new PlayMixTask() { ArtistId = TestId };
+            Assert.AreEqual(TestId, task.ArtistId, "Expected the same id");
+        }
 
         [Test]
         public void TestArtistNamePropertyPersists()
@@ -31,8 +38,8 @@ namespace Nokia.Music.Tests.Types
         [Test]
         public void TestMixIdPropertyPersists()
         {
-            PlayMixTask task = new PlayMixTask() { MixId = TestMixId };
-            Assert.AreEqual(TestMixId, task.MixId, "Expected the same ID");
+            PlayMixTask task = new PlayMixTask() { MixId = TestId };
+            Assert.AreEqual(TestId, task.MixId, "Expected the same ID");
         }
 
         [Test]
@@ -44,10 +51,26 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
-        public async Task TestPlayMixGoesAheadWhenItCan()
+        public async Task TestPlayMixGoesAheadWithMixId()
         {
-            PlayMixTask task = new PlayMixTask() { MixId = TestMixId };
+            PlayMixTask task = new PlayMixTask() { MixId = TestId };
             await task.Show();            
+            Assert.Pass();
+        }
+
+        [Test]
+        public async Task TestPlayMixGoesAheadWithArtistId()
+        {
+            PlayMixTask task = new PlayMixTask() { ArtistId = TestId };
+            await task.Show();
+            Assert.Pass();
+        }
+
+        [Test]
+        public async Task TestPlayMixGoesAheadWithArtistName()
+        {
+            PlayMixTask task = new PlayMixTask() { ArtistName = TestArtistName };
+            await task.Show();
             Assert.Pass();
         }
     }

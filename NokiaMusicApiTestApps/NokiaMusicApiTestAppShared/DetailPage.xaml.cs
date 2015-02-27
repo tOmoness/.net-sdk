@@ -85,7 +85,7 @@ namespace Nokia.Music.TestApp
 
                     datasource = new List<GroupedItems>() { topSongs, similarArtists };
 
-                    ListResponse<Product> topSongsList = await App.ApiClient.GetArtistProductsAsync(artist, category: Category.Track, itemsPerPage: 6);
+                    ListResponse<Product> topSongsList = await App.ApiClient.GetArtistProductsAsync(artist.Id, category: Category.Track, itemsPerPage: 6);
                     if (topSongsList.Result != null)
                     {
                         foreach (Product p in topSongsList)
@@ -94,7 +94,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Artist> similarArtistList = await App.ApiClient.GetSimilarArtistsAsync(artist, itemsPerPage: 8);
+                    ListResponse<Artist> similarArtistList = await App.ApiClient.GetSimilarArtistsAsync(artist.Id, itemsPerPage: 8);
                     if (similarArtistList.Result != null)
                     {
                         foreach (Artist a in similarArtistList)
@@ -132,7 +132,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Product> similarAlbumsList = await App.ApiClient.GetSimilarProductsAsync(product, itemsPerPage: 8);
+                    ListResponse<Product> similarAlbumsList = await App.ApiClient.GetSimilarProductsAsync(product.Id, itemsPerPage: 8);
                     if (similarAlbumsList.Result != null)
                     {
                         foreach (Product p in similarAlbumsList)
@@ -176,7 +176,7 @@ namespace Nokia.Music.TestApp
 
                     datasource = new List<GroupedItems>() { topArtists, topAlbums, topSongs, newAlbums, newSongs };
 
-                    ListResponse<Artist> topArtistsList = await App.ApiClient.GetTopArtistsForGenreAsync(genre, itemsPerPage: 6);
+                    ListResponse<Artist> topArtistsList = await App.ApiClient.GetTopArtistsForGenreAsync(genre.Id, itemsPerPage: 6);
                     if (topArtistsList.Result != null)
                     {
                         foreach (Artist a in topArtistsList.Result)
@@ -185,7 +185,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Product> topAlbumsList = await App.ApiClient.GetTopProductsForGenreAsync(genre, Category.Album, itemsPerPage: 6);
+                    ListResponse<Product> topAlbumsList = await App.ApiClient.GetTopProductsForGenreAsync(genre.Id, Category.Album, itemsPerPage: 6);
                     if (topAlbumsList.Result != null)
                     {
                         foreach (Product p in topAlbumsList)
@@ -194,7 +194,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Product> topSongsList = await App.ApiClient.GetTopProductsForGenreAsync(genre, Category.Track, itemsPerPage: 6);
+                    ListResponse<Product> topSongsList = await App.ApiClient.GetTopProductsForGenreAsync(genre.Id, Category.Track, itemsPerPage: 6);
                     if (topSongsList.Result != null)
                     {
                         foreach (Product p in topSongsList)
@@ -203,7 +203,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Product> newAlbumsList = await App.ApiClient.GetNewReleasesForGenreAsync(genre, Category.Album, itemsPerPage: 6);
+                    ListResponse<Product> newAlbumsList = await App.ApiClient.GetNewReleasesForGenreAsync(genre.Id, Category.Album, itemsPerPage: 6);
                     if (newAlbumsList.Result != null)
                     {
                         foreach (Product p in newAlbumsList)
@@ -212,7 +212,7 @@ namespace Nokia.Music.TestApp
                         }
                     }
 
-                    ListResponse<Product> newSongsList = await App.ApiClient.GetNewReleasesForGenreAsync(genre, Category.Track, itemsPerPage: 6);
+                    ListResponse<Product> newSongsList = await App.ApiClient.GetNewReleasesForGenreAsync(genre.Id, Category.Track, itemsPerPage: 6);
                     if (topSongsList.Result != null)
                     {
                         foreach (Product p in newSongsList)

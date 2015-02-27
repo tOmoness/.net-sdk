@@ -17,7 +17,28 @@ namespace Nokia.Music.Tasks
     public sealed class PlayMixTask : TaskBase
     {
         private string _mixId = null;
+        private string _artistId = null;
         private string _artistName = null;
+
+        /// <summary>
+        /// Gets or sets the Artist ID.
+        /// </summary>
+        /// <value>
+        /// The artist ID.
+        /// </value>
+        /// <remarks>You need to supply an ID or a name</remarks>
+        public string ArtistId
+        {
+            get
+            {
+                return this._artistId;
+            }
+
+            set
+            {
+                this._artistId = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the Artist Name.
@@ -25,7 +46,7 @@ namespace Nokia.Music.Tasks
         /// <value>
         /// The artist Name.
         /// </value>
-        /// <remarks>You need to supply a Mix ID or an Artist Name</remarks>
+        /// <remarks>You need to supply a Mix ID, an Artist Id or an Artist Name</remarks>
         public string ArtistName
         {
             get
@@ -45,7 +66,7 @@ namespace Nokia.Music.Tasks
         /// <value>
         /// The mix ID.
         /// </value>
-        /// <remarks>You need to supply a Mix ID or an Artist Name</remarks>
+        /// <remarks>You need to supply a Mix ID, an Artist Id  or an Artist Name</remarks>
         public string MixId
         {
             get
@@ -71,15 +92,19 @@ namespace Nokia.Music.Tasks
                     new Uri(string.Format(Mix.AppToAppPlayUri, this._mixId)),
                     new Uri(string.Format(Mix.WebPlayUri, this._mixId))).ConfigureAwait(false);
             }
+            else if (!string.IsNullOrEmpty(this._artistId))
+            {
+                var artist = new Artist { Id = this._artistId };
+                await this.Launch(artist.AppToAppPlayUri, artist.WebUri).ConfigureAwait(false);
+            }
             else if (!string.IsNullOrEmpty(this._artistName))
             {
-                await this.Launch(
-                    new Uri(string.Format(Artist.AppToAppPlayUriByName, this._artistName.Replace("&", string.Empty))),
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._artistName.Replace("&", string.Empty)))).ConfigureAwait(false);
+                var artist = new Artist { Name = this._artistName };
+                await this.Launch(artist.AppToAppPlayUri, artist.WebUri).ConfigureAwait(false);
             }
             else
             {
-                throw new InvalidOperationException("Please set a mix ID or artist name before calling Show()");
+                throw new InvalidOperationException("Please set a mix ID, artist id or artist name before calling Show()");
             }
         }
     }

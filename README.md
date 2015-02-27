@@ -1,9 +1,9 @@
 # wp-api-client
 
-This codebase contains the **MixRadio C# SDK**.
+This codebase contains the **MixRadio .Net SDK**.
 
 #Overview
-The **MixRadio C# SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [MixRadio on Lumia phones](http://nokia.ly/musicapp), your Windows 8 app with [MixRadio on Windows 8](http://nokia.ly/musicappwin8) or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment - for example using [Xamarin](http://www.xamarin.com/) to target the [Nokia X device family](http://www.nokia.com/global/products/nokia-x/).
+The **MixRadio .Net SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [MixRadio on Lumia phones](http://nokia.ly/musicapp), your Windows 8 app with [MixRadio on Windows 8](http://nokia.ly/musicappwin8) or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment - for example using [Xamarin](http://www.xamarin.com/) to target the [Nokia X device family](http://www.nokia.com/global/products/nokia-x/).
 
 The SDK lets you perform searches, get charts and recommendations and user data such as play history within your app. You can link through to the MixRadio apps to give your users a full listening experience.
 
@@ -14,7 +14,7 @@ You need two things to start using the SDK:
  - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) or the [Package Manager Visual Studio console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
  ![Package Manager](http://dev.mixrad.io/assets/nuget-package-install.png)
  - or download the latest source from [GitHub](http://nokia.ly/wpmusicapi).
-2. **Credentials** Visit our [API Registration page](http://nokia.ly/musicapireg) and request your credentials.
+2. **Credentials** Visit our [API Registration page](https://account.mixrad.io/developer) and request your credentials.
 
 ##Quick Start
 Impatient to get going? Head over to the [Quick Start guide](http://developer.nokia.com/resources/library/Lumia/nokia-mixradio-api/quick-start.html).
@@ -27,6 +27,7 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 
 ##Releases
 
+- 3.6.0 - Added full user authentication methods for PCL clients:GetAuthenticationUri / GetAuthenticationTokenAsync / RefreshAuthenticationTokenAsync. Going forward, these will be the main methods for authentication working cross-platform with AuthenticateUserAsync / CompleteAuthenticateUserAsync / DeleteAuthenticationTokenAsync now marked as obsolete.
 - 3.5.0 - Added user methods to PCL library to allow usage from Xamarin projects.
 - 3.4.0 - Added user authentication methods to Windows Phone 8.1 library, converted Win8 test app to a Universal app and added Windows Phone 8.1 test app
 - 3.3.0 - Added GetUserRecentMixes method, replaced SharpGIS.GZipWebClient with PCL HttpClient, added CancellationToken support, moved all app-to-app comms to new mixradio protocol for Windows Phone, added new PlayMeTask to launch PlayMe feature of MixRadio, added MusicBrainzId property for Artists, added Windows Phone 8.1 project, upgraded Windows 8 project to 8.1, added GetAllMixesAsync and GetMixAsync methods
@@ -85,7 +86,7 @@ With version 3 and above, you can access user data (provided the user authorises
 - Read the user's recent mixes
 
 ## Documentation
-The documentation for this component is at <http://nokia.ly/wpmusicapidoc>
+The documentation for this component is at <http://dev.mixrad.io/doc/netsdk>
 
 ## Dependencies
 We're proud to build on the shoulders of the following giants...
@@ -98,10 +99,10 @@ We're proud to build on the shoulders of the following giants...
 The projects make use of [NuGet](http://nuget.org) to install these components at build time.
  
 ## Tools required to develop
- - Visual Studio 2012 for Windows Phone 8 / Windows 8 development
+ - Visual Studio 2013 for Windows Phone 8 / Windows 8 development
 
 ## Contributing
-If you want to contribute to the project, check out the [Issues](https://github.com/mixradio/wp-api-client/issues) tab.
+If you want to contribute to the project, check out the [Issues](https://github.com/mixradio/.net-sdk/issues) tab.
 
 You can:
 
@@ -117,5 +118,5 @@ Feeling like writing some code? Why not take the next step:
 The team will then review the changes, discuss if anything needs to be addressed, and integrate your changes back into the application.
 
 ##Feedback
-If you have a suggestion, you can tell us about it on our [MixRadio API UserVoice](https://nokiamixradio.uservoice.com/forums/233741-api)
+If you have a suggestion, you can tell us about it on our [MixRadio API UserVoice](https://mixradio.uservoice.com/forums/233741-api)
 
