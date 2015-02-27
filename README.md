@@ -1,4 +1,4 @@
-# wp-api-client
+# .net-sdk
 
 This codebase contains the **MixRadio .Net SDK**.
 
