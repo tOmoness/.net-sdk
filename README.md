@@ -2,6 +2,8 @@
 
 This codebase contains the **MixRadio .Net SDK**.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/cfdh2bc1cursyab9)](https://ci.appveyor.com/project/srgb/wp-api-client)
+
 #Overview
 The **MixRadio .Net SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [MixRadio on Lumia phones](http://nokia.ly/musicapp), your Windows 8 app with [MixRadio on Windows 8](http://nokia.ly/musicappwin8) or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment - for example using [Xamarin](http://www.xamarin.com/) to target the [Nokia X device family](http://www.nokia.com/global/products/nokia-x/).
 
