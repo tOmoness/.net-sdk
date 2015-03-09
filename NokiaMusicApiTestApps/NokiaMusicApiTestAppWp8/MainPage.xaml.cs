@@ -55,15 +55,11 @@ namespace Nokia.Music.TestApp
             if (App.ApiClient != null)
             {
                 userLoggedIn = App.ApiClient.IsUserAuthenticated;
-#pragma warning disable 0618  // Disable this for now
-                if (!userLoggedIn && await App.ApiClient.IsUserTokenCached())
-#pragma warning restore 0618
+                if (!userLoggedIn && await App.AuthHelper.IsUserTokenCached())
                 {
                     try
                     {
-#pragma warning disable 0618  // Disable this for now
-                        await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret);
-#pragma warning restore 0618
+                        await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret);
                         userLoggedIn = App.ApiClient != null && App.ApiClient.IsUserAuthenticated;
                     }
                     catch

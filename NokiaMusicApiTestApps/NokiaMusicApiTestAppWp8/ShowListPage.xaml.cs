@@ -183,9 +183,7 @@ namespace Nokia.Music.TestApp
                 }
                 else if (response.Error != null)
                 {
-#pragma warning disable 0618  // Disable this for now
-                    await App.ApiClient.DeleteAuthenticationTokenAsync();
-#pragma warning restore 0618
+                    await App.AuthHelper.DeleteAuthenticationTokenAsync();
                     MessageBox.Show(response.Error.Message);
                     this.LeavePage();
                 }

@@ -138,6 +138,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\..\AuthHelpers\AuthHelper.cs">
+      <Link>Auth\AuthHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\AuthHelpers\StorageHelper.cs">
+      <Link>Auth\StorageHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\AuthHelpers\OAuthBrowserController.cs">
+      <Link>Auth\OAuthBrowserController.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
+using MixRadio.AuthHelpers;
 using Nokia.Music;
 using Nokia.Music.Tasks;
 using Nokia.Music.Types;
@@ -88,6 +89,14 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
+
+        /// <summary>
+        /// Gets the authentication helper.
+        /// </summary>
+        /// <value>
+        /// The authentication helper.
+        /// </value>
+        internal static AuthHelper AuthHelper { get; private set; }
 
         /// <summary>
         /// Gets the country code from application settings.
@@ -205,10 +214,12 @@ namespace Nokia.Music.TestApp
             if (!string.IsNullOrEmpty(countryCode))
             {
                 ApiClient = new MusicClient(ApiKeys.ClientId, countryCode);
+                AuthHelper = new AuthHelper(ApiClient);
             }
             else
             {
                 ApiClient = null;
+                AuthHelper = null;
             }
         }
 

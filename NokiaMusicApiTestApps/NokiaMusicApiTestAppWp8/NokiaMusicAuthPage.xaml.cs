@@ -72,7 +72,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-                var result = await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, this.AuthBrowser, this._authenticateUserCancellationSource.Token);
+                var result = await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, this.AuthBrowser, this._authenticateUserCancellationSource.Token);
                 if (result != AuthResultCode.Success)
                 {
                     message = "User auth failed: " + result.ToString();
