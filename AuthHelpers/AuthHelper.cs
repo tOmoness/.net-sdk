@@ -13,7 +13,7 @@ using Microsoft.Phone.Controls;
 #endif
 using Nokia.Music;
 using Nokia.Music.Types;
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE_APP
 using Windows.Security.Authentication.Web;
 #endif
 
@@ -102,7 +102,7 @@ namespace MixRadio.AuthHelpers
         }
 #endif
 
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE_APP
         /// <summary>
         /// Authenticates a user to enable the user data APIs.
         /// </summary>
@@ -216,7 +216,7 @@ namespace MixRadio.AuthHelpers
 
             if (!string.IsNullOrEmpty(cachedToken))
             {
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE_APP
                 // Token is encrypted to stop prying eyes on Win8
                 string decodedJson = EncryptionHelper.Decrypt(cachedToken, clientSecret, this._mixRadioClient.ClientId);
 #else
@@ -279,7 +279,7 @@ namespace MixRadio.AuthHelpers
         private async Task StoreOAuthToken(AuthToken token, string clientSecret, CancellationToken? cancellationToken = null)
         {
             var tokenString = token.ToString();
-#if NETFX_CORE
+#if NETFX_CORE || WINDOWS_PHONE_APP
             // Encrypt to stop prying eyes on Win8
             await StorageHelper.WriteTextAsync(TokenCacheFile, EncryptionHelper.Encrypt(tokenString, clientSecret, this._mixRadioClient.ClientId)).ConfigureAwait(false);
 #else

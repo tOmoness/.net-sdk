@@ -101,16 +101,9 @@ namespace MixRadio.AuthHelpers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The event args instance containing the event data.</param>
-#if WINDOWS_PHONE
         private void Browser_Navigating(object sender, NavigatingEventArgs e)
         {
             string query = e.Uri.Query;
-#endif
-#if NET40
-        private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            string query = e.Url.Query;
-#endif
             if (!string.IsNullOrEmpty(query))
             {
                 AuthResultCode result = AuthResultCode.Unknown;
@@ -119,6 +112,7 @@ namespace MixRadio.AuthHelpers
                 OAuthResultParser.ParseQuerystringForCompletedFlags(query, out result, out authorizationCode);
                 if (result != AuthResultCode.Unknown)
                 {
+                    Debug.WriteLine(e.Uri);
                     if (result == AuthResultCode.Success)
                     {
                         this.AuthorizationCode = authorizationCode;
