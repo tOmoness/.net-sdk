@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
+using MixRadio.AuthHelpers;
 using Nokia.Music.Tasks;
 using Nokia.Music.Types;
 using Windows.ApplicationModel;
@@ -95,6 +96,14 @@ namespace Nokia.Music.TestApp
                 return Window.Current.Content as Frame;
             }
         }
+
+        /// <summary>
+        /// Gets the authentication helper.
+        /// </summary>
+        /// <value>
+        /// The authentication helper.
+        /// </value>
+        internal static AuthHelper AuthHelper { get; private set; }
 
         /// <summary>
         /// Gets the settings container.
@@ -316,10 +325,12 @@ namespace Nokia.Music.TestApp
             if (!string.IsNullOrEmpty(countryCode))
             {
                 ApiClient = new MusicClient(ApiKeys.ClientId, countryCode);
+                AuthHelper = new AuthHelper(ApiClient);
             }
             else
             {
                 ApiClient = null;
+                AuthHelper = null;
             }
         }
 

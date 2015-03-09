@@ -11,6 +11,15 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\ApiKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\ShowListParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\AuthHelpers\AuthHelper.cs">
+      <Link>Auth\AuthHelper.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\AuthHelpers\EncryptionHelper.cs">
+      <Link>Auth\EncryptionHelper.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\AuthHelpers\StorageHelper.cs">
+      <Link>Auth\StorageHelper.cs</Link>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AboutPanel.xaml.cs">
       <DependentUpon>AboutPanel.xaml</DependentUpon>
     </Compile>

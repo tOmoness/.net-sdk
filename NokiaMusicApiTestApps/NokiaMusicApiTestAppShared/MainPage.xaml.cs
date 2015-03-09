@@ -81,12 +81,11 @@ namespace Nokia.Music.TestApp
             if (App.ApiClient != null)
             {
                 userLoggedIn = App.ApiClient.IsUserAuthenticated;
-#pragma warning disable 0618  // Disable this for now
-                if (!userLoggedIn && await App.ApiClient.IsUserTokenCached())
+                if (!userLoggedIn && await App.AuthHelper.IsUserTokenCached())
                 {
                     try
                     {
-                        await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret);
+                        await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret);
                         userLoggedIn = App.ApiClient != null && App.ApiClient.IsUserAuthenticated;
                     }
                     catch
@@ -95,7 +94,6 @@ namespace Nokia.Music.TestApp
                     }
                 }
             }
-#pragma warning restore 0618
 
             this.SetAuthPanelVisibility();
         }
@@ -108,9 +106,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-#pragma warning disable 0618  // Disable this for now
-                var result = await App.ApiClient.CompleteAuthenticateUserAsync(ApiKeys.ClientSecret, webAuthenticationResult);
-#pragma warning restore 0618
+                var result = await App.AuthHelper.CompleteAuthenticateUserAsync(ApiKeys.ClientSecret, webAuthenticationResult);
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();
@@ -316,9 +312,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-#pragma warning disable 0618  // Disable this for now
-                var result = await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, ApiKeys.OAuthRedirectUri);
-#pragma warning restore 0618
+                var result = await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, ApiKeys.OAuthRedirectUri);
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();
