@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MixRadio.AuthHelpers;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
 using Nokia.Music.Internal.Request;

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="StorageHelper.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="StorageHelper.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 #endif
 
-namespace Nokia.Music.Internal
+namespace MixRadio.AuthHelpers
 {
     /// <summary>
     /// StorageHelper is a high-level isolated storage abstraction

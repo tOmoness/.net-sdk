@@ -47,6 +47,11 @@ namespace Nokia.Music.Tests.Auth
             client.SetAuthenticationToken(token);
             var result = await client.GetAuthenticationTokenAsync("secret", "code");
             Assert.AreEqual(token.AccessToken, result.AccessToken, "Expected the same token");
+            Assert.IsTrue(client.IsUserAuthenticated, "Expected an auth'd user");
+
+            // Now clear the token...
+            client.SetAuthenticationToken(null);
+            Assert.IsFalse(client.IsUserAuthenticated, "Expected an un-auth'd user");
         }
 
         [Test]
@@ -58,11 +63,11 @@ namespace Nokia.Music.Tests.Auth
         }
 
         [Test]
-        public async Task EnsureGetAuthenticationTokenAsyncReturnsNullForInvalidCalls()
+        [ExpectedException(typeof(ApiCallFailedException))]
+        public async Task EnsureGetAuthenticationTokenAsyncThrowsForFailedCalls()
         {
             var client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
             var result = await client.GetAuthenticationTokenAsync("secret", "code");
-            Assert.IsNull(result, "Expected no result");
         }
 
         [Test]
@@ -95,14 +100,14 @@ namespace Nokia.Music.Tests.Auth
         }
 
         [Test]
-        public async Task EnsureRefreshAuthenticationTokenAsyncReturnsNullForInvalidCalls()
+        [ExpectedException(typeof(ApiCallFailedException))]
+        public async Task EnsureRefreshAuthenticationTokenAsyncThrowsForFailedCalls()
         {
             var client = new MusicClient("test", "gb", new MockApiRequestHandler(FakeResponse.InternalServerError()));
             var token = AuthTokenTests.GetTestAuthToken();
             token.ExpiresUtc = DateTime.UtcNow.AddDays(-1);
             client.SetAuthenticationToken(token);
             var result = await client.RefreshAuthenticationTokenAsync("secret");
-            Assert.IsNull(result, "Expected no result");
         }
     }
 }

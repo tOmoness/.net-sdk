@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 #if !PORTABLE
@@ -131,6 +132,14 @@ namespace Nokia.Music.Types
         public int TrackCount { get; set; }
 
         /// <summary>
+        /// Gets or sets the featured artists
+        /// </summary>
+        /// <value>
+        /// The featured artists
+        /// </value>
+        public List<Artist> FeaturedArtists { get; set; }
+
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -226,6 +235,17 @@ namespace Nokia.Music.Types
             if (parentaladvisoryToken != null)
             {
                 parentalAdvisory = item.Value<bool>("parentaladvisory");
+            }
+
+            JToken featuredArtists = item["featuredartists"];
+            var featuredArtistsList = new List<Artist>();
+            if (featuredArtists != null)
+            {
+                foreach (JToken token in featuredArtists)
+                {
+                    Artist artist = Artist.FromJToken(token, settings);
+                    featuredArtistsList.Add(artist);
+                }
             }
 
             Uri square50 = null;
@@ -357,6 +377,7 @@ namespace Nokia.Music.Types
                 Thumb320Uri = square320,
                 Thumb640Uri = square640,
                 Description = description,
+                FeaturedArtists = featuredArtistsList
             };
         }
     }

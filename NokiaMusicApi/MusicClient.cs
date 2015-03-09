@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Controls;
 #endif
+#if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
+using MixRadio.AuthHelpers;
+#endif
 using Newtonsoft.Json.Linq;
 using Nokia.Music.Commands;
 using Nokia.Music.Internal;
@@ -29,10 +32,14 @@ namespace Nokia.Music
     /// </summary>
     public sealed partial class MusicClient : IMusicClientSettings, IMusicClient
     {
+        /// <summary>
+        /// The default OAuth2 redirect URI
+        /// </summary>
+        public const string DefaultOAuthRedirectUri = "https://account.mixrad.io/authorize/complete";
+
         internal const int DefaultItemsPerPage = 10;
         internal const int DefaultSmallItemsPerPage = 3;
         internal const int DefaultStartIndex = 0;
-        internal const string DefaultOAuthRedirectUri = "https://account.mixrad.io/authorize/complete";
 
 #if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
         internal const string TokenCacheFile = "NokiaMusicOAuthToken.json";
@@ -893,13 +900,14 @@ namespace Nokia.Music
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">An optional CancellationToken</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public async Task<ListResponse<Mix>> GetMixesAsync(string id, CancellationToken? cancellationToken = null)
+        public async Task<ListResponse<Mix>> GetMixesAsync(string id, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null)
         {
-            return await this.GetMixesAsync(id, (string)null, cancellationToken).ConfigureAwait(false);
+            return await this.GetMixesAsync(id, (string)null, showFeaturedArtists, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -907,11 +915,12 @@ namespace Nokia.Music
         /// </summary>
         /// <param name="id">The mix group id.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public async Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, CancellationToken? cancellationToken = null)
+        public async Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -921,6 +930,7 @@ namespace Nokia.Music
             var cmd = this.CreateCommand<MixesCommand>();
             cmd.MixGroupId = id;
             cmd.ExclusiveTag = exclusiveTag;
+            cmd.ShowFeaturedArtists = showFeaturedArtists;
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
@@ -964,16 +974,18 @@ namespace Nokia.Music
         /// <param name="exclusiveTag">The optional exclusivity tag.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        public async Task<ListResponse<Mix>> GetAllMixesAsync(string exclusiveTag = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
+        public async Task<ListResponse<Mix>> GetAllMixesAsync(string exclusiveTag = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null)
         {
             var cmd = this.CreateCommand<MixesCommand>();
             cmd.ExclusiveTag = exclusiveTag;
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
+            cmd.ShowFeaturedArtists = showFeaturedArtists;
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
@@ -1001,6 +1013,7 @@ namespace Nokia.Music
         /// An AuthResultCode value indicating the result
         /// </returns>
         /// <remarks>Sorry, this method is messy due to the platform differences</remarks>
+        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
         public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null)
         {
             if (browser == null)
@@ -1257,16 +1270,9 @@ namespace Nokia.Music
             }
 
             var response = await this.GetAuthenticationTokenInternal(clientSecret, authCode, null, cancellationToken);
-            if (response != null)
-            {
-                this._oauthToken = response;
-                this.ExtractTokenProperties();
-                return AuthToken.FromTokenResponse(this._oauthToken);
-            }
-            else
-            {
-                return null;
-            }
+            this._oauthToken = response;
+            this.ExtractTokenProperties();
+            return AuthToken.FromTokenResponse(this._oauthToken);
         }
 
         /// <summary>
@@ -1276,8 +1282,16 @@ namespace Nokia.Music
         /// <param name="authToken">The AuthToken</param>
         public void SetAuthenticationToken(AuthToken authToken)
         {
-            this._oauthToken = authToken.ToTokenResponse();
-            this.ExtractTokenProperties();
+            if (authToken != null)
+            {
+                this._oauthToken = authToken.ToTokenResponse();
+                this.ExtractTokenProperties();
+            }
+            else
+            {
+                this._oauthToken = null;
+                this.AuthHeaderDataProvider = null;
+            }
         }
 
         /// <summary>
@@ -1304,16 +1318,9 @@ namespace Nokia.Music
             }
 
             var response = await this.GetAuthenticationTokenInternal(clientSecret, null, this._oauthToken.RefreshToken, cancellationToken);
-            if (response != null)
-            {
-                this._oauthToken = response;
-                this.ExtractTokenProperties();
-                return AuthToken.FromTokenResponse(this._oauthToken);
-            }
-            else
-            {
-                return null;
-            }
+            this._oauthToken = response;
+            this.ExtractTokenProperties();
+            return AuthToken.FromTokenResponse(this._oauthToken);
         }
 
         /// <summary>
@@ -1472,12 +1479,14 @@ namespace Nokia.Music
             cmd.RefreshToken = refreshToken;
 
             var tokenResponse = await cmd.ExecuteAsync(cancellationToken);
-            if (tokenResponse.Result != null)
+            if (tokenResponse.Error != null)
+            {
+                throw tokenResponse.Error;
+            }
+            else
             {
                 return tokenResponse.Result;
             }
-
-            return null;
         }
 
         /// <summary>

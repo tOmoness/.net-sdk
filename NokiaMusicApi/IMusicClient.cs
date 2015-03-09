@@ -337,30 +337,33 @@ namespace Nokia.Music
         /// <param name="exclusiveTag">The optional exclusivity tag.</param>
         /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
         /// <param name="itemsPerPage">The number of items to fetch.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        Task<ListResponse<Mix>> GetAllMixesAsync(string exclusiveTag = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
+        Task<ListResponse<Mix>> GetAllMixesAsync(string exclusiveTag = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Mixes or an Error</returns>
-        Task<ListResponse<Mix>> GetMixesAsync(string id, CancellationToken? cancellationToken = null);
+        Task<ListResponse<Mix>> GetMixesAsync(string id, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Gets the Mixes available in a group
         /// </summary>
         /// <param name="id">The mix group id.</param>
         /// <param name="exclusiveTag">The exclusive tag.</param>
+        /// <param name="showFeaturedArtists">Show the featuredArtists list?</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>
         /// A ListResponse containing Mixes or an Error
         /// </returns>
-        Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, CancellationToken? cancellationToken = null);
+        Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Gets the Mixes available in a group

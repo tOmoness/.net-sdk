@@ -257,7 +257,7 @@
     <Compile Include="..\NokiaMusicApi\Internal\Response\ResponseInfo.cs">
       <Link>Source\Internal\Response\ResponseInfo.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\StorageHelper.cs">
+    <Compile Include="..\AuthHelpers\StorageHelper.cs">
       <Link>Source\Internal\StorageHelper.cs</Link>
     </Compile>
     <Compile Include="..\NokiaMusicApi\ListResponse{T}.cs">

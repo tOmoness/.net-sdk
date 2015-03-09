@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EncryptionHelper.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="EncryptionHelper.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -14,7 +14,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 #endif
 
-namespace Nokia.Music.Internal
+namespace MixRadio.AuthHelpers
 {
     /// <summary>
     /// Encryption helper class
@@ -85,6 +85,6 @@ namespace Nokia.Music.Internal
             keyMaterial = WindowsRuntimeBuffer.Create(keyMaterialBytes, 0, keySize, keySize);
             iv = WindowsRuntimeBuffer.Create(keyMaterialBytes, keySize, initVectorSize, initVectorSize);
         }
-    }
 #endif
+    }
 }

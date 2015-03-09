@@ -113,6 +113,21 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
+        public void FeaturedArtistsHandledSuccessfully()
+        {
+            JObject json = JObject.Parse("{\"id\":\"1234\",\"name\":\"Metal\",\"description\":\"Metal\",\"parentaladvisory\":true, \"thumbnails\": { \"100x100\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\", \"200x200\": \"http:////\", \"640x640\": \"http://download.ch1.vcdn.nokia.com/p/d/music_image/100x100/1182.jpg\" },\"featuredartists\":[{\"name\":\"Mark Ronson feat. Bruno Mars\",\"id\":\"72969237\"},{\"name\":\"Mark Ronson\",\"id\":\"299194\"},{\"name\":\"Bruno Mars\",\"id\":\"626716\"},{\"name\":\"Nicki Minaj\",\"id\":\"726059\"},{\"name\":\"Florence + The Machine\",\"id\":\"709885\"}] }");
+            Mix mixFromJson = Mix.FromJToken(json, null);
+
+            Assert.IsNotNull(mixFromJson, "Expected a Mix object");
+
+            Assert.IsNotNull(mixFromJson.FeaturedArtists, "Expected FeaturedArtists list to not be null");
+            Assert.AreEqual(5, mixFromJson.FeaturedArtists.Count, "Expected FeaturedArtists list to contain the expected number of artists");
+
+            Assert.AreEqual("72969237", mixFromJson.FeaturedArtists[0].Id);
+            Assert.AreEqual("Mark Ronson feat. Bruno Mars", mixFromJson.FeaturedArtists[0].Name);
+        }
+
+        [Test]
 #pragma warning disable 1998  // Disable async warnings for test code
         public async Task TestSeedCollectionScenarios()
         {

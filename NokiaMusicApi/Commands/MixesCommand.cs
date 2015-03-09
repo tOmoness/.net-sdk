@@ -5,9 +5,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using Nokia.Music.Types;
 
 namespace Nokia.Music.Commands
@@ -33,6 +33,11 @@ namespace Nokia.Music.Commands
         ///   Gets or sets the mix group id.
         /// </summary>
         public string MixGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the showFeaturedArtist flag is set. 
+        /// </summary>
+        public bool ShowFeaturedArtists { get; set; } 
 
         /// <summary>
         /// Appends the uri subpath and parameters specific to this API method
@@ -66,6 +71,11 @@ namespace Nokia.Music.Commands
                 parameters.AddRange(this.Exclusivity
                     .Where(x => !string.IsNullOrEmpty(x))
                     .Select(x => new KeyValuePair<string, string>(ParamExclusivity, x)));
+            }
+
+            if (this.ShowFeaturedArtists)
+            {
+                parameters.Add(new KeyValuePair<string, string>("view", "topftartists"));
             }
 
             return parameters;

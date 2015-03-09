@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="OAuthBrowserController.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="OAuthBrowserController.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace Nokia.Music.Internal.Authorization
+namespace MixRadio.AuthHelpers
 {
     using System;
     using System.Diagnostics;
@@ -15,6 +15,7 @@ namespace Nokia.Music.Internal.Authorization
     using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
 #endif
+    using Nokia.Music;
     using Nokia.Music.Types;
 
     /// <summary>

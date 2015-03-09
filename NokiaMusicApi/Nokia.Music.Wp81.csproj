@@ -129,7 +129,12 @@
     <Compile Include="Internal\Authorization\OAuthUserFlow.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Internal\EncryptionHelper.cs" />
+    <Compile Include="..\AuthHelpers\EncryptionHelper.cs">
+      <Link>Internal\EncryptionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AuthHelpers\StorageHelper.cs">
+      <Link>Internal\StorageHelper.cs</Link>
+    </Compile>
     <Compile Include="Internal\Request\GzippedContent.cs" />
     <Compile Include="Internal\Request\HttpClientRequestProxy.cs" />
     <Compile Include="Internal\Request\IHttpClientRequestProxy.cs" />
@@ -139,7 +144,6 @@
     <Compile Include="Exceptions\UserAuthRequiredException.cs" />
     <Compile Include="Internal\Authorization\OAuthHeaderDataProvider.cs" />
     <Compile Include="OAuthResultParser.cs" />
-    <Compile Include="Internal\StorageHelper.cs" />
     <Compile Include="Tasks\PlayMeTask.cs" />
     <Compile Include="Types\AuthResultCode.cs" />
     <Compile Include="Types\AuthToken.cs" />

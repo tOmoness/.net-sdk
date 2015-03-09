@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Controls;
 #endif
+using MixRadio.AuthHelpers;
 using Nokia.Music.Commands;
 using Nokia.Music.Types;
 #if NETFX_CORE

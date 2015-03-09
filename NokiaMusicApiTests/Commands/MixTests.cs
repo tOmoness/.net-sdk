@@ -157,6 +157,17 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
+        public void EnsureQueryStringIsBuiltCorrectlyWithOptionalFeaturedArtistsParameter()
+        {
+            var handler = new MockApiRequestHandler(Resources.mixes);
+
+            IMusicClient client = new MusicClient("test", "gb", handler);
+            var task = client.GetMixesAsync("test", true);
+            Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
+            Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>("view", "topftartists")));
+        }
+
+        [Test]
         public async Task EnsureGetMixReturnsDetails()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mix));

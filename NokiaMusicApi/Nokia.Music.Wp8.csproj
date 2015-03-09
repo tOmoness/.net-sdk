@@ -146,10 +146,14 @@
     <Compile Include="Internal\Authorization\OAuthHeaderDataProvider.cs" />
     <Compile Include="OAuthResultParser.cs" />
     <Compile Include="Internal\Authorization\OAuthUserFlow.cs" />
-    <Compile Include="Internal\StorageHelper.cs" />
+    <Compile Include="..\AuthHelpers\StorageHelper.cs">
+      <Link>Internal\StorageHelper.cs</Link>
+    </Compile>
     <Compile Include="Tasks\PlayMeTask.cs" />
     <Compile Include="Types\AuthResultCode.cs" />
-    <Compile Include="Internal\Authorization\OAuthBrowserController.cs" />
+    <Compile Include="..\AuthHelpers\OAuthBrowserController.cs">
+      <Link>Internal\Authorization\OAuthBrowserController.cs</Link>
+    </Compile>
     <Compile Include="Types\AuthToken.cs" />
     <Compile Include="Types\Language.cs" />
     <Compile Include="Types\ScopeExtensions.cs" />
