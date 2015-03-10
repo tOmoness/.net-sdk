@@ -402,11 +402,12 @@ namespace Nokia.Music
         /// <param name="scopes">The scopes requested.</param>
         /// <param name="browser">The browser control to use to drive authentication.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
+        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
         /// <returns>
         /// An AuthResultCode indicating the result
         /// </returns>
         [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null);
+        Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri);
 
 #endif
 #if NETFX_CORE

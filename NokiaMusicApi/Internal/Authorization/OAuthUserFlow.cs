@@ -83,11 +83,12 @@ namespace Nokia.Music.Internal.Authorization
         /// </summary>
         /// <param name="startUri">The auth uri.</param>
         /// <param name="browser">The browser control to use to drive authentication.</param>
+        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>
         /// An async task
         /// </returns>
-        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri startUri, WebBrowser browser, CancellationToken? cancellationToken = null)
+        public async Task<Response<AuthResultCode>> AuthenticateUserAsync(Uri startUri, WebBrowser browser, string oauthRedirectUri, CancellationToken? cancellationToken = null)
         {
             if (this._browserController == null)
             {
@@ -96,7 +97,7 @@ namespace Nokia.Music.Internal.Authorization
 
             CancellationToken token = cancellationToken ?? CancellationToken.None;
 
-            await Task.Run(() => this._browserController.DriveAuthProcess(browser, startUri, token), token);
+            await Task.Run(() => this._browserController.DriveAuthProcess(browser, startUri, oauthRedirectUri, token), token);
             return await this.ConvertAuthPermissionParamsAndFinalise(this._browserController.ResultCode != AuthResultCode.Cancelled, token);
         }
 #endif

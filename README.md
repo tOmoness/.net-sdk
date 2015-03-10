@@ -29,6 +29,7 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 
 ##Releases
 
+- 3.6.1 - Patch to Windows Phone 8.0 AuthenticateUserAsync to take a oauthRedirectUri to make sure the OAuth2 flow ends at the correct point.
 - 3.6.0 - Added full user authentication methods for PCL clients:GetAuthenticationUri / GetAuthenticationTokenAsync / RefreshAuthenticationTokenAsync. Going forward, these will be the main methods for authentication working cross-platform with AuthenticateUserAsync / CompleteAuthenticateUserAsync / DeleteAuthenticationTokenAsync now marked as obsolete.
 - 3.5.0 - Added user methods to PCL library to allow usage from Xamarin projects.
 - 3.4.0 - Added user authentication methods to Windows Phone 8.1 library, converted Win8 test app to a Universal app and added Windows Phone 8.1 test app

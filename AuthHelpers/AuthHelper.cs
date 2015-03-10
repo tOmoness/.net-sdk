@@ -48,11 +48,12 @@ namespace MixRadio.AuthHelpers
         /// <param name="scopes">The scopes requested.</param>
         /// <param name="browser">The browser control to use to drive authentication.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
+        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
         /// <returns>
         /// An AuthResultCode value indicating the result
         /// </returns>
         /// <remarks>Sorry, this method is messy due to the platform differences</remarks>
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null)
+        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri)
         {
             if (browser == null)
             {
@@ -78,7 +79,7 @@ namespace MixRadio.AuthHelpers
 
             CancellationToken token = cancellationToken ?? CancellationToken.None;
 
-            await Task.Run(() => this._browserController.DriveAuthProcess(browser, this._mixRadioClient.GetAuthenticationUri(scopes), token), token);
+            await Task.Run(() => this._browserController.DriveAuthProcess(browser, this._mixRadioClient.GetAuthenticationUri(scopes), oauthRedirectUri, token), token);
 
             AuthResultCode authResult = this._browserController.ResultCode;
             if (authResult != AuthResultCode.Cancelled)

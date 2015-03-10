@@ -25,10 +25,11 @@ namespace MixRadio.AuthHelpers
     {
         private WebBrowser _browser = null;
         private ManualResetEventSlim _authWaiter;
+        private string _host;
 
         // Properties derived by this flow...
         internal string AuthorizationCode { get; private set; }
-        
+
         internal AuthResultCode ResultCode { get; private set; }
 
         internal bool IsBusy { get; private set; }
@@ -47,8 +48,9 @@ namespace MixRadio.AuthHelpers
         /// </summary>
         /// <param name="browser">The browser.</param>
         /// <param name="startUri">The start URI.</param>
+        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        internal void DriveAuthProcess(WebBrowser browser, Uri startUri, CancellationToken? cancellationToken)
+        internal void DriveAuthProcess(WebBrowser browser, Uri startUri, string oauthRedirectUri, CancellationToken? cancellationToken)
         {
             if (this.IsBusy)
             {
@@ -69,6 +71,9 @@ namespace MixRadio.AuthHelpers
 
             this._browser = browser;
             this._authWaiter = null;
+
+            Uri redirect = new Uri(oauthRedirectUri);
+            this._host = redirect.Host;
 
             this.AuthorizationCode = null;
             this.ResultCode = AuthResultCode.Unknown;
@@ -103,24 +108,29 @@ namespace MixRadio.AuthHelpers
         /// <param name="e">The event args instance containing the event data.</param>
         private void Browser_Navigating(object sender, NavigatingEventArgs e)
         {
+            string host = e.Uri.Host;
             string query = e.Uri.Query;
-            if (!string.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(query))
             {
-                AuthResultCode result = AuthResultCode.Unknown;
-                string authorizationCode = null;
-
-                OAuthResultParser.ParseQuerystringForCompletedFlags(query, out result, out authorizationCode);
-                if (result != AuthResultCode.Unknown)
+                Debug.WriteLine("Navigating host=" + host + " query=" + query);
+                if (string.Compare(this._host, host, StringComparison.InvariantCultureIgnoreCase) == 0)
                 {
-                    Debug.WriteLine(e.Uri);
-                    if (result == AuthResultCode.Success)
+                    AuthResultCode result = AuthResultCode.Unknown;
+                    string authorizationCode = null;
+
+                    OAuthResultParser.ParseQuerystringForCompletedFlags(query, out result, out authorizationCode);
+                    if (result != AuthResultCode.Unknown)
                     {
-                        this.AuthorizationCode = authorizationCode;
+                        Debug.WriteLine(e.Uri);
+                        if (result == AuthResultCode.Success)
+                        {
+                            this.AuthorizationCode = authorizationCode;
+                        }
+
+                        this.ResultCode = result;
+                        e.Cancel = true;
+                        this._authWaiter.Set();
                     }
-                    
-                    this.ResultCode = result;
-                    e.Cancel = true;
-                    this._authWaiter.Set();
                 }
             }
         }
