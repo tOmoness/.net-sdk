@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 Icon = "settings.png"
+			 Title = "menu"
+			 x:Class="MixRadioActivity.MenuPage">
+	<ContentPage.Content>
+		<StackLayout Spacing="0" Padding="10,36,0,5" VerticalOptions="FillAndExpand" Orientation="Vertical">
+			<Label TextColor="#ff2e80" Text="MENU" FontSize="Medium" />
+			<ContentView Padding="6,12,6,6" HorizontalOptions="StartAndExpand">
+				<Button Text="Activity" Clicked="ShowActivity" FontSize="Medium" BackgroundColor="White" TextColor="#ff2e80" HorizontalOptions="StartAndExpand" />
+			</ContentView>
+			<ContentView Padding="6,0" HorizontalOptions="StartAndExpand">
+				<Button Text="About" Clicked="ShowAbout" FontSize="Medium" BackgroundColor="White" TextColor="#ff2e80" HorizontalOptions="StartAndExpand" />
+			</ContentView>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

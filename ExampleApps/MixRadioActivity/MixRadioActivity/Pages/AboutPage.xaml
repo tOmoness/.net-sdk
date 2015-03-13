@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage	xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 	Title="About"
+				x:Class="MixRadioActivity.AboutPage">
+	<ContentPage.Content>
+		<Grid Padding="6">
+			<StackLayout Orientation="Vertical" Padding="0" BackgroundColor="#ffffff">
+				<StackLayout Orientation="Horizontal" VerticalOptions="Start" Padding="6" BackgroundColor="#ff2e80">
+					<Image x:Name="Icon" VerticalOptions="Start" />
+					<StackLayout Orientation="Vertical" Padding="6,0" HeightRequest="180">
+						<Label FontSize="Large" TextColor="White" FontAttributes="Bold" Text="MixRadio Activity" />
+						<Label FontSize="Medium" TextColor="White" FontAttributes="Bold" Text="Version X.Y" x:Name="Version" />
+		       	 		<Label FontSize="Medium" TextColor="White" LineBreakMode="WordWrap" Text="This app shows the tracks and artists you've listened to recently on MixRadio."/>
+					</StackLayout>
+				</StackLayout>
+				<StackLayout Orientation="Vertical" Padding="6">
+			        <Label x:Name="Note" FontSize="Medium" LineBreakMode="WordWrap" Text="You can find code examples, documentation, API key signup and more at"/>
+			        <Button x:Name="LinkBtn" Text="http://dev.mixrad.io" HorizontalOptions="StartAndExpand" FontSize="Medium" BorderWidth="0" Clicked="OpenHelpDocs" />
+			        <Label FontSize="Small" TextColor="Gray" LineBreakMode="WordWrap" Text="The MixRadio SDK is Copyright (c) 2012-2015, MixRadio, All rights reserved."/>
+		        </StackLayout>
+			</StackLayout>
+		</Grid>
+	</ContentPage.Content>
+</ContentPage>

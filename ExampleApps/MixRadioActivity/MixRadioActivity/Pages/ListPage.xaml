@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:conv="clr-namespace:MixRadioActivity.Converters;assembly=MixRadioActivity"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 x:Class="MixRadioActivity.ListPage">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<conv:ActionConverter x:Key="ActionConverter" />
+			<conv:ArtistNameConverter x:Key="ArtistNameConverter" />
+			<conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+			<conv:ClientTypeConverter x:Key="ClientTypeConverter" />
+			<conv:EmptyListVisibilityConverter x:Key="EmptyListVisibilityConverter" />
+			<conv:NiceDateConverter x:Key="NiceDateConverter" />
+
+			<sys:Int32 x:Key="ArtistTemplateHeight">86</sys:Int32>
+       		<DataTemplate x:Key="ArtistTemplate">
+		        <ViewCell>
+		        	<StackLayout Orientation="Horizontal" HeightRequest="86" Padding="9,3,0,0">
+		                <Grid WidthRequest="80" VerticalOptions="Start" Padding="0,0,0,0">
+							<Image Source="music.png" WidthRequest="80" Aspect="AspectFill" VerticalOptions="Start" />
+		                    <Image Source="{Binding Thumb320Uri}" WidthRequest="80" Aspect="AspectFill" VerticalOptions="Start" /> <!-- Tag="{Binding}" MouseLeftButtonUp="AlbumArtClicked" /-->
+		                </Grid>
+
+		                <StackLayout Orientation="Vertical">
+	                        <Label Text="{Binding Name}" FontSize="Medium" LineBreakMode="TailTruncation" />
+	                        <Label Text="{Binding Origin.Name}" FontSize="Small" TextColor="Gray" LineBreakMode="TailTruncation" />
+	                        <StackLayout Orientation="Horizontal" Padding="0">
+	                        	<Label Text="{Binding PlayCount}" FontSize="Small" TextColor="Gray" />
+	                        	<Label Text="play(s)" FontSize="Small" TextColor="Gray" />
+                        	</StackLayout>
+		                </StackLayout>
+		            </StackLayout>
+				</ViewCell>
+			</DataTemplate>
+
+
+			<sys:Int32 x:Key="TrackTemplateHeight">86</sys:Int32>
+			<DataTemplate x:Key="TrackTemplate">
+		        <ViewCell>
+	        		<Grid HeightRequest="86" Padding="9,3,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+	        			<Grid.ColumnDefinitions>
+	        				<ColumnDefinition Width="80" />
+	        				<ColumnDefinition Width="*" />
+	        				<ColumnDefinition Width="50" />
+	        			</Grid.ColumnDefinitions>
+		                <Grid Grid.Column="0" WidthRequest="80" MinimumWidthRequest="80" VerticalOptions="Start" Padding="0,0,0,0" HorizontalOptions="Start">
+		                	<Image Source="music.png" WidthRequest="80" Aspect="AspectFill" VerticalOptions="Start" />
+		                    <Image Source="{Binding Product.Thumb200Uri}" WidthRequest="100" Aspect="AspectFill" VerticalOptions="Start" />
+		                    <ContentView HorizontalOptions="End" VerticalOptions="End" Padding="0,0,6,6">
+		                    	<Image Source="{Binding Action, Converter={StaticResource ActionConverter}}" WidthRequest="20" HeightRequest="20" Aspect="AspectFill" Opacity="0.7" />
+		                    </ContentView>
+		                </Grid>
+		                <StackLayout Orientation="Vertical" Grid.Column="1" HorizontalOptions="FillAndExpand">
+	                        <Label Text="{Binding Product.Name}" FontSize="Medium" LineBreakMode="TailTruncation" />
+	                        <Label Text="{Binding Product.Performers, Converter={StaticResource ArtistNameConverter}}" FontSize="Small" LineBreakMode="TailTruncation" />
+	                        <Label Text="{Binding DateTime, Converter={StaticResource NiceDateConverter}}" FontSize="Small" TextColor="Gray" LineBreakMode="TailTruncation" />
+		                </StackLayout>
+	                    <StackLayout Orientation="Vertical" Grid.Column="2" WidthRequest="50" IsClippedToBounds="true" HorizontalOptions="Center">
+	                    	<Image Source="{Binding Client, Converter={StaticResource ClientTypeConverter}}" WidthRequest="50" HeightRequest="50" Aspect="AspectFill" VerticalOptions="Center" />
+	                    </StackLayout>
+	        		</Grid>
+				</ViewCell>
+			</DataTemplate>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+<!--                    	<Label Text="{Binding Client}" FontSize="Small" TextColor="Gray" LineBreakMode="TailTruncation" />
+                    	<Label Text="{Binding ClientVersion}" FontSize="Small" TextColor="Gray" LineBreakMode="TailTruncation" />-->
+	<ContentPage.Content>
+		<Grid>
+			<ListView x:Name="List" ItemTapped="ItemTapped" />
+			<!--- Binding for NoContent visibility hooked up in code -->
+			<Grid x:Name="NoContentPanel" BackgroundColor="Default">
+				<StackLayout Padding="12" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+					<Label Text="We could not fetch your recent activity, please check connectivity and try again." TextColor="#ff2e80" FontSize="Medium" HorizontalOptions="Center" />
+<!--					<ContentView Padding="0,12" HorizontalOptions="FillAndExpand">
+						<Button Text="Retry" TextColor="White" BackgroundColor="#ff2e80" FontSize="Medium" HorizontalOptions="FillAndExpand" BorderRadius="4" BorderWidth="2" BorderColor="#ff2e80" Clicked="RetryClicked" />
+					</ContentView>-->
+				</StackLayout>
+			</Grid>
+			<Grid x:Name="NotLoggedInPanel" BackgroundColor="Default" Padding="12" IsVisible="{Binding IsUserAuthenticated, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter='invert'}">
+				<StackLayout Padding="12" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+					<ContentView Padding="0,6" HorizontalOptions="FillAndExpand">
+						<Label Text="This app shows the tracks and artists you've listened to recently on MixRadio. To get started, please log in." TextColor="#ff2e80" FontSize="Large" HorizontalOptions="Center" />
+					</ContentView>
+					<ContentView Padding="0,12" HorizontalOptions="FillAndExpand">
+						<Button Text="Login" TextColor="White" BackgroundColor="#ff2e80" FontSize="Medium" HorizontalOptions="FillAndExpand" BorderRadius="4" BorderWidth="2" BorderColor="#ff2e80" Clicked="LoginClicked" />
+					</ContentView>
+				</StackLayout>
+			</Grid>
+			<Grid x:Name="LoadingPanel" BackgroundColor="Default" Padding="12" IsVisible="{Binding IsBusy}">
+				<StackLayout Orientation="Vertical" VerticalOptions="Center">
+					<ActivityIndicator HorizontalOptions="FillAndExpand" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+					<Label Text="Loading..." TextColor="#ff2e80" FontSize="Medium" HorizontalOptions="CenterAndExpand" />
+				</StackLayout>				
+			</Grid>
+		</Grid>
+	</ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kJR-Jq-DSg">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="O8R-C0-CuO">
+            <objects>
+                <viewController id="kJR-Jq-DSg" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="anf-8F-1oT"/>
+                        <viewControllerLayoutGuide type="bottom" id="1Jj-OJ-w5W"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="E6X-xj-JM4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon-76.png" translatesAutoresizingMaskIntoConstraints="NO" id="tvb-ui-AHF">
+                                <rect key="frame" x="16" y="20" width="568" height="580"/>
+                                <rect key="contentStretch" x="0.5" y="0.5" width="1" height="1"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="tvb-ui-AHF" secondAttribute="trailing" id="2ZL-mP-KBp"/>
+                            <constraint firstItem="tvb-ui-AHF" firstAttribute="leading" secondItem="E6X-xj-JM4" secondAttribute="leadingMargin" id="Chg-QW-qdq"/>
+                            <constraint firstAttribute="centerY" secondItem="tvb-ui-AHF" secondAttribute="centerY" id="dgm-02-6SD"/>
+                            <constraint firstAttribute="centerX" secondItem="tvb-ui-AHF" secondAttribute="centerX" id="fH0-Yf-mlf"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ha-QW-Ef8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="731.25" y="380.28169014084506"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="SplashIcon.png" width="266" height="60"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="Default-568h.png" width="641" height="1136"/>
+        <image name="Default-Portrait.png" width="768" height="1152"/>
+        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="settings.png" width="14" height="15"/>
+        <image name="artists.png" width="55" height="55"/>
+        <image name="tracks.png" width="55" height="55"/>
+        <image name="music.png" width="388" height="388"/>
+        <image name="device-android.png" width="200" height="200"/>
+        <image name="device-ios.png" width="200" height="200"/>
+        <image name="device-sonos.png" width="200" height="200"/>
+        <image name="device-unknown.png" width="200" height="200"/>
+        <image name="device-windows.png" width="200" height="200"/>
+        <image name="action-complete.png" width="100" height="100"/>
+        <image name="action-skipnext.png" width="100" height="100"/>
+    </resources>
+</document>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="MixRadioActivity.ActivityPage"
+			 xmlns:local="clr-namespace:MixRadioActivity;assembly=MixRadioActivity"
+			 Title="MixRadio Activity">
+	<TabbedPage.Children>
+		<local:TrackListPage Title="Tracks" Icon="tracks.png"/>
+		<local:ArtistListPage Title="Artists" Icon="artists.png" />
+	</TabbedPage.Children>
+</TabbedPage>
