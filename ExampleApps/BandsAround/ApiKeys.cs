@@ -1,22 +1,21 @@
 // -----------------------------------------------------------------------
-// <copyright file="ApiKeys.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiKeys.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// Class to hold the developer API keys
     /// </summary>
     /// <remarks>
-    /// Register for your application keys at http://nokia.ly/musicapireg
+    /// Register for your application keys at http://dev.mixrad.io
     /// You will receive a "Client Id" and "Client Secret" for each application, set the values below
     /// If you are using the User APIs on Windows 8, you will need to set your OAuthRedirectUri
     /// - if you have not edited the default Uri, then leave as the default below
     /// </remarks>
-    /// <seealso cref="http://nokia.ly/musicapireg"/>
     internal static class ApiKeys
     {
         /// <summary>

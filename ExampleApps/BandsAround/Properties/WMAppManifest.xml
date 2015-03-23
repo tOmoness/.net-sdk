@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{893120bf-a176-4510-aead-3574304ad240}" Title="Bands Around" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="BandsAround author" Description="Bands Around is an example application demonstrating the use of Nokia Music API together with the new Map control in a location aware manner." Publisher="BandsAround" PublisherID="{bef2f4d7-4eab-48d8-93c6-942d22c898da}">
+  <App xmlns="" ProductID="{893120bf-a176-4510-aead-3574304ad240}" Title="Bands Around" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="BandsAround author" Description="Bands Around is an example application demonstrating the use of MixRadio API together with the new Map control in a location aware manner." Publisher="BandsAround" PublisherID="{bef2f4d7-4eab-48d8-93c6-942d22c898da}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

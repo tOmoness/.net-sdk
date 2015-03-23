@@ -1,18 +1,10 @@
-/*
- * Copyright © 2013 Nokia Corporation. All rights reserved.
- * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
- * Other product and company names mentioned herein may be trademarks
- * or trade names of their respective owners. 
- * See LICENSE.TXT for license information.
- */
-
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Maps.Toolkit;
 using Microsoft.Phone.Shell;
-using Nokia.Music;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -102,7 +94,7 @@ namespace BandsAround
         }
 
         /// <summary>
-        /// Open Nokia Music application to show selected artist.
+        /// Open MixRadio application to show selected artist.
         /// </summary>
         /// <param name="sender">Selected Pushpin</param>
         /// <param name="e">Event arguments</param>
@@ -152,10 +144,10 @@ namespace BandsAround
             busyIndicator.IsVisible = true;
             prevSearchCoordinate = Map.Center;
 
-            // Sign up for api appId at http://api.developer.nokia.com
+            // Sign up for api appId at http://dev.mixrad.io
             if (client == null)
             {
-                client = new MusicClient(Nokia.Music.TestApp.ApiKeys.ClientId);
+                client = new MusicClient(MixRadio.TestApp.ApiKeys.ClientId);
             }
 
             var res = await client.GetArtistsAroundLocationAsync(Map.Center.Latitude, Map.Center.Longitude, 50, 0, 40);

@@ -1,12 +1,4 @@
-﻿<!--
- Copyright © 2013 Nokia Corporation. All rights reserved.
- Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
- Other product and company names mentioned herein may be trademarks
- or trade names of their respective owners. 
- See LICENSE.TXT for license information.
--->
-    
-<phone:PhoneApplicationPage
+﻿<phone:PhoneApplicationPage
     x:Class="BandsAround.AboutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -63,11 +55,11 @@
         <!--ContentPanel - place additional content here-->
         <StackPanel Grid.Row="1" Margin="12,0,12,0">
             <TextBlock x:Name="VersionText" Margin="12,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
-            <TextBlock Margin="12,10,12,0" Text="Bands Around is an example application demonstrating the use of Nokia Music API together with the new Map control in a location aware manner." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
-            <TextBlock Margin="12,10,12,0" Text="Developed and published by Nokia." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
+            <TextBlock Margin="12,10,12,0" Text="Bands Around is an example application demonstrating the use of MixRadio API together with the new Map control in a location aware manner." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
+            <TextBlock Margin="12,10,12,0" Text="Developed and published by MixRadio." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
             <TextBlock Margin="12,0,12,0" Text="All rights reserved." Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
             <TextBlock Margin="12,10,12,0" Text="Learn more at " Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"/>
-            <HyperlinkButton HorizontalAlignment="Left" NavigateUri="https://github.com/nokia-entertainment/wp-api-client" TargetName="GitHub" Content="github.com/nokia-entertainment"/>
+            <HyperlinkButton HorizontalAlignment="Left" NavigateUri="https://github.com/mixradio/.net-sdk" TargetName="GitHub" Content="github.com/mixradio"/>
         </StackPanel>
     </Grid>
 
