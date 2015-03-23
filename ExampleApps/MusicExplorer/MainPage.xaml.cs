@@ -1,15 +1,7 @@
-﻿/*
- * Copyright © 2013 Nokia Corporation. All rights reserved.
- * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
- * Other product and company names mentioned herein may be trademarks
- * or trade names of their respective owners. 
- * See LICENSE.TXT for license information.
- */
-
-using Microsoft.Phone.Controls;
+﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps.Services;
 using Microsoft.Phone.Shell;
-using Nokia.Music;
+using MixRadio;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
@@ -281,7 +273,7 @@ namespace MusicExplorer
                               + "on in phone settings when using Music Explorer."
                               + "\n\nUsing region info from phone settings instead.");
 
-                InitializeNokiaMusicApi(null);
+                InitializeMixRadioApi(null);
             }
         }
 
@@ -302,7 +294,7 @@ namespace MusicExplorer
                     MapAddress address = e.Result[0].Information.Address;
                     string twoLetterCountryCode = 
                         CountryCodes.TwoLetterFromThreeLetter(address.CountryCode);
-                    InitializeNokiaMusicApi(twoLetterCountryCode);
+                    InitializeMixRadioApi(twoLetterCountryCode);
                 }
             }
         }
@@ -312,11 +304,11 @@ namespace MusicExplorer
         /// Initializes MixRadio API if it is available.
         /// </summary>
         /// <param name="twoLetterCountryCode">An ISO 3166-2 country code</param>
-        private async void InitializeNokiaMusicApi(string twoLetterCountryCode)
+        private async void InitializeMixRadioApi(string twoLetterCountryCode)
         {
             if (resolver == null)
             {
-                resolver = new CountryResolver(Nokia.Music.TestApp.ApiKeys.ClientId);
+                resolver = new CountryResolver(MixRadio.TestApp.ApiKeys.ClientId);
             }
 
             if (twoLetterCountryCode != null)

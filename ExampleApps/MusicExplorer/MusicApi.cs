@@ -1,12 +1,4 @@
-﻿/*
- * Copyright © 2013 Nokia Corporation. All rights reserved.
- * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation. 
- * Other product and company names mentioned herein may be trademarks
- * or trade names of their respective owners. 
- * See LICENSE.TXT for license information.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,9 +12,9 @@ using System.Windows.Threading;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
 
-using Nokia.Music;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 
 using MusicExplorer.Models;
 
@@ -64,11 +56,11 @@ namespace MusicExplorer
             // Create a music client with correct AppId and Token/AppCode
             if (countryCode == null || countryCode.Length != 2)
             {
-                client = new MusicClient(Nokia.Music.TestApp.ApiKeys.ClientId);
+                client = new MusicClient(MixRadio.TestApp.ApiKeys.ClientId);
             }
             else
             {
-                client = new MusicClient(Nokia.Music.TestApp.ApiKeys.ClientId, countryCode.ToLower());
+                client = new MusicClient(MixRadio.TestApp.ApiKeys.ClientId, countryCode.ToLower());
             }
             initialized = true;
         }
@@ -112,7 +104,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetArtistInfoForLocalAudio()");
 
@@ -234,7 +226,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("FetchRecommendations()");
 
@@ -286,7 +278,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetTopArtists()");
         }
@@ -353,7 +345,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
 
             HideProgressIndicator("GetNewReleases()");
@@ -384,7 +376,7 @@ namespace MusicExplorer
             }
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetGenres()");
         }
@@ -426,7 +418,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetTopArtistsForGenre()");
         }
@@ -459,7 +451,7 @@ namespace MusicExplorer
 					
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetMixGroups()");
         }
@@ -509,7 +501,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetMixes()");
         }
@@ -646,7 +638,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetProductsForArtist()");
 
@@ -695,7 +687,7 @@ namespace MusicExplorer
 
             if (response != null && response.Error != null)
             {
-                ShowNokiaMusicApiError();
+                ShowMixRadioApiError();
             }
             HideProgressIndicator("GetSimilarArtists()");
         }
@@ -800,7 +792,7 @@ namespace MusicExplorer
         /// <summary>
         /// Shows MessageBox with MixRadio API error text
         /// </summary>
-        void ShowNokiaMusicApiError()
+        void ShowMixRadioApiError()
         {
             MessageBox.Show("MixRadio API error. Please ensure that the "
                           + "device is connected to Internet and restart "
