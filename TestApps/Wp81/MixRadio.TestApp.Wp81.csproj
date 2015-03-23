@@ -7,8 +7,8 @@
     <ProjectGuid>{C98F5ACA-E439-4B5A-8D02-08C2CC48B004}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.TestApp</RootNamespace>
-    <AssemblyName>Nokia.Music.TestApp.WP81</AssemblyName>
+    <RootNamespace>MixRadio.TestApp</RootNamespace>
+    <AssemblyName>MixRadio.TestApp.WP81</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
@@ -83,13 +83,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\NokiaMusicApi\Nokia.Music.Wp81.csproj">
-      <Project>{278550f2-88a9-4a3b-954e-1877b810066c}</Project>
-      <Name>Nokia.Music.Wp81</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
@@ -143,13 +136,23 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\MixRadio.Extensions.Wp81.csproj">
+      <Project>{654f77a6-a9f0-4009-9521-022b14cc905b}</Project>
+      <Name>MixRadio.Extensions.Wp81</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MixRadioApi\MixRadio.csproj">
+      <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
+      <Name>Nokia.Music.PCL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
-  <Import Project="..\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.projitems" Label="Shared" />
+  <Import Project="..\Shared\MixRadio.TestApp.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

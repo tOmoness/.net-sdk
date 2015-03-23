@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="OAuth2.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="OAuth2.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Nokia.Music.Internal.Authorization
+namespace MixRadio.Internal.Authorization
 {
     /// <summary>
     /// Represents OAuth2 request

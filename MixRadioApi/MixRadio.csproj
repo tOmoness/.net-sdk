@@ -8,8 +8,8 @@
     <ProjectGuid>{C2925B4D-2347-473B-908F-5CC79BC717A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.PCL</RootNamespace>
-    <AssemblyName>Nokia.Music.PCL</AssemblyName>
+    <RootNamespace>MixRadio</RootNamespace>
+    <AssemblyName>MixRadio</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -26,7 +26,7 @@
     <DefineConstants>TRACE;DEBUG;PORTABLE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Nokia.Music.PCL.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\MixRadio.xml</DocumentationFile>
     <NoWarn>1685</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,7 +36,7 @@
     <DefineConstants>TRACE;PORTABLE;SUPPORTS_OAUTH;SUPPORTS_USER_OAUTH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Nokia.Music.PCL.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\MixRadio.xml</DocumentationFile>
     <NoWarn>1685</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -76,7 +76,7 @@
     <Compile Include="Exceptions\InvalidCountryCodeException.cs" />
     <Compile Include="Exceptions\NetworkLimitedException.cs" />
     <Compile Include="Exceptions\NetworkUnavailableException.cs" />
-    <Compile Include="Exceptions\NokiaMusicException.cs" />
+    <Compile Include="Exceptions\MixRadioException.cs" />
     <Compile Include="Exceptions\SendFailureException.cs" />
     <Compile Include="Exceptions\UserAuthRequiredException.cs" />
     <Compile Include="ICountryResolver.cs" />

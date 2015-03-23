@@ -1,10 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="App.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -17,12 +13,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using MixRadio.AuthHelpers;
-using Nokia.Music;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// The Application class
@@ -89,14 +84,6 @@ namespace Nokia.Music.TestApp
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
-
-        /// <summary>
-        /// Gets the authentication helper.
-        /// </summary>
-        /// <value>
-        /// The authentication helper.
-        /// </value>
-        internal static AuthHelper AuthHelper { get; private set; }
 
         /// <summary>
         /// Gets the country code from application settings.
@@ -214,12 +201,10 @@ namespace Nokia.Music.TestApp
             if (!string.IsNullOrEmpty(countryCode))
             {
                 ApiClient = new MusicClient(ApiKeys.ClientId, countryCode);
-                AuthHelper = new AuthHelper(ApiClient);
             }
             else
             {
                 ApiClient = null;
-                AuthHelper = null;
             }
         }
 
@@ -279,7 +264,7 @@ namespace Nokia.Music.TestApp
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // NokiaMusicException's give an error message...
-            if (e.ExceptionObject as NokiaMusicException != null)
+            if (e.ExceptionObject as MixRadioException != null)
             {
                 MessageBox.Show(e.ExceptionObject.Message);
                 e.Handled = true;

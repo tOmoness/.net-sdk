@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InvalidApiCredentialsException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="InvalidApiCredentialsException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when invalid API credentials have been supplied
     /// </summary>
-    public class InvalidApiCredentialsException : NokiaMusicException
+    public class InvalidApiCredentialsException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidApiCredentialsException" /> class.

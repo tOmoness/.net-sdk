@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="ScopeExtensions.cs" company="NOKIA">
-// Copyright (c) 2014, Nokia
+// <copyright file="ScopeExtensions.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Helper method(s) for Scope type

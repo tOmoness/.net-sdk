@@ -1,17 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ShowListPage.xaml.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ShowListPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Types;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// A page that displays a collection of item previews.  In the Split Application this page

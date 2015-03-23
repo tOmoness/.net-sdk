@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LocationExtensions.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="LocationExtensions.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Device.Location;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Helper method(s) for Location type

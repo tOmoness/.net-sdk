@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Response{T}.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Response{T}.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Net;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Contains the result or the error if an error occurred.

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetAuthTokenCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="GetAuthTokenCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,10 +11,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MixRadio.Internal.Authorization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Authorization;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Gets a bearer token from the API

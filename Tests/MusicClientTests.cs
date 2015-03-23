@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MusicClientTests.cs" company="NOKIA">
-// Copyright (c) 2013, Nokia
+// <copyright file="MusicClientTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,16 +9,17 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Internal;
+using MixRadio.Internal.Request;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     [TestFixture]
     public class MusicClientTests

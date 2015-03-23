@@ -1,17 +1,17 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TokenResponse.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="TokenResponse.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Linq;
+using MixRadio.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Internal.Authorization
+namespace MixRadio.Internal.Authorization
 {
     /// <summary>
     /// Represents an Access Token Response

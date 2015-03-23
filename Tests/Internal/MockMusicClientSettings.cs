@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MockMusicClientSettings.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MockMusicClientSettings.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
+using MixRadio.Commands;
+using MixRadio.Internal;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     internal class MockMusicClientSettings : IMusicClientSettings
     {

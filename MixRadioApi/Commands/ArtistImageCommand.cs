@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistImageCommand.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="ArtistImageCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Nokia.Music.Internal.Response;
+using MixRadio.Internal.Response;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Artist Image command

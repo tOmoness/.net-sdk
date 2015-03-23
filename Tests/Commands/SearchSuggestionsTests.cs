@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SearchSuggestionsTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchSuggestionsTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,11 +9,12 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Properties;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Properties;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class SearchSuggestionsTests

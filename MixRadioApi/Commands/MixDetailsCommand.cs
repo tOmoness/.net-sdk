@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MixDetailsCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MixDetailsCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     internal sealed class MixDetailsCommand : JsonMusicClientCommand<Response<Mix>>
     {

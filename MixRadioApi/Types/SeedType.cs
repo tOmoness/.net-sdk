@@ -1,11 +1,11 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SeedType.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SeedType.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// The type of Mix Seed

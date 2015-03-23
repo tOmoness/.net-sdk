@@ -1,18 +1,19 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ResponseTests.cs" company="NOKIA">
-// Copyright (c) 2013, Nokia
+// <copyright file="ResponseTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Commands;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Commands;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     [TestFixture]
     public class ResponseTests
@@ -143,7 +144,7 @@ namespace Nokia.Music.Tests
             Assert.IsNull(response.StatusCode, "Expected no status code");
             Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
             Assert.IsNotNull(response.Error, "Expected an exception");
-            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsInstanceOf<MixRadioException>(response.Error, "Expected a MixRadioException");
             Assert.IsFalse(response.Succeeded, "Expected failure");
         }
 
@@ -157,7 +158,7 @@ namespace Nokia.Music.Tests
             Assert.IsNull(response.StatusCode, "Expected no status code");
             Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
             Assert.IsNotNull(response.Error, "Expected an exception");
-            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsInstanceOf<MixRadioException>(response.Error, "Expected a MixRadioException");
             Assert.IsFalse(response.Succeeded, "Expected failure");
             Assert.IsNull(response.Result, "Expected no result");
         }
@@ -172,16 +173,16 @@ namespace Nokia.Music.Tests
             Assert.IsNull(response.StatusCode, "Expected no status code");
             Assert.AreEqual(response.ErrorResponseBody, "ThisIsTheResponseBody");
             Assert.IsNotNull(response.Error, "Expected an exception");
-            Assert.IsInstanceOf<NokiaMusicException>(response.Error, "Expected a NokiaMusicException");
+            Assert.IsInstanceOf<MixRadioException>(response.Error, "Expected a MixRadioException");
             Assert.IsFalse(response.Succeeded, "Expected failure");
             Assert.IsNull(response.Result, "Expected no result");
         }
 
         [Test]
-        public void ValidateToErrorResponseWithNokiaMusicException()
+        public void ValidateToErrorResponseWithMixRadioException()
         {
             var command = new MockMusicClientCommand();
-            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            Response r = new Response(null, new MixRadioException(null), "ThisIsTheResponseBody", new Guid());
             Response response = command.ErrorResponseHandler(r);
             Assert.IsNotNull(response, "Expected a new Response");
             Assert.IsNull(response.StatusCode, "Expected no status code");
@@ -192,10 +193,10 @@ namespace Nokia.Music.Tests
         }
 
         [Test]
-        public void ValidateToErrorResponseOfWithNokiaMusicException()
+        public void ValidateToErrorResponseOfWithMixRadioException()
         {
             var command = new MockMusicClientCommand();
-            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            Response r = new Response(null, new MixRadioException(null), "ThisIsTheResponseBody", new Guid());
             Response<object> response = command.ItemErrorResponseHandler<object>(r);
             Assert.IsNotNull(response, "Expected a new Response");
             Assert.IsNull(response.StatusCode, "Expected no status code");
@@ -207,10 +208,10 @@ namespace Nokia.Music.Tests
         }
 
         [Test]
-        public void ValidateToListErrorResponseOfWithNokiaMusicException()
+        public void ValidateToListErrorResponseOfWithMixRadioException()
         {
             var command = new MockMusicClientCommand();
-            Response r = new Response(null, new NokiaMusicException(null), "ThisIsTheResponseBody", new Guid());
+            Response r = new Response(null, new MixRadioException(null), "ThisIsTheResponseBody", new Guid());
             ListResponse<object> response = command.ListItemErrorResponseHandler<object>(r);
             Assert.IsNotNull(response, "Expected a new Response");
             Assert.IsNull(response.StatusCode, "Expected no status code");

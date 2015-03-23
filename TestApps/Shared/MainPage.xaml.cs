@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MainPage.xaml.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MainPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,15 +8,16 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 using Windows.Security.Authentication.Web;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
@@ -81,11 +82,11 @@ namespace Nokia.Music.TestApp
             if (App.ApiClient != null)
             {
                 userLoggedIn = App.ApiClient.IsUserAuthenticated;
-                if (!userLoggedIn && await App.AuthHelper.IsUserTokenCached())
+                if (!userLoggedIn && await App.ApiClient.IsUserTokenCached())
                 {
                     try
                     {
-                        await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret);
+                        await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret);
                         userLoggedIn = App.ApiClient != null && App.ApiClient.IsUserAuthenticated;
                     }
                     catch
@@ -106,7 +107,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-                var result = await App.AuthHelper.CompleteAuthenticateUserAsync(ApiKeys.ClientSecret, webAuthenticationResult);
+                var result = await App.ApiClient.CompleteAuthenticateUserAsync(ApiKeys.ClientSecret, webAuthenticationResult);
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();
@@ -164,9 +165,7 @@ namespace Nokia.Music.TestApp
         /// <param name="e">Event arguments</param>
         private async void PlayMixTask(object sender, RoutedEventArgs e)
         {
-            PlayMixTask task = new PlayMixTask();
-            task.ArtistName = "Coldplay";
-            await task.Show();
+            await new Artist { Name = "Coldplay" }.PlayMix();
         }
 
         /// <summary>
@@ -312,7 +311,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-                var result = await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, ApiKeys.OAuthRedirectUri);
+                var result = await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, ApiKeys.OAuthRedirectUri);
                 if (result != AuthResultCode.Success && result != AuthResultCode.InProgress)
                 {
                     message = "User auth failed: " + result.ToString();

@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Price.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Price.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a MixRadio Price

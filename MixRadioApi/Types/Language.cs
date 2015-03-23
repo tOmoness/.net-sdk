@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Language.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="Language.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
+using MixRadio.Internal;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a MixRadio Language

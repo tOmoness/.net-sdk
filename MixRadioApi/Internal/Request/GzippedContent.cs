@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GzippedContent.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="GzippedContent.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -12,7 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Nokia.Music.Internal.Request
+namespace MixRadio.Internal.Request
 {
     /// <summary>
     /// Provides GZip sending of data

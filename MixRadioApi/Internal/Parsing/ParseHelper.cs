@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ParseHelper.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ParseHelper.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,7 +10,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Internal.Parsing
+namespace MixRadio.Internal.Parsing
 {
     internal static class ParseHelper
     {

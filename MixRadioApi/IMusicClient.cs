@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IMusicClient.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="IMusicClient.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,15 +8,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-#if WINDOWS_PHONE
-using Microsoft.Phone.Controls;
-#endif
-using Nokia.Music.Types;
-#if WINDOWS_PHONE_APP
-using Windows.Security.Authentication.Web;
-#endif
+using MixRadio.Types;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Defines the MixRadio API
@@ -76,17 +70,6 @@ namespace Nokia.Music
         Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Gets the top artists for a genre
-        /// </summary>
-        /// <param name="genre">The genre to get results for.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Artists or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
         /// Gets an artist by id
         /// </summary>
         /// <param name="id">The artist id.</param>
@@ -105,17 +88,6 @@ namespace Nokia.Music
         Task<ListResponse<Artist>> GetSimilarArtistsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Gets similar artists for an artist.
-        /// </summary>
-        /// <param name="artist">The artist.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Artists or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
         /// Gets products by an artist.
         /// </summary>
         /// <param name="id">The artist id.</param>
@@ -127,20 +99,6 @@ namespace Nokia.Music
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing Products or an Error</returns>
         Task<ListResponse<Product>> GetArtistProductsAsync(string id, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// Gets products by an artist.
-        /// </summary>
-        /// <param name="artist">The artist.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="orderBy">The field to sort the items by.</param>
-        /// <param name="sortOrder">The sort order of the items.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Products or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Gets a product by id
@@ -178,17 +136,6 @@ namespace Nokia.Music
         Task<ListResponse<Product>> GetSimilarProductsAsync(string id, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Gets similar products for the supplied product.
-        /// </summary>
-        /// <param name="product">The product.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Products or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
         /// Gets a chart
         /// </summary>
         /// <param name="category">The category - only Album and Track charts are available.</param>
@@ -212,20 +159,6 @@ namespace Nokia.Music
         Task<ListResponse<Product>> GetTopProductsForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Gets a chart
-        /// </summary>
-        /// <param name="genre">The genre.</param>
-        /// <param name="category">The category - only Album and Track charts are available.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Products or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
         /// Gets a list of new releases
         /// </summary>
         /// <param name="category">The category - only Album and Track lists are available.</param>
@@ -247,20 +180,6 @@ namespace Nokia.Music
         /// A ListResponse containing Products or an Error
         /// </returns>
         Task<ListResponse<Product>> GetNewReleasesForGenreAsync(string id, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// Gets a list of new releases
-        /// </summary>
-        /// <param name="genre">The genre.</param>
-        /// <param name="category">The category - only Album and Track lists are available.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Products or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Gets the available genres
@@ -366,107 +285,12 @@ namespace Nokia.Music
         Task<ListResponse<Mix>> GetMixesAsync(string id, string exclusiveTag, bool showFeaturedArtists = false, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Gets the Mixes available in a group
-        /// </summary>
-        /// <param name="group">The mix group.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Mixes or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, CancellationToken? cancellationToken = null);
-        
-        /// <summary>
-        /// Gets the Mixes available in a group
-        /// </summary>
-        /// <param name="group">The mix group.</param>
-        /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Mixes or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag, CancellationToken? cancellationToken = null);
-
-        /// <summary>
         /// Gets all languages
         /// </summary>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A ListResponse containing the available languages</returns>
         Task<ListResponse<Language>> GetLanguagesAsync(CancellationToken? cancellationToken = null);
 
-#if SUPPORTS_USER_OAUTH
-#if WINDOWS_PHONE
-        /// <summary>
-        /// Authenticates a user to enable the user data APIs.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="scopes">The scopes requested.</param>
-        /// <param name="browser">The browser control to use to drive authentication.</param>
-        /// <param name="cancellationToken">The optional cancellation token.</param>
-        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri);
-
-#endif
-#if NETFX_CORE
-        /// <summary>
-        /// Authenticates a user to enable the user data APIs.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="scopes">The scopes requested.</param>
-        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri, CancellationToken? cancellationToken = null);
-
-#endif
-#if (WINDOWS_PHONE || NETFX_CORE)
-        /// <summary>
-        /// Attempts to authenticate a user to enable the user data APIs using a cached access token.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        /// <remarks>This overload of AuthenticateUserAsync can only be used once the user has gone through the OAuth flow and given permission to access their data</remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, CancellationToken? cancellationToken = null);
-
-#endif
-#if WINDOWS_PHONE_APP
-        /// <summary>
-        /// Completes the authenticate user call.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="result">The result received through LaunchActivatedEventArgs.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        /// <remarks>
-        /// This method is for Windows Phone 8.1 use
-        /// </remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task<AuthResultCode> CompleteAuthenticateUserAsync(string clientSecret, WebAuthenticationResult result, CancellationToken? cancellationToken = null);
-
-#endif
-#if (WINDOWS_PHONE || NETFX_CORE)
-        /// <summary>
-        /// Deletes any cached authentication token.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>An async task</returns>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        Task DeleteAuthenticationTokenAsync(CancellationToken? cancellationToken = null);
-
-#endif
-#endif
         /// <summary>
         /// Gets an authentication URI for a given scope
         /// </summary>

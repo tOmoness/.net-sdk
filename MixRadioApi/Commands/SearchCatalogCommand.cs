@@ -1,15 +1,15 @@
 // -----------------------------------------------------------------------
-// <copyright file="SearchCatalogCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchCatalogCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Searches the MixRadio Catalog

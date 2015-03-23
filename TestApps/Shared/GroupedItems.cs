@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GroupedItems.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="GroupedItems.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.ObjectModel;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// Represents grouped items

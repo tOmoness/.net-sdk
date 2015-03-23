@@ -1,10 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LibraryRecommendations.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="LibraryRecommendations.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -18,12 +14,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Nokia.Music;
-using Nokia.Music.Commands;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Types;
 using Xna = Microsoft.Xna.Framework.Media;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// The Library Recommendations Page

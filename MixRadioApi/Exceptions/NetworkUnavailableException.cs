@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="NetworkUnavailableException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="NetworkUnavailableException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when attempting to call the API without a working network.
     /// </summary>
-    public class NetworkUnavailableException : NokiaMusicException
+    public class NetworkUnavailableException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkUnavailableException"/> class.

@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IAuthHeaderDataProvider.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="IAuthHeaderDataProvider.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Threading.Tasks;
 
-namespace Nokia.Music.Internal.Authorization
+namespace MixRadio.Internal.Authorization
 {
     /// <summary>
     /// Allows a client to specify settings required to build an OAuth2 request

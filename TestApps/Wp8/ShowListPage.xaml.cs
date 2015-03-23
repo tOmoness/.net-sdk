@@ -1,10 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ShowListPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="ShowListPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -14,11 +10,11 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
-using Nokia.Music;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// The List Page
@@ -183,7 +179,7 @@ namespace Nokia.Music.TestApp
                 }
                 else if (response.Error != null)
                 {
-                    await App.AuthHelper.DeleteAuthenticationTokenAsync();
+                    await App.ApiClient.DeleteAuthenticationTokenAsync();
                     MessageBox.Show(response.Error.Message);
                     this.LeavePage();
                 }

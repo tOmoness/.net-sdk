@@ -1,17 +1,17 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TokenResponseTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="TokenResponseTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
+using MixRadio.Internal.Authorization;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Authorization;
-using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     [TestFixture]
     public class TokenResponseTests

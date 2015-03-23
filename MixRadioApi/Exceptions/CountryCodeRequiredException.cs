@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CountryCodeRequiredException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="CountryCodeRequiredException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when no country has been supplied
     /// </summary>
-    public class CountryCodeRequiredException : NokiaMusicException
+    public class CountryCodeRequiredException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CountryCodeRequiredException" /> class.

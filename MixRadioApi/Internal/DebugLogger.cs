@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="DebugLogger.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="DebugLogger.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Internal
+namespace MixRadio.Internal
 {
 #if VERBOSE_LOGGING
     public
@@ -36,7 +36,7 @@ namespace Nokia.Music.Internal
 
         public virtual void WriteLog(string message, params object[] args)
         {
-            Debug.WriteLine(string.Format("NokiaMusicApi | {0}", message), args);
+            Debug.WriteLine(string.Format("MixRadioApi | {0}", message), args);
         }
 
         public virtual void WriteException(Exception ex, params KeyValuePair<string, string>[] otherInfoItems)

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 #endif
 
-namespace MixRadio.AuthHelpers
+namespace MixRadio
 {
     /// <summary>
     /// StorageHelper is a high-level isolated storage abstraction

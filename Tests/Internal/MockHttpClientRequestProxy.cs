@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MockHttpClientRequestProxy.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="MockHttpClientRequestProxy.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,9 +10,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Nokia.Music.Internal.Request;
+using MixRadio.Internal.Request;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     public class MockHttpClientRequestProxy : IHttpClientRequestProxy
     {

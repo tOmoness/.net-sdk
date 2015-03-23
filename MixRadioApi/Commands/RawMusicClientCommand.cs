@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
-// <copyright file="RawMusicClientCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="RawMusicClientCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Defines the Music Client Raw Command base class

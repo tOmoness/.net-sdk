@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="MusicClientCommand{TIntermediate,TResult}.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MusicClientCommand{TIntermediate,TResult}.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,11 +11,11 @@ using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using MixRadio.Internal;
+using MixRadio.Internal.Parsing;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Parsing;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Defines the Music Client Command base class
@@ -182,7 +182,7 @@ namespace Nokia.Music.Commands
         /// <returns>A Response.</returns>
         internal Response ErrorResponseHandler(Response rawResult)
         {
-            if (rawResult.Error is NokiaMusicException)
+            if (rawResult.Error is MixRadioException)
             {
                 return new Response(rawResult.StatusCode, rawResult.Error, rawResult.ErrorResponseBody, rawResult.RequestId, rawResult.FoundMixRadioHeader);
             }
@@ -203,7 +203,7 @@ namespace Nokia.Music.Commands
         /// <returns>A Response.</returns>
         internal Response<T> ItemErrorResponseHandler<T>(Response rawResult)
         {
-            if (rawResult.Error is NokiaMusicException)
+            if (rawResult.Error is MixRadioException)
             {
                 return new Response<T>(rawResult.StatusCode, rawResult.Error, rawResult.ErrorResponseBody, rawResult.RequestId, rawResult.FoundMixRadioHeader);
             }
@@ -224,7 +224,7 @@ namespace Nokia.Music.Commands
         /// <returns>A Response.</returns>
         internal ListResponse<T> ListItemErrorResponseHandler<T>(Response rawResult)
         {
-            if (rawResult.Error is NokiaMusicException)
+            if (rawResult.Error is MixRadioException)
             {
                 return new ListResponse<T>(rawResult.StatusCode, rawResult.Error, rawResult.ErrorResponseBody, rawResult.RequestId, rawResult.FoundMixRadioHeader);
             }

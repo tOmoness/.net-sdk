@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Seed.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="Seed.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a mix data-seed

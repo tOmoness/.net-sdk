@@ -1,14 +1,14 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LanguagesCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="LanguagesCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     internal sealed class LanguagesCommand : JsonMusicClientCommand<ListResponse<Language>>
     {

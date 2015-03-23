@@ -1,14 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockMusicClientCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MockMusicClientCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Internal;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Internal;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     internal class MockMusicClientCommand : RawMusicClientCommand<Response<string>>
     {

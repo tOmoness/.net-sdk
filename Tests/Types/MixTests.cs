@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MixTests.cs" company="NOKIA">
-// Copyright (c) 2013, Nokia
+// <copyright file="MixTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,12 +8,12 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Types
+namespace MixRadio.Tests.Types
 {
     /// <summary>
     /// Mix tests
@@ -128,28 +128,19 @@ namespace Nokia.Music.Tests.Types
         }
 
         [Test]
-#pragma warning disable 1998  // Disable async warnings for test code
-        public async Task TestSeedCollectionScenarios()
+        public void TestSeedCollectionScenarios()
         {
-            var settings = new Nokia.Music.Tests.Internal.MockMusicClientSettings("clientid", "gb", "en");
+            var settings = new MixRadio.Tests.Internal.MockMusicClientSettings("clientid", "gb", "en");
 
             JObject recentMixes = JObject.Parse(Encoding.UTF8.GetString(Resources.user_recent_mixes));
 
             foreach (JToken mixJson in recentMixes.Value<JArray>("items"))
             {
                 var mix = Mix.FromJToken(mixJson, settings);
-#if !PORTABLE
-                try
-                {
-                    await mix.Play();
-                }
-                catch
-                {
-                    // on non-WP - including NUnit, PlayMeTask is not supported yet so we ignore the exception
-                }
-#endif
+
+                // Exercise the ID property...
+                var id = mix.Id;
             }
         }
-#pragma warning restore 1998
     }
 }

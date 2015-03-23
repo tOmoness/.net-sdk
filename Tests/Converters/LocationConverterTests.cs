@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LocationConverterTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="LocationConverterTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Device.Location;
-using Nokia.Music.Converters;
-using Nokia.Music.Types;
+using MixRadio.Converters;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     [TestFixture]
     public class LocationConverterTests

@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
-// <copyright file="ApiKeys.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiKeys.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// Class to hold the developer API keys

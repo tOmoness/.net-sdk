@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LocalFileUriBuilder.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="LocalFileUriBuilder.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Request;
+using MixRadio.Commands;
+using MixRadio.Internal;
+using MixRadio.Internal.Request;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     /// <summary>
     /// Local file URI builder for testing <c ref="ApiRequestHandler" />

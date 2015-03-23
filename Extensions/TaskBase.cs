@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TaskBase.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="TaskBase.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,9 +13,8 @@ using System.Threading.Tasks;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Tasks;
 #endif
-using Nokia.Music.Internal;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Base class for MixRadio Tasks
@@ -55,7 +54,7 @@ namespace Nokia.Music.Tasks
         {
 #if WINDOWS_PHONE || NETFX_CORE
 #if WINDOWS_PHONE
-            bool canLaunch = string.Equals(DeviceStatus.DeviceManufacturer, "NOKIA", StringComparison.OrdinalIgnoreCase);
+            bool canLaunch = string.Equals(DeviceStatus.DeviceManufacturer, "Nokia", StringComparison.OrdinalIgnoreCase) || string.Equals(DeviceStatus.DeviceManufacturer, "Microsoft", StringComparison.OrdinalIgnoreCase);
 #else
             bool canLaunch = true;
 #endif
@@ -74,14 +73,12 @@ namespace Nokia.Music.Tasks
                     }
                 }
 
-                DebugLogger.Instance.WriteLog("Launching MixRadio App with " + appToAppUri.ToString());
                 await Windows.System.Launcher.LaunchUriAsync(appToAppUri);
                 return;
             }
 #endif
 #if WINDOWS_PHONE
             WebBrowserTask web = new WebBrowserTask();
-            DebugLogger.Instance.WriteLog("Launching MixRadio Web with " + webFallbackUri.ToString());
             web.Uri = webFallbackUri;
             web.Show();
 #endif

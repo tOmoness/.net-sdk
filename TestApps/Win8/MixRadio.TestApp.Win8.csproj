@@ -7,8 +7,8 @@
     <ProjectGuid>{D31E7A39-4C29-4344-B95F-96232913D1F4}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.TestApp</RootNamespace>
-    <AssemblyName>Nokia.Music.TestApp.Win8</AssemblyName>
+    <RootNamespace>MixRadio.TestApp</RootNamespace>
+    <AssemblyName>MixRadio.TestApp.Win8</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -154,12 +154,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NokiaMusicApi\Nokia.Music.Win8.csproj">
-      <Project>{f3bb90f4-9186-40e9-b068-0c69d5098f3c}</Project>
-      <Name>Nokia.Music.Win8</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
@@ -173,7 +167,17 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <Import Project="..\NokiaMusicApiTestAppShared\Nokia.Music.TestApp.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\MixRadio.Extensions.Win8.csproj">
+      <Project>{8da9da61-81a5-44ed-b7e0-941f858d39cd}</Project>
+      <Name>MixRadio.Extensions.Win8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MixRadioApi\MixRadio.csproj">
+      <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
+      <Name>Nokia.Music.PCL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\Shared\MixRadio.TestApp.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

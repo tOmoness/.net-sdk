@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TestHttpUriBuilder.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="TestHttpUriBuilder.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,11 +8,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Request;
+using MixRadio.Commands;
+using MixRadio.Internal;
+using MixRadio.Internal.Request;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     /// <summary>
     /// Bad HTTP URI builder for testing ApiRequestHandler

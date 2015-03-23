@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistImageByIdCommand.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="ArtistImageByIdCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MixTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MixTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,13 +10,14 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class MixTests
@@ -64,23 +65,10 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetMixesThrowsExceptionForNullGroup()
-        {
-            MixGroup nullGroup = null;
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetMixesAsync(nullGroup);
-#pragma warning restore 0618
-        }
-
-        [Test]
         public async Task EnsureGetMixesReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.mixes));
-#pragma warning disable 0618  // Disable this for tests
-            ListResponse<Mix> result = await client.GetMixesAsync(new MixGroup() { Id = "test" });
-#pragma warning restore 0618
+            ListResponse<Mix> result = await client.GetMixesAsync("test");
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");
@@ -129,9 +117,7 @@ namespace Nokia.Music.Tests.Commands
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
             Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag1)));
 
-#pragma warning disable 0618  // Disable this for tests
-            task = client.GetMixesAsync(new MixGroup() { Id = "testId" }, exclusiveTag2);
-#pragma warning restore 0618
+            task = client.GetMixesAsync("testId", exclusiveTag2);
             Assert.Greater(task.Result.Result.Count, 0, "Expected more than 0 results");
             Assert.IsTrue(handler.LastQueryString.Contains(new KeyValuePair<string, string>(MusicClientCommand.ParamExclusive, exclusiveTag2)));
         }

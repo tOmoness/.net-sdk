@@ -6,7 +6,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents the action that the UserEvent relates to

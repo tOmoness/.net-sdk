@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CountryResolver.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="CountryResolver.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,10 +8,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal.Request;
+using MixRadio.Commands;
+using MixRadio.Internal.Request;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// The CountryResolver validates a country has availability for the MixRadio API

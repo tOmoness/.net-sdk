@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MusicSearchTask.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MusicSearchTask.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Threading.Tasks;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Provides a simple way to show MixRadio Search Results
@@ -50,10 +50,9 @@ namespace Nokia.Music.Tasks
 #else
                 var appUri = new Uri("mixradio://search/anything/" + this._searchTerms);
 #endif
-                // Fall back to artist mix
-                await this.Launch(
-                    appUri,
-                    new Uri(string.Format(Artist.WebPlayUriByName, this._searchTerms.Replace("&", string.Empty)))).ConfigureAwait(false);
+                // Fall back to artist mix on web
+                var artist = new Artist { Name = this._searchTerms.Replace("&", string.Empty) };
+                await this.Launch(appUri, artist.WebUri).ConfigureAwait(false);
             }
             else
             {

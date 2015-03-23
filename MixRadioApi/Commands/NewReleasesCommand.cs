@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="NewReleasesCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="NewReleasesCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,11 +10,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MixRadio.Internal.Response;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Response;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Gets a list of new releases

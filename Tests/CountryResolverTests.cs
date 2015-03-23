@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CountryResolverTests.cs" company="NOKIA">
-// Copyright (c) 2013, Nokia
+// <copyright file="CountryResolverTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,14 +9,15 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Internal.Request;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     [TestFixture]
     public class CountryResolverTests

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SearchArtistsTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchArtistsTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,12 +8,13 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class SearchArtistsTests
@@ -158,23 +159,10 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetTopArtistsForGenreThrowsExceptionForNullGenre()
-        {
-            Genre nullGenre = null;
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetTopArtistsForGenreAsync(nullGenre);
-#pragma warning restore 0618
-        }
-
-        [Test]
         public async Task EnsureGetTopArtistsForGenreReturnsArtists()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.top_artists_genre));
-#pragma warning disable 0618  // Disable this for tests
-            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync(new Genre() { Id = "rock" });
-#pragma warning restore 0618
+            ListResponse<Artist> result = await client.GetTopArtistsForGenreAsync("rock");
             Assert.IsNotNull(result, "Expected a result");
             Assert.IsNotNull(result.StatusCode, "Expected a status code");
             Assert.IsTrue(result.StatusCode.HasValue, "Expected a status code");

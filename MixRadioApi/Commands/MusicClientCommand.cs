@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="MusicClientCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MusicClientCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,15 +10,15 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
+using MixRadio.Internal;
 #if SUPPORTS_OAUTH || UNIT_TESTS
-using Nokia.Music.Internal.Authorization;
+using MixRadio.Internal.Authorization;
 #endif
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Internal.Response;
+using MixRadio.Internal.Request;
+using MixRadio.Internal.Response;
+using Newtonsoft.Json.Linq;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Defines the Music Client Command base class

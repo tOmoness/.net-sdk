@@ -1,18 +1,18 @@
 // -----------------------------------------------------------------------
-// <copyright file="SearchCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
+using MixRadio.Internal;
+using MixRadio.Internal.Parsing;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Parsing;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Searches the MixRadio Catalog

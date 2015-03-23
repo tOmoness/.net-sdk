@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="FakeResponse.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="FakeResponse.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,10 +8,11 @@
 using System;
 using System.Net;
 using System.Text;
+using MixRadio;
+using MixRadio.Internal.Response;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Response;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     internal class FakeResponse
     {

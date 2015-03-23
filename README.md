@@ -5,7 +5,7 @@ This codebase contains the **MixRadio .Net SDK**.
 [![Build status](https://ci.appveyor.com/api/projects/status/cfdh2bc1cursyab9)](https://ci.appveyor.com/project/srgb/wp-api-client)
 
 #Overview
-The **MixRadio .Net SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [MixRadio on Lumia phones](http://nokia.ly/musicapp), your Windows 8 app with [MixRadio on Windows 8](http://nokia.ly/musicappwin8) or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment - for example using [Xamarin](http://www.xamarin.com/) to target the [Nokia X device family](http://www.nokia.com/global/products/nokia-x/).
+The **MixRadio .Net SDK** (formally the Nokia Music SDK) lets you easily integrate your Windows Phone app with [MixRadio on Lumia phones](http://www.mixradiomusic.com/), your Windows 8 app with MixRadio on Windows 8 or get data into any [Portable class libraries (PCL)](http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.110).aspx) environment such as [Xamarin](http://xamarin.com/).
 
 The SDK lets you perform searches, get charts and recommendations and user data such as play history within your app. You can link through to the MixRadio apps to give your users a full listening experience.
 
@@ -15,20 +15,21 @@ You need two things to start using the SDK:
 1. **The SDK itself**
  - Install the NokiaMusic package with [NuGet](https://nuget.org/packages/NokiaMusic) or the [Package Manager Visual Studio console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console): <br/>
  ![Package Manager](http://dev.mixrad.io/assets/nuget-package-install.png)
- - or download the latest source from [GitHub](http://nokia.ly/wpmusicapi).
+ - or download the latest source from [GitHub](https://github.com/mixradio/.net-sdk/).
 2. **Credentials** Visit our [API Registration page](https://account.mixrad.io/developer) and request your credentials.
 
 ##Quick Start
-Impatient to get going? Head over to the [Quick Start guide](http://developer.nokia.com/resources/library/Lumia/nokia-mixradio-api/quick-start.html).
+Impatient to get going? Head over to the [Quick Start guide](http://dev.mixrad.io/doc/netsdk/quickstart.html).
 
 ##Source License
-The **MixRadio C# SDK** source code is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/mixradio/wp-api-client/master/LICENSE.txt>.
+The **MixRadio C# SDK** source code is released under the 3-clause license ("New BSD License" or "Modified BSD License") - see <https://raw.github.com/mixradio/.net-sdk/master/LICENSE.txt>.
 
 ## Terms
 Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.html>
 
 ##Releases
 
+- 4.0.0 - Namespace changed to MixRadio (from Nokia.Music). This is a breaking change that will affect your existing apps, but we stopped working for Nokia a year ago! See http://dev.mixrad.io/doc/netsdk/migratingtopcl.html for the simple changes to make to move to this version. We've also changed the way we do platform-specifc code to be extensions to the main assembly. This makes for a neater codebase and less #ifdef's!
 - 3.6.1 - Patch to Windows Phone 8.0 AuthenticateUserAsync to take a oauthRedirectUri to make sure the OAuth2 flow ends at the correct point.
 - 3.6.0 - Added full user authentication methods for PCL clients:GetAuthenticationUri / GetAuthenticationTokenAsync / RefreshAuthenticationTokenAsync. Going forward, these will be the main methods for authentication working cross-platform with AuthenticateUserAsync / CompleteAuthenticateUserAsync / DeleteAuthenticationTokenAsync now marked as obsolete.
 - 3.5.0 - Added user methods to PCL library to allow usage from Xamarin projects.
@@ -55,6 +56,8 @@ Usage of the SDK is subject to the following terms: <http://dev.mixrad.io/terms.
 - 1.0.3 - Added Search Suggestions for artists and products
 - 1.0.2 - Initial Release
 
+## Documentation
+The documentation for this component is at <http://dev.mixrad.io/doc/netsdk>
 
 ## Launcher Tasks
 The [launcher APIs in Windows Phone](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff769550.aspx) allow an application to integrate with common operating system tasks such as taking a picture, finding an address or a contact, making a call, or saving a ring tone with very little effort. 
@@ -88,9 +91,6 @@ With version 3 and above, you can access user data (provided the user authorises
 - Read the user's top artists
 - Read the user's recent mixes
 
-## Documentation
-The documentation for this component is at <http://dev.mixrad.io/doc/netsdk>
-
 ## Dependencies
 We're proud to build on the shoulders of the following giants...
 
@@ -122,4 +122,3 @@ The team will then review the changes, discuss if anything needs to be addressed
 
 ##Feedback
 If you have a suggestion, you can tell us about it on our [MixRadio API UserVoice](https://mixradio.uservoice.com/forums/233741-api)
-

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Mix.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Mix.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,27 +9,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-#if !PORTABLE
-using System.Threading.Tasks;
-#endif
+using MixRadio.Internal;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
-#if !PORTABLE
-using Nokia.Music.Tasks;
-#endif
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a Mix
     /// </summary>
     public sealed partial class Mix : MusicItem
     {
-#if WINDOWS_APP
-        internal const string AppToAppPlayUri = "nokia-music://play/mix/?id={0}";
-#else
         internal const string AppToAppPlayUri = "mixradio://play/mix/{0}";
-#endif
         internal const string WebPlayUri = "http://www.mixrad.io/mixes/{0}";
 
         /// <summary>
@@ -175,44 +165,6 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
-#if !PORTABLE
-        /// <summary>
-        /// Launches MixRadio to start playback of the mix using the PlayMixTask
-        /// </summary>
-        /// <returns>An async task to await</returns>
-        public async Task Play()
-        {
-            if (!string.IsNullOrEmpty(this.Id))
-            {
-                PlayMixTask task = new PlayMixTask() { MixId = this.Id };
-                await task.Show().ConfigureAwait(false);
-                return;
-            }
-#if WINDOWS_PHONE
-            else if (this.Seeds.Where(s => s.Type == SeedType.UserId).Count() > 0)
-            {
-                await new PlayMeTask().Show().ConfigureAwait(false);
-                return;
-            }
-#endif
-
-            if (this.Seeds != null)
-            {
-                var artistSeeds = this.Seeds.Where(s => (s.Type == SeedType.ArtistId || s.Type == SeedType.ArtistName));
-
-                // for now, just take the first artist name - need to support multiple soon though
-                var name = artistSeeds.Select(s => s.Name).Where(s => !string.IsNullOrEmpty(s)).FirstOrDefault();
-                if (!string.IsNullOrEmpty(name))
-                {
-                    await new PlayMixTask() { ArtistName = name }.Show().ConfigureAwait(false);
-                    return;
-                }
-            }
-
-            throw new InvalidOperationException();
-        }
-
-#endif
         /// <summary>
         /// Creates a Mix from a JSON Object
         /// </summary>

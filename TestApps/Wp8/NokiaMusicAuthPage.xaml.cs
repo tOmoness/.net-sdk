@@ -1,10 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="NokiaMusicAuthPage.xaml.cs" company="Nokia">
-// Copyright © 2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="NokiaMusicAuthPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -14,9 +10,10 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Types;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// The NokiaMusicAuthPage allows user authentication for access to their data
@@ -72,7 +69,7 @@ namespace Nokia.Music.TestApp
             string message = null;
             try
             {
-                var result = await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, this.AuthBrowser, this._authenticateUserCancellationSource.Token);
+                var result = await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret, Scope.ReadUserPlayHistory, this.AuthBrowser, this._authenticateUserCancellationSource.Token);
                 if (result != AuthResultCode.Success)
                 {
                     message = "User auth failed: " + result.ToString();

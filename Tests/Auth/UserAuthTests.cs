@@ -8,13 +8,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Tests.Types;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Tests.Types;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Auth
+namespace MixRadio.Tests.Auth
 {
     /// <summary>
     /// User Auth tests

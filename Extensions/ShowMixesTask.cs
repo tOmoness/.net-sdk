@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ShowMixesTask.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ShowMixesTask.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Provides a simple way to show MixRadio Mixes

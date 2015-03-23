@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetUserTopArtistsCommand.cs" company="Nokia">
+// <copyright file="GetUserTopArtistsCommand.cs" company="MixRadio">
 // Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
@@ -7,10 +7,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Command to get user artist chart for the last week

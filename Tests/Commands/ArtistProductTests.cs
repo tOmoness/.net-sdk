@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistProductTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ArtistProductTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,13 +9,14 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class ArtistProductTests : ProductTestBase
@@ -30,23 +31,10 @@ namespace Nokia.Music.Tests.Commands
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetArtistProductsThrowsExceptionForNullArtist()
-        {
-            Artist nullArtist = null;
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetArtistProductsAsync(nullArtist);
-#pragma warning restore 0618
-        }
-
-        [Test]
         public async Task EnsureGetArtistProductsReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.search_artists));
-#pragma warning disable 0618  // Disable this for tests
-            var t = await client.GetArtistProductsAsync(new Artist() { Id = "test" }, Category.Album);
-#pragma warning restore 0618
+            var t = await client.GetArtistProductsAsync("test", Category.Album);
             this.ValidateProductListResponse(t);
             t = await client.GetArtistProductsAsync("test");
             this.ValidateProductListResponse(t);

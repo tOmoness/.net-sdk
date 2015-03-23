@@ -1,14 +1,14 @@
 // -----------------------------------------------------------------------
-// <copyright file="JsonMusicClientCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="JsonMusicClientCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
+using MixRadio.Internal.Parsing;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Parsing;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Defines the Music Client Json Command base class

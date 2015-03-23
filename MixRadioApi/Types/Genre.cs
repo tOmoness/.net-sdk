@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Genre.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Genre.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,10 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MixRadio.Internal;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a MixRadio Genre

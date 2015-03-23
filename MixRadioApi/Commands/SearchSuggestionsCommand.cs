@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="SearchSuggestionsCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchSuggestionsCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,10 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using MixRadio.Internal;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Gets suggestions for a search term

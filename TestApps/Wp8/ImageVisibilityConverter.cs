@@ -1,19 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ImageVisibilityConverter.cs" company="Nokia">
-// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="ImageVisibilityConverter.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Windows;
 using System.Windows.Data;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// Converts an MusicItem type into whether an image should be shown

@@ -1,14 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ApiCallFailedExceptionTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiCallFailedExceptionTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Net;
+using MixRadio;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Exceptions
+namespace MixRadio.Tests.Exceptions
 {
     [TestFixture]
     public class ApiCallFailedExceptionTests

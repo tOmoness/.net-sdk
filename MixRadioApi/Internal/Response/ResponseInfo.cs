@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ResponseInfo.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ResponseInfo.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nokia.Music.Internal.Response
+namespace MixRadio.Internal.Response
 {
 #if OPEN_INTERNALS
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistImageUriWriter.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="ArtistImageUriWriter.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,7 +9,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace Nokia.Music.Internal
+namespace MixRadio.Internal
 {
     internal class ArtistImageUriWriter
     {

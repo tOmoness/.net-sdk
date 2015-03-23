@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ProductNewReleasesTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ProductNewReleasesTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,14 +9,15 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Internal.Request;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class ProductNewReleasesTests
@@ -72,17 +73,6 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetNewReleasesForGenreThrowsExceptionForNullGenre()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            Genre nullGenre = null;
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
-#pragma warning restore 0618
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task EnsureGetNewReleasesForGenreThrowsExceptionForNullGenreId()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
@@ -94,21 +84,7 @@ namespace Nokia.Music.Tests.Commands
         public async Task EnsureGetNewReleasesForGenreReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-#pragma warning disable 0618  // Disable this for tests
-            this.ValidateNewReleasesResponse(await client.GetNewReleasesForGenreAsync(new Genre() { Id = "rock" }, Category.Album));
-#pragma warning restore 0618
             this.ValidateNewReleasesResponse(await client.GetNewReleasesForGenreAsync("rock", Category.Album));
-        }
-        
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetNewReleasesForGenreAsyncThrowsExceptionForNullGenre()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            Genre nullGenre = null;
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetNewReleasesForGenreAsync(nullGenre, Category.Album);
-#pragma warning restore 0618
         }
 
         [Test]

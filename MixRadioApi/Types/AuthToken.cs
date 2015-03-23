@@ -7,10 +7,10 @@
 
 using System;
 using System.Collections.Generic;
+using MixRadio.Internal.Authorization;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal.Authorization;
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents an Access Token Response

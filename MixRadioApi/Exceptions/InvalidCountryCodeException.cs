@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InvalidCountryCodeException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="InvalidCountryCodeException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when an invalid country code has been supplied
     /// </summary>
-    public class InvalidCountryCodeException : NokiaMusicException
+    public class InvalidCountryCodeException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidCountryCodeException" /> class.

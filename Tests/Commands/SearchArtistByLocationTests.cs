@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SearchArtistByLocationTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="SearchArtistByLocationTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,11 +8,12 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class SearchArtistByLocationTests

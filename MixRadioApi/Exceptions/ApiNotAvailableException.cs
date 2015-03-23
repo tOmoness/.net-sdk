@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ApiNotAvailableException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiNotAvailableException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when an the API is not available in the current region
     /// </summary>
-    public class ApiNotAvailableException : NokiaMusicException
+    public class ApiNotAvailableException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiNotAvailableException" /> class.

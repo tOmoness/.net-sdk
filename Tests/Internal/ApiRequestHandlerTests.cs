@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ApiRequestHandlerTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiRequestHandlerTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -15,13 +15,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Tests.Commands;
-using Nokia.Music.Tests.Internal;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Internal.Request;
+using MixRadio.Tests.Commands;
+using MixRadio.Tests.Internal;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests
+namespace MixRadio.Tests
 {
     /// <summary>
     /// Test Request Handler with local files 

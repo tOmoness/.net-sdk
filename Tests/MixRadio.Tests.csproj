@@ -8,8 +8,8 @@
     <ProjectGuid>{E5470471-A7EB-410A-8676-4B1F70BA1411}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.Tests</RootNamespace>
-    <AssemblyName>Nokia.Music.Tests</AssemblyName>
+    <RootNamespace>MixRadio.Tests</RootNamespace>
+    <AssemblyName>MixRadio.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -68,304 +68,274 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NokiaMusicApi\CommandsUser\GetAuthTokenCommand.cs">
+    <Compile Include="..\MixRadioApi\CommandsUser\GetAuthTokenCommand.cs">
       <Link>Source\CommandsUser\GetAuthTokenCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserPlayHistoryCommand.cs">
+    <Compile Include="..\MixRadioApi\CommandsUser\GetUserPlayHistoryCommand.cs">
       <Link>Source\CommandsUser\GetUserPlayHistoryCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserRecentMixesCommand.cs">
+    <Compile Include="..\MixRadioApi\CommandsUser\GetUserRecentMixesCommand.cs">
       <Link>Source\CommandsUser\GetUserRecentMixesCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\CommandsUser\GetUserTopArtistsCommand.cs">
+    <Compile Include="..\MixRadioApi\CommandsUser\GetUserTopArtistsCommand.cs">
       <Link>Source\CommandsUser\GetUserTopArtistsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\ArtistProductsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\ArtistProductsCommand.cs">
       <Link>Source\Commands\ArtistProductsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\CountryResolverCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\CountryResolverCommand.cs">
       <Link>Source\Commands\CountryResolverCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\GenresCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\GenresCommand.cs">
       <Link>Source\Commands\GenresCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\JsonMusicClientCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\JsonMusicClientCommand.cs">
       <Link>Source\Commands\JsonMusicClientCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\LanguagesCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\LanguagesCommand.cs">
       <Link>Source\Commands\LanguagesCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MixDetailsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\MixDetailsCommand.cs">
       <Link>Source\Commands\MixDetailsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MixesCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\MixesCommand.cs">
       <Link>Source\Commands\MixesCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MixGroupsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\MixGroupsCommand.cs">
       <Link>Source\Commands\MixGroupsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\MusicClientCommand.cs">
       <Link>Source\Commands\MusicClientCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TIntermediate,TResult}.cs">
+    <Compile Include="..\MixRadioApi\Commands\MusicClientCommand{TIntermediate,TResult}.cs">
       <Link>Source\Commands\MusicClientCommand{TIntermediate,TResult}.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\MusicClientCommand{TIntermediate}.cs">
+    <Compile Include="..\MixRadioApi\Commands\MusicClientCommand{TIntermediate}.cs">
       <Link>Source\Commands\MusicClientCommand{TIntermediate}.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\NewReleasesCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\NewReleasesCommand.cs">
       <Link>Source\Commands\NewReleasesCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\ProductCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\ProductCommand.cs">
       <Link>Source\Commands\ProductCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\RawMusicClientCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\RawMusicClientCommand.cs">
       <Link>Source\Commands\RawMusicClientCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SearchArtistsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SearchArtistsCommand.cs">
       <Link>Source\Commands\SearchArtistsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SearchCatalogCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SearchCatalogCommand.cs">
       <Link>Source\Commands\SearchCatalogCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SearchCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SearchCommand.cs">
       <Link>Source\Commands\SearchCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SearchSuggestionsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SearchSuggestionsCommand.cs">
       <Link>Source\Commands\SearchSuggestionsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SimilarArtistsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SimilarArtistsCommand.cs">
       <Link>Source\Commands\SimilarArtistsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\SimilarProductsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\SimilarProductsCommand.cs">
       <Link>Source\Commands\SimilarProductsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\TopArtistsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\TopArtistsCommand.cs">
       <Link>Source\Commands\TopArtistsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Commands\TopProductsCommand.cs">
+    <Compile Include="..\MixRadioApi\Commands\TopProductsCommand.cs">
       <Link>Source\Commands\TopProductsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Converters\LocationConverter.cs">
-      <Link>Source\Converters\LocationConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\CountryResolver.cs">
+    <Compile Include="..\MixRadioApi\CountryResolver.cs">
       <Link>Source\CountryResolver.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\ApiCallCancelledException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\ApiCallCancelledException.cs">
       <Link>Source\Exceptions\ApiCallCancelledException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\ApiCallFailedException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\ApiCallFailedException.cs">
       <Link>Source\Exceptions\ApiCallFailedException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\ApiCredentialsRequiredException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\ApiCredentialsRequiredException.cs">
       <Link>Source\Exceptions\ApiCredentialsRequiredException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\ApiNotAvailableException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\ApiNotAvailableException.cs">
       <Link>Source\Exceptions\ApiNotAvailableException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\CountryCodeRequiredException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\CountryCodeRequiredException.cs">
       <Link>Source\Exceptions\CountryCodeRequiredException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\InvalidApiCredentialsException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\InvalidApiCredentialsException.cs">
       <Link>Source\Exceptions\InvalidApiCredentialsException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\InvalidCountryCodeException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\InvalidCountryCodeException.cs">
       <Link>Source\Exceptions\InvalidCountryCodeException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\NetworkLimitedException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\NetworkLimitedException.cs">
       <Link>Source\Exceptions\NetworkLimitedException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\NetworkUnavailableException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\NetworkUnavailableException.cs">
       <Link>Source\Exceptions\NetworkUnavailableException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\NokiaMusicException.cs">
-      <Link>Source\Exceptions\NokiaMusicException.cs</Link>
+    <Compile Include="..\MixRadioApi\Exceptions\MixRadioException.cs">
+      <Link>Source\Exceptions\MixRadioException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\SendFailureException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\SendFailureException.cs">
       <Link>Source\Exceptions\SendFailureException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Exceptions\UserAuthRequiredException.cs">
+    <Compile Include="..\MixRadioApi\Exceptions\UserAuthRequiredException.cs">
       <Link>Source\Exceptions\UserAuthRequiredException.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\ICountryResolver.cs">
+    <Compile Include="..\MixRadioApi\ICountryResolver.cs">
       <Link>Source\ICountryResolver.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\IMusicClient.cs">
+    <Compile Include="..\MixRadioApi\IMusicClient.cs">
       <Link>Source\IMusicClient.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\ArtistImageUriWriter.cs">
+    <Compile Include="..\MixRadioApi\Internal\ArtistImageUriWriter.cs">
       <Link>Source\Internal\ArtistImageUriWriter.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\IAuthHeaderDataProvider.cs">
+    <Compile Include="..\MixRadioApi\Internal\Authorization\IAuthHeaderDataProvider.cs">
       <Link>Source\Internal\Authorization\IAuthHeaderDataProvider.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\IUserIdProvider.cs">
+    <Compile Include="..\MixRadioApi\Internal\Authorization\IUserIdProvider.cs">
       <Link>Source\Internal\Authorization\IUserIdProvider.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuth2.cs">
+    <Compile Include="..\MixRadioApi\Internal\Authorization\OAuth2.cs">
       <Link>Source\Internal\Authorization\OAuth2.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\OAuthHeaderDataProvider.cs">
+    <Compile Include="..\MixRadioApi\Internal\Authorization\OAuthHeaderDataProvider.cs">
       <Link>Source\Internal\Authorization\OAuthHeaderDataProvider.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\OAuthResultParser.cs">
+    <Compile Include="..\MixRadioApi\OAuthResultParser.cs">
       <Link>Source\OAuthResultParser.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Authorization\TokenResponse.cs">
+    <Compile Include="..\MixRadioApi\Internal\Authorization\TokenResponse.cs">
       <Link>Source\Internal\Authorization\TokenResponse.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\DebugLogger.cs">
+    <Compile Include="..\MixRadioApi\Internal\DebugLogger.cs">
       <Link>Source\Internal\DebugLogger.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\IMusicClientSettings.cs">
+    <Compile Include="..\MixRadioApi\Internal\IMusicClientSettings.cs">
       <Link>Source\Internal\IMusicClientSettings.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Parsing\ArrayJsonProcessor.cs">
+    <Compile Include="..\MixRadioApi\Internal\Parsing\ArrayJsonProcessor.cs">
       <Link>Source\Internal\Parsing\ArrayJsonProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Parsing\IJsonProcessor.cs">
+    <Compile Include="..\MixRadioApi\Internal\Parsing\IJsonProcessor.cs">
       <Link>Source\Internal\Parsing\IJsonProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Parsing\NamedItemListJsonProcessor.cs">
+    <Compile Include="..\MixRadioApi\Internal\Parsing\NamedItemListJsonProcessor.cs">
       <Link>Source\Internal\Parsing\NamedItemListJsonProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Parsing\ParseHelper.cs">
+    <Compile Include="..\MixRadioApi\Internal\Parsing\ParseHelper.cs">
       <Link>Source\Internal\Parsing\ParseHelper.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiRequestHandler.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\ApiRequestHandler.cs">
       <Link>Source\Internal\Request\ApiRequestHandler.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\ApiUriBuilder.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\ApiUriBuilder.cs">
       <Link>Source\Internal\Request\ApiUriBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\GzippedContent.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\GzippedContent.cs">
       <Link>Source\Internal\Request\GzippedContent.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\HttpClientRequestProxy.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\HttpClientRequestProxy.cs">
       <Link>Source\Internal\Request\HttpClientRequestProxy.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\IApiRequestHandler.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\IApiRequestHandler.cs">
       <Link>Source\Internal\Request\IApiRequestHandler.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\IApiUriBuilder.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\IApiUriBuilder.cs">
       <Link>Source\Internal\Request\IApiUriBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Request\IHttpClientRequestProxy.cs">
+    <Compile Include="..\MixRadioApi\Internal\Request\IHttpClientRequestProxy.cs">
       <Link>Source\Internal\Request\IHttpClientRequestProxy.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Internal\Response\ResponseInfo.cs">
+    <Compile Include="..\MixRadioApi\Internal\Response\ResponseInfo.cs">
       <Link>Source\Internal\Response\ResponseInfo.cs</Link>
     </Compile>
-    <Compile Include="..\AuthHelpers\StorageHelper.cs">
-      <Link>Source\Internal\StorageHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\ListResponse{T}.cs">
+    <Compile Include="..\MixRadioApi\ListResponse{T}.cs">
       <Link>Source\ListResponse{T}.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\MusicClient.cs">
+    <Compile Include="..\MixRadioApi\MusicClient.cs">
       <Link>Source\MusicClient.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Response.cs">
+    <Compile Include="..\MixRadioApi\Response.cs">
       <Link>Source\Response.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Response{T}.cs">
+    <Compile Include="..\MixRadioApi\Response{T}.cs">
       <Link>Source\Response{T}.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\LaunchTask.cs">
-      <Link>Source\Tasks\LaunchTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\MusicSearchTask.cs">
-      <Link>Source\Tasks\MusicSearchTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\PlayMixTask.cs">
-      <Link>Source\Tasks\PlayMixTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\ShowArtistTask.cs">
-      <Link>Source\Tasks\ShowArtistTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\ShowGigsTask.cs">
-      <Link>Source\Tasks\ShowGigsTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\ShowMixesTask.cs">
-      <Link>Source\Tasks\ShowMixesTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\ShowProductTask.cs">
-      <Link>Source\Tasks\ShowProductTask.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Tasks\TaskBase.cs">
-      <Link>Source\Tasks\TaskBase.cs</Link>
-    </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Artist.cs">
+    <Compile Include="..\MixRadioApi\Types\Artist.cs">
       <Link>Source\Types\Artist.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\AuthResultCode.cs">
+    <Compile Include="..\MixRadioApi\Types\AuthResultCode.cs">
       <Link>Source\Types\AuthResultCode.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\AuthToken.cs">
+    <Compile Include="..\MixRadioApi\Types\AuthToken.cs">
       <Link>Source\Types\AuthToken.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Language.cs">
+    <Compile Include="..\MixRadioApi\Types\Language.cs">
       <Link>Source\Types\Language.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Scope.cs">
+    <Compile Include="..\MixRadioApi\Types\Scope.cs">
       <Link>Source\Types\Scope.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Category.cs">
+    <Compile Include="..\MixRadioApi\Types\Category.cs">
       <Link>Source\Types\Category.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Genre.cs">
+    <Compile Include="..\MixRadioApi\Types\Genre.cs">
       <Link>Source\Types\Genre.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Location.cs">
+    <Compile Include="..\MixRadioApi\Types\Location.cs">
       <Link>Source\Types\Location.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\LocationExtensions.cs">
+    <Compile Include="..\MixRadioApi\Types\LocationExtensions.cs">
       <Link>Source\Types\LocationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Mix.cs">
+    <Compile Include="..\MixRadioApi\Types\Mix.cs">
       <Link>Source\Types\Mix.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\MixGroup.cs">
+    <Compile Include="..\MixRadioApi\Types\MixGroup.cs">
       <Link>Source\Types\MixGroup.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\MusicItem.cs">
+    <Compile Include="..\MixRadioApi\Types\MusicItem.cs">
       <Link>Source\Types\MusicItem.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\OrderBy.cs">
+    <Compile Include="..\MixRadioApi\Types\OrderBy.cs">
       <Link>Source\Types\OrderBy.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Price.cs">
+    <Compile Include="..\MixRadioApi\Types\Price.cs">
       <Link>Source\Types\Price.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Product.cs">
+    <Compile Include="..\MixRadioApi\Types\Product.cs">
       <Link>Source\Types\Product.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\ScopeExtensions.cs">
+    <Compile Include="..\MixRadioApi\Types\ScopeExtensions.cs">
       <Link>Source\Types\ScopeExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\Seed.cs">
+    <Compile Include="..\MixRadioApi\Types\Seed.cs">
       <Link>Source\Types\Seed.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\SeedCollection.cs">
+    <Compile Include="..\MixRadioApi\Types\SeedCollection.cs">
       <Link>Source\Types\SeedCollection.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\SeedType.cs">
+    <Compile Include="..\MixRadioApi\Types\SeedType.cs">
       <Link>Source\Types\SeedType.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\SortOrder.cs">
+    <Compile Include="..\MixRadioApi\Types\SortOrder.cs">
       <Link>Source\Types\SortOrder.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\UserEvent.cs">
+    <Compile Include="..\MixRadioApi\Types\UserEvent.cs">
       <Link>Source\Types\UserEvent.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\UserEventAction.cs">
+    <Compile Include="..\MixRadioApi\Types\UserEventAction.cs">
       <Link>Source\Types\UserEventAction.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\UserEventClientType.cs">
+    <Compile Include="..\MixRadioApi\Types\UserEventClientType.cs">
       <Link>Source\Types\UserEventClientType.cs</Link>
     </Compile>
-    <Compile Include="..\NokiaMusicApi\Types\UserEventTarget.cs">
+    <Compile Include="..\MixRadioApi\Types\UserEventTarget.cs">
       <Link>Source\Types\UserEventTarget.cs</Link>
     </Compile>
     <Compile Include="Auth\OAuthTests.cs" />
@@ -379,7 +349,6 @@
     <Compile Include="Commands\MusicClientCommandTests.cs" />
     <Compile Include="Commands\ProductTestBase.cs" />
     <Compile Include="Commands\SimilarProductsTests.cs" />
-    <Compile Include="Converters\LocationConverterTests.cs" />
     <Compile Include="Commands\GetProductTests.cs" />
     <Compile Include="Internal\ArtistImageUriWriterTests.cs" />
     <Compile Include="Internal\GzippedContentTests.cs" />
@@ -387,7 +356,6 @@
     <Compile Include="ListResponseTests.cs" />
     <Compile Include="Exceptions\ApiCallFailedExceptionTests.cs" />
     <Compile Include="Internal\FakeAuthHeaderProvider.cs" />
-    <Compile Include="Internal\StorageHelperTests.cs" />
     <Compile Include="Internal\TokenResponseTests.cs" />
     <Compile Include="Internal\MockApiCommand.cs" />
     <Compile Include="Commands\SearchArtistByLocationTests.cs" />
@@ -417,17 +385,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Tasks\PlayMixTaskTests.cs" />
-    <Compile Include="Tasks\ShowProductTaskTests.cs" />
-    <Compile Include="Tasks\ShowMixesTaskTests.cs" />
-    <Compile Include="Tasks\ShowGigsTaskTests.cs" />
-    <Compile Include="Tasks\LaunchTaskTests.cs" />
-    <Compile Include="Tasks\ShowArtistTaskTests.cs" />
-    <Compile Include="Tasks\SearchTaskTests.cs" />
     <Compile Include="Types\ArtistTests.cs" />
     <Compile Include="Types\AuthResultCodeTests.cs" />
     <Compile Include="Types\AuthTokenTests.cs" />
-    <Compile Include="Types\LauncherIntegrationTests.cs" />
     <Compile Include="Types\LocationExtensionTests.cs" />
     <Compile Include="Types\PriceTests.cs" />
     <Compile Include="Types\SeedTests.cs" />

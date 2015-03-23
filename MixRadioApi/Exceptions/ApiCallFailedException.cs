@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ApiCallFailedException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiCallFailedException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,12 +8,12 @@
 using System.Globalization;
 using System.Net;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when an API call fails unexpectedly
     /// </summary>
-    public class ApiCallFailedException : NokiaMusicException
+    public class ApiCallFailedException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiCallFailedException"/> class.

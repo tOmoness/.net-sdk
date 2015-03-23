@@ -1,15 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MockApiCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MockApiCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Net.Http;
+using MixRadio;
+using MixRadio.Commands;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     internal class MockApiCommand : JsonMusicClientCommand<Response<JObject>>
     {

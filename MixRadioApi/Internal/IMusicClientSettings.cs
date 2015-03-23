@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
-// <copyright file="IMusicClientSettings.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="IMusicClientSettings.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music.Internal
+namespace MixRadio.Internal
 {
     /// <summary>
     /// Defines the MusicClient Settings

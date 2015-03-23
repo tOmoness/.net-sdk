@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetUserPlayHistoryCommandTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="GetUserPlayHistoryCommandTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,17 +13,18 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal.Authorization;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Tests.Auth;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Tests.Types;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Internal.Authorization;
+using MixRadio.Internal.Request;
+using MixRadio.Tests.Auth;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Tests.Types;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class GetUserPlayHistoryCommandTests

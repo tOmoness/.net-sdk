@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="PlayMeTask.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="PlayMeTask.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Threading.Tasks;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Provides a simple way to start a MixRadio PlayMe Mix

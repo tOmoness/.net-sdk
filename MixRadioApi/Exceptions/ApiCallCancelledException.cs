@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ApiCallCancelledException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ApiCallCancelledException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when an API call gets cancelled
     /// </summary>
-    public class ApiCallCancelledException : NokiaMusicException
+    public class ApiCallCancelledException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiCallCancelledException"/> class.

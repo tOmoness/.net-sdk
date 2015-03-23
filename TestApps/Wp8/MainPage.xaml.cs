@@ -1,10 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MainPage.xaml.cs" company="Nokia">
-// Copyright © 2012-2013 Microsoft Mobile. All rights reserved.
-// Nokia and Nokia Connecting People are registered trademarks of Microsoft Mobile. 
-// Other product and company names mentioned herein may be trademarks
-// or trade names of their respective owners. 
-// See LICENSE.TXT for license information.
+// <copyright file="MainPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
@@ -15,10 +11,10 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
-using Nokia.Music;
-using Nokia.Music.Tasks;
+using MixRadio;
+using MixRadio.Tasks;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// The Main Page
@@ -55,11 +51,11 @@ namespace Nokia.Music.TestApp
             if (App.ApiClient != null)
             {
                 userLoggedIn = App.ApiClient.IsUserAuthenticated;
-                if (!userLoggedIn && await App.AuthHelper.IsUserTokenCached())
+                if (!userLoggedIn && await App.ApiClient.IsUserTokenCached())
                 {
                     try
                     {
-                        await App.AuthHelper.AuthenticateUserAsync(ApiKeys.ClientSecret);
+                        await App.ApiClient.AuthenticateUserAsync(ApiKeys.ClientSecret);
                         userLoggedIn = App.ApiClient != null && App.ApiClient.IsUserAuthenticated;
                     }
                     catch

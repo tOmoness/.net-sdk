@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="NetworkLimitedException.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="NetworkLimitedException.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Exception when attempting to call the API with a limited network.
     /// </summary>
-    public class NetworkLimitedException : NokiaMusicException
+    public class NetworkLimitedException : MixRadioException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkLimitedException"/> class.

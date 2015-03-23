@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArrayJsonProcessor.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ArrayJsonProcessor.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using MixRadio.Commands;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
 
-namespace Nokia.Music.Internal.Parsing
+namespace MixRadio.Internal.Parsing
 {
     internal class ArrayJsonProcessor : IJsonProcessor
     {

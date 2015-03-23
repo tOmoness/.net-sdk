@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ProductChartTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ProductChartTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,13 +9,14 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Commands;
+using MixRadio.Tests.Internal;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Commands
+namespace MixRadio.Tests.Commands
 {
     [TestFixture]
     public class ProductChartTests
@@ -58,17 +59,6 @@ namespace Nokia.Music.Tests.Commands
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task EnsureGetTopProductsForGenreThrowsExceptionForNullGenre()
-        {
-            IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-            Genre nullGenre = null;
-#pragma warning disable 0618  // Disable this for tests
-            await client.GetTopProductsForGenreAsync(nullGenre, Category.Album);
-#pragma warning restore 0618
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task EnsureGetTopProductsForGenreThrowsExceptionForNullGenreId()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
@@ -80,9 +70,6 @@ namespace Nokia.Music.Tests.Commands
         public async Task EnsureGetTopProductsForGenreReturnsItems()
         {
             IMusicClient client = new MusicClient("test", "gb", new MockApiRequestHandler(Resources.product_parse_tests));
-#pragma warning disable 0618  // Disable this for tests
-            this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync(new Genre() { Id = "rock" }, Category.Album));
-#pragma warning restore 0618
             this.ValidateTopProductsResponse(await client.GetTopProductsForGenreAsync("rock", Category.Album));
         }
 

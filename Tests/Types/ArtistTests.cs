@@ -1,19 +1,19 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistTests.cs" company="NOKIA">
-// Copyright (c) 2013, Nokia
+// <copyright file="ArtistTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using MixRadio.Commands;
+using MixRadio.Tests.Properties;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Tests.Properties;
-using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Types
+namespace MixRadio.Tests.Types
 {
     /// <summary>
     /// Artist tests
@@ -41,8 +41,10 @@ namespace Nokia.Music.Tests.Types
             var itemWithNullProperties = new Artist();
 
             Assert.IsNotNull(itemWithId.AppToAppUri, "Expected App to App URI to be calculated");
+            Assert.IsNotNull(itemWithName.AppToAppUri, "Expected App to App URI to be calculated");
             Assert.IsNull(itemWithNullProperties.AppToAppUri, "Expected App to App URI not to be calculated");
 
+            Assert.IsNotNull(itemWithId.AppToAppPlayUri, "Expected App to App URI to be calculated");
             Assert.IsNotNull(itemWithName.AppToAppPlayUri, "Expected App to App Play URI to be calculated");
             Assert.IsNull(itemWithNullProperties.AppToAppPlayUri, "Expected App to App Play URI not to be calculated");
 

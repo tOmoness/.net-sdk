@@ -1,41 +1,26 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Artist.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Artist.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-#if !PORTABLE
-using System.Threading.Tasks;
-#endif
+using MixRadio.Internal;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Internal;
-#if !PORTABLE
-using Nokia.Music.Tasks;
-#endif
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a MixRadio Artist
     /// </summary>
     public partial class Artist : MusicItem
     {
-        // For now, the Win8 MixRadio app only supports the old nokia-music protocol.
-#if WINDOWS_APP
-        internal const string AppToAppShowUri = "nokia-music://show/artist/?id={0}";
-        internal const string AppToAppPlayUriById = "nokia-music://play/artist/?id={0}";
-        internal const string AppToAppPlayUriByName = "nokia-music://play/artist/?artist={0}";
-        internal const string AppToAppShowUriById = "nokia-music://show/artist/?id={0}";
-        internal const string AppToAppShowUriByName = "nokia-music://show/artist/?name={0}";
-#else
         internal const string AppToAppPlayUriById = "mixradio://play/artist/{0}";
         internal const string AppToAppPlayUriByName = "mixradio://play/artist/name/{0}";
         internal const string AppToAppShowUriById = "mixradio://show/artist/{0}";
         internal const string AppToAppShowUriByName = "mixradio://show/artist/name/{0}";
-#endif
         internal const string WebShowUriById = "http://www.mixrad.io/artists/-/{0}";
         internal const string WebPlayUriByName = "http://www.mixrad.io/gb/en/mixes/seeded?artists={0}";
 
@@ -188,28 +173,6 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
-#if !PORTABLE
-        /// <summary>
-        /// Launches MixRadio to start a mix for the artist using the PlayMixTask
-        /// </summary>
-        /// <returns>An async task to await</returns>
-        public async Task PlayMix()
-        {
-            PlayMixTask task = new PlayMixTask() { ArtistName = this.Name };
-            await task.Show().ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Launches MixRadio to show details for the artist using the ShowArtistTask
-        /// </summary>
-        /// <returns>An async task to await</returns>
-        public async Task Show()
-        {
-            ShowArtistTask task = new ShowArtistTask() { ArtistId = this.Id };
-            await task.Show().ConfigureAwait(false);
-        }
-
-#endif
         /// <summary>
         /// Creates an Artist from a JSON Object
         /// </summary>

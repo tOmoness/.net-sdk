@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IApiRequestHandler.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="IApiRequestHandler.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Nokia.Music.Commands;
+using MixRadio.Commands;
 
-namespace Nokia.Music.Internal.Request
+namespace MixRadio.Internal.Request
 {
     /// <summary>
     /// Defines the raw API interface for making requests

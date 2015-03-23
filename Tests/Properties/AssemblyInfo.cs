@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="AssemblyInfo.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

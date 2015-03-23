@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IHttpClientRequestProxy.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="IHttpClientRequestProxy.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nokia.Music.Internal.Request
+namespace MixRadio.Internal.Request
 {
     /// <summary>
     /// Abstracts the sending of the HTTPClient request for testability

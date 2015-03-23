@@ -1,16 +1,16 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetUserRecentMixesCommand.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="GetUserRecentMixesCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     /// Command to get user recent mixes for the last week

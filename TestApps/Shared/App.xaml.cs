@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="App.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
-using MixRadio.AuthHelpers;
-using Nokia.Music.Tasks;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 #if WINDOWS_APP
@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace Nokia.Music.TestApp
+namespace MixRadio.TestApp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -96,14 +96,6 @@ namespace Nokia.Music.TestApp
                 return Window.Current.Content as Frame;
             }
         }
-
-        /// <summary>
-        /// Gets the authentication helper.
-        /// </summary>
-        /// <value>
-        /// The authentication helper.
-        /// </value>
-        internal static AuthHelper AuthHelper { get; private set; }
 
         /// <summary>
         /// Gets the settings container.
@@ -325,12 +317,10 @@ namespace Nokia.Music.TestApp
             if (!string.IsNullOrEmpty(countryCode))
             {
                 ApiClient = new MusicClient(ApiKeys.ClientId, countryCode);
-                AuthHelper = new AuthHelper(ApiClient);
             }
             else
             {
                 ApiClient = null;
-                AuthHelper = null;
             }
         }
 

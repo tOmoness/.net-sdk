@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="OAuthTests.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="OAuthTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System.Linq;
 using System.Threading.Tasks;
-using Nokia.Music.Internal.Authorization;
-using Nokia.Music.Tests.Internal;
-using Nokia.Music.Types;
+using MixRadio.Internal.Authorization;
+using MixRadio.Tests.Internal;
+using MixRadio.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Auth
+namespace MixRadio.Tests.Auth
 {
     /// <summary>
     /// OAuth general tests

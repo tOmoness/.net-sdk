@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Product.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="Product.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,29 +8,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if !PORTABLE
-using System.Threading.Tasks;
-#endif
+using MixRadio.Commands;
+using MixRadio.Internal;
+using MixRadio.Internal.Parsing;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Parsing;
-#if !PORTABLE
-using Nokia.Music.Tasks;
-#endif
 
-namespace Nokia.Music.Types
+namespace MixRadio.Types
 {
     /// <summary>
     /// Represents a MixRadio Product, i.e. Album, Single or Track
     /// </summary>
     public sealed partial class Product : MusicItem
     {
-#if WINDOWS_APP
-        internal const string AppToAppShowUri = "nokia-music://show/product/?id={0}";
-#else
         internal const string AppToAppShowUri = "mixradio://show/product/{0}";
-#endif
         internal const string WebShowUri = "http://www.mixrad.io/product/{0}";
 
         /// <summary>
@@ -269,18 +259,6 @@ namespace Nokia.Music.Types
             return this.Id.GetHashCode();
         }
 
-#if !PORTABLE
-        /// <summary>
-        /// Launches MixRadio to show details about the product using the ShowProductTask
-        /// </summary>
-        /// <returns>An async task to await</returns>
-        public async Task Show()
-        {
-            ShowProductTask task = new ShowProductTask() { ProductId = this.Id };
-            await task.Show().ConfigureAwait(false);
-        }
-
-#endif
         /// <summary>
         /// Creates a Product from a JSON Object
         /// </summary>

@@ -4,7 +4,7 @@
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace MixRadio.AuthHelpers
+namespace MixRadio
 {
     using System;
     using System.Diagnostics;
@@ -15,8 +15,8 @@ namespace MixRadio.AuthHelpers
     using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
 #endif
-    using Nokia.Music;
-    using Nokia.Music.Types;
+    using MixRadio;
+    using MixRadio.Types;
 
     /// <summary>
     /// Wraps browser interaction for OAuth flows

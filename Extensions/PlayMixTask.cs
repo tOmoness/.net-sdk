@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="PlayMixTask.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="PlayMixTask.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Threading.Tasks;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Provides a simple way to play a MixRadio Mix
@@ -86,11 +86,10 @@ namespace Nokia.Music.Tasks
         /// <returns>An async task to await</returns>
         public async Task Show()
         {
-            if (!string.IsNullOrEmpty(this._mixId))
+            if (!string.IsNullOrEmpty(this.MixId))
             {
-                await this.Launch(
-                    new Uri(string.Format(Mix.AppToAppPlayUri, this._mixId)),
-                    new Uri(string.Format(Mix.WebPlayUri, this._mixId))).ConfigureAwait(false);
+                var mix = new Mix { Id = this.MixId };
+                await this.Launch(mix.AppToAppUri, mix.WebUri).ConfigureAwait(false);
             }
             else if (!string.IsNullOrEmpty(this._artistId))
             {

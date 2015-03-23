@@ -14,7 +14,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 #endif
 
-namespace MixRadio.AuthHelpers
+namespace MixRadio
 {
     /// <summary>
     /// Encryption helper class

@@ -21,6 +21,7 @@ packages
 *[Nn][Cc]runch*
 /*.ncrunchsolution
 AppPackages/
-/NokiaMusicApiTestsDebugger
+/TestsDebugger
 /PackagePublicNuGet/*
 .DS_Store
+.vs

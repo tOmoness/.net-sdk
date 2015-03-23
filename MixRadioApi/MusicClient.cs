@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MusicClient.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="MusicClient.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,23 +9,14 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-#if WINDOWS_PHONE
-using Microsoft.Phone.Controls;
-#endif
-#if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
-using MixRadio.AuthHelpers;
-#endif
+using MixRadio.Commands;
+using MixRadio.Internal;
+using MixRadio.Internal.Authorization;
+using MixRadio.Internal.Request;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Commands;
-using Nokia.Music.Internal;
-using Nokia.Music.Internal.Authorization;
-using Nokia.Music.Internal.Request;
-using Nokia.Music.Types;
-#if WINDOWS_PHONE_APP
-using Windows.Security.Authentication.Web;
-#endif
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// The MixRadio API client
@@ -41,10 +32,6 @@ namespace Nokia.Music
         internal const int DefaultSmallItemsPerPage = 3;
         internal const int DefaultStartIndex = 0;
 
-#if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
-        internal const string TokenCacheFile = "NokiaMusicOAuthToken.json";
-        private OAuthUserFlow _oauthFlowController = null;
-#endif
         private TokenResponse _oauthToken = null;
 
         /// <summary>
@@ -396,27 +383,6 @@ namespace Nokia.Music
         }
 
         /// <summary>
-        /// Gets the top artists for a genre
-        /// </summary>
-        /// <param name="genre">The genre to get results for.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Artists or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Artist>> GetTopArtistsForGenreAsync(Genre genre, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (genre == null)
-            {
-                throw new ArgumentNullException("genre", "genre cannot be null");
-            }
-
-            return await this.GetTopArtistsForGenreAsync(genre.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Gets an artist by id
         /// </summary>
         /// <param name="id">The artist id.</param>
@@ -463,27 +429,6 @@ namespace Nokia.Music
         }
 
         /// <summary>
-        /// Gets similar artists for an artist.
-        /// </summary>
-        /// <param name="artist">The artist.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Artists or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Artist>> GetSimilarArtistsAsync(Artist artist, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (artist == null)
-            {
-                throw new ArgumentNullException("artist", "Artist cannot be null");
-            }
-
-            return await this.GetSimilarArtistsAsync(artist.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Gets products by an artist.
         /// </summary>
         /// <param name="id">The artist id.</param>
@@ -506,31 +451,6 @@ namespace Nokia.Music
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets products by an artist.
-        /// </summary>
-        /// <param name="artist">The artist.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="orderBy">The field to sort the items by.</param>
-        /// <param name="sortOrder">The sort order of the items.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Products or an Error
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException">artist;Artist cannot be null</exception>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Product>> GetArtistProductsAsync(Artist artist, Category? category = null, OrderBy? orderBy = null, SortOrder? sortOrder = null, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (artist == null)
-            {
-                throw new ArgumentNullException("artist", "Artist cannot be null");
-            }
-
-            return await this.GetArtistProductsAsync(artist.Id, category, orderBy, sortOrder, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -612,25 +532,6 @@ namespace Nokia.Music
         }
 
         /// <summary>
-        /// Gets a similar product for the supplied product.
-        /// </summary>
-        /// <param name="product">The product.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A ListResponse containing Products or an Error</returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Product>> GetSimilarProductsAsync(Product product, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (product == null)
-            {
-                throw new ArgumentNullException("product", "Product cannot be null");
-            }
-
-            return await this.GetSimilarProductsAsync(product.Id, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Gets a chart
         /// </summary>
         /// <param name="category">The category - only Album and Track charts are available.</param>
@@ -677,28 +578,6 @@ namespace Nokia.Music
         }
 
         /// <summary>
-        /// Gets a chart
-        /// </summary>
-        /// <param name="genre">The genre.</param>
-        /// <param name="category">The category - only Album and Track charts are available.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Products or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Product>> GetTopProductsForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (genre == null)
-            {
-                throw new ArgumentNullException("genre", "genre cannot be null");
-            }
-
-            return await this.GetTopProductsForGenreAsync(genre.Id, category, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Gets a list of new releases
         /// </summary>
         /// <param name="category">The category - only Album and Track lists are available.</param>
@@ -742,28 +621,6 @@ namespace Nokia.Music
             cmd.StartIndex = startIndex;
             cmd.ItemsPerPage = itemsPerPage;
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets a list of new releases
-        /// </summary>
-        /// <param name="genre">The genre.</param>
-        /// <param name="category">The category - only Album and Track lists are available.</param>
-        /// <param name="startIndex">The zero-based start index to fetch items from (e.g. to get the second page of 10 items, pass in 10).</param>
-        /// <param name="itemsPerPage">The number of items to fetch.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Products or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Product>> GetNewReleasesForGenreAsync(Genre genre, Category category, int startIndex = MusicClient.DefaultStartIndex, int itemsPerPage = MusicClient.DefaultItemsPerPage, CancellationToken? cancellationToken = null)
-        {
-            if (genre == null)
-            {
-                throw new ArgumentNullException("genre", "genre cannot be null");
-            }
-
-            return await this.GetNewReleasesForGenreAsync(genre.Id, category, startIndex, itemsPerPage, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -935,40 +792,6 @@ namespace Nokia.Music
         }
 
         /// <summary>
-        /// Gets the Mixes available in a group
-        /// </summary>
-        /// <param name="group">The mix group.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Mixes or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, CancellationToken? cancellationToken = null)
-        {
-            return await this.GetMixesAsync(group, (string)null, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets the Mixes available in a group
-        /// </summary>
-        /// <param name="group">The mix group.</param>
-        /// <param name="exclusiveTag">The exclusive tag.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A ListResponse containing Mixes or an Error
-        /// </returns>
-        [Obsolete("This type-overloaded version will be removed in the next major version")]
-        public async Task<ListResponse<Mix>> GetMixesAsync(MixGroup group, string exclusiveTag, CancellationToken? cancellationToken = null)
-        {
-            if (group == null)
-            {
-                throw new ArgumentNullException("group", "group cannot be null");
-            }
-
-            return await this.GetMixesAsync(group.Id, exclusiveTag).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Gets all Mixes available, regardless of grouping
         /// </summary>
         /// <param name="exclusiveTag">The optional exclusivity tag.</param>
@@ -1000,248 +823,6 @@ namespace Nokia.Music
             return await cmd.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
-#if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
-#if WINDOWS_PHONE
-        /// <summary>
-        /// Authenticates a user to enable the user data APIs.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="scopes">The scopes requested.</param>
-        /// <param name="browser">The browser control to use to drive authentication.</param>
-        /// <param name="cancellationToken">The optional cancellation token.</param>
-        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
-        /// <returns>
-        /// An AuthResultCode value indicating the result
-        /// </returns>
-        /// <remarks>Sorry, this method is messy due to the platform differences</remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, WebBrowser browser, CancellationToken? cancellationToken = null, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri)
-        {
-            if (browser == null)
-            {
-                throw new ArgumentNullException("browser", "You must supply a web browser to allow user interaction");
-            }
-
-#elif NETFX_CORE
-        /// <summary>
-        /// Authenticates a user to enable the user data APIs.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="scopes">The scopes requested.</param>
-        /// <param name="oauthRedirectUri">The OAuth completed URI.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode value indicating the result
-        /// </returns>
-        /// <remarks>
-        /// Sorry, this method is messy due to the platform differences!
-        /// </remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, Scope scopes, string oauthRedirectUri = MusicClient.DefaultOAuthRedirectUri, CancellationToken? cancellationToken = null)
-        {
-            if (string.IsNullOrEmpty(oauthRedirectUri))
-            {
-                throw new ArgumentNullException("oauthRedirectUri", "You must supply your OAuth Redirect URI to allow user interaction");
-            }
-
-#endif
-#if WINDOWS_PHONE || NETFX_CORE
-            if (string.IsNullOrEmpty(clientSecret))
-            {
-                throw new ArgumentNullException("clientSecret", "You must supply your app client secret obtained during app registration");
-            }
-
-            if (this._oauthFlowController != null && this._oauthFlowController.IsBusy)
-            {
-                throw new InvalidOperationException("An authentication call is in progress already");
-            }
-
-            // See if we have a cached token...
-#pragma warning disable 0618  // Disable this is internal
-            AuthResultCode cachedResult = await this.AuthenticateUserAsync(clientSecret, cancellationToken).ConfigureAwait(false);
-#pragma warning restore 0618
-            if (cachedResult == AuthResultCode.Success)
-            {
-                return cachedResult;
-            }
-
-            var cmd = this.CreateCommand<GetAuthTokenCommand>();
-
-            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
-
-#if WINDOWS_PHONE_APP
-            WebAuthenticationBroker.AuthenticateAndContinue(this.GetAuthenticationUri(scopes), new Uri(oauthRedirectUri));
-            return AuthResultCode.InProgress;
-#else
-            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
-#if WINDOWS_PHONE
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(this.GetAuthenticationUri(scopes), browser, oauthRedirectUri, cancellationToken).ConfigureAwait(false);
-#elif WINDOWS_APP
-            Response<AuthResultCode> response = await this._oauthFlowController.AuthenticateUserAsync(this.GetAuthenticationUri(scopes), new Uri(oauthRedirectUri), cancellationToken).ConfigureAwait(false);
-#endif
-            await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
-            this._oauthFlowController = null;
-
-            if (response.Error != null)
-            {
-                throw response.Error;
-            }
-            else
-            {
-                return response.Result;
-            }
-#endif
-        }
-#endif
-
-#if WINDOWS_PHONE_APP
-        /// <summary>
-        /// Completes the authenticate user call.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="result">The result received through LaunchActivatedEventArgs.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        /// <remarks>This method is for Windows Phone 8.1 use</remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task<AuthResultCode> CompleteAuthenticateUserAsync(string clientSecret, WebAuthenticationResult result, CancellationToken? cancellationToken = null)
-        {
-            var cmd = this.CreateCommand<GetAuthTokenCommand>();
-            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
-            this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
-
-            Response<AuthResultCode> response = await this._oauthFlowController.ConvertAuthPermissionParams(result);
-            await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
-            this._oauthFlowController = null;
-
-            if (response.Error != null)
-            {
-                throw response.Error;
-            }
-            else
-            {
-                return response.Result;
-            }
-        }
-#endif
-
-#if WINDOWS_PHONE || NETFX_CORE
-        /// <summary>
-        /// Gets a value indicating whether a user token is cached and the silent version of AuthenticateUserAsync can be used.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// <c>true</c> if a user token is cached; otherwise, <c>false</c>.
-        /// </returns>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task<bool> IsUserTokenCached(CancellationToken? cancellationToken = null)
-        {
-            return await StorageHelper.FileExistsAsync(TokenCacheFile).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Attempts a silent authentication a user to enable the user data APIs using a cached access token.
-        /// </summary>
-        /// <param name="clientSecret">The client secret obtained during app registration</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An AuthResultCode indicating the result
-        /// </returns>
-        /// <remarks>
-        /// This overload of AuthenticateUserAsync can only be used once the user has gone through the OAuth flow and given permission to access their data.
-        /// </remarks>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task<AuthResultCode> AuthenticateUserAsync(string clientSecret, CancellationToken? cancellationToken = null)
-        {
-            if (this.IsUserAuthenticated && this.IsUserTokenActive)
-            {
-                return AuthResultCode.Success;
-            }
-
-            var cmd = this.CreateCommand<GetAuthTokenCommand>();
-
-            await this.SetupSecureCommandAsync(cmd).ConfigureAwait(false);
-
-            // Attempt to load a cached token...
-            string cachedToken = await StorageHelper.ReadTextAsync(TokenCacheFile).ConfigureAwait(false);
-
-            if (!string.IsNullOrEmpty(cachedToken))
-            {
-#if NETFX_CORE
-                // Encrypt to stop prying eyes on Win8
-                string decodedJson = EncryptionHelper.Decrypt(cachedToken, clientSecret, this.ClientId);
-#else
-                string decodedJson = cachedToken;
-#endif
-
-                this._oauthToken = TokenResponse.FromJToken(JToken.Parse(decodedJson), this);
-                this.ExtractTokenProperties();
-
-                // Check expiry...
-                if (!this.IsUserTokenActive)
-                {
-                    if (this._oauthFlowController != null && this._oauthFlowController.IsBusy)
-                    {
-                        throw new InvalidOperationException("An authentication call is in progress already");
-                    }
-
-                    // expired -> need to Refresh and cache
-                    this._oauthFlowController = new OAuthUserFlow(this.ClientId, clientSecret, this.SecureApiBaseUrl + MusicClientCommand.DefaultApiVersion, cmd);
-                    Response<AuthResultCode> response = await this._oauthFlowController.ObtainToken(null, this._oauthToken.RefreshToken, AuthResultCode.Unknown, cancellationToken).ConfigureAwait(false);
-                    if (response.Result == AuthResultCode.Success && this._oauthFlowController.TokenResponse != null)
-                    {
-                        await this.StoreOAuthToken(this._oauthFlowController.TokenResponse, clientSecret, cancellationToken).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        // Failed to refresh the token - remove the cached token in case it's causing problems...
-                        await StorageHelper.DeleteFileAsync(TokenCacheFile).ConfigureAwait(false);
-                        response = new Response<AuthResultCode>(null, AuthResultCode.FailedToRefresh, Guid.Empty);
-                    }
-
-                    this._oauthFlowController = null;
-
-                    if (response.Error != null)
-                    {
-                        throw response.Error;
-                    }
-                    else
-                    {
-                        return response.Result;
-                    }
-                }
-                else
-                {
-                    return AuthResultCode.Success;
-                }
-            }
-
-            return AuthResultCode.NoCachedToken;
-        }
-
-        /// <summary>
-        /// Deletes any cached authentication token.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// An async task
-        /// </returns>
-        [Obsolete("This auth method will be removed in the next major version. We will be blogging about how to migrate code to the replacement methods soon.")]
-        public async Task DeleteAuthenticationTokenAsync(CancellationToken? cancellationToken = null)
-        {
-            this._oauthToken = null;
-            this.AuthHeaderDataProvider = null;
-
-            if (await StorageHelper.FileExistsAsync(TokenCacheFile).ConfigureAwait(false))
-            {
-                await StorageHelper.DeleteFileAsync(TokenCacheFile).ConfigureAwait(false);
-            }
-        }
-
-#endif
-#endif
         /// <summary>
         /// Gets an authentication URI for a given scope
         /// </summary>
@@ -1415,36 +996,6 @@ namespace Nokia.Music
             }
         }
 
-#if SUPPORTS_USER_OAUTH && (WINDOWS_PHONE || NETFX_CORE)
-        /// <summary>
-        /// Stores the OAuth token.
-        /// </summary>
-        /// <param name="token">The token.</param>
-        /// <param name="clientSecret">The client secret.</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>
-        /// A Task for async execution
-        /// </returns>
-        private async Task StoreOAuthToken(TokenResponse token, string clientSecret, CancellationToken? cancellationToken = null)
-        {
-            if (this._oauthFlowController.TokenResponse != null)
-            {
-                // Grab results
-                this._oauthToken = token;
-                this.ExtractTokenProperties();
-
-#if NETFX_CORE
-                // Encrypt to stop prying eyes on Win8
-                string content = EncryptionHelper.Encrypt(token.ToJToken().ToString(), clientSecret, this.ClientId);
-#else
-                string content = token.ToJToken().ToString();
-#endif
-                // store results in isostorage
-                await StorageHelper.WriteTextAsync(TokenCacheFile, content).ConfigureAwait(false);
-            }
-        }
-
-#endif
         /// <summary>
         /// Extracts OAuth token properties.
         /// </summary>

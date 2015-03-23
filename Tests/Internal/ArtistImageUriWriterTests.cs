@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ArtistImageUriWriterTests.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="ArtistImageUriWriterTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
-using Nokia.Music.Internal;
+using MixRadio.Internal;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     [TestFixture]
     public class ArtistImageUriWriterTests

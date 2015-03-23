@@ -1,16 +1,16 @@
 // -----------------------------------------------------------------------
-// <copyright file="ArtistProductsCommand.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ArtistProductsCommand.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 
-namespace Nokia.Music.Commands
+namespace MixRadio.Commands
 {
     /// <summary>
     ///   Gets products by an artist.

@@ -1,13 +1,13 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="OAuthResultParser.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="OAuthResultParser.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music
+namespace MixRadio
 {
     /// <summary>
     /// Helper method(s) for obtaining OAuth Results

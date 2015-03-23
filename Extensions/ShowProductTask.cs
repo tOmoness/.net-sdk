@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ShowProductTask.cs" company="Nokia">
-// Copyright (c) 2013, Nokia
+// <copyright file="ShowProductTask.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Threading.Tasks;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
-namespace Nokia.Music.Tasks
+namespace MixRadio.Tasks
 {
     /// <summary>
     /// Provides a simple way to show MixRadio Products
@@ -36,9 +36,8 @@ namespace Nokia.Music.Tasks
         {
             if (!string.IsNullOrEmpty(this.ProductId))
             {
-                await this.Launch(
-                    new Uri(string.Format(Product.AppToAppShowUri, this.ProductId)),
-                    new Uri(string.Format(Product.WebShowUri, this.ProductId))).ConfigureAwait(false);
+                var product = new Product { Id = this.ProductId };
+                await this.Launch(product.AppToAppUri, product.WebUri).ConfigureAwait(false);
             }
             else
             {

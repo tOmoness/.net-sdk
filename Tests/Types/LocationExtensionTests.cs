@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="LocationExtensionTests.cs" company="NOKIA">
-// Copyright (c) 2014, Nokia
+// <copyright file="LocationExtensionTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,11 +8,11 @@
 using System;
 using System.Device.Location;
 using System.Globalization;
+using MixRadio.Types;
 using Newtonsoft.Json.Linq;
-using Nokia.Music.Types;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Types
+namespace MixRadio.Tests.Types
 {
     /// <summary>
     /// Location tests

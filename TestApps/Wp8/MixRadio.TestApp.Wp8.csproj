@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nokia.Music.TestApp</RootNamespace>
-    <AssemblyName>Nokia.Music.TestApp.Wp8</AssemblyName>
+    <RootNamespace>MixRadio.TestApp</RootNamespace>
+    <AssemblyName>MixRadio.TestApp.Wp8</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -19,9 +19,9 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>NokiaMusicApiTestAppWp8.xap</XapFilename>
+    <XapFilename>MixRadioTestAppWp8.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>Nokia.Music.TestApp.App</SilverlightAppEntry>
+    <SilverlightAppEntry>MixRadio.TestApp.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
@@ -49,7 +49,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\Nokia.Music.TestApp.Wp8.XML</DocumentationFile>
+    <DocumentationFile>Bin\Release\MixRadio.TestApp.Wp8.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -138,15 +138,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="..\..\AuthHelpers\AuthHelper.cs">
-      <Link>Auth\AuthHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\AuthHelpers\StorageHelper.cs">
-      <Link>Auth\StorageHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\AuthHelpers\OAuthBrowserController.cs">
-      <Link>Auth\OAuthBrowserController.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -214,12 +205,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NokiaMusicApi\Nokia.Music.Wp8.csproj">
-      <Project>{578A4839-2BF0-40C1-98D7-7A8C1C3EAC2C}</Project>
-      <Name>Nokia.Music.Wp8</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WPtoolkit.4.2013.06.11\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
@@ -244,6 +229,16 @@
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.28\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\MixRadio.Extensions.Wp8.csproj">
+      <Project>{eda51152-4957-43c6-8315-73e9f7695f80}</Project>
+      <Name>MixRadio.Extensions.Wp8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MixRadioApi\MixRadio.csproj">
+      <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
+      <Name>Nokia.Music.PCL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

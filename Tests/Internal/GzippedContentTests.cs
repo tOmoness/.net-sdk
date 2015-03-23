@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GzippedContentTests.cs" company="Nokia">
-// Copyright (c) 2014, Nokia
+// <copyright file="GzippedContentTests.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,10 +11,10 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Nokia.Music.Internal.Request;
+using MixRadio.Internal.Request;
 using NUnit.Framework;
 
-namespace Nokia.Music.Tests.Internal
+namespace MixRadio.Tests.Internal
 {
     [TestFixture]
     public class GzippedContentTests
