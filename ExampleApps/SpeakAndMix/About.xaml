@@ -86,13 +86,13 @@
                     </TextBlock>
                 </Button>
 
-                <Button Tag="http://nokia.ly/wpmusicapi"
+                <Button Tag="https://github.com/mixradio/.net-sdk"
                         Click="OpenWebLink"
                         Template="{StaticResource HeadlessButton}"
                         HorizontalAlignment="Stretch"
                         Margin="12">
                     <StackPanel>
-                        <TextBlock Text="This app was built using the Nokia MixRadio API, which is Copyright (c) 2012-2014, Nokia."
+                        <TextBlock Text="This app was built using the MixRadio API, which is Copyright (c) 2012-2015, MixRadio."
                                    Style="{StaticResource PhoneTextSubtleStyle}"
                                    Margin="0"
                                    TextWrapping="Wrap"/>
@@ -102,41 +102,24 @@
                                    TextWrapping="Wrap"/>
                         <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
                                    Margin="0">
-                            <Underline>http://nokia.ly/wpmusicapi</Underline>
+                            <Underline>https://github.com/mixradio/.net-sdk</Underline>
                         </TextBlock>
                     </StackPanel>
                 </Button>
 
-                <Button Tag="http://nokia.ly/buildmusicapi"
+                <Button Tag="http://www.mixradiomusic.com/"
                         Click="OpenWebLink"
                         Template="{StaticResource HeadlessButton}"
                         HorizontalAlignment="Stretch"
                         Margin="12">
                     <StackPanel>
-                        <TextBlock Text="Want to learn how to use the Nokia MixRadio API? Watch the //build/ talk:"
+                        <TextBlock Text="For more information about MixRadio, visit:"
                                    Style="{StaticResource PhoneTextSubtleStyle}"
                                    Margin="0"
                                    TextWrapping="Wrap" />
                         <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
                                    Margin="0">
-                            <Underline>http://nokia.ly/buildmusicapi</Underline>
-                        </TextBlock>
-                    </StackPanel>
-                </Button>
-
-                <Button Tag="http://nokia.ly/musicapp"
-                        Click="OpenWebLink"
-                        Template="{StaticResource HeadlessButton}"
-                        HorizontalAlignment="Stretch"
-                        Margin="12">
-                    <StackPanel>
-                        <TextBlock Text="For more information about Nokia MixRadio, visit:"
-                                   Style="{StaticResource PhoneTextSubtleStyle}"
-                                   Margin="0"
-                                   TextWrapping="Wrap" />
-                        <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
-                                   Margin="0">
-                            <Underline>http://nokia.ly/musicapp</Underline>
+                            <Underline>http://www.mixradiomusic.com/</Underline>
                         </TextBlock>
                     </StackPanel>
                 </Button>

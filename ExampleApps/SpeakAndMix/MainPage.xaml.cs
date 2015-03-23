@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MainPage.xaml.cs" company="NOKIA">
-// Copyright (c) 2014, Nokia
+// <copyright file="MainPage.xaml.cs" company="MixRadio">
+// Copyright (c) 2015, MixRadio
 // All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -8,6 +8,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using MixRadio;
+using MixRadio.Tasks;
+using MixRadio.Types;
 using Windows.Media.SpeechRecognition;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -114,7 +117,7 @@ namespace SpeakAndMix
                     App.LogAnalyticsEvent("HandleVoiceCommand", voiceResult.Text + " => PlayMe", null, 0);
 
                     // Start Play Me...
-                    await new Nokia.Music.Tasks.PlayMeTask().Show();
+                    await new PlayMeTask().Show();
                 }
                 else
                 {
