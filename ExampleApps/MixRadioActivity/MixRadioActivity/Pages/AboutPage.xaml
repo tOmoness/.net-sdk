@@ -7,7 +7,7 @@
 		<Grid Padding="6">
 			<StackLayout Orientation="Vertical" Padding="0" BackgroundColor="#ffffff">
 				<StackLayout Orientation="Horizontal" VerticalOptions="Start" Padding="6" BackgroundColor="#ff2e80">
-					<Image x:Name="Icon" VerticalOptions="Start" />
+					<Image x:Name="AboutIcon" VerticalOptions="Start" />
 					<StackLayout Orientation="Vertical" Padding="6,0" HeightRequest="180">
 						<Label FontSize="Large" TextColor="White" FontAttributes="Bold" Text="MixRadio Activity" />
 						<Label FontSize="Medium" TextColor="White" FontAttributes="Bold" Text="Version X.Y" x:Name="Version" />

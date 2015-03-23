@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Auth;
 using Xamarin.Forms;
-using Nokia.Music.Types;
+using MixRadio.Types;
 using PCLStorage;
 
 namespace MixRadioActivity

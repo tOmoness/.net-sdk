@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using MixRadioActivity;
 using MixRadioActivity.iOS;
-using Nokia.Music.Types;
+using MixRadio.Types;
 using PCLStorage;
 using Xamarin.Auth;
 using Xamarin.Forms;

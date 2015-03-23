@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Nokia.Music.Types;
-using Nokia.Music;
+using MixRadio.Types;
+using MixRadio;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;

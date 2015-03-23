@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MixRadioActivity.Converters;
 using Xamarin.Forms;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
 namespace MixRadioActivity
 {

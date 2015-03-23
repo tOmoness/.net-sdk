@@ -1,4 +1,4 @@
-﻿using Nokia.Music.Types;
+using MixRadio.Types;
 using System;
 using System.Collections.Generic;
 
@@ -19,8 +19,8 @@ namespace MixRadioActivity
 		/// <summary>
 		/// Your API Credentials go here!
 		/// </summary>
-		public const string ClientId = "226c7b9c7f10ce414836cdaee6943f4b";
-		public const string ClientSecret = "LSvcc/zWIgaCUbfEZXcLzPUnS0C2ohfJr4SYUYkx1A6fLrOJ5w2nVy0TaMjlDTDH";
+		public const string ClientId = null;
+		public const string ClientSecret = null;
 
 		public const string OAuthAuthorizeUrl = "https://sapi.mixrad.io/1.x/authorize/";
 		public const string OAuthRedirectUrl = "https://account.mixrad.io/authorize/complete";

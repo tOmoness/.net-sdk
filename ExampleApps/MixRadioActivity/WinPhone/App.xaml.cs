@@ -8,8 +8,8 @@ using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MixRadioActivity.WinPhone.Resources;
-using Nokia.Music;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Types;
 using Windows.ApplicationModel.Activation;
 using Windows.Security.Authentication.Web;
 

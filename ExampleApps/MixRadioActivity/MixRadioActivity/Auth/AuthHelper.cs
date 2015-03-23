@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Nokia.Music;
-using Nokia.Music.Types;
+using MixRadio;
+using MixRadio.Types;
 using Xamarin.Forms;
 
 namespace MixRadioActivity

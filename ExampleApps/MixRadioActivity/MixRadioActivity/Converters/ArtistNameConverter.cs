@@ -1,6 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
-using Nokia.Music.Types;
+using MixRadio.Types;
 
 namespace MixRadioActivity.Converters
 {

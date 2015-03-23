@@ -13,14 +13,14 @@ namespace MixRadioActivity
 			InitializeComponent ();
 			Device.OnPlatform (
 				() => {
-					this.Icon.Source = "Icon-60.png";
+                    this.AboutIcon.Source = "Icon-60.png";
 				},
 				() => {
-					this.Icon.Source = "icon.png";
+                    this.AboutIcon.Source = "icon.png";
 					this.Note.TextColor = Color.Black;
 				},
 				() => {
-					this.Icon.Source = "assets/logo.png";
+                    this.AboutIcon.Source = "assets/logo.png";
 					this.Note.TextColor = Color.Black;
                     this.LinkBtn.TextColor = Color.FromHex("#ff2e80");
                     this.Title = this.Title.ToUpperInvariant();
