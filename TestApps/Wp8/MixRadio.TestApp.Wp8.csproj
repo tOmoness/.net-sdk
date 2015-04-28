@@ -237,7 +237,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\MixRadioApi\MixRadio.csproj">
       <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
-      <Name>Nokia.Music.PCL</Name>
+      <Name>MixRadio</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

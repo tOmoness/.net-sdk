@@ -106,12 +106,6 @@
     <Compile Include="TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MixRadioApi\MixRadio.csproj">
-      <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
-      <Name>Nokia.Music.PCL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -132,6 +126,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MixRadioApi\MixRadio.csproj">
+      <Project>{c2925b4d-2347-473b-908f-5cc79bc717a0}</Project>
+      <Name>MixRadio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
