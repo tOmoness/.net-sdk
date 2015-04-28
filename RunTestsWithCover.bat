@@ -1,8 +1,8 @@
 @echo off
 Call BuildVars.bat
 .nuget\nuget install OpenCover -version %OPENCOVERVERSION% -o packages
-packages\OpenCover.%OPENCOVERVERSION%\OpenCover.Console.exe -register:user -target:Build\Nunit.%NUNITVERSION%\bin\nunit-console-x86.exe -targetargs:"/noshadow /nodots NokiaMusicApiTests\bin\Debug\Nokia.Music.Tests.dll" -filter:"+[Nokia.Music.Tests]* -[Nokia.Music.Tests]Nokia.Music.Tests* -[Nokia.Music.Tests]Ionic*" -output:TestCoverage.xml
+packages\OpenCover.%OPENCOVERVERSION%\OpenCover.Console.exe -register:user -target:Build\Nunit.%NUNITVERSION%\bin\nunit-console-x86.exe -targetargs:"/noshadow /nodots Tests\bin\Debug\MixRadio.Tests.dll" -filter:"+[MixRadio.Tests]* -[MixRadio.Tests]MixRadio.Tests* -[MixRadio.Tests]Ionic*" -output:TestCoverage.xml
 
 .nuget\nuget install ReportGenerator -version %REPORTGENERATORVERSION% -o packages
-packages\ReportGenerator.%REPORTGENERATORVERSION%\ReportGenerator.exe -reports:TestCoverage.xml -sourcedirs:NokiaMusicApiTests -reporttypes:HTML -targetdir:TestCoverageReport
+packages\ReportGenerator.%REPORTGENERATORVERSION%\ReportGenerator.exe -reports:TestCoverage.xml -sourcedirs:Tests -reporttypes:HTML -targetdir:TestCoverageReport
 Start TestCoverageReport\index.htm
