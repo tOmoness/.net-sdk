@@ -6,7 +6,7 @@
     <SharedGUID>b1301b4d-823a-4953-86ba-55a5c8e9a6c2</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Nokia.Music.TestApp</Import_RootNamespace>
+    <Import_RootNamespace>MixRadio.TestApp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\ApiKeys.cs" />
